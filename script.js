@@ -43,7 +43,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const templateParams = {
       from_name: name,
-      from_email: email,
+      to_email: email,
       message: message,
       newsletter: newsletter
         ? "Ja, aangemeld voor nieuwsbrief"
@@ -86,3 +86,4 @@ document.addEventListener("DOMContentLoaded", () => {
     submitBtn.textContent = "Verstuur Bericht";
   });
 });
+
