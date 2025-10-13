@@ -12,12 +12,19 @@ document.addEventListener('DOMContentLoaded', () => {
     const submitBtn = document.querySelector('.submit-btn');
 
     if (!contactForm || !submitBtn) {
-        console.error('Form or submit button not found in the DOM');
+        console.error('Form of submit-knop niet gevonden in de DOM');
         return;
     }
 
     contactForm.addEventListener('submit', (e) => {
         e.preventDefault();
+
+        // Controleer of EmailJS geladen is
+        if (typeof emailjs === 'undefined') {
+            alert('EmailJS is niet geladen. Controleer de internetverbinding of probeer de pagina te herladen.');
+            console.error('EmailJS niet geladen – controleer de CDN-link.');
+            return;
+        }
 
         // Verify reCAPTCHA
         const recaptchaResponse = typeof grecaptcha !== 'undefined' ? grecaptcha.getResponse() : '';
@@ -47,22 +54,12 @@ document.addEventListener('DOMContentLoaded', () => {
         submitBtn.disabled = true;
         submitBtn.textContent = 'Bezig met versturen...';
 
-        // Set a timeout to prevent infinite "loading" state
+        // Timeout om oneindig laden te voorkomen
         const timeout = setTimeout(() => {
             submitBtn.disabled = false;
             submitBtn.textContent = 'Verstuur Bericht';
-            alert('Verzenden is mislukt: time-out. Probeer het later opnieuw.');
-        }, 10000); // 10 seconds timeout
-
-        // Check if EmailJS is loaded
-        if (typeof emailjs === 'undefined') {
-            clearTimeout(timeout);
-            submitBtn.disabled = false;
-            submitBtn.textContent = 'Verstuur Bericht';
-            alert('EmailJS is niet geladen. Controleer de internetverbinding of de EmailJS-scripttag.');
-            console.error('EmailJS not loaded');
-            return;
-        }
+            alert('Verzenden duurt te lang. Probeer het later opnieuw.');
+        }, 10000); // 10 seconden
 
         emailjs.send('service_zfo7hza', 'template_28mlibw', templateParams)
             .then((response) => {
@@ -77,8 +74,8 @@ document.addEventListener('DOMContentLoaded', () => {
             })
             .catch((error) => {
                 clearTimeout(timeout);
-                alert('Er is een fout opgetreden bij het verzenden van het bericht. Probeer het later opnieuw.');
-                console.error('EmailJS error:', error);
+                alert('Er is een fout opgetreden bij het verzenden. Controleer de console voor details en probeer het later opnieuw.');
+                console.error('EmailJS fout:', error);
                 submitBtn.disabled = false;
                 submitBtn.textContent = 'Verstuur Bericht';
             });
