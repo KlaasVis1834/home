@@ -1,128 +1,129 @@
+// Menubalk toggle voor mobiel
 document.querySelector('.hamburger').addEventListener('click', function() {
     document.querySelector('.nav-list').classList.toggle('active');
 });
 
-function showModal() {
-    const form = document.getElementById('schade-form');
-    const formData = new FormData(form);
-    let summaryHtml = "<strong>Ingevulde gegevens:</strong><ul>";
+// Schadeformulier EmailJS + reCAPTCHA-controle
+document.getElementById('schade-form').addEventListener('submit', async function(event) {
+    event.preventDefault();
 
-    for (let [key, value] of formData.entries()) {
-        if (value && value !== 'on') {
-            summaryHtml += `<li>${key}: ${value}</li>`;
-        }
+    const form = this;
+    const messageDiv = document.getElementById('form-message');
+    const fileInput = document.getElementById('bijlagen');
+    const submitButton = form.querySelector('button[type="submit"]');
+
+    // ✅ Controleer of reCAPTCHA is voltooid
+    const recaptchaResponse = grecaptcha.getResponse();
+    if (!recaptchaResponse || recaptchaResponse.length === 0) {
+        messageDiv.textContent = '❗ Bevestig eerst dat u geen robot bent.';
+        messageDiv.style.color = '#dc3545';
+        submitButton.disabled = false;
+        return; // 👉 voorkomt verdere uitvoering
     }
 
-    summaryHtml += "</ul>";
+    // Disable knop tijdens verzenden
+    submitButton.disabled = true;
+    messageDiv.textContent = 'Bezig met verzenden...';
+    messageDiv.style.color = '#007bff';
 
-    document.getElementById('summary').innerHTML = summaryHtml;
-    document.getElementById('confirmationModal').style.display = 'block';
-}
+    // Formulierdata verzamelen
+    const formData = {
+        name: form.name.value.trim(),
+        email: form.email.value.trim(),
+        phone: form.phone.value.trim() || 'Niet opgegeven',
+        insurance: form.insurance.value,
+        polisnummer: form.polisnummer.value.trim(),
+        datum: form.datum.value,
+        beschrijving: form.beschrijving.value.trim(),
+        to_email: form.email.value.trim(), // Voor klant
+        to_email_mij: 'rbuijs@klaasvis.nl', // Voor jou
+        bijlagen_data: []
+    };
 
-function closeModal() {
-    document.getElementById('confirmationModal').style.display = 'none';
-    document.getElementById('resultMessage').style.display = 'none';
-}
+    // Berichttekst opbouwen
+    formData.message = `
+Nieuwe schademelding ontvangen:
 
-function handleSubmit(isConfirmed) {
-    const loadingScreen = document.getElementById('loadingScreen');
-    const resultTextElement = document.getElementById('resultText');
-    document.getElementById('confirmationModal').style.display = 'none';
+- Naam: ${formData.name}
+- E-mail: ${formData.email}
+- Telefoon: ${formData.phone}
+- Verzekering: ${formData.insurance}
+- Polisnummer: ${formData.polisnummer}
+- Schadedatum: ${formData.datum}
+- Beschrijving: ${formData.beschrijving}
+`;
 
-    if (isConfirmed) {
-        requestAnimationFrame(() => {
-            loadingScreen.style.transition = 'none';
-            loadingScreen.style.display = 'flex';
-            loadingScreen.style.opacity = '1';
-            setTimeout(() => {
-                loadingScreen.style.transition = 'opacity 0.3s ease';
-            }, 0);
-        });
+    // E-mailadres valideren
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(formData.to_email)) {
+        messageDiv.textContent = 'Fout: Ongeldig e-mailadres.';
+        messageDiv.style.color = '#dc3545';
+        submitButton.disabled = false;
+        return;
+    }
 
-        const form = document.getElementById('schade-form');
-        const formData = new FormData(form);
-        const email = formData.get('email');
+    // Controleer EmailJS
+    if (!window.emailjs) {
+        messageDiv.textContent = 'Fout: EmailJS niet geladen.';
+        messageDiv.style.color = '#dc3545';
+        submitButton.disabled = false;
+        return;
+    }
 
-        if (!email) {
-            console.error("FOUT: Geen e-mailadres opgehaald uit het formulier!");
-            loadingScreen.classList.add('hidden');
-            setTimeout(() => {
-                loadingScreen.style.display = 'none';
-                resultTextElement.innerHTML = 'FOUT: Geen e-mailadres opgegeven. Vul een geldig e-mailadres in.';
-                document.getElementById('resultMessage').style.display = 'block';
-            }, 300);
+    // Bestanden verwerken
+    const maxFileSize = 1 * 1024 * 1024; // 1 MB
+    const maxFiles = 5;
+    let oversizeFiles = false;
+
+    if (fileInput.files.length > 0) {
+        if (fileInput.files.length > maxFiles) {
+            messageDiv.textContent = `Fout: Maximaal ${maxFiles} bestanden toegestaan.`;
+            messageDiv.style.color = '#dc3545';
+            submitButton.disabled = false;
             return;
         }
 
-        const clientData = {
-            to_email: email,
-            name: formData.get('name'),
-            email: email,
-            phone: formData.get('phone') || 'Niet opgegeven',
-            insurance: formData.get('insurance'),
-            polisnummer: formData.get('polisnummer'),
-            datum: formData.get('datum'),
-            beschrijving: formData.get('beschrijving')
-        };
-
-        const adminMessage = `
-Nieuwe schademelding ontvangen:
-
-- Naam: ${formData.get('name')}
-- E-mail: ${email}
-- Telefoon: ${formData.get('phone') || 'Niet opgegeven'}
-- Verzekering: ${formData.get('insurance')}
-- Polisnummer: ${formData.get('polisnummer')}
-- Schadedatum: ${formData.get('datum')}
-- Beschrijving: ${formData.get('beschrijving')}
-`;
-
-        emailjs.send('service_h6az3sj', 'template_naxxu2a', clientData)
-            .then(function(response) {
-                console.log('E-mail naar klant verzonden:', response);
-                return emailjs.send('service_h6az3sj', 'template_yqe7y7e', {
-                    to_email: 'mbuijs@klaasvis.nl',
-                    message: adminMessage
-                });
-            })
-            .then(function(response) {
-                console.log('E-mail naar mbuijs@klaasvis.nl verzonden:', response);
-                loadingScreen.classList.add('hidden');
-                setTimeout(() => {
-                    loadingScreen.style.display = 'none';
-                    resultTextElement.innerHTML = `
-                        <strong>Uw schademelding is verzonden!</strong><br><br>
-                        Wij nemen zo spoedig mogelijk contact met u op.
-                    `;
-                    document.getElementById('resultMessage').style.display = 'block';
-                    document.getElementById('schade-form').style.display = 'none';
-                }, 300);
-            })
-            .catch(function(error) {
-                console.error('EmailJS fout:', error);
-                loadingScreen.classList.add('hidden');
-                setTimeout(() => {
-                    loadingScreen.style.display = 'none';
-                    resultTextElement.innerHTML = `
-                        Er is een fout opgetreden bij het verzenden: ${error.text}<br>
-                        Probeer het later opnieuw.
-                    `;
-                    document.getElementById('resultMessage').style.display = 'block';
-                }, 300);
+        formData.message += '\nBijlagen:\n';
+        for (const file of fileInput.files) {
+            if (file.size > maxFileSize) {
+                oversizeFiles = true;
+                formData.message += `- ${file.name} (te groot, >1MB)\n`;
+                continue;
+            }
+            const base64 = await new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = () => resolve(reader.result);
+                reader.onerror = reject;
+                reader.readAsDataURL(file);
             });
+            formData.bijlagen_data.push({
+                name: file.name,
+                type: file.type,
+                base64: base64
+            });
+            formData.message += `- ${file.name}\n`;
+        }
     } else {
-        loadingScreen.classList.add('hidden');
-        setTimeout(() => {
-            loadingScreen.style.display = 'none';
-            resultTextElement.innerHTML = `
-                U wordt teruggeleid naar het formulier om uw antwoorden te controleren.
-            `;
-            document.getElementById('resultMessage').style.display = 'block';
-        }, 300);
+        formData.message += '\nBijlagen: Geen';
     }
-}
 
-document.getElementById('schade-form').addEventListener('submit', function(event) {
-    event.preventDefault();
-    showModal();
+    // ✅ Alleen als reCAPTCHA geldig is, wordt nu verstuurd
+    try {
+        await emailjs.send('service_h6az3sj', 'template_naxxu2a', formData);
+        await emailjs.send('service_h6az3sj', 'template_yqe7y7e', formData);
+
+        messageDiv.textContent = '✅ Schade succesvol gemeld! Wij nemen spoedig contact met u op.';
+        messageDiv.style.color = '#28a745';
+        form.reset();
+        grecaptcha.reset(); // reset reCAPTCHA
+    } catch (error) {
+        console.error('EmailJS fout:', error);
+        messageDiv.textContent = '❌ Fout bij verzenden. Probeer het later opnieuw.';
+        messageDiv.style.color = '#dc3545';
+    } finally {
+        submitButton.disabled = false;
+        if (oversizeFiles) {
+            messageDiv.textContent += ' Let op: sommige bestanden waren te groot (>1MB).';
+        }
+    }
 });
