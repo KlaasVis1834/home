@@ -1,144 +1,241 @@
-/* Algemene stijl — kleuren en lettertypes van homepage */
+/* ===================== */
+/* ALGEMENE STIJLEN (OVERGENOMEN VAN HOMEPAGE) */
+/* ===================== */
 body {
   font-family: 'Roboto', sans-serif;
-  background: linear-gradient(180deg, #f4f8fb, #e8f1f9);
-  color: #222;
   margin: 0;
   padding: 0;
+  background-color: #f8faff; /* lichte achtergrond zoals homepage */
+  color: #003366;
 }
 
-/* Navigatiebalk in homepage-stijl */
-nav {
-  background: rgba(255, 255, 255, 0.85);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+img {
+  max-width: 100%;
+}
+
+/* ===================== */
+/* NAVBAR (MENUBALK) */
+/* ===================== */
+.navbar {
+  background-color: #ffffffcc; /* licht transparant wit */
+  display: flex;
+  justify-content: center;
   position: sticky;
   top: 0;
-  z-index: 1000;
-  backdrop-filter: blur(6px);
+  z-index: 999;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
 }
 
 .nav-container {
+  width: 90%;
+  max-width: 1200px;
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  padding: 0.8rem 1.5rem;
+  justify-content: space-between;
+  padding: 1rem 0;
 }
 
 .nav-list {
+  list-style: none;
   display: flex;
   gap: 1.5rem;
-  list-style: none;
 }
 
-.nav-list a {
-  text-decoration: none;
-  color: #004a8f;
+.nav-list li a {
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  transition: background-color 0.3s, color 0.3s;
   font-weight: 500;
-  transition: color 0.3s;
 }
 
-.nav-list a:hover {
-  color: #008cff;
+.nav-list li a:hover {
+  background-color: #e6f0ff;
+  color: #004c99;
 }
 
-/* Sectie voor schade melden */
-#schade-melden {
-  background: #ffffff;
-  margin: 3rem auto;
-  max-width: 900px;
-  border-radius: 16px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-  padding: 2rem 3rem;
+.logo-img {
+  height: 50px;
 }
 
-#schade-melden h2 {
+/* Hamburger voor mobiel */
+.hamburger {
+  display: none;
+  font-size: 1.5rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+/* ===================== */
+/* FORMULIER SCHADEN MELDEN */
+/* ===================== */
+.schade-melden {
+  padding: 4rem 1rem;
+  display: flex;
+  justify-content: center;
+}
+
+.schade-content {
+  max-width: 800px;
+  width: 100%;
+  background-color: #ffffff;
+  padding: 2.5rem;
+  border-radius: 12px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+}
+
+.schade-content h2 {
   font-family: 'Montserrat', sans-serif;
-  color: #004a8f;
-  font-size: 2rem;
+  color: #003366;
   margin-bottom: 1rem;
 }
 
-#schade-melden p {
-  color: #444;
-  line-height: 1.6;
+.schade-content p {
+  margin-bottom: 2rem;
+  color: #003366cc;
 }
 
-/* Formulierstijl */
-.schade-form label {
+form.schade-form .form-group {
+  margin-bottom: 1.5rem;
+}
+
+form.schade-form label {
   display: block;
-  font-weight: 500;
-  margin-top: 1rem;
-  color: #333;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
 }
 
-.schade-form input,
-.schade-form select,
-.schade-form textarea {
+form.schade-form input,
+form.schade-form select,
+form.schade-form textarea {
   width: 100%;
-  padding: 0.7rem;
-  margin-top: 0.3rem;
-  border: 1px solid #d0d7de;
+  padding: 0.8rem 1rem;
   border-radius: 8px;
+  border: 1px solid #cce0ff;
   font-size: 1rem;
+  font-family: inherit;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-.schade-form button {
-  margin-top: 1.5rem;
-  background-color: #007bff;
+form.schade-form input:focus,
+form.schade-form select:focus,
+form.schade-form textarea:focus {
+  border-color: #66a3ff;
+  box-shadow: 0 0 5px rgba(102, 163, 255, 0.5);
+  outline: none;
+}
+
+form.schade-form button {
+  background-color: #0066cc;
   color: #fff;
   border: none;
-  padding: 0.8rem 1.5rem;
-  border-radius: 10px;
-  font-weight: bold;
+  padding: 0.9rem 2rem;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
   cursor: pointer;
-  transition: background 0.3s;
+  transition: background-color 0.3s ease;
 }
 
-.schade-form button:hover {
-  background-color: #005fcc;
+form.schade-form button:hover {
+  background-color: #004c99;
 }
 
-/* Tiles */
-.tiles {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 1.5rem;
-  margin: 3rem auto;
-  max-width: 1000px;
-  padding: 0 1rem;
+.form-message {
+  margin-top: 1rem;
+  text-align: center;
+  font-weight: 600;
 }
 
-.tile {
-  background: white;
-  padding: 1.5rem;
-  border-radius: 14px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+/* ===================== */
+/* FOOTER (OVERGENOMEN VAN HOMEPAGE) */
+/* ===================== */
+.footer {
+  background-color: #003366;
+  color: #ffffff;
+  padding: 3rem 1rem 1rem 1rem;
 }
 
-.tile h3 {
-  color: #004a8f;
+.footer-content {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  max-width: 1200px;
+  margin: 0 auto;
+  gap: 2rem;
+}
+
+.footer-brand h3 {
+  margin: 0.5rem 0;
+}
+
+.footer-brand p {
+  margin: 0.5rem 0 1rem 0;
+  color: #cce0ff;
+}
+
+.footer-section h4 {
   margin-bottom: 0.8rem;
 }
 
-.tile a {
-  color: #007bff;
-  text-decoration: none;
+.footer-section ul {
+  list-style: none;
+  padding: 0;
 }
 
-.tile a:hover {
-  text-decoration: underline;
+.footer-section ul li {
+  margin-bottom: 0.5rem;
 }
 
-/* Footer in homepage-stijl */
-.footer {
-  background: #004a8f;
-  color: white;
+.footer-section ul li a {
+  color: #cce0ff;
+  transition: color 0.3s;
+}
+
+.footer-section ul li a:hover {
+  color: #ffffff;
+}
+
+.footer-bottom {
   text-align: center;
-  padding: 1rem 0;
-  margin-top: 3rem;
+  margin-top: 2rem;
+  font-size: 0.9rem;
+  color: #cce0ff;
 }
 
-.footer a {
-  color: #fff;
-  text-decoration: underline;
+/* ===================== */
+/* RESPONSIVE DESIGN */
+/* ===================== */
+@media (max-width: 768px) {
+  .nav-list {
+    display: none;
+    flex-direction: column;
+    background-color: #ffffff;
+    position: absolute;
+    top: 70px;
+    right: 0;
+    width: 200px;
+    padding: 1rem;
+    border-radius: 6px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  }
+
+  .nav-list.active {
+    display: flex;
+  }
+
+  .hamburger {
+    display: block;
+  }
+
+  .footer-content {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
 }
