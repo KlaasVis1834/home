@@ -6,13 +6,14 @@
 }
 
 body {
-    font-family: 'Arial', sans-serif;
-    background-color: #f4f7fa;
-    color: #333;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;  /* ← KOPIEER DIT */
+    background: var(--bg-light);  /* ← HOMEPAGE KLEUR */
+    color: var(--text);           /* ← HOMEPAGE KLEUR */
     line-height: 1.6;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
+
 }
 
 
@@ -496,6 +497,7 @@ footer {
 .contact-options a:hover {
     text-decoration: underline;
 }
+
 
 
 
