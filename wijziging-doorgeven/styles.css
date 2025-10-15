@@ -44,35 +44,104 @@ body {
 v
 }
 
-/* Mobiel menu */
-@media (max-width: 768px) {
-    .nav-list {
-        display: none;
-        flex-direction: column;
-        background-color: #003087;
-        width: 100%;
-        position: absolute;
-        top: 60px;
-        left: 0;
-        z-index: 10;
-        padding: 15px 0;
-    }
+/* NAVBAR (MENUBALK) */
+/* ===================== */
+/* Navigation */
+:root {
+    --primary: #4f46e5;
+    --primary-light: #818cf8;
+    --primary-dark: #3730a3;
+    --accent: #14b8a6;
+    --accent-2: #f59e0b;
+    --text: #1e293b;
+    --text-muted: #64748b;
+    --bg-light: #f8fafc;
+    --glass: rgba(255, 255, 255, 0.8);
+}
+/* NAVBAR (MENUBALK) - FIXED */
+/* ===================== */
+nav {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background: var(--glass);
+    backdrop-filter: blur(20px) saturate(180%);
+    z-index: 1000;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
 
-    .nav-list.active {
-        display: flex;
-    }
+.nav-container {
+    max-width: 1600px;
+    margin: 0 auto;
+    padding: 1rem 3rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
 
-    .hamburger {
-        display: block;
-        position: absolute;
-        top: 25px;
-        right: 25px;
-    }
+.logo {
+    font-size: 1.8rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, var(--primary-light), var(--accent));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    letter-spacing: -0.5px;
+}
 
-    .nav-list li a {
-        padding: 12px;
-        font-size: 1.1rem;
-    }
+.logo-img {
+    max-height: 45px;
+    width: auto;
+    display: block;
+}
+
+.nav-list {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+    align-items: center;
+}
+
+.nav-list a {
+    text-decoration: none;
+    color: var(--text); /* ← DONKER zoals homepage */
+    font-weight: 300; /* ← DUN */
+    font-size: 0.95rem; /* ← HOMEPAGE GROOTTE */
+    transition: all 0.3s ease;
+    position: relative;
+    letter-spacing: 0.3px;
+}
+
+.nav-list a::before {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--primary), var(--accent));
+    transition: width 0.3s ease;
+}
+
+.nav-list a:hover {
+    color: var(--primary-light);
+}
+
+.nav-list a:hover::before {
+    width: 100%;
+}
+
+.hamburger {
+    display: none;
+    background: none;
+    border: none;
+    font-size: 1.8rem;
+    color: var(--text);
+    cursor: pointer;
+    font-weight: 300;
 }
 h2 {
     font-size: 1.5rem;
@@ -278,4 +347,5 @@ h2 {
     }
 
 }
+
 
