@@ -203,7 +203,117 @@ form.schade-form button:hover {
   text-align: center;
   font-weight: 600;
 }
+* Tiles Section */
+.tiles {
+    padding: 30px 20px;
+    background: #f8f9fa;
+    text-align: center;
+}
 
+.tiles-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+.tile {
+    background: #fff;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    text-align: left;
+}
+
+.tile h3 {
+    font-size: 20px;
+    margin-bottom: 15px;
+    color: #003087;
+}
+
+.tile p, .tile li {
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+.tile ul {
+    list-style: none;
+}
+
+.tile ul li {
+    padding-left: 20px;
+    position: relative;
+}
+
+.tile ul li::before {
+    content: "•";
+    position: absolute;
+    left: 0;
+    color: #007bff;
+}
+
+.tile a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.tile a:hover {
+    text-decoration: underline;
+}
+
+/* Contact Section */
+.contact {
+    padding: 30px 20px;
+    background: #f8f9fa;
+    text-align: center;
+}
+
+.contact-content {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.contact h2 {
+    font-size: 28px;
+    margin-bottom: 15px;
+    color: #003087;
+}
+
+.contact p {
+    font-size: 16px;
+    margin-bottom: 15px;
+}
+
+.contact-options {
+    list-style: none;
+    text-align: left;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.contact-options li {
+    font-size: 14px;
+    margin-bottom: 10px;
+    padding-left: 25px;
+    position: relative;
+}
+
+.contact-options li::before {
+    content: "📞";
+    position: absolute;
+    left: 0;
+    color: #007bff;
+}
+
+.contact-options a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.contact-options a:hover {
+    text-decoration: underline;
+}
 /* ===================== */
 /* FOOTER (OVERGENOMEN VAN HOMEPAGE) */
 /* ===================== */
@@ -468,6 +578,7 @@ footer {
 }
 
 }
+
 
 
 
