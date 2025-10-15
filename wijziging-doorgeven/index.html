@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wijziging Doorgeven - Klaas Vis Assurantiekantoor</title>
+    <link rel="icon" href="Logo.png" type="image/png">
+    <link rel="stylesheet" href="styles.css?v=1">
+
+    <!-- EmailJS SDK -->
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <script>
+        (function() {
+            emailjs.init("fJaMnq7175Ao2O1jn"); // Jouw Public Key
+        })();
+    </script>
+
+    <!-- Google reCAPTCHA -->
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+</head>
+<body>
+    <!-- Loadingscreen -->
+    <div id="loadingScreen" class="loading-screen">
+        <div class="loader"></div>
+        <p>Wijziging wordt verzonden...</p>
+    </div>
+
+    <!-- Header + Menubalk -->
+    <header class="header">
+        <div class="logo">
+            <a href="https://www.klaasvis.nl"><img src="Logo.png" alt="Klaas Vis Assurantiekantoor"></a>
+        </div>
+        <h1>Wijziging Doorgeven</h1>
+    </header>
+
+    <nav class="nav">
+      <button class="hamburger">☰</button>
+      <ul class="nav-list">
+        <li><a href="https://www.klaasvis.nl">Home</a></li>
+        <li><a href="https://klaasvis1834.github.io/wijziging-doorgeven/">Doorgeven wijziging</a></li>
+        <li><a href="https://dekkerautoverzekering.github.io/home/">Dekkerautoverzekering</a></li>
+        <li><a href="https://www.nh1816.nl/mijn-nh1816">Mijn NH1816 Polis</a></li>
+        <li><a href="https://www.klaasvis.nl/downloads">Downloads</a></li>
+        <li><a href="https://klaasvis1834.github.io/contact/">Contact</a></li>
+      </ul>
+    </nav>
+
+    <!-- Main content -->
+    <main class="container">
+        <section class="contact-section">
+            <div class="content-wrapper">
+                <div class="form-wrapper">
+                    <h2>Welke wijziging wilt u doorgeven?</h2>
+                    <p>Kies een optie en vul de benodigde gegevens in. Wij verwerken uw wijziging zo spoedig mogelijk.</p>
+
+                    <form id="wijziging-form" class="modern-form">
+                        <!-- Wijzigingstype -->
+                        <div class="form-group">
+                            <label for="wijziging-type">Kies uw wijziging</label>
+                            <select id="wijziging-type" name="wijziging-type" required>
+                                <option value="" disabled selected>Selecteer een optie</option>
+                                <option value="adreswijziging">Adreswijziging</option>
+                                <option value="motorvoertuigwijziging">Motorvoertuigwijziging</option>
+                                <option value="verzekering-beëindigen">Verzekering beëindigen</option>
+                                <option value="terugbelverzoek">Terugbelverzoek indienen</option>
+                                <option value="emailwijziging">E-mailwijziging</option>
+                                <option value="anders">Anders</option>
+                            </select>
+                        </div>
+
+                        <!-- Persoonlijke gegevens -->
+                        <div class="form-group">
+                            <label for="voorletters">Voorletter(s)</label>
+                            <input type="text" id="voorletters" name="voorletters" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="achternaam">Achternaam</label>
+                            <input type="text" id="achternaam" name="achternaam" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">E-mailadres (optioneel)</label>
+                            <input type="email" id="email" name="email">
+                        </div>
+
+                        <!-- Dynamische velden (adres, motorvoertuig, etc.) -->
+                        <!-- Adreswijziging -->
+                        <div class="form-group hidden" id="adreswijziging-fields-postcode">
+                            <label for="nieuwe-postcode">Nieuwe postcode</label>
+                            <input type="text" id="nieuwe-postcode" name="nieuwe-postcode">
+                        </div>
+                        <div class="form-group hidden" id="adreswijziging-fields-huisnummer">
+                            <label for="nieuwe-huisnummer">Nieuw huisnummer</label>
+                            <input type="text" id="nieuwe-huisnummer" name="nieuwe-huisnummer">
+                        </div>
+                        <div class="form-group hidden" id="adreswijziging-fields-adres">
+                            <label for="nieuw-adres">Nieuw volledig adres</label>
+                            <input type="text" id="nieuw-adres" name="nieuw-adres" readonly>
+                        </div>
+                        <div class="form-group hidden" id="adreswijziging-fields-datum">
+                            <label for="verhuisdatum">Datum van verhuizing</label>
+                            <input type="date" id="verhuisdatum" name="verhuisdatum">
+                        </div>
+
+                        <!-- Motorvoertuigwijziging -->
+                        <div class="form-group hidden" id="motorvoertuigwijziging-fields-datum">
+                            <label for="wijzigingsdatum">Wijzigingsdatum</label>
+                            <input type="date" id="wijzigingsdatum" name="wijzigingsdatum">
+                        </div>
+                        <div class="form-group hidden" id="motorvoertuigwijziging-fields-polisnummer">
+                            <label for="polisnummer-motor">Polisnummer</label>
+                            <input type="text" id="polisnummer-motor" name="polisnummer-motor">
+                        </div>
+                        <div class="form-group hidden" id="motorvoertuigwijziging-fields-huidig-kenteken">
+                            <label for="huidig-kenteken">Kenteken huidig voertuig</label>
+                            <input type="text" id="huidig-kenteken" name="huidig-kenteken">
+                        </div>
+                        <div class="form-group hidden" id="motorvoertuigwijziging-fields-huidig-merk">
+                            <label for="huidig-merk">Merk huidig voertuig</label>
+                            <input type="text" id="huidig-merk" name="huidig-merk" readonly>
+                        </div>
+                        <div class="form-group hidden" id="motorvoertuigwijziging-fields-huidig-model">
+                            <label for="huidig-model">Model huidig voertuig</label>
+                            <input type="text" id="huidig-model" name="huidig-model" readonly>
+                        </div>
+                        <div class="form-group hidden" id="motorvoertuigwijziging-fields-nieuw-kenteken">
+                            <label for="nieuw-kenteken">Kenteken nieuw voertuig</label>
+                            <input type="text" id="nieuw-kenteken" name="nieuw-kenteken">
+                        </div>
+                        <div class="form-group hidden" id="motorvoertuigwijziging-fields-nieuw-merk">
+                            <label for="nieuw-merk">Merk nieuw voertuig</label>
+                            <input type="text" id="nieuw-merk" name="nieuw-merk" readonly>
+                        </div>
+                        <div class="form-group hidden" id="motorvoertuigwijziging-fields-nieuw-model">
+                            <label for="nieuw-model">Model nieuw voertuig</label>
+                            <input type="text" id="nieuw-model" name="nieuw-model" readonly>
+                        </div>
+
+                        <!-- Verzekering beëindigen -->
+                        <div class="form-group hidden" id="verzekering-beëindigen-fields-datum">
+                            <label for="opzegdatum">Opzegdatum</label>
+                            <input type="date" id="opzegdatum" name="opzegdatum">
+                        </div>
+                        <div class="form-group hidden" id="verzekering-beëindigen-fields-reden">
+                            <label for="reden-beëindiging">Reden van beëindiging</label>
+                            <textarea id="reden-beëindiging" name="reden-beëindiging" rows="4"></textarea>
+                        </div>
+
+                        <!-- Terugbelverzoek -->
+                        <div class="form-group hidden" id="terugbelverzoek-fields-telefoon">
+                            <label for="telefoon">Telefoonnummer</label>
+                            <input type="tel" id="telefoon" name="telefoon">
+                        </div>
+                        <div class="form-group hidden" id="terugbelverzoek-fields-datum">
+                            <label for="voorkeur-datum">Gewenste datum</label>
+                            <input type="date" id="voorkeur-datum" name="voorkeur-datum">
+                        </div>
+                        <div class="form-group hidden" id="terugbelverzoek-fields-tijd">
+                            <label for="voorkeur-tijd">Gewenst tijdstip</label>
+                            <input type="time" id="voorkeur-tijd" name="voorkeur-tijd" min="09:00" max="16:00">
+                                               </div>
+
+                        <!-- E-mailwijziging -->
+                        <div class="form-group hidden" id="emailwijziging-fields-huidig">
+                            <label for="huidig-email">Huidig e-mailadres</label>
+                            <input type="email" id="huidig-email" name="huidig-email">
+                        </div>
+                        <div class="form-group hidden" id="emailwijziging-fields-nieuw">
+                            <label for="nieuw-email">Nieuw e-mailadres</label>
+                            <input type="email" id="nieuw-email" name="nieuw-email">
+                        </div>
+
+                        <!-- Anders -->
+                        <div class="form-group hidden" id="anders-fields">
+                            <label for="anders-reden">Reden van wijziging</label>
+                            <textarea id="anders-reden" name="anders-reden" rows="4" placeholder="Geef hier aan welke wijziging u wilt doorgeven"></textarea>
+                        </div>
+
+                        <!-- reCAPTCHA -->
+                        <div class="form-group">
+                            <div class="g-recaptcha" data-sitekey="6LenGOArAAAAAIM8bxj3lEQAnguib5e1bHTl0XrM"></div>
+                        </div>
+
+                        <!-- Knoppen -->
+                        <div class="button-group">
+                            <button type="submit" class="submit-button">Verzenden</button>
+                            <a href="https://www.klaasvis.nl" class="back-button">Terug naar homepage</a>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Contactgegevens -->
+                <div class="contact-info">
+                    <h3>Onze gegevens</h3>
+                    <p><strong>E-mail:</strong> info@klaasvis.nl</p>
+                    <p><strong>Tel:</strong> 075 – 631 42 61</p>
+                    <p><strong>Bereikbaar:</strong> Op werkdagen van 09:00 tot 16:00</p>
+                    <p><strong>Adres:</strong> Zuiderweg 7, 1456 NC Wijdewormer</p>
+
+                    <!-- Google Maps -->
+                    <div class="map-container">
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2430.123456789!2d4.876543!3d52.498765!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47c5e6b8f8d7e9a1%3A0x1234567890abcdef!2sZuiderweg%207%2C%201456%20NC%20Wijdewormer!5e0!3m2!1snl!2snl!4v1698765432100!5m2!1snl!2snl" width="100%" height="200" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>© 2025 BV Assurantiekantoor Klaas Vis Ao. 1834 | Alle rechten voorbehouden</p>
+    </footer>
+
+    <!-- Eigen script -->
+    <script src="wijziging-script.js?v=1"></script>
+</body>
+</html>
