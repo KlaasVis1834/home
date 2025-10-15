@@ -51,8 +51,6 @@ body {
     flex: 1;
     min-width: 300px;
 }
-v
-}
 
 /* NAVBAR (MENUBALK) */
 /* ===================== */
@@ -505,6 +503,7 @@ footer {
 .contact-options a:hover {
     text-decoration: underline;
 }
+
 
 
 
