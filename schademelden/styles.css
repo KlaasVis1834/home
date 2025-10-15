@@ -54,7 +54,7 @@ nav {
 
 .logo {
     font-size: 1.8rem;
-    font-weight: 800;
+    font-weight: 900; /* ZWAARDER voor logo */
     background: linear-gradient(135deg, var(--primary-light), var(--accent));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -80,11 +80,11 @@ nav {
 
 .nav-list a {
     text-decoration: none;
-    color: var(--text);
-    font-weight: 600;
-    transition: all 0.3s ease;
+    color: var(--text-muted); /* NU MUTED zoals footer */
+    font-weight: 400; /* NU NORMAL zoals footer */
+    font-size: 0.85rem; /* NU KLEINER zoals footer */
+    transition: color 0.3s ease; /* EENVOUDIGER transitie */
     position: relative;
-    font-size: 0.95rem;
     letter-spacing: 0.3px;
 }
 
@@ -100,7 +100,7 @@ nav {
 }
 
 .nav-list a:hover {
-    color: var(--primary-light);
+    color: var(--primary-light); /* NU ZELFDE als footer hover */
 }
 
 .nav-list a:hover::before {
@@ -112,10 +112,10 @@ nav {
     background: none;
     border: none;
     font-size: 1.8rem;
-    color: var(--text);
+    color: var(--text-muted); /* NU MUTED */
     cursor: pointer;
+    font-weight: 400;
 }
-
 
 /* ===================== */
 /* FORMULIER SCHADEN MELDEN */
@@ -350,6 +350,7 @@ ffooter {
         max-height: 35px;
     }
 }
+
 
 
 
