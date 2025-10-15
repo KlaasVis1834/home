@@ -40,7 +40,27 @@ document.addEventListener("DOMContentLoaded", () => {
       alert("Vul alle verplichte velden in.");
       return;
     }
+function updateCurrentDateTime() {
+    const now = new Date();
+    const options = { 
+        weekday: 'long', 
+        day: 'numeric', 
+        month: 'long', 
+        year: 'numeric', 
+        hour: '2-digit', 
+        minute: '2-digit', 
+        second: '2-digit' 
+    };
+    const formattedDate = now.toLocaleDateString('nl-NL', options).replace(',', '');
+    const formattedTime = now.toLocaleTimeString('nl-NL');
+    
+    document.getElementById('current-datetime').textContent = `${formattedDate} ${formattedTime}`;
+}
 
+// Update elke seconde
+setInterval(updateCurrentDateTime, 1000);
+updateCurrentDateTime(); // direct bij laden
+  }
     const templateParams = {
       from_name: name,
       to_email: email,
@@ -86,4 +106,5 @@ document.addEventListener("DOMContentLoaded", () => {
     submitBtn.textContent = "Verstuur Bericht";
   });
 });
+
 
