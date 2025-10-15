@@ -21,55 +21,90 @@ img {
 /* ===================== */
 /* NAVBAR (MENUBALK) */
 /* ===================== */
-.navbar {
-  background-color: #ffffffcc; /* licht transparant wit */
-  display: flex;
-  justify-content: center;
-  position: sticky;
-  top: 0;
-  z-index: 999;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+/* Navigation */
+nav {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background: var(--glass);
+    backdrop-filter: blur(20px) saturate(180%);
+    z-index: 1000;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 }
 
 .nav-container {
-  width: 90%;
-  max-width: 1200px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 1rem 0;
+    max-width: 1600px;
+    margin: 0 auto;
+    padding: 1rem 3rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
-.nav-list {
-  list-style: none;
-  display: flex;
-  gap: 1.5rem;
-}
-
-.nav-list li a {
-  padding: 0.5rem 1rem;
-  border-radius: 6px;
-  transition: background-color 0.3s, color 0.3s;
-  font-weight: 500;
-}
-
-.nav-list li a:hover {
-  background-color: #e6f0ff;
-  color: #004c99;
+.logo {
+    font-size: 1.8rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, var(--primary-light), var(--accent));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    letter-spacing: -0.5px;
 }
 
 .logo-img {
-  height: 50px;
+    max-height: 45px;
+    width: auto;
+    display: block;
 }
 
-/* Hamburger voor mobiel */
-.hamburger {
-  display: none;
-  font-size: 1.5rem;
-  background: none;
-  border: none;
-  cursor: pointer;
+.nav-list {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+    align-items: center;
 }
+
+.nav-list a {
+    text-decoration: none;
+    color: var(--text);
+    font-weight: 600;
+    transition: all 0.3s ease;
+    position: relative;
+    font-size: 0.95rem;
+    letter-spacing: 0.3px;
+}
+
+.nav-list a::before {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--primary), var(--accent));
+    transition: width 0.3s ease;
+}
+
+.nav-list a:hover {
+    color: var(--primary-light);
+}
+
+.nav-list a:hover::before {
+    width: 100%;
+}
+
+.hamburger {
+    display: none;
+    background: none;
+    border: none;
+    font-size: 1.8rem;
+    color: var(--text);
+    cursor: pointer;
+}
+
 
 /* ===================== */
 /* FORMULIER SCHADEN MELDEN */
@@ -239,3 +274,4 @@ form.schade-form button:hover {
     text-align: center;
   }
 }
+
