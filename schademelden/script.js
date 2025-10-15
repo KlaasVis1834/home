@@ -1,8 +1,14 @@
-// Menubalk toggle voor mobiel
-document.querySelector('.hamburger').addEventListener('click', function() {
-    document.querySelector('.nav-list').classList.toggle('active');
-});
+document.addEventListener("DOMContentLoaded", () => {
+  // Hamburger menu
+  const hamburger = document.querySelector(".hamburger");
+  const navList = document.querySelector(".nav-list");
 
+  if (hamburger && navList) {
+    hamburger.addEventListener("click", () => {
+      navList.classList.toggle("active");
+      hamburger.textContent = navList.classList.contains("active") ? "✕" : "☰";
+    });
+  }
 // Schadeformulier EmailJS + reCAPTCHA-controle
 document.getElementById('schade-form').addEventListener('submit', async function(event) {
     event.preventDefault();
@@ -127,3 +133,4 @@ Nieuwe schademelding ontvangen:
         }
     }
 });
+
