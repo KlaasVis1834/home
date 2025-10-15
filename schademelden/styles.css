@@ -22,6 +22,17 @@ img {
 /* NAVBAR (MENUBALK) */
 /* ===================== */
 /* Navigation */
+:root {
+    --primary: #4f46e5;
+    --primary-light: #818cf8;
+    --primary-dark: #3730a3;
+    --accent: #14b8a6;
+    --accent-2: #f59e0b;
+    --text: #1e293b;
+    --text-muted: #64748b;
+    --bg-light: #f8fafc;
+    --glass: rgba(255, 255, 255, 0.8);
+}
 nav {
     position: fixed;
     top: 0;
@@ -615,4 +626,5 @@ footer {
         font-size: 0.85rem;
     }
 }
+
 
