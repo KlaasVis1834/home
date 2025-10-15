@@ -59,8 +59,7 @@ v
     --bg-light: #f8fafc;
     --glass: rgba(255, 255, 255, 0.8);
 }
-/* NAVBAR (MENUBALK) - FIXED */
-/* ===================== */
+
 nav {
     position: fixed;
     top: 0;
@@ -497,6 +496,7 @@ footer {
 .contact-options a:hover {
     text-decoration: underline;
 }
+
 
 
 
