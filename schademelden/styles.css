@@ -33,6 +33,8 @@ img {
     --bg-light: #f8fafc;
     --glass: rgba(255, 255, 255, 0.8);
 }
+/* NAVBAR (MENUBALK) - FIXED */
+/* ===================== */
 nav {
     position: fixed;
     top: 0;
@@ -54,7 +56,7 @@ nav {
 
 .logo {
     font-size: 1.8rem;
-    font-weight: 900; /* ZWAARDER voor logo */
+    font-weight: 300; /* ← DUN */
     background: linear-gradient(135deg, var(--primary-light), var(--accent));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -80,10 +82,10 @@ nav {
 
 .nav-list a {
     text-decoration: none;
-    color: var(--text-muted); /* NU MUTED zoals footer */
-    font-weight: 400; /* NU NORMAL zoals footer */
-    font-size: 0.85rem; /* NU KLEINER zoals footer */
-    transition: color 0.3s ease; /* EENVOUDIGER transitie */
+    color: var(--text); /* ← DONKER zoals homepage */
+    font-weight: 300; /* ← DUN */
+    font-size: 0.95rem; /* ← HOMEPAGE GROOTTE */
+    transition: all 0.3s ease;
     position: relative;
     letter-spacing: 0.3px;
 }
@@ -100,7 +102,7 @@ nav {
 }
 
 .nav-list a:hover {
-    color: var(--primary-light); /* NU ZELFDE als footer hover */
+    color: var(--primary-light);
 }
 
 .nav-list a:hover::before {
@@ -112,38 +114,42 @@ nav {
     background: none;
     border: none;
     font-size: 1.8rem;
-    color: var(--text-muted); /* NU MUTED */
+    color: var(--text);
     cursor: pointer;
-    font-weight: 400;
+    font-weight: 300;
 }
 
 /* ===================== */
 /* FORMULIER SCHADEN MELDEN */
 /* ===================== */
 .schade-melden {
-  padding: 4rem 1rem;
-  display: flex;
-  justify-content: center;
+    padding: 4rem 1rem;
+    display: flex;
+    justify-content: center;
+    margin-top: 80px; /* ← Voor fixed nav */
 }
 
 .schade-content {
-  max-width: 800px;
-  width: 100%;
-  background-color: #ffffff;
-  padding: 2.5rem;
-  border-radius: 12px;
-  box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+    max-width: 800px;
+    width: 100%;
+    background-color: #ffffff;
+    padding: 2.5rem;
+    border-radius: 12px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.08);
 }
 
 .schade-content h2 {
-  font-family: 'Montserrat', sans-serif;
-  color: #003366;
-  margin-bottom: 1rem;
+    font-family: 'Inter', sans-serif; /* ← Zelfde als homepage */
+    font-weight: 700; /* ← Niet 900 */
+    color: #003366;
+    margin-bottom: 1rem;
+    font-size: 2rem;
 }
 
 .schade-content p {
-  margin-bottom: 2rem;
-  color: #003366cc;
+    margin-bottom: 2rem;
+    color: #003366cc;
+    font-weight: 300; /* ← DUN */
 }
 
 form.schade-form .form-group {
@@ -462,6 +468,7 @@ footer {
 }
 
 }
+
 
 
 
