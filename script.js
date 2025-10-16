@@ -40,6 +40,7 @@ document.addEventListener("DOMContentLoaded", () => {
       alert("Vul alle verplichte velden in.");
       return;
     }
+
     const templateParams = {
       from_name: name,
       to_email: email,
@@ -66,7 +67,7 @@ document.addEventListener("DOMContentLoaded", () => {
         "service_zfo7hza",
         "template_28mlibw",
         templateParams,
-        "7s23tMHc0wTVQEW3f" // <- public key meegeven
+        "7s23tMHc0wTVQEW3f"
       );
 
       clearTimeout(timeout);
@@ -83,12 +84,5 @@ document.addEventListener("DOMContentLoaded", () => {
 
     submitBtn.disabled = false;
     submitBtn.textContent = "Verstuur Bericht";
-  }  
-
   });
 });
-
-
-
-
-
