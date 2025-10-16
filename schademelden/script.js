@@ -1,14 +1,56 @@
-document.addEventListener("DOMContentLoaded", () => {
-  // Hamburger menu
-  const hamburger = document.querySelector(".hamburger");
-  const navList = document.querySelector(".nav-list");
+<script>
+(function () {
+  const $ = (sel, ctx = document) => ctx.querySelector(sel);
 
-  if (hamburger && navList) {
-    hamburger.addEventListener("click", () => {
-      navList.classList.toggle("active");
-      hamburger.textContent = navList.classList.contains("active") ? "✕" : "☰";
-    });
-  }
+  document.addEventListener('DOMContentLoaded', () => {
+    /* ===========================
+       HAMBURGER MENU
+    =========================== */
+    const hamburger = $('.hamburger');
+    const navList = $('.nav-list');
+
+    if (hamburger && navList) {
+      hamburger.setAttribute('aria-expanded', 'false');
+      hamburger.setAttribute('aria-controls', 'main-navigation');
+      if (!navList.id) navList.id = 'main-navigation';
+
+      function toggleMenu(open) {
+        const isOpen = typeof open === 'boolean' ? open : !navList.classList.contains('active');
+        navList.classList.toggle('active', isOpen);
+        hamburger.textContent = isOpen ? '✕' : '☰';
+        hamburger.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+      }
+
+      const pointerHandler = (evt) => {
+        if (evt.target.closest('.hamburger')) {
+          evt.preventDefault();
+          toggleMenu();
+        }
+      };
+
+      const linkClickHandler = (evt) => {
+        if (evt.target.closest('.nav-list a')) setTimeout(() => toggleMenu(false), 100);
+      };
+
+      const outsideClickHandler = (evt) => {
+        if (!navList.classList.contains('active')) return;
+        if (!evt.target.closest('.nav-list') && !evt.target.closest('.hamburger')) toggleMenu(false);
+      };
+
+      hamburger.addEventListener('pointerdown', pointerHandler);
+      hamburger.addEventListener('click', pointerHandler);
+      navList.addEventListener('click', linkClickHandler);
+      document.addEventListener('pointerdown', outsideClickHandler);
+
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && navList.classList.contains('active')) toggleMenu(false);
+      });
+
+      window.addEventListener('resize', () => {
+        if (window.innerWidth > 768 && navList.classList.contains('active')) toggleMenu(false);
+      });
+    }
+
 // Schadeformulier EmailJS + reCAPTCHA-controle
 document.getElementById('schade-form').addEventListener('submit', async function(event) {
     event.preventDefault();
@@ -133,4 +175,5 @@ Nieuwe schademelding ontvangen:
         }
     }
 });
+                            </script>
 
