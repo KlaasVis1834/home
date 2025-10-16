@@ -1,4 +1,3 @@
-<script>
 (function () {
   const $ = (sel, ctx = document) => ctx.querySelector(sel);
 
@@ -121,4 +120,5 @@
     });
   });
 })();
-</script>
+
+
