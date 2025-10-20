@@ -113,32 +113,32 @@ nav {
 }
 
 .nav-list a {
-    text-decoration: none;
-    color: var(--text); /* ← DONKER zoals homepage */
-    font-weight: 300; /* ← DUN */
-    font-size: 0.95rem; /* ← HOMEPAGE GROOTTE */
-    transition: all 0.3s ease;
-    position: relative;
-    letter-spacing: 0.3px;
-}
-
-.nav-list a::before {
-    content: '';
-    position: absolute;
-    bottom: -5px;
-    left: 0;
-    width: 0;
-    height: 2px;
-    background: linear-gradient(90deg, var(--primary), var(--accent));
-    transition: width 0.3s ease;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+  font-size: 0.95rem !important;
+  font-weight: 600 !important;
+  text-decoration: none !important;
+  letter-spacing: 0.3px !important;
+  color: white !important;
+  transition: all 0.3s ease !important;
+  position: relative !important;
 }
 
 .nav-list a:hover {
-    color: var(--primary-light);
+  color: var(--primary-light) !important;
 }
 
-.nav-list a:hover::before {
-    width: 100%;
+.nav-list a::after {
+  content: "";
+  display: block;
+  height: 2px;
+  background: linear-gradient(90deg, var(--primary), var(--accent));
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
+  transform-origin: left;
+}
+
+.nav-list a:hover::after {
+  transform: scaleX(1);
 }
 
 .hamburger {
@@ -503,6 +503,7 @@ footer {
 .contact-options a:hover {
     text-decoration: underline;
 }
+
 
 
 
