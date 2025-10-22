@@ -1,0 +1,78 @@
+body {
+    font-family: 'Arial', sans-serif;
+    line-height: 1.6;
+}
+
+/* Header */
+header {
+    background-color: #007bff;
+}
+
+.logo {
+    max-width: 150px;
+    height: auto;
+}
+
+/* Diensten Kaarten */
+.service-card {
+    transition: transform 0.3s ease;
+    border: none;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.service-card:hover {
+    transform: scale(1.05);
+}
+
+/* Team Kaarten */
+.team-card {
+    border: none;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Nieuws Kaarten */
+.news-card {
+    margin-bottom: 20px;
+    border: none;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.news-card .card-title {
+    font-size: 1.25rem;
+}
+
+.news-card .card-text {
+    color: #555;
+}
+
+/* FAQ */
+.accordion-button {
+    background-color: #f8f9fa;
+}
+
+/* Contactformulier */
+#contact-form {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Footer */
+footer {
+    background-color: #f8f9fa;
+}
+
+footer a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+footer a:hover {
+    text-decoration: underline;
+}
+
+.disclaimer {
+    font-size: 0.9rem;
+    color: #666;
+}
