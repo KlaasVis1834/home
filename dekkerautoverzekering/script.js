@@ -1,17 +1,18 @@
+
 console.log('JS: Script geladen');
 
-// Menu toggle
-const menuToggle = document.querySelector('.menu-toggle');
+
+const hamburger = document.querySelector('.hamburger');
 const nav = document.querySelector('.nav');
 
-if (menuToggle && nav) {
-    menuToggle.addEventListener('click', () => {
-        console.log('Menu: Toggle geklikt');
+if (hamburger && nav) {
+    hamburger.addEventListener('click', () => {
+        console.log('Hamburger: Geklikt');
         nav.classList.toggle('active');
-        menuToggle.classList.toggle('active');
+        hamburger.textContent = nav.classList.contains('active') ? '✕' : '☰';
     });
 } else {
-    console.warn('Menu: Toggle of nav niet gevonden');
+    console.warn('Hamburger of nav niet gevonden');
 }
 
 // Car selector
