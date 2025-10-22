@@ -73,19 +73,19 @@ nav {
     display: block;
 }
 
-..nav-list a {
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
-  font-size: 0.95rem !important;
-  font-weight: 600 !important;
-  text-decoration: none !important;
-  letter-spacing: 0.3px !important;
-  color: white !important;
-  transition: all 0.3s ease !important;
-  position: relative !important;
+.nav-list a {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-decoration: none;
+  letter-spacing: 0.3px;
+  color: white;
+  transition: all 0.3s ease;
+  position: relative;
 }
 
 .nav-list a:hover {
-  color: var(--primary-light) !important;
+  color: var(--primary-light);
 }
 
 .nav-list a::after {
@@ -570,8 +570,6 @@ footer {
 }
 
 }
-
-
 
 
 
