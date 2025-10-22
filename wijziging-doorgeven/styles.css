@@ -118,7 +118,7 @@ nav {
   font-weight: 600 !important;
   text-decoration: none !important;
   letter-spacing: 0.3px !important;
-  color: white !important;
+  color: var(--text) !important; /* <- veranderd van white naar zwart (variabele) */
   transition: all 0.3s ease !important;
   position: relative !important;
 }
@@ -503,11 +503,3 @@ footer {
 .contact-options a:hover {
     text-decoration: underline;
 }
-
-
-
-
-
-
-
-
