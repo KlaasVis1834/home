@@ -74,29 +74,43 @@
                             </select>
                         </div>
 
-                        <!-- Persoonlijke gegevens -->
+
+                    <form id="contact-form" class="modern-form">
                         <div class="form-group">
-                            <label for="voorletters">Voorletter(s)</label>
-                            <input type="text" id="voorletters" name="voorletters" required>
+                            <label for="verzoek-type">Kies uw verzoek</label>
+                            <select id="verzoek-type" name="verzoek-type" required>
+                                <option value="" disabled selected>Selecteer een optie</option>
+                                <option value="adreswijziging">Adreswijziging</option>
+                                <option value="motorvoertuigwijziging">Motorvoertuigwijziging</option>
+                                <option value="verzekering-beëindigen">Verzekering beëindigen</option>
+                                <option value="belverzoek">Terugbelverzoek indienen</option>
+                                <option value="emailwijziging">E-mailwijziging</option>
+                                <option value="anders">Anders</option>
+                            </select>
+                        </div>
+
+                        <!-- Gemeenschappelijke velden -->
+                        <div class="form-group">
+                            <label for="voornaam">Voorletter(s)</label>
+                            <input type="text" id="voornaam" name="voornaam" autocomplete="given-name" required>
                         </div>
                         <div class="form-group">
                             <label for="achternaam">Achternaam</label>
-                            <input type="text" id="achternaam" name="achternaam" required>
+                            <input type="text" id="achternaam" name="achternaam" autocomplete="family-name" required>
                         </div>
                         <div class="form-group">
                             <label for="email">E-mailadres (optioneel)</label>
-                            <input type="email" id="email" name="email">
+                            <input type="email" id="email" name="email" autocomplete="email">
                         </div>
 
-                        <!-- Dynamische velden (adres, motorvoertuig, etc.) -->
-                        <!-- Adreswijziging -->
+                        <!-- Adreswijziging velden -->
                         <div class="form-group hidden" id="adreswijziging-fields-postcode">
                             <label for="nieuwe-postcode">Nieuwe postcode</label>
-                            <input type="text" id="nieuwe-postcode" name="nieuwe-postcode">
+                            <input type="text" id="nieuwe-postcode" name="nieuwe-postcode" autocomplete="postal-code">
                         </div>
                         <div class="form-group hidden" id="adreswijziging-fields-huisnummer">
                             <label for="nieuwe-huisnummer">Nieuw huisnummer</label>
-                            <input type="text" id="nieuwe-huisnummer" name="nieuwe-huisnummer">
+                            <input type="text" id="nieuwe-huisnummer" name="nieuwe-huisnummer" autocomplete="off">
                         </div>
                         <div class="form-group hidden" id="adreswijziging-fields-adres">
                             <label for="nieuw-adres">Nieuw volledig adres</label>
@@ -107,18 +121,18 @@
                             <input type="date" id="verhuisdatum" name="verhuisdatum">
                         </div>
 
-                        <!-- Motorvoertuigwijziging -->
+                        <!-- Motorvoertuigwijziging velden -->
                         <div class="form-group hidden" id="motorvoertuigwijziging-fields-datum">
                             <label for="wijzigingsdatum">Wijzigingsdatum</label>
                             <input type="date" id="wijzigingsdatum" name="wijzigingsdatum">
                         </div>
                         <div class="form-group hidden" id="motorvoertuigwijziging-fields-polisnummer">
                             <label for="polisnummer-motor">Polisnummer</label>
-                            <input type="text" id="polisnummer-motor" name="polisnummer-motor">
+                            <input type="text" id="polisnummer-motor" name="polisnummer-motor" autocomplete="off">
                         </div>
                         <div class="form-group hidden" id="motorvoertuigwijziging-fields-huidig-kenteken">
                             <label for="huidig-kenteken">Kenteken huidig voertuig</label>
-                            <input type="text" id="huidig-kenteken" name="huidig-kenteken">
+                            <input type="text" id="huidig-kenteken" name="huidig-kenteken" autocomplete="off">
                         </div>
                         <div class="form-group hidden" id="motorvoertuigwijziging-fields-huidig-merk">
                             <label for="huidig-merk">Merk huidig voertuig</label>
@@ -130,7 +144,7 @@
                         </div>
                         <div class="form-group hidden" id="motorvoertuigwijziging-fields-nieuw-kenteken">
                             <label for="nieuw-kenteken">Kenteken nieuw voertuig</label>
-                            <input type="text" id="nieuw-kenteken" name="nieuw-kenteken">
+                            <input type="text" id="nieuw-kenteken" name="nieuw-kenteken" autocomplete="off">
                         </div>
                         <div class="form-group hidden" id="motorvoertuigwijziging-fields-nieuw-merk">
                             <label for="nieuw-merk">Merk nieuw voertuig</label>
@@ -141,7 +155,7 @@
                             <input type="text" id="nieuw-model" name="nieuw-model" readonly>
                         </div>
 
-                        <!-- Verzekering beëindigen -->
+                        <!-- Verzekering beëindigen velden -->
                         <div class="form-group hidden" id="verzekering-beëindigen-fields-datum">
                             <label for="opzegdatum">Opzegdatum</label>
                             <input type="date" id="opzegdatum" name="opzegdatum">
@@ -151,48 +165,42 @@
                             <textarea id="reden-beëindiging" name="reden-beëindiging" rows="4"></textarea>
                         </div>
 
-                        <!-- Terugbelverzoek -->
-                        <div class="form-group hidden" id="terugbelverzoek-fields-telefoon">
+                        <!-- Belverzoek velden -->
+                        <div class="form-group hidden" id="belverzoek-fields-telefoon">
                             <label for="telefoon">Telefoonnummer</label>
-                            <input type="tel" id="telefoon" name="telefoon">
+                            <input type="tel" id="telefoon" name="telefoon" autocomplete="tel">
                         </div>
-                        <div class="form-group hidden" id="terugbelverzoek-fields-datum">
-                            <label for="voorkeur-datum">Gewenste datum</label>
-                            <input type="date" id="voorkeur-datum" name="voorkeur-datum">
+                        <div class="form-group hidden" id="belverzoek-fields-datum-tijd">
+                            <label for="voorkeur-datum-tijd">Gewenste datum en tijdstip</label>
+                            <input type="text" id="voorkeur-datum-tijd" name="voorkeur-datum-tijd" placeholder="Bijv. 15-04-2025, 14:00">
                         </div>
-                        <div class="form-group hidden" id="terugbelverzoek-fields-tijd">
-                            <label for="voorkeur-tijd">Gewenst tijdstip</label>
-                            <input type="time" id="voorkeur-tijd" name="voorkeur-tijd" min="09:00" max="16:00">
-                                               </div>
 
-                        <!-- E-mailwijziging -->
+                        <!-- E-mailwijziging velden -->
                         <div class="form-group hidden" id="emailwijziging-fields-huidig">
                             <label for="huidig-email">Huidig e-mailadres</label>
-                            <input type="email" id="huidig-email" name="huidig-email">
+                            <input type="email" id="huidig-email" name="huidig-email" autocomplete="email">
                         </div>
                         <div class="form-group hidden" id="emailwijziging-fields-nieuw">
                             <label for="nieuw-email">Nieuw e-mailadres</label>
-                            <input type="email" id="nieuw-email" name="nieuw-email">
+                            <input type="email" id="nieuw-email" name="nieuw-email" autocomplete="email">
                         </div>
 
-                        <!-- Anders -->
+                        <!-- Anders veld -->
                         <div class="form-group hidden" id="anders-fields">
-                            <label for="anders-reden">Reden van wijziging</label>
-                            <textarea id="anders-reden" name="anders-reden" rows="4" placeholder="Geef hier aan welke wijziging u wilt doorgeven"></textarea>
+                            <label for="anders-reden">Reden van contact</label>
+                            <textarea id="anders-reden" name="anders-reden" rows="4" placeholder="Geef hier aan waarom u contact opneemt"></textarea>
                         </div>
-
-                        <!-- reCAPTCHA -->
+                      <!-- reCAPTCHA -->
                         <div class="form-group">
-                            <div class="g-recaptcha" data-sitekey="6LdwpegrAAAAAKjnbA7VZJoNpYlFJ6iFeMQp0Dov"></div>
+                            <div class="g-recaptcha" data-sitekey="6LenGOArAAAAAIM8bxj3lEQAnguib5e1bHTl0XrM"></div>
                         </div>
-
-                        <!-- Knoppen -->
                         <div class="button-group">
                             <button type="submit" class="submit-button">Verzenden</button>
                             <a href="https://www.klaasvis.nl" class="back-button">Terug naar homepage</a>
                         </div>
                     </form>
                 </div>
+
 
                 <!-- Contactgegevens -->
                 <div class="contact-info">
