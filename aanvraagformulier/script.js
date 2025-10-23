@@ -5,6 +5,15 @@ showStep(currentStep);
 var canvas = document.getElementById('signature-pad');
 var signaturePad = new SignaturePad(canvas);
 
+// === reCAPTCHA controle functie ===
+function checkRecaptcha() {
+    const recaptchaResponse = grecaptcha.getResponse();
+    if (!recaptchaResponse) {
+        alert("Bevestig eerst dat u geen robot bent (klik op de reCAPTCHA).");
+        return false;
+    }
+    return true;
+}
 // Functie om handtekening te uploaden naar Cloudinary
 async function uploadSignature(signatureBase64) {
     try {
