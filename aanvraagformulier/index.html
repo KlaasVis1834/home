@@ -1,0 +1,502 @@
+
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aanvraagformulier Dekkerautoverzekering</title>
+    <link rel="icon" type="image/png" href="Logo.png">
+    <link rel="stylesheet" href="styles.css?v=1">
+    <!-- EmailJS SDK -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <script type="text/javascript">
+        (function() {
+            emailjs.init("ONDQRoTrKQCSL4P-M"); // Jouw User ID
+        })();
+    </script>
+</head>
+<body>
+    <!-- Loading screen voor pagina laden -->
+    <div id="page-loading-screen">
+        <div class="page-loader"></div>
+    </div>
+
+    <div class="logo">
+        <img src="AfbeeldingDekker.png" alt="Dekkerautoverzekering">
+        <h2>Aanvraagformulier</h2>
+    </div>
+
+    <div class="form-container">
+        <form id="insurance-form">
+            <!-- Verborgen invoerveld om de handtekening-URL op te slaan -->
+            <input type="hidden" id="signature_url" name="signature_url">
+            
+            <div class="step-indicators">
+                <div class="step active-step" id="step1-indicator">Gegevens verzekeringnemer</div>
+                <div class="step" id="step2-indicator">Gegevens auto</div>
+                <div class="step" id="step4-indicator">Slotvragen</div>
+                <div class="step" id="step5-indicator">Ondertekenen en indienen</div>
+            </div>
+            <!-- Stap 1 -->
+            <div class="step-content active" id="step1">
+                <div class="form-group">
+                    <label for="offertenummer">Offertenummer:</label>
+                    <input type="text" id="offertenummer" name="offertenummer" autocomplete="off" required>
+                </div>
+                <div class="form-group">
+                    <label for="Geboortedatum">Geboortedatum verzekeringnemer:</label>
+                    <input type="date" id="Geboortedatum" name="Geboortedatum" autocomplete="bday" required>
+                </div>
+                <div class="form-group">
+                    <label for="regelmatige-bestuurder">Bent u de regelmatige bestuurder?</label>
+                    <div class="switch">
+                        <input type="radio" id="regelmatige-bestuurder-yes" name="regelmatige-bestuurder" value="yes">
+                        <label for="regelmatige-bestuurder-yes" class="switch-label">Ja</label>
+                        <input type="radio" id="regelmatige-bestuurder-no" name="regelmatige-bestuurder" value="no">
+                        <label for="regelmatige-bestuurder-no" class="switch-label">Nee</label>
+                    </div>
+                </div>
+                <div id="regelmatige-bestuurder-info" class="conditional hidden">
+                    <div class="form-group">
+                        <h4>Gegevens van de regelmatige bestuurder</h4>
+                        <label for="voorletters">Voorletters:</label>
+                        <input type="text" id="voorletters" name="voorletters" autocomplete="given-name">
+                    </div>
+                    <div class="form-group">
+                        <label for="achternaam">Achternaam:</label>
+                        <input type="text" id="achternaam" name="achternaam" autocomplete="family-name">
+                    </div>
+                    <div class="form-group">
+                        <label for="Postcode_en_huisnummer">Postcode en huisnummer:</label>
+                        <input type="text" id="Postcode_en_huisnummer" name="Postcode_en_huisnummer" autocomplete="postal-code">
+                    </div>
+                    <div class="form-group">
+                        <label for="geboortedatum">Geboortedatum:</label>
+                        <input type="date" id="geboortedatum" name="geboortedatum" autocomplete="bday">
+                    </div>
+                    <div class="form-group">
+                        <label for="relatie">Relatie tot verzekeringnemer:</label>
+                        <input type="text" id="relatie" name="relatie" autocomplete="off">
+                    </div>
+                </div>
+                <h4>Betaalgegevens</h4>
+                <div class="form-group">
+                    <label>Betalingstermijn:</label>
+                    <div class="switch">
+                        <input type="radio" id="maandelijks" name="betalingstermijn" value="maandelijks" checked>
+                        <label for="maandelijks" class="switch-label">Maandelijks</label>
+                        <input type="radio" id="kwartaal" name="betalingstermijn" value="kwartaal">
+                        <label for="kwartaal" class="switch-label">Kwartaal</label>
+                        <input type="radio" id="jaarlijks" name="betalingstermijn" value="jaarlijks">
+                        <label for="jaarlijks" class="switch-label">Jaarlijks</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="iban">Uw IBAN-rekeningnummer:</label>
+                    <input type="text" id="iban" name="iban" autocomplete="iban" required>
+                </div>
+            </div>
+            <div class="footer-logo"></div>
+            <!-- Stap 2 -->
+            <div class="step-content" id="step2">
+                <div class="form-group">
+                    <label for="ingangsdatum">Ingangsdatum verzekering:</label>
+                    <input type="date" id="ingangsdatum" name="ingangsdatum" autocomplete="off">
+                </div>
+                <div>
+                    <label for="verklaring-ingangsdatum">Ingangsdatum is nog niet bekend</label>
+                    <input type="checkbox" id="verklaring-ingangsdatum" name="verklaring">
+                    <br>
+                </div>
+                <br>
+                <div class="form-group">
+                    <div class="switch">
+                        <input type="radio" id="dekking-voorstel" name="dekking" value="voorstel" checked>
+                        <label for="dekking-voorstel" class="switch-label">Dekking en premie conform het verzekeringsvoorstel</label>
+                        <input type="radio" id="dekking-anders" name="dekking" value="anders">
+                        <label for="dekking-anders" class="switch-label">Anders</label>
+                    </div>
+                </div>
+                <div id="dekking-omschrijving" class="conditional hidden">
+                    <div class="form-group">
+                        <label>Gewenste dekking:</label>
+                        <div class="coverage-options">
+                            <div class="main-coverage">
+                                <h4>Hoofddekking</h4>
+                                <div class="switch coverage-switch">
+                                    <input type="radio" id="wa" name="main_coverage" value="wa" checked disabled>
+                                    <label for="wa" class="switch-label always-selected">WA <span class="info-icon">ℹ️</span><span class="tooltip-text">Biedt alleen dekking bij schade aan derden en is wettelijk verplicht.</span></label>
+                                    <input type="radio" id="casco-beperkt" name="main_coverage" value="casco-beperkt">
+                                    <label for="casco-beperkt" class="switch-label">Casco Beperkt <span class="info-icon">ℹ️</span><span class="tooltip-text">Casco Beperkt biedt dekking voor schade aan het eigen voertuig als gevolg van o.a. brand, diefstal, inbraak, ruitschade.</span></label>
+                                    <input type="radio" id="casco-compleet" name="main_coverage" value="casco-compleet">
+                                    <label for="casco-compleet" class="switch-label">Casco Compleet <span class="info-icon">ℹ️</span><span class="tooltip-text">Ook wel bekend als All Risk, biedt dekking voor schade aan uw eigen voertuig als gevolg van alle van buiten komende onheilen.</span></label>
+                                </div>
+                            </div>
+                            <div class="extra-options">
+                                <h4>Extra opties</h4>
+                                <div class="switch coverage-switch">
+                                    <input type="checkbox" id="schadeverzekering" name="extra_schadeverzekering">
+                                    <label for="schadeverzekering" class="switch-label">Schadeverzekering voor Inzittenden <span class="info-icon">ℹ️</span><span class="tooltip-text">Dekt zowel materiële als immateriële schade van de bestuurder en inzittenden.</span></label>
+                                    <input type="checkbox" id="rechtsbijstand" name="extra_rechtsbijstand">
+                                    <label for="rechtsbijstand" class="switch-label">Rechtsbijstand Verkeer <span class="info-icon">ℹ️</span><span class="tooltip-text">Biedt juridische bijstand omtrent een geschil met betrekking tot uw motorrijtuig.</span></label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="schade-ervaring">Heeft u of de regelmatige bestuurder in de afgelopen 5 jaar schade aan of met een motorvoertuig gehad?</label>
+                    <div class="switch">
+                        <input type="radio" id="schade-ervaring-yes" name="schade-ervaring" value="yes">
+                        <label for="schade-ervaring-yes" class="switch-label">Ja</label>
+                        <input type="radio" id="schade-ervaring-no" name="schade-ervaring" value="no">
+                        <label for="schade-ervaring-no" class="switch-label">Nee</label>
+                    </div>
+                </div>
+                <div id="schade-ervaring-info" class="conditional hidden">
+                    <div class="form-group">
+                        <label for="schade-datum">Schadedatum:</label>
+                        <input type="text" id="schade-datum" name="schade-datum" autocomplete="off">
+                    </div>
+                    <div class="form-group">
+                        <label for="schade-bedrag">Schadebedrag(en):</label>
+                        <input type="text" id="schade-bedrag" name="schade-bedrag" autocomplete="off">
+                    </div>
+                    <div class="form-group">
+                        <label for="soort-schade">Soort schade(s):</label>
+                        <input type="text" id="soort-schade" name="soort-schade" autocomplete="off">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="schadevrije-jaren">Heeft u bij uw vorige verzekeringsmaatschappij schadevrije jaren opgebouwd?</label>
+                    <div class="switch">
+                        <input type="radio" id="schadevrije-jaren-yes" name="schadevrije-jaren" value="yes">
+                        <label for="schadevrije-jaren-yes" class="switch-label">Ja</label>
+                        <input type="radio" id="schadevrije-jaren-no" name="schadevrije-jaren" value="no">
+                        <label for="schadevrije-jaren-no" class="switch-label">Nee</label>
+                    </div>
+                </div>
+                <div id="schadevrije-jaren-info" class="conditional hidden">
+                    <div class="form-group">
+                        <label for="aantal-schadevrije-jaren">Aantal schadevrije jaren:</label>
+                        <input type="number" id="aantal-schadevrije-jaren" name="aantal-schadevrije-jaren" autocomplete="off">
+                    </div>
+                </div>
+                <div id="opzegservice-container" class="hidden">
+                    <div class="form-group">
+                        <label>Indien uw huidige verzekering elders is ondergebracht, kunnen wij deze voor u opzeggen.</label>
+                        <label for="opzegservice">Wenst u gebruik te maken van onze opzegservice?</label>
+                        <div class="switch">
+                            <input type="radio" id="opzegservice-yes" name="opzegservice" value="yes">
+                            <label for="opzegservice-yes" class="switch-label">Ja</label>
+                            <input type="radio" id="opzegservice-no" name="opzegservice" value="no">
+                            <label for="opzegservice-no" class="switch-label">Nee</label>
+                        </div>
+                    </div>
+                    <div id="opzegservice-details" class="hidden">
+                        <div class="form-group">
+                            <label for="verzekeringsmaatschappij">Verzekeringsmaatschappij:</label>
+                            <input type="text" id="verzekeringsmaatschappij" name="verzekeringsmaatschappij" autocomplete="organization">
+                        </div>
+                        <div class="form-group">
+                            <label for="name">Voorletter(s) en achternaam verzekeringnemer:</label>
+                            <input type="text" id="name" name="name" autocomplete="name">
+                        </div>
+                        <div class="form-group">
+                            <label for="polisnummer">Uw huidige polisnummer:</label>
+                            <input type="text" id="polisnummer" name="polisnummer" autocomplete="off">
+                        </div>
+                        <div class="form-group">
+                            <label for="kenteken">Kenteken motorvoertuig:</label>
+                            <input type="text" id="kenteken" name="kenteken" autocomplete="off">
+                        </div>
+                        <div class="form-group">
+                            <label for="reden-opzegging">Reden van opzegging:</label>
+                            <input type="text" id="reden-opzegging" name="reden-opzegging" autocomplete="off">
+                        </div>
+                        <div class="form-group">
+                            <label for="datum-opzegging">Datum opzegging:</label>
+                            <input type="date" id="datum-opzegging" name="datum-opzegging" autocomplete="off">
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="aanschaf">Heeft u de auto particulier of zakelijk aangeschaft?</label>
+                    <div class="switch">
+                        <input type="radio" id="particulier" name="aanschaf" value="particulier" checked>
+                        <label for="particulier" class="switch-label">Particulier</label>
+                        <input type="radio" id="zakelijk" name="aanschaf" value="zakelijk">
+                        <label for="zakelijk" class="switch-label">Zakelijk</label>
+                    </div>
+                </div>
+                <div id="zakelijk-info" class="conditional hidden">
+                    <div class="form-group">
+                        <label for="rechtsvorm">Rechtsvorm:</label>
+                        <select id="rechtsvorm" name="rechtsvorm">
+                            <option value="bv">Besloten Vennootschap (BV)</option>
+                            <option value="zzp">Eenmanszaak (ZZP)</option>
+                            <option value="nv">Naamloze Vennootschap (NV)</option>
+                            <option value="stichting">Stichting/Vereniging</option>
+                            <option value="anders">Anders</option>
+                        </select>
+                    </div>
+                    <div class="form-group" id="rechtsvorm-omschrijving-container" class="hidden">
+                        <label for="rechtsvorm-omschrijving">Geef aan wat van toepassing is:</label>
+                        <select id="rechtsvorm-omschrijving" name="rechtsvorm-omschrijving">
+                            <option value="ubo-eenmanszaak">Betreft een eenmanszaak, vul uw gegevens hieronder in (UBO).</option>
+                            <option value="ubo-belang">Uiteindelijk belanghebbende(n) met een belang van 25% of meer. Noteer onderstaand wie deze uiteindelijk belanghebbenden zijn.</option>
+                            <option value="geen-ubo">Geen belanghebbende(n) van 25% of meer.</option>
+                            <option value="zeggenschap">Noteer de personen die feitelijk zeggenschap uitoefenen over de organisatie.</option>
+                        </select>
+                    </div>
+                    <h3>UBO verklaring</h3>
+                    <h4>Belanghebbende 1</h4>
+                    <div class="form-group">
+                        <label for="ubo1-naam">Voorletter(s) en achternaam</label>
+                        <input type="text" id="ubo1-naam" name="ubo1-naam" placeholder="Naam belanghebbende" autocomplete="name">
+                    </div>
+                    <div class="form-group">
+                        <label for="ubo1-adres">Adres</label>
+                        <input type="text" id="ubo1-adres" name="ubo1-adres" placeholder="Adres" autocomplete="street-address">
+                    </div>
+                    <div class="form-group">
+                        <label for="ubo1-postcode">Postcode en woonplaats</label>
+                        <input type="text" id="ubo1-postcode" name="ubo1-postcode" placeholder="Postcode en woonplaats" autocomplete="postal-code">
+                    </div>
+                    <div class="form-group">
+                        <label for="ubo1-geboortedatum">Geboortedatum</label>
+                        <input type="date" id="ubo1-geboortedatum" name="ubo1-geboortedatum" autocomplete="bday">
+                    </div>
+                    <h4>Belanghebbende 2</h4>
+                    <div class="form-group">
+                        <label for="ubo2-naam">Voorletter(s) en achternaam</label>
+                        <input type="text" id="ubo2-naam" name="ubo2-naam" placeholder="Naam belanghebbende" autocomplete="name">
+                    </div>
+                    <div class="form-group">
+                        <label for="ubo2-adres">Adres</label>
+                        <input type="text" id="ubo2-adres" name="ubo2-adres" placeholder="Adres" autocomplete="street-address">
+                    </div>
+                    <div class="form-group">
+                        <label for="ubo2-postcode">Postcode en woonplaats</label>
+                        <input type="text" id="ubo2-postcode" name="ubo2-postcode" placeholder="Postcode en woonplaats" autocomplete="postal-code">
+                    </div>
+                    <div class="form-group">
+                        <label for="ubo2-geboortedatum">Geboortedatum</label>
+                        <input type="date" id="ubo2-geboortedatum" name="ubo2-geboortedatum" autocomplete="bday">
+                    </div>
+                    <h4>Belanghebbende 3</h4>
+                    <div class="form-group">
+                        <label for="ubo3-naam">Voorletter(s) en achternaam</label>
+                        <input type="text" id="ubo3-naam" name="ubo3-naam" placeholder="Naam belanghebbende" autocomplete="name">
+                    </div>
+                    <div class="form-group">
+                        <label for="ubo3-adres">Adres</label>
+                        <input type="text" id="ubo3-adres" name="ubo3-adres" placeholder="Adres" autocomplete="street-address">
+                    </div>
+                    <div class="form-group">
+                        <label for="ubo3-postcode">Postcode en woonplaats</label>
+                        <input type="text" id="ubo3-postcode" name="ubo3-postcode" placeholder="Postcode en woonplaats" autocomplete="postal-code">
+                    </div>
+                    <div class="form-group">
+                        <label for="ubo3-geboortedatum">Geboortedatum</label>
+                        <input type="date" id="ubo3-geboortedatum" name="ubo3-geboortedatum" autocomplete="bday">
+                    </div>
+                    <div class="form-group">
+                        <label for="aantal-belanghebbenden">Indien er meer dan 3 belanghebbenden zijn, graag het totaal aantal en de gegevens van deze personen</label>
+                        <input type="number" id="aantal-belanghebbenden" name="aantal-belanghebbenden" min="1" max="10" autocomplete="off">
+                    </div>
+                    <div id="belanghebbenden-info"></div>
+                </div>
+            </div>
+            <!-- Stap 4 -->
+            <div class="step-content" id="step4">
+                <div class="form-group">
+                    <div class="form-group">
+                        <label for="onverzekerd">Is de auto vanaf de datum dat deze op naam van de kentekenhouder staat, langer dan 10 dagen onverzekerd?</label>
+                        <div class="switch">
+                            <input type="radio" id="onverzekerd-yes" name="onverzekerd" value="yes">
+                            <label for="onverzekerd-yes" class="switch-label">Ja</label>
+                            <input type="radio" id="onverzekerd-no" name="onverzekerd" value="no">
+                            <label for="onverzekerd-no" class="switch-label">Nee</label>
+                        </div>
+                        <div id="onverzekerd-info" class="additional-info hidden">
+                            <label for="onverzekerd-text">Toelichting:</label>
+                            <textarea id="onverzekerd-text" name="onverzekerd-text"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="verzekeraar">Heeft een verzekeraar in de afgelopen 8 jaar:</label>
+                    <label>Geweigerd een verzekeringsovereenkomst te sluiten met u of een andere belanghebbende?</label>
+                    <label>Een verzekering opgezegd van u of een andere belanghebbende?</label>
+                    <div class="switch">
+                        <input type="radio" id="verzekeraar-yes" name="verzekeraar" value="yes">
+                        <label for="verzekeraar-yes" class="switch-label">Ja</label>
+                        <input type="radio" id="verzekeraar-no" name="verzekeraar" value="no">
+                        <label for="verzekeraar-no" class="switch-label">Nee</label>
+                    </div>
+                    <div id="verzekeraar-info" class="additional-info hidden">
+                        <label for="verzekeraar-text">Toelichting:</label>
+                        <textarea id="verzekeraar-text" name="verzekeraar-text"></textarea>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="failliet">Bent u, of is een andere belanghebbende de laatste 5 jaar failliet verklaard, in een schuldsanering betrokken of is de rechter akkoord gegaan met een (uitstel) surseance van betaling?</label>
+                    <div class="switch">
+                        <input type="radio" id="failliet-yes" name="failliet" value="yes">
+                        <label for="failliet-yes" class="switch-label">Ja</label>
+                        <input type="radio" id="failliet-no" name="failliet" value="no">
+                        <label for="failliet-no" class="switch-label">Nee</label>
+                    </div>
+                    <div id="failliet-info" class="additional-info hidden">
+                        <label for="failliet-text">Toelichting:</label>
+                        <textarea id="failliet-text" name="failliet-text"></textarea>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="beslag">Heeft de deurwaarder op dit moment beslag gelegd op inkomsten of bezittingen van u of een andere belanghebbende? Of op het te verzekeren risico of andere eigendommen?</label>
+                    <div class="switch">
+                        <input type="radio" id="beslag-yes" name="beslag" value="yes">
+                        <label for="beslag-yes" class="switch-label">Ja</label>
+                        <input type="radio" id="beslag-no" name="beslag" value="no">
+                        <label for="beslag-no" class="switch-label">Nee</label>
+                    </div>
+                    <div id="beslag-info" class="additional-info hidden">
+                        <label for="beslag-text">Toelichting:</label>
+                        <textarea id="beslag-text" name="beslag-text"></textarea>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="rijontzegging">Heeft u in de laatste 8 jaar een rijverbod of een rijontzegging gehad?</label>
+                    <div class="switch">
+                        <input type="radio" id="rijontzegging-yes" name="rijontzegging" value="yes">
+                        <label for="rijontzegging-yes" class="switch-label">Ja</label>
+                        <input type="radio" id="rijontzegging-no" name="rijontzegging" value="no">
+                        <label for="rijontzegging-no" class="switch-label">Nee</label>
+                    </div>
+                    <div id="rijontzegging-info" class="additional-info hidden">
+                        <label for="rijontzegging-text">Toelichting:</label>
+                        <textarea id="rijontzegging-text" name="rijontzegging-text"></textarea>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="conflict">Hebt u, of een andere belanghebbende, in de laatste 5 jaar voor het sluiten van deze verzekering een conflict gehad waarbij juridische hulp nodig was?</label>
+                    <div class="switch">
+                        <input type="radio" id="conflict-yes" name="conflict" value="yes">
+                        <label for="conflict-yes" class="switch-label">Ja</label>
+                        <input type="radio" id="conflict-no" name="conflict" value="no">
+                        <label for="conflict-no" class="switch-label">Nee</label>
+                    </div>
+                    <div id="conflict-info" class="additional-info hidden">
+                        <label for="conflict-text">Toelichting:</label>
+                        <textarea id="conflict-text" name="conflict-text"></textarea>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="meer-informatie">Heeft u verder iets mede te delen over het te verzekeren risico, uzelf of een andere belanghebbende, dat (eventueel) voor de beoordeling van belang zou kunnen zijn?</label>
+                    <div class="switch">
+                        <input type="radio" id="meer-informatie-yes" name="meer-informatie" value="yes">
+                        <label for="meer-informatie-yes" class="switch-label">Ja</label>
+                        <input type="radio" id="meer-informatie-no" name="meer-informatie" value="no">
+                        <label for="meer-informatie-no" class="switch-label">Nee</label>
+                    </div>
+                    <div id="meer-informatie-info" class="additional-info hidden">
+                        <label for="meer-informatie-text">Toelichting:</label>
+                        <textarea id="meer-informatie-text" name="meer-informatie-text"></textarea>
+                    </div>
+                </div>
+            </div>
+            <!-- Stap 5 -->
+            <div class="step-content" id="step5">
+                <div class="form-group">
+                    <label for="ondertekenaar">Voorletter(s) en achternaam:</label>
+                    <input type="text" id="ondertekenaar" name="ondertekenaar" autocomplete="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">E-mailadres:</label>
+                    <input type="email" id="email" name="email" autocomplete="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="datum-aanvraag">Datum aanvraag:</label>
+                    <input type="date" id="datum-aanvraag" name="datum-aanvraag" autocomplete="off" required>
+                </div>
+                <br><br>
+                <div class="form-confirm">
+                    <label>
+                        Ik verklaar:
+                        <ul>
+                            <li>Dat de volledige tekst van alle acceptatievragen door de adviseur aan mij is voorgelegd;</li>
+                            <li>Dat mijn antwoorden juist en volledig zijn;</li>
+                            <li>Dat ik de polisvoorwaarden en verzekeringskaarten die horen bij deze verzekering heb ontvangen;</li>
+                            <li>Dat ik akkoord ga met de toepasselijkheid van de polisvoorwaarden die bij deze verzekering horen;</li>
+                            <li>Dat ik een verzekering wil sluiten volgens de dekking zoals omschreven in deze polisvoorwaarden;</li>
+                            <li>Dat ik de afgesproken premie en kosten betaal als ik de polis ontvang die volgens deze aanvraag is opgemaakt;</li>
+                            <li>Dat a.s.r. informatie over mijn schade- en verzekeringsverleden mag opvragen bij andere verzekeraars of adviseurs;</li>
+                            <li>Dat ik de personen waarvan persoonsgegevens op dit aanvraagformulier staan, heb geïnformeerd dat deze gegevens door a.s.r. worden verwerkt.</li>
+                        </ul>
+                    </label>
+                    <label for="verklaring-akkoord"><strong>Akkoord</strong></label>
+                    <input type="checkbox" id="verklaring-akkoord" name="verklaring" required>
+                </div>
+                <br>
+                <div class="form-group">
+                    <div class="canvas"> 
+                        <br><br><br>
+                        <label for="signature-pad"><strong>Uw digitale handtekening</strong></label>
+                        <canvas id="signature-pad" width="400" height="200"></canvas>
+                        <button type="button" id="clear-signature">Herstel handtekening</button>
+                    </div>
+                    <button type="button" class="submit-button" onclick="showModal()">Aanvraag indienen</button>
+                </div>
+                <!-- Popup Modal -->
+                <div id="confirmationModal" class="modal hidden">
+                    <div class="modal-content">
+                        <h3>Controleer uw gegevens</h3>
+                        <p>Hieronder een samenvatting van uw ingevulde gegevens. Kloppen deze?</p>
+                        <div id="summary" class="form-confirm"></div>
+                        <div class="modal-buttons">
+                            <button type="button" onclick="handleSubmit(true)">Ja, verzenden</button>
+                            <button type="button" onclick="handleSubmit(false)">Nee, aanpassen</button>
+                        </div>
+                    </div>
+                </div>
+                <!-- Resultaat bericht -->
+                <div id="resultMessage" class="modal hidden">
+                    <div class="modal-content">
+                        <p id="resultText"></p>
+                        <div class="modal-buttons">
+                            <button type="button" onclick="closeModal()">Sluiten</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Navigatieknoppen -->
+            <div class="navigation-buttons text-center">
+                <button type="button" class="prev-button" id="prevBtn" onclick="nextPrev(-1)">Vorige</button>
+                <button type="button" class="next-button" id="nextBtn" onclick="nextPrev(1)">Volgende</button>
+            </div>
+        </form>
+        <!-- Bestaande Loading Screen -->
+        <div id="loadingScreen" class="loading-screen" style="display: none;">
+            <div class="loader"></div>
+            <p>Uw aanvraag wordt verwerkt, u wordt doorgestuurd...</p>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.0.0/dist/signature_pad.umd.min.js"></script>
+    <script src="script.js?v=1"></script>
+    <!-- Inline JS alleen voor pagina loading screen -->
+    <script>
+        // Pagina loading screen
+        window.addEventListener('load', function() {
+            const pageLoadingScreen = document.getElementById('page-loading-screen');
+            setTimeout(() => {
+                pageLoadingScreen.classList.add('hidden');
+                setTimeout(() => {
+                    pageLoadingScreen.style.display = 'none';
+                }, 300);
+            }, 500);
+        });
+    </script>
+</body>
+</html>
