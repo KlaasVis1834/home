@@ -1,0 +1,627 @@
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #e0f7fa;
+    margin: 0;
+    padding: 20px;
+}
+
+.form-container {
+    max-width: 800px;
+    margin: auto;
+    background: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.logo {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.logo img {
+    max-width: 450px;
+    height: auto;
+}
+
+.footer-logo {
+    text-align: center;
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    margin-top: 20px;
+}
+
+.footer-logo img {
+    max-width: 450px;
+    height: auto;
+}
+
+.footer {
+    background: #007BFF;
+    color: #fff;
+    text-align: center;
+    padding: 20px;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.footer p {
+    margin: 10px 0;
+}
+
+.footer a {
+    color: #fff;
+    text-decoration: none;
+}
+
+.footer a:hover {
+    text-decoration: underline;
+}
+
+.step-indicators {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.step {
+    width: 100%;
+    text-align: center;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    background: #f0f0f0;
+    font-weight: bold;
+}
+
+.active-step {
+    background: #28a745;
+    color: #fff;
+    border-color: #28a745;
+}
+
+.step-content {
+    display: none;
+}
+
+.step-content.active {
+    display: block;
+}
+
+.conditional {
+    display: none;
+}
+
+.conditional.active {
+    display: block;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    position: relative;
+}
+
+.form-group input, .form-group select, .form-group textarea {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.form-group input[type="radio"] {
+    width: auto;
+    margin-right: 5px;
+}
+
+.form-group .radio-group {
+    display: flex;
+    gap: 15px;
+}
+
+.navigation-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.checkbox-group {
+    margin-top: 10px;
+}
+
+.checkbox-item {
+    margin-bottom: 10px;
+}
+
+.checkbox-item input[type="checkbox"] {
+    margin-right: 10px;
+}
+
+.checkbox-label {
+    display: inline-block;
+    font-size: 16px;
+}
+
+.switch {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.switch input[type="radio"] {
+    display: none;
+}
+
+.switch input[type="checkbox"] {
+    display: none;
+}
+
+.switch-label {
+    cursor: pointer;
+    padding: 10px 20px;
+    border-radius: 5px;
+    background-color: #f0f0f0;
+    margin-right: 10px;
+}
+
+.switch input[type="radio"]:checked + .switch-label,
+.switch input[type="checkbox"]:checked + .switch-label {
+    background-color: #28a745;
+    color: white;
+}
+
+.radio-group {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.radio-label {
+    margin-left: 5px;
+}
+
+.signature-pad {
+    border: 1px solid #000;
+    width: 90vw;
+    max-width: 400px;
+    height: 200px;
+    background-color: #fff;
+    touch-action: none;
+}
+
+.navigation-buttons button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    color: #fff;
+    cursor: pointer;
+}
+
+.prev-button {
+    background-color: #6c757d;
+}
+
+.next-button {
+    background-color: #007BFF;
+}
+
+.submit-button {
+    background-color: #28a745;
+}
+
+.text-center {
+    text-align: center;
+}
+
+canvas {
+    border: 1px solid #000;
+    display: block;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 10px;
+}
+
+button {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.submit-button {
+    background-color: #006400;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    display: block;
+    margin: 20px auto;
+    border-radius: 5px;
+}
+
+.button-group {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.button-group button {
+    padding: 10px 20px;
+    border: none;
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.button-group .submit-button {
+    background-color: darkgreen;
+}
+
+.download-button-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.download-button {
+    padding: 10px 20px;
+    background-color: blue;
+    border: none;
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.page {
+    width: 100%;
+    padding: 20px;
+    border: 1px solid #ddd;
+    margin-bottom: 20px;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0,0.4);
+    padding-top: 60px;
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 5% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 500px;
+}
+
+.modal-buttons {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.modal-buttons button {
+    padding: 10px 20px;
+    margin: 0 10px;
+    font-size: 16px;
+}
+
+.form-confirm {
+    font-family: Tahoma, sans-serif;
+    font-size: 14px;
+    background-color: #f0f0f0;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.form-confirm label {
+    display: block;
+    margin-bottom: 10px;
+}
+
+.form-confirm ul {
+    margin: 0;
+    padding: 0 0 0 20px;
+    list-style-type: disc;
+}
+
+.form-confirm input[type="checkbox"] {
+    margin-top: 10px;
+}
+
+.additional-info {
+    display: none;
+    margin-top: 10px;
+}
+
+textarea {
+    width: 100%;
+    height: 100px;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+.belanghebbende-container {
+    margin-bottom: 15px;
+}
+
+.promo {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    background-color: #ffcc00;
+    color: #333;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    max-width: 300px;
+    font-size: 14px;
+}
+
+.promo img {
+    max-width: 30px;
+    margin-right: 10px;
+    vertical-align: middle;
+}
+
+.promo strong {
+    font-size: 16px;
+    display: block;
+    margin-bottom: 5px;
+}
+
+.content {
+    min-height: 150vh;
+}
+
+/* Nieuwe stijlen voor dekking-toggle-knoppen */
+.coverage-options {
+    margin-top: 10px;
+}
+
+.main-coverage, .extra-options {
+    margin-bottom: 20px;
+}
+
+.main-coverage h4, .extra-options h4 {
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+
+.coverage-switch .switch-label {
+    padding: 8px 15px;
+    font-size: 14px;
+}
+
+.always-selected {
+    background-color: #28a745;
+    color: white;
+    cursor: default;
+}
+
+.info-icon {
+    cursor: pointer;
+    margin-left: 5px;
+    font-size: 14px;
+}
+
+.tooltip-text {
+    display: none;
+    position: absolute;
+    background-color: #333;
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 12px;
+    z-index: 10;
+    max-width: 200px;
+    white-space: normal;
+    top: 100%;
+    left: 0;
+    transform: translateY(5px);
+}
+
+.switch-label .tooltip-text {
+    top: calc(100% + 5px);
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+/* Stijlen voor loading screens (algemeen, voor alle apparaten) */
+#page-loading-screen,
+.loading-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.9);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    transition: opacity 0.3s ease;
+}
+
+.page-loader,
+.loader {
+    border: 8px solid #f3f3f3;
+    border-top: 8px solid #3498db;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    animation: spin 1s linear infinite;
+    margin-bottom: 10px;
+}
+
+.loading-screen p {
+    font-size: 18px;
+    color: #333;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+#page-loading-screen.hidden,
+.loading-screen.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* Mobiele aanpassingen */
+@media (max-width: 600px) {
+    body {
+        padding: 10px;
+    }
+
+    .form-container {
+        max-width: 100%;
+        padding: 15px;
+    }
+
+    .logo img {
+        max-width: 100%;
+    }
+
+    .step-indicators {
+        flex-direction: column;
+    }
+
+    .step {
+        width: 100%;
+        padding: 10px;
+        font-size: 14px;
+        margin-bottom: 5px;
+    }
+
+    .form-group label {
+        font-size: 14px;
+    }
+
+    .switch {
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .switch-label {
+        width: 100%;
+        padding: 8px 15px;
+        font-size: 14px;
+        text-align: center;
+    }
+
+    .coverage-switch .switch-label {
+        padding: 8px 10px;
+        font-size: 12px;
+    }
+
+    .tooltip-text {
+        max-width: 90%;
+        left: 0;
+        transform: none;
+        font-size: 11px;
+    }
+
+    .switch-label .tooltip-text {
+        left: 10px;
+        transform: none;
+        width: calc(100% - 20px);
+    }
+
+    .navigation-buttons {
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .navigation-buttons button {
+        width: 100%;
+        padding: 8px 15px;
+        font-size: 14px;
+        margin-bottom: 10px;
+    }
+
+    .terug-button {
+        order: 2;
+    }
+
+    .prev-button {
+        order: 1;
+    }
+
+    .next-button {
+        order: 3;
+    }
+
+    .signature-pad {
+        width: 100%;
+        max-width: 300px;
+        height: 150px;
+    }
+
+    .submit-button {
+        width: 100%;
+        padding: 10px;
+    }
+
+    .modal-content {
+        width: 90%;
+        max-width: 400px;
+        padding: 15px;
+    }
+
+    /* Mobiele stijlen voor loading screens (onveranderd van jouw origineel) */
+    .loading-screen {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(255, 255, 255, 0.9);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
+    }
+
+    .loader {
+        border: 8px solid #f3f3f3;
+        border-top: 8px solid #3498db;
+        border-radius: 50%;
+        width: 60px;
+        height: 60px;
+        animation: spin 1s linear infinite;
+    }
+
+    .loading-screen p {
+        margin-top: 20px;
+        font-size: 18px;
+        color: #333;
+    }
+}
