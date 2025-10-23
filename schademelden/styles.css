@@ -18,7 +18,6 @@ img {
   max-width: 100%;
 }
 
-/* ===================== */
 /* NAVBAR (MENUBALK) */
 /* ===================== */
 /* Navigation */
@@ -33,8 +32,7 @@ img {
     --bg-light: #f8fafc;
     --glass: rgba(255, 255, 255, 0.8);
 }
-/* NAVBAR (MENUBALK) - FIXED */
-/* ===================== */
+
 nav {
     position: fixed;
     top: 0;
@@ -73,19 +71,26 @@ nav {
     display: block;
 }
 
+.nav-list {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+    align-items: center;
+}
+
 .nav-list a {
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  font-size: 0.95rem;
-  font-weight: 600;
-  text-decoration: none;
-  letter-spacing: 0.3px;
-  color: white;
-  transition: all 0.3s ease;
-  position: relative;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+  font-size: 0.95rem !important;
+  font-weight: 600 !important;
+  text-decoration: none !important;
+  letter-spacing: 0.3px !important;
+  color: var(--text) !important; /* <- veranderd van white naar zwart (variabele) */
+  transition: all 0.3s ease !important;
+  position: relative !important;
 }
 
 .nav-list a:hover {
-  color: var(--primary-light);
+  color: var(--primary-light) !important;
 }
 
 .nav-list a::after {
@@ -101,6 +106,7 @@ nav {
 .nav-list a:hover::after {
   transform: scaleX(1);
 }
+
 .hamburger {
     display: none;
     background: none;
@@ -109,7 +115,6 @@ nav {
     color: var(--text);
     cursor: pointer;
     font-weight: 300;
-}
 
 /* ===================== */
 /* FORMULIER SCHADEN MELDEN */
@@ -570,6 +575,7 @@ footer {
 }
 
 }
+
 
 
 
