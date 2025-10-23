@@ -1,4 +1,5 @@
 
+
 :root {
     --primary: #4f46e5;
     --primary-light: #818cf8;
@@ -221,6 +222,7 @@ nav {
 .form-group label {
     display: block;
     margin-bottom: 5px;
+    position: relative;
 }
 
 .form-group input, .form-group select, .form-group textarea {
@@ -230,8 +232,9 @@ nav {
     border-radius: 5px;
 }
 
-.form-group input[type="radio"], .form-group input[type="checkbox"] {
-    display: none; /* Verberg de standaard radio/checkbox */
+.form-group input[type="radio"] {
+    width: auto;
+    margin-right: 5px;
 }
 
 .form-group .radio-group {
@@ -245,10 +248,35 @@ nav {
     margin-top: 20px;
 }
 
+.checkbox-group {
+    margin-top: 10px;
+}
+
+.checkbox-item {
+    margin-bottom: 10px;
+}
+
+.checkbox-item input[type="checkbox"] {
+    margin-right: 10px;
+}
+
+.checkbox-label {
+    display: inline-block;
+    font-size: 16px;
+}
+
 .switch {
     display: flex;
     align-items: center;
     margin-bottom: 15px;
+}
+
+.switch input[type="radio"] {
+    display: none;
+}
+
+.switch input[type="checkbox"] {
+    display: none;
 }
 
 .switch-label {
@@ -257,8 +285,6 @@ nav {
     border-radius: 5px;
     background-color: #f0f0f0;
     margin-right: 10px;
-    display: flex;
-    align-items: center;
 }
 
 .switch input[type="radio"]:checked + .switch-label,
@@ -267,37 +293,10 @@ nav {
     color: white;
 }
 
-.coverage-switch .switch-label {
-    padding: 8px 15px; /* Compacter voor dekkingen */
-    font-size: 14px;
-}
-
-.confirmation-switch .switch-label {
-    padding: 10px 15px; /* Iets meer padding voor langere labels */
-    font-size: 14px;
-    width: 100%; /* Volle breedte voor consistentie */
-    box-sizing: border-box;
-    margin-right: 0; /* Geen marge rechts, want elke switch staat apart */
-    margin-bottom: 10px; /* Afstand tussen de switches */
-}
-
-.always-selected {
-    background-color: #28a745; /* Altijd groen */
-    color: white;
-    cursor: default; /* Geen pointer om aan te geven dat het niet klikbaar is */
-}
-
-.coverage-options {
-    margin-top: 10px;
-}
-
-.main-coverage, .extra-options {
-    margin-bottom: 20px;
-}
-
-.main-coverage h4, .extra-options h4 {
-    font-size: 16px;
-    margin-bottom: 10px;
+.radio-group {
+    display: flex;
+    gap: 10px;
+    align-items: center;
 }
 
 .radio-label {
@@ -510,35 +509,61 @@ button:hover {
     min-height: 150vh;
 }
 
-/* Loading screen voor pagina laden */
-#page-loading-screen {
-    position: fixed;
-    top: 0;
+/* Nieuwe stijlen voor dekking-toggle-knoppen */
+.coverage-options {
+    margin-top: 10px;
+}
+
+.main-coverage, .extra-options {
+    margin-bottom: 20px;
+}
+
+.main-coverage h4, .extra-options h4 {
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+
+.coverage-switch .switch-label {
+    padding: 8px 15px;
+    font-size: 14px;
+}
+
+.always-selected {
+    background-color: #28a745;
+    color: white;
+    cursor: default;
+}
+
+.info-icon {
+    cursor: pointer;
+    margin-left: 5px;
+    font-size: 14px;
+}
+
+.tooltip-text {
+    display: none;
+    position: absolute;
+    background-color: #333;
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 12px;
+    z-index: 10;
+    max-width: 200px;
+    white-space: normal;
+    top: 100%;
     left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(255, 255, 255, 0.9);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 9999;
-    transition: opacity 0.3s ease;
+    transform: translateY(5px);
 }
 
-#page-loading-screen.hidden {
-    opacity: 0;
+.switch-label .tooltip-text {
+    top: calc(100% + 5px);
+    left: 50%;
+    transform: translateX(-50%);
 }
 
-.page-loader {
-    border: 8px solid #f3f3f3;
-    border-top: 8px solid #3498db;
-    border-radius: 50%;
-    width: 60px;
-    height: 60px;
-    animation: spin 1s linear infinite;
-}
-
-/* Loading screen voor acties */
+/* Stijlen voor loading screens (algemeen, voor alle apparaten) */
+#page-loading-screen,
 .loading-screen {
     position: fixed;
     top: 0;
@@ -554,10 +579,7 @@ button:hover {
     transition: opacity 0.3s ease;
 }
 
-.loading-screen.hidden {
-    opacity: 0;
-}
-
+.page-loader,
 .loader {
     border: 8px solid #f3f3f3;
     border-top: 8px solid #3498db;
@@ -565,12 +587,23 @@ button:hover {
     width: 60px;
     height: 60px;
     animation: spin 1s linear infinite;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
+}
+
+.loading-screen p {
+    font-size: 18px;
+    color: #333;
 }
 
 @keyframes spin {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
+}
+
+#page-loading-screen.hidden,
+.loading-screen.hidden {
+    opacity: 0;
+    pointer-events: none;
 }
 /* Footer */
 footer {
@@ -649,6 +682,65 @@ footer {
 }
 
 /* Mobiele aanpassingen */
+* RESPONSIVE */
+@media (max-width: 768px) {
+    /* MENUBALK MOBIEL */
+    .hamburger {
+        display: block;
+    }
+
+    .nav-list {
+        display: none;
+        flex-direction: column;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        background: var(--glass);
+        backdrop-filter: blur(20px);
+        padding: 1rem;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    }
+
+    .nav-list.active {
+        display: flex;
+    }
+
+    .nav-list li {
+        margin: 0.5rem 0;
+    }
+
+    .nav-list a {
+        font-size: 1rem;
+        display: block;
+        padding: 0.5rem 1rem;
+    }
+
+    .nav-container {
+        padding: 1rem 1.5rem;
+    }
+
+    /* FOOTER MOBIEL */
+    .footer-content {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+
+    .footer-bottom {
+        flex-direction: column;
+        gap: 0.5rem;
+        text-align: center;
+    }
+
+    .footer-brand img {
+        max-height: 70px;
+    }
+
+    footer {
+        padding: 2rem 1rem 1.5rem;
+    }
+}
+
 @media (max-width: 600px) {
     body {
         padding: 10px;
@@ -690,9 +782,22 @@ footer {
         text-align: center;
     }
 
-    .confirmation-switch .switch-label {
-        padding: 8px 10px; /* Iets compacter op mobiel */
-        font-size: 12px; /* Kleiner lettertype voor lange labels */
+    .coverage-switch .switch-label {
+        padding: 8px 10px;
+        font-size: 12px;
+    }
+
+    .tooltip-text {
+        max-width: 90%;
+        left: 0;
+        transform: none;
+        font-size: 11px;
+    }
+
+    .switch-label .tooltip-text {
+        left: 10px;
+        transform: none;
+        width: calc(100% - 20px);
     }
 
     .navigation-buttons {
@@ -737,15 +842,33 @@ footer {
         padding: 15px;
     }
 
-    .page-loader, .loader {
-        width: 50px;
-        height: 50px;
-        border-width: 6px;
+    /* Mobiele stijlen voor loading screens (onveranderd van jouw origineel) */
+    .loading-screen {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(255, 255, 255, 0.9);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
+    }
+
+    .loader {
+        border: 8px solid #f3f3f3;
+        border-top: 8px solid #3498db;
+        border-radius: 50%;
+        width: 60px;
+        height: 60px;
+        animation: spin 1s linear infinite;
     }
 
     .loading-screen p {
-        font-size: 14px;
-        padding: 0 20px;
-        text-align: center;
+        margin-top: 20px;
+        font-size: 18px;
+        color: #333;
     }
 }
