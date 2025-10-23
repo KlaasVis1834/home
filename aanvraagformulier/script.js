@@ -550,7 +550,14 @@ document.querySelector('.submit-button').addEventListener('click', function(even
     console.log("Klik op verzenden, modal wordt geopend");
     showModal();
 });
-
+// === Event listener voor submitknop met reCAPTCHA-check ===
+document.querySelector('.submit-button').addEventListener('click', function(event) {
+    event.preventDefault();
+    console.log("Klik op verzenden, reCAPTCHA wordt gecontroleerd...");
+    if (checkRecaptcha()) {
+        showModal();
+    }
+});
 // Chatbase chatbot integratie
 (function() {
     if (!window.chatbase || window.chatbase('getState') !== 'initialized') {
