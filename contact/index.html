@@ -1,0 +1,250 @@
+
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Contact - Klaas Vis Assurantiekantoor</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="icon" href="Logo.png" type="image/png">
+    <link rel="stylesheet" href="styles.css?v=1">
+
+    <!-- EmailJS SDK -->
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <script>
+        (function() {
+            emailjs.init("fJaMnq7175Ao2O1jn"); // Jouw Public Key
+        })();
+    </script>
+
+    <!-- Google reCAPTCHA -->
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+</head>
+<body>
+    <!-- Loadingscreen -->
+    <div id="loadingScreen" class="loading-screen">
+        <div class="loader"></div>
+        <p>Wijziging wordt verzonden...</p>
+    </div>
+
+
+<!-- MENUBALK (ZELFDE ALS HOMEPAGE) -->
+    <nav>
+        <div class="nav-container">
+            <div class="logo">
+                <img src="Logo.png" alt="Klaas Vis Assurantiekantoor" class="logo-img">
+                <span>Klaas Vis</span>
+            </div>
+            <button class="hamburger">☰</button>
+            <ul class="nav-list">
+                <li><a href="https://klaasvis.online/">Home</a></li>
+                <li><a href="https://www.klaasvis.online/schademelden">Schade melden</a></li>
+               <li><a href="https://www.klaasvis.online/wijziging doorgeven/">Wijziging doorgeven</a></li>
+                <li><a href="https://dekkerautoverzekering.github.io/home/">Dekkerautoverzekering</a></li>
+                <li><a href="https://www.nh1816.nl/mijn-nh1816">Mijn NH1816 Polis</a></li>
+                <li><a href="https://www.klaasvis.nl/downloads">Downloads</a></li>
+            </ul>
+        </div>
+    </nav>
+<br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <!-- Main content -->
+    <main class="container">
+        <section class="contact-section">
+            <div class="content-wrapper">
+                <div class="form-wrapper">
+                    <h2>Welke wijziging wilt u doorgeven?</h2>
+                    <p>Kies een optie en vul de benodigde gegevens in. Wij verwerken uw wijziging zo spoedig mogelijk.</p>
+
+     
+
+
+                    <form id="contact-form" class="modern-form">
+                        <div class="form-group">
+                            <label for="verzoek-type">Kies uw verzoek</label>
+                            <select id="verzoek-type" name="verzoek-type" required>
+                                <option value="" disabled selected>Selecteer een optie</option>
+                                <option value="adreswijziging">Adreswijziging</option>
+                                <option value="motorvoertuigwijziging">Motorvoertuigwijziging</option>
+                                <option value="verzekering-beëindigen">Verzekering beëindigen</option>
+                                <option value="belverzoek">Terugbelverzoek indienen</option>
+                                <option value="emailwijziging">E-mailwijziging</option>
+                                <option value="anders">Anders</option>
+                            </select>
+                        </div>
+
+                        <!-- Gemeenschappelijke velden -->
+                        <div class="form-group">
+                            <label for="voornaam">Voorletter(s)</label>
+                            <input type="text" id="voornaam" name="voornaam" autocomplete="given-name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="achternaam">Achternaam</label>
+                            <input type="text" id="achternaam" name="achternaam" autocomplete="family-name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">E-mailadres (optioneel)</label>
+                            <input type="email" id="email" name="email" autocomplete="email">
+                        </div>
+
+                        <!-- Adreswijziging velden -->
+                        <div class="form-group hidden" id="adreswijziging-fields-postcode">
+                            <label for="nieuwe-postcode">Nieuwe postcode</label>
+                            <input type="text" id="nieuwe-postcode" name="nieuwe-postcode" autocomplete="postal-code">
+                        </div>
+                        <div class="form-group hidden" id="adreswijziging-fields-huisnummer">
+                            <label for="nieuwe-huisnummer">Nieuw huisnummer</label>
+                            <input type="text" id="nieuwe-huisnummer" name="nieuwe-huisnummer" autocomplete="off">
+                        </div>
+                        <div class="form-group hidden" id="adreswijziging-fields-adres">
+                            <label for="nieuw-adres">Nieuw volledig adres</label>
+                            <input type="text" id="nieuw-adres" name="nieuw-adres" readonly>
+                        </div>
+                        <div class="form-group hidden" id="adreswijziging-fields-datum">
+                            <label for="verhuisdatum">Datum van verhuizing</label>
+                            <input type="date" id="verhuisdatum" name="verhuisdatum">
+                        </div>
+
+                        <!-- Motorvoertuigwijziging velden -->
+                        <div class="form-group hidden" id="motorvoertuigwijziging-fields-datum">
+                            <label for="wijzigingsdatum">Wijzigingsdatum</label>
+                            <input type="date" id="wijzigingsdatum" name="wijzigingsdatum">
+                        </div>
+                        <div class="form-group hidden" id="motorvoertuigwijziging-fields-polisnummer">
+                            <label for="polisnummer-motor">Polisnummer</label>
+                            <input type="text" id="polisnummer-motor" name="polisnummer-motor" autocomplete="off">
+                        </div>
+                        <div class="form-group hidden" id="motorvoertuigwijziging-fields-huidig-kenteken">
+                            <label for="huidig-kenteken">Kenteken huidig voertuig</label>
+                            <input type="text" id="huidig-kenteken" name="huidig-kenteken" autocomplete="off">
+                        </div>
+                        <div class="form-group hidden" id="motorvoertuigwijziging-fields-huidig-merk">
+                            <label for="huidig-merk">Merk huidig voertuig</label>
+                            <input type="text" id="huidig-merk" name="huidig-merk" readonly>
+                        </div>
+                        <div class="form-group hidden" id="motorvoertuigwijziging-fields-huidig-model">
+                            <label for="huidig-model">Model huidig voertuig</label>
+                            <input type="text" id="huidig-model" name="huidig-model" readonly>
+                        </div>
+                        <div class="form-group hidden" id="motorvoertuigwijziging-fields-nieuw-kenteken">
+                            <label for="nieuw-kenteken">Kenteken nieuw voertuig</label>
+                            <input type="text" id="nieuw-kenteken" name="nieuw-kenteken" autocomplete="off">
+                        </div>
+                        <div class="form-group hidden" id="motorvoertuigwijziging-fields-nieuw-merk">
+                            <label for="nieuw-merk">Merk nieuw voertuig</label>
+                            <input type="text" id="nieuw-merk" name="nieuw-merk" readonly>
+                        </div>
+                        <div class="form-group hidden" id="motorvoertuigwijziging-fields-nieuw-model">
+                            <label for="nieuw-model">Model nieuw voertuig</label>
+                            <input type="text" id="nieuw-model" name="nieuw-model" readonly>
+                        </div>
+
+                        <!-- Verzekering beëindigen velden -->
+                        <div class="form-group hidden" id="verzekering-beëindigen-fields-datum">
+                            <label for="opzegdatum">Opzegdatum</label>
+                            <input type="date" id="opzegdatum" name="opzegdatum">
+                        </div>
+                        <div class="form-group hidden" id="verzekering-beëindigen-fields-reden">
+                            <label for="reden-beëindiging">Reden van beëindiging</label>
+                            <textarea id="reden-beëindiging" name="reden-beëindiging" rows="4"></textarea>
+                        </div>
+
+                        <!-- Belverzoek velden -->
+                        <div class="form-group hidden" id="belverzoek-fields-telefoon">
+                            <label for="telefoon">Telefoonnummer</label>
+                            <input type="tel" id="telefoon" name="telefoon" autocomplete="tel">
+                        </div>
+                        <div class="form-group hidden" id="belverzoek-fields-datum-tijd">
+                            <label for="voorkeur-datum-tijd">Gewenste datum en tijdstip</label>
+                            <input type="text" id="voorkeur-datum-tijd" name="voorkeur-datum-tijd" placeholder="Bijv. 15-04-2025, 14:00">
+                        </div>
+
+                        <!-- E-mailwijziging velden -->
+                        <div class="form-group hidden" id="emailwijziging-fields-huidig">
+                            <label for="huidig-email">Huidig e-mailadres</label>
+                            <input type="email" id="huidig-email" name="huidig-email" autocomplete="email">
+                        </div>
+                        <div class="form-group hidden" id="emailwijziging-fields-nieuw">
+                            <label for="nieuw-email">Nieuw e-mailadres</label>
+                            <input type="email" id="nieuw-email" name="nieuw-email" autocomplete="email">
+                        </div>
+
+                        <!-- Anders veld -->
+                        <div class="form-group hidden" id="anders-fields">
+                            <label for="anders-reden">Reden van contact</label>
+                            <textarea id="anders-reden" name="anders-reden" rows="4" placeholder="Geef hier aan waarom u contact opneemt"></textarea>
+                        </div>
+                      <!-- reCAPTCHA -->
+                        <div class="form-group">
+                            <div class="g-recaptcha" data-sitekey="6LdwpegrAAAAAKjnbA7VZJoNpYlFJ6iFeMQp0Dov"></div>
+                        </div>
+                        <div class="button-group">
+                            <button type="submit" class="submit-button">Verzenden</button>
+                            <a href="https://www.klaasvis.nl" class="back-button">Terug naar homepage</a>
+                        </div>
+                    </form>
+                </div>
+
+
+                <!-- Contactgegevens -->
+                <div class="contact-info">
+                    <h3>Onze gegevens</h3>
+                    <p><strong>E-mail:</strong> info@klaasvis.nl</p>
+                    <p><strong>Tel:</strong> 075 – 631 42 61</p>
+                    <p><strong>Bereikbaar:</strong> Op werkdagen van 09:00 tot 16:00</p>
+                    <p><strong>Adres:</strong> Zuiderweg 7, 1456 NC Wijdewormer</p>
+
+                    <!-- Google Maps -->
+                    <div class="map-container">
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2430.123456789!2d4.876543!3d52.498765!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47c5e6b8f8d7e9a1%3A0x1234567890abcdef!2sZuiderweg%207%2C%201456%20NC%20Wijdewormer!5e0!3m2!1snl!2snl!4v1698765432100!5m2!1snl!2snl" width="100%" height="200" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-brand">
+                <img src="Logo.png" alt="Klaas Vis Logo" class="footer-brand-img">
+                <h3>BV Assurantiekantoor Klaas Vis Ao. 1834</h3>
+                <p>Uw vertrouwde partner sinds 1834.</p>
+                <p style="margin-top: 1rem; font-size: 0.9rem; color: var(--text-muted);">
+                    AFM: 12005878<br>
+                    KvK: 35008554
+                </p>
+            </div>
+            <div class="footer-section">
+                <h4>Snelle Links</h4>
+                <ul class="footer-links">
+                    <li><a href="https://www.klaasvis.online/">Home</a></li>
+                    <li><a href="https://klaasvis1834.github.io/wijziging-doorgeven/">Doorgeven wijziging</a></li>
+                    <li><a href="https://dekkerautoverzekering.github.io/home/">Dekkerautoverzekering</a></li>
+                    <li><a href="https://www.nh1816.nl/mijn-nh1816">Mijn NH1816 Polis</a></li>
+                    <li><a href="https://www.klaasvis.nl/downloads">Downloads</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Contact</h4>
+                <ul class="footer-links">
+                    <li><a href="tel:0756314261">075-6314261</a></li>
+                    <li><a href="mailto:info@klaasvis.nl">info@klaasvis.nl</a></li>
+                    <li><a href="http://www.klaasvis.nl">www.klaasvis.nl</a></li>
+                    <li><a href="#contact">Zuiderweg 7, Wijdewormer</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 BV Assurantiekantoor Klaas Vis Ao. 1834. Alle rechten voorbehouden.</p>
+        </div>
+    </footer>
+
+<script>
+(function(){if(!window.chatbase||window.chatbase("getState")!=="initialized"){window.chatbase=(...arguments)=>{if(!window.chatbase.q){window.chatbase.q=[]}window.chatbase.q.push(arguments)};window.chatbase=new Proxy(window.chatbase,{get(target,prop){if(prop==="q"){return target.q}return(...args)=>target(prop,...args)}})}const onLoad=function(){const script=document.createElement("script");script.src="https://www.chatbase.co/embed.min.js";script.id="C60jEJW_QuVD7X3vE5rzE";script.domain="www.chatbase.co";document.body.appendChild(script)};if(document.readyState==="complete"){onLoad()}else{window.addEventListener("load",onLoad)}})();
+</script>    <script src="script.js?v=1"></script>
+</body>
+</html>
