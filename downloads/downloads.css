@@ -1,0 +1,121 @@
+/* downloads.css — extra styles specifiek voor downloads pagina */
+
+/* controls */
+.downloads-controls {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 2rem;
+}
+
+#downloads-search {
+  width: 100%;
+  max-width: 720px;
+  padding: 0.9rem 1rem;
+  border-radius: 12px;
+  border: 2px solid rgba(0,0,0,0.07);
+  background: rgba(255,255,255,0.95);
+  font-size: 1rem;
+  color: var(--text);
+  box-shadow: 0 8px 30px rgba(0,0,0,0.04);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+#downloads-search:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 12px 40px rgba(99,102,241,0.08);
+}
+
+/* algemene container */
+.downloads-list {
+  margin-top: 2rem;
+  display: grid;
+  gap: 2.5rem;
+}
+
+/* categorie */
+.downloads-category-title {
+  font-size: 1.4rem;
+  font-weight: 900;
+  margin-bottom: 1rem;
+  letter-spacing: -0.5px;
+}
+
+/* subtitel binnen categorie */
+.downloads-subtitle {
+  grid-column: 1 / -1;
+  font-weight: 800;
+  color: var(--text-muted);
+  margin-top: 0.75rem;
+  margin-bottom: 0.5rem;
+}
+
+/* grid van kaarten */
+.downloads-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+
+/* individuele download-kaart */
+.download-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 1.1rem 1rem;
+  border-radius: 14px;
+  background: var(--glass);
+  border: 1px solid rgba(0,0,0,0.06);
+  text-decoration: none;
+  color: inherit;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+  min-height: 84px;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.04);
+}
+
+.download-card:hover {
+  transform: translateY(-6px);
+  border-color: rgba(79,70,229,0.18);
+  box-shadow: 0 28px 70px rgba(99,102,241,0.12);
+}
+
+.download-card .download-title {
+  font-weight: 800;
+  font-size: 0.98rem;
+  margin-bottom: 0.35rem;
+}
+
+.download-card .download-meta {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+
+/* externen hebben een klein icoon */
+.download-card.external::after {
+  content: '↗';
+  justify-self: end;
+  font-size: 0.9rem;
+  color: var(--primary);
+  margin-left: 0.5rem;
+}
+
+/* responsive */
+@media (max-width: 1200px) {
+  .downloads-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 768px) {
+  .downloads-controls { padding: 0 1rem; flex-direction: column; gap: 0.6rem; }
+  .downloads-grid { grid-template-columns: 1fr; }
+  .downloads-category { padding: 0 1rem; }
+  #downloads-search { max-width: 100%; }
+}
+
+/* kleine accesibility hint kleur voor download-link focus */
+.download-card:focus {
+  outline: none;
+  box-shadow: 0 0 0 4px rgba(79,70,229,0.12);
+  border-color: var(--primary);
+}
