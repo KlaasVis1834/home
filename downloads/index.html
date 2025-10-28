@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Downloads | Klaas Vis</title>
+
+  <!-- bestaande hoofd-styles (houd deze bij je site) -->
+  <link rel="stylesheet" href="styles.css" />
+
+  <!-- extra styles specifiek voor downloads -->
+  <link rel="stylesheet" href="downloads.css" />
+
+  <link rel="icon" type="image/png" href="logo.png" />
+</head>
+<body>
+  <div class="bg-animation">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+  </div>
+
+  <!-- NAV (zelfde als op je andere pagina's) -->
+  <nav>
+    <div class="nav-container">
+      <div class="logo">
+        <img src="logo.png" alt="Klaas Vis Logo" class="logo-img">
+        Klaas Vis
+      </div>
+      <button class="hamburger">☰</button>
+      <ul class="nav-list">
+        <li><a href="/schademelden/">Schade melden</a></li>
+        <li><a href="/wijziging-doorgeven/">Doorgeven wijziging</a></li>
+        <li><a href="https://dekkerautoverzekering.github.io/home/">Dekkerautoverzekering</a></li>
+        <li><a href="https://www.nh1816.nl/mijn-nh1816">Mijn NH1816 Polis</a></li>
+        <li><a href="/downloads/">Downloads</a></li>
+        <li><a href="https://klaasvis1834.github.io/contact/">Contact</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Pagina header -->
+  <section class="digital-services" style="padding-top: 120px;">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-label">Downloads</div>
+        <h2 class="section-title">Documenten & Verzekeringskaarten</h2>
+        <p class="section-subtitle">Onderstaande documenten kun je downloaden. Klik op het document om het bestand te openen of te downloaden.</p>
+      </div>
+
+      <!-- zoekbalk en quick actions -->
+      <div class="downloads-controls">
+        <input id="downloads-search" type="search" placeholder="Zoek documenten (bv. 'schade', 'privacy')" aria-label="Zoek downloads">
+        <button id="show-all" class="btn btn-secondary">Toon alles</button>
+      </div>
+
+      <!-- Downloads overzicht (categorieën) -->
+      <div class="downloads-list">
+
+        <!-- Algemeen -->
+        <article class="downloads-category" data-category="Algemeen">
+          <h3 class="downloads-category-title">Algemeen</h3>
+          <div class="downloads-grid">
+            <a class="download-card" href="/downloads/Doorlopende-machtiging-SEPA-digitaal.pdf" download>
+              <div class="download-title">Doorlopende-machtiging SEPA (digitaal)</div>
+              <div class="download-meta">PDF • Algemeen</div>
+            </a>
+
+            <a class="download-card" href="/downloads/Privacy-kaart.pdf" download>
+              <div class="download-title">Privacy-kaart</div>
+              <div class="download-meta">PDF • Algemeen</div>
+            </a>
+
+            <a class="download-card" href="/downloads/Privacy-statement.pdf" download>
+              <div class="download-title">Privacy-statement</div>
+              <div class="download-meta">PDF • Algemeen</div>
+            </a>
+
+            <a class="download-card" href="/downloads/Beloningsbeleid.pdf" download>
+              <div class="download-title">Beloningsbeleid</div>
+              <div class="download-meta">PDF • Algemeen</div>
+            </a>
+
+            <a class="download-card" href="/downloads/Incidentenbeleid.pdf" download>
+              <div class="download-title">Incidentenbeleid</div>
+              <div class="download-meta">PDF • Algemeen</div>
+            </a>
+
+            <a class="download-card" href="/downloads/Vergelijkingskaart-Risicos-afdekking.pdf" download>
+              <div class="download-title">Vergelijkingskaart - Risico's & Afdekking</div>
+              <div class="download-meta">PDF • Algemeen</div>
+            </a>
+          </div>
+        </article>
+
+        <!-- Schadeverzekeringen -->
+        <article class="downloads-category" data-category="Schadeverzekeringen">
+          <h3 class="downloads-category-title">Schadeverzekeringen</h3>
+          <div class="downloads-grid">
+            <a class="download-card" href="/downloads/Aanrijdingsformulier-digitaal.pdf" download>
+              <div class="download-title">Aanrijdingsformulier (digitaal)</div>
+              <div class="download-meta">PDF • Schade</div>
+            </a>
+
+            <a class="download-card" href="/downloads/Algemeen-schadeformulier-ASR-Verzekeringen-digitaal.pdf" download>
+              <div class="download-title">Algemeen schadeformulier — ASR (digitaal)</div>
+              <div class="download-meta">PDF • Schade</div>
+            </a>
+
+            <a class="download-card" href="/downloads/Algemeen-schadeformulier-Nationale-Nederlanden-digitaal.pdf" download>
+              <div class="download-title">Algemeen schadeformulier — Nationale-Nederlanden (digitaal)</div>
+              <div class="download-meta">PDF • Schade</div>
+            </a>
+
+            <a class="download-card" href="/downloads/Reis-schadeformulier-ASR-Verzekeringen.pdf" download>
+              <div class="download-title">Reis - schadeformulier ASR</div>
+              <div class="download-meta">PDF • Schade</div>
+            </a>
+
+            <a class="download-card" href="/downloads/Reis-schadeformulier-Nh1816-digitaal.pdf" download>
+              <div class="download-title">Reis - schadeformulier NH1816 (digitaal)</div>
+              <div class="download-meta">PDF • Schade</div>
+            </a>
+
+            <a class="download-card" href="/downloads/Schadeformulier-algemeen-Nh1816-Digitaal.pdf" download>
+              <div class="download-title">Schadeformulier algemeen — NH1816 (digitaal)</div>
+              <div class="download-meta">PDF • Schade</div>
+            </a>
+          </div>
+        </article>
+
+        <!-- Dekker Autoverzekering -->
+        <article class="downloads-category" data-category="Dekker Autoverzekering">
+          <h3 class="downloads-category-title">Dekker Autoverzekering</h3>
+          <div class="downloads-grid">
+            <!-- Bestelautoverzekering P696 -->
+            <div class="downloads-subtitle">Bestelautoverzekering P696</div>
+            <a class="download-card" href="/downloads/Bestelautoverzekering-P696-Algemene-voorwaarden.pdf" download>
+              <div class="download-title">Bestelautoverzekering P696 — Algemene voorwaarden</div>
+              <div class="download-meta">PDF • Dekker</div>
+            </a>
+
+            <a class="download-card" href="/downloads/Bestelautoverzekering-P696-WA.pdf" download>
+              <div class="download-title">Bestelautoverzekering — WA</div>
+              <div class="download-meta">PDF • Dekker</div>
+            </a>
+
+            <a class="download-card" href="/downloads/Bestelautoverzekering-P696-Casco-Compleet.pdf" download>
+              <div class="download-title">Bestelautoverzekering — Casco Compleet (Allrisk)</div>
+              <div class="download-meta">PDF • Dekker</div>
+            </a>
+
+            <a class="download-card" href="/downloads/Bestelautoverzekering-P696-Beperkt-Casco.pdf" download>
+              <div class="download-title">Bestelautoverzekering — Beperkt Casco (WA+)</div>
+              <div class="download-meta">PDF • Dekker</div>
+            </a>
+
+            <a class="download-card" href="/downloads/Schadeverzekering-voor-Inzittenden-SVI.pdf" download>
+              <div class="download-title">Schadeverzekering voor Inzittenden (SVI)</div>
+              <div class="download-meta">PDF • Dekker</div>
+            </a>
+
+            <a class="download-card" href="/downloads/Verzekeringskaart-WA-bestelautoverzekering.pdf" download>
+              <div class="download-title">Verzekeringskaart (WA) — Bestelautoverzekering</div>
+              <div class="download-meta">PDF • Dekker</div>
+            </a>
+
+            <a class="download-card" href="/downloads/Informatiedocument-bestelautoverzekering.pdf" download>
+              <div class="download-title">Informatiedocument bestelautoverzekering</div>
+              <div class="download-meta">PDF • Dekker</div>
+            </a>
+
+            <a class="download-card" href="/downloads/Aanvraagformulier-Zakelijk.pdf" download>
+              <div class="download-title">Aanvraagformulier Zakelijk</div>
+              <div class="download-meta">PDF • Dekker</div>
+            </a>
+
+            <a class="download-card" href="/downloads/Beëindigingsverzoek-Bestelauto.pdf" download>
+              <div class="download-title">Beëindigingsverzoek</div>
+              <div class="download-meta">PDF • Dekker</div>
+            </a>
+
+            <!-- Personenautoverzekering -->
+            <div class="downloads-subtitle">Personenautoverzekering P526</div>
+            <a class="download-card" href="/downloads/Personenautoverzekering-P526-Algemene-voorwaarden.pdf" download>
+              <div class="download-title">Personenautoverzekering P526 — Algemene voorwaarden</div>
+              <div class="download-meta">PDF • Dekker</div>
+            </a>
+
+            <a class="download-card" href="/downloads/Personenautoverzekering-P526-WA.pdf" download>
+              <div class="download-title">Personenautoverzekering — WA</div>
+              <div class="download-meta">PDF • Dekker</div>
+            </a>
+
+            <a class="download-card" href="/downloads/Personenautoverzekering-P526-Casco-Compleet.pdf" download>
+              <div class="download-title">Personenautoverzekering — Casco Compleet (Allrisk)</div>
+              <div class="download-meta">PDF • Dekker</div>
+            </a>
+
+            <a class="download-card" href="/downloads/Personenautoverzekering-P526-Beperkt-Casco.pdf" download>
+              <div class="download-title">Personenautoverzekering — Beperkt Casco (WA+)</div>
+              <div class="download-meta">PDF • Dekker</div>
+            </a>
+
+            <a class="download-card" href="/downloads/Personenautoverzekering-P526-SVI.pdf" download>
+              <div class="download-title">Schadeverzekering voor Inzittenden (SVI)</div>
+              <div class="download-meta">PDF • Dekker</div>
+            </a>
+
+            <a class="download-card" href="/downloads/Verzekeringskaart-WA-personenautoverzekering.pdf" download>
+              <div class="download-title">Verzekeringskaart (WA) — Personenautoverzekering</div>
+              <div class="download-meta">PDF • Dekker</div>
+            </a>
+
+            <a class="download-card" href="/downloads/Informatiedocument-personenautoverzekering.pdf" download>
+              <div class="download-title">Informatiedocument personenautoverzekering</div>
+              <div class="download-meta">PDF • Dekker</div>
+            </a>
+
+            <a class="download-card" href="/downloads/Aanvraagformulier-Particulier.pdf" download>
+              <div class="download-title">Aanvraagformulier Particulier</div>
+              <div class="download-meta">PDF • Dekker</div>
+            </a>
+
+            <a class="download-card" href="/downloads/Beëindigingsverzoek-Personenauto.pdf" download>
+              <div class="download-title">Beëindigingsverzoek</div>
+              <div class="download-meta">PDF • Dekker</div>
+            </a>
+          </div>
+        </article>
+
+        <!-- Verzekeringskaarten (externe links) -->
+        <article class="downloads-category" data-category="Verzekeringskaarten">
+          <h3 class="downloads-category-title">Verzekeringskaarten (links)</h3>
+          <div class="downloads-grid">
+            <a class="download-card external" href="https://www.asr.nl/verzekeringskaarten" target="_blank" rel="noopener">
+              <div class="download-title">a.s.r. — Particulier & Zakelijk</div>
+              <div class="download-meta">Externe pagina</div>
+            </a>
+
+            <a class="download-card external" href="https://www.nn.nl/Verzekeringskaarten.htm" target="_blank" rel="noopener">
+              <div class="download-title">Nationale Nederlanden — Particulier</div>
+              <div class="download-meta">Externe pagina</div>
+            </a>
+
+            <a class="download-card external" href="https://www.nn.nl/Verzekeringskaarten-Zakelijk.htm" target="_blank" rel="noopener">
+              <div class="download-title">Nationale Nederlanden — Zakelijk</div>
+              <div class="download-meta">Externe pagina</div>
+            </a>
+
+            <a class="download-card external" href="https://www.nh1816.nl/verzekeringen/verzekeringskaarten" target="_blank" rel="noopener">
+              <div class="download-title">NH1816 — Particulier</div>
+              <div class="download-meta">Externe pagina</div>
+            </a>
+
+            <a class="download-card external" href="#" target="_blank" rel="noopener">
+              <div class="download-title">Klaverblad — Overzicht (diverse polissen)</div>
+              <div class="download-meta">Interne link of externe URL toevoegen</div>
+            </a>
+          </div>
+        </article>
+
+      </div> <!-- /downloads-list -->
+
+      <p style="margin-top: 1.5rem; color: var(--text-muted); font-size: 0.95rem;">
+        Staat een document er niet bij of wil je dat we een PDF voor je uploaden? Stuur dan even een bericht via <a href="https://klaasvis1834.github.io/contact/">Contact</a>.
+      </p>
+    </div>
+  </section>
+
+  <!-- FOOTER (zelfde als op je andere pagina's) -->
+  <footer>
+    <div class="footer-content">
+      <div class="footer-brand">
+        <img src="logo.png" alt="Klaas Vis Logo" class="footer-brand-img">
+        <h3>BV Assurantiekantoor Klaas Vis Ao. 1834</h3>
+        <p>Uw vertrouwde partner sinds 1834.</p>
+        <p style="margin-top: 1rem; font-size: 0.9rem; color: var(--text-muted);">
+          AFM: 12005878<br>
+          KvK: 35008554
+        </p>
+      </div>
+      <div class="footer-section">
+        <h4>Snelle Links</h4>
+        <ul class="footer-links">
+          <li><a href="https://klaasvis1834.github.io/schade/">Schade melden</a></li>
+          <li><a href="https://klaasvis1834.github.io/wijziging-doorgeven/">Doorgeven wijziging</a></li>
+          <li><a href="https://dekkerautoverzekering.github.io/home/">Dekkerautoverzekering</a></li>
+          <li><a href="https://www.nh1816.nl/mijn-nh1816">Mijn NH1816 Polis</a></li>
+          <li><a href="/downloads/">Downloads</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Contact</h4>
+        <ul class="footer-links">
+          <li><a href="tel:0756314261">075-6314261</a></li>
+          <li><a href="mailto:info@klaasvis.nl">info@klaasvis.nl</a></li>
+          <li><a href="http://www.klaasvis.nl">www.klaasvis.nl</a></li>
+          <li><a href="#contact">Zuiderweg 7, Wijdewormer</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2025 BV Assurantiekantoor Klaas Vis Ao. 1834. Alle rechten voorbehouden.</p>
+    </div>
+  </footer>
+
+  <!-- bestaande algemene scripts -->
+  <script src="script.js"></script>
+
+  <!-- specifieke downloads script -->
+  <script src="downloads.js"></script>
+</body>
+</html>
