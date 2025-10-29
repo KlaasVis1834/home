@@ -126,7 +126,8 @@ nav {
 .form-wrapper {
     max-width: 1200px;
     margin: 0 auto;
-    Padding-bottom: 100px; /* extra ruimte onderaan */
+    min-height: 800px; /* ← voeg dit toe */
+}
 
 }
 
