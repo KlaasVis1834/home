@@ -122,11 +122,19 @@ nav {
     cursor: pointer;
     font-weight: 300;
 
+/* Centreer de reCAPTCHA */
+.g-recaptcha {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
 }
+
+/* Zorg dat de knop altijd mooi in het midden blijft */
+
+
+/* Maak wat extra ruimte onderaan het formulier zodat het niet “op” de footer zit */
 .form-wrapper {
-    max-width: 1200px;
-    margin: 0 auto;
-    min-height: 800px; /* ← voeg dit toe */
+  padding-bottom: 80px;
 }
 
 }
