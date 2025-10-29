@@ -116,6 +116,24 @@ nav {
     color: var(--text);
     cursor: pointer;
     font-weight: 300;
+
+}
+.form-wrapper {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+h1 {
+    text-align: center;
+    color: #003087;
+    font-size: 24px;
+    margin-bottom: 30px;
+}
+
+h2 {
+    color: #003087;
+    font-size: 20px;
+    margin-bottom: 15px;
 }
 
 .form-container {
@@ -124,7 +142,6 @@ nav {
     justify-content: space-between;
     gap: 20px;
 }
-
 .form-part {
     flex: 1 1 48%;
     background: #fff;
