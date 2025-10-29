@@ -1,31 +1,40 @@
-/* ALGEMENE STYLING */
-html, body {
+
+html {
     height: 100%;
+}
+
+body {
+    font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    font-family: Arial, sans-serif;
     background-color: #f9f9f9;
     color: #333;
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
-    min-height: 100vh;
+}
+
+header {
+    text-align: center;
+    margin: 20px 0;
+}
+
+.logo {
+    max-width: 200px;
+    height: auto;
 }
 
 main {
-    flex: 1; /* main neemt de beschikbare ruimte */
+    flex: 1; /* Laat main de beschikbare ruimte innemen */
     padding: 20px;
-    margin-bottom: 80px; /* ruimte boven footer */
+    margin-bottom: 80px; /* Ruimte boven de footer */
 }
 
-/* LOGO */
-.logo, .footer-logo {
-    max-width: 200px;
-    height: auto;
-    display: block;
+.form-wrapper {
+    max-width: 1200px;
     margin: 0 auto;
 }
 
-/* HOOFDTEKSTEN */
 h1 {
     text-align: center;
     color: #003087;
@@ -37,12 +46,6 @@ h2 {
     color: #003087;
     font-size: 20px;
     margin-bottom: 15px;
-}
-
-/* FORMULIER CONTAINER */
-.form-wrapper {
-    max-width: 1200px;
-    margin: 0 auto;
 }
 
 .form-container {
@@ -57,7 +60,7 @@ h2 {
     background: #fff;
     padding: 20px;
     border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
 }
 
 .form-section {
@@ -75,7 +78,9 @@ label {
     color: #444;
 }
 
-input[type="text"], input[type="email"], select {
+input[type="text"],
+input[type="email"],
+select {
     width: 100%;
     padding: 10px;
     margin-top: 5px;
@@ -84,7 +89,7 @@ input[type="text"], input[type="email"], select {
     box-sizing: border-box;
 }
 
-/* SWITCH KNOPPEN */
+/* Switch knoppen */
 .switch {
     display: flex;
     gap: 10px;
@@ -112,7 +117,6 @@ input[type="text"], input[type="email"], select {
     background-color: #e0e0e0;
 }
 
-/* SUBMIT BUTTON */
 .submit-btn {
     display: block;
     width: 250px;
@@ -126,19 +130,17 @@ input[type="text"], input[type="email"], select {
     font-size: 18px;
     font-weight: 600;
     text-transform: uppercase;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
 .submit-btn:hover {
     background-color: #00205b;
 }
 
-/* HIDDEN ELEMENTS */
 .hidden {
     display: none;
 }
 
-/* CANVAS HANDTEKENING */
 canvas {
     border: 1px solid #ddd;
     border-radius: 5px;
@@ -159,7 +161,21 @@ button#clearSignature:hover {
     background-color: #bbb;
 }
 
-/* LOADINGSREEN */
+footer {
+    background-color: #003087;
+    color: white;
+    text-align: center;
+    padding: 20px;
+    width: 100%;
+    flex-shrink: 0;
+}
+
+footer p {
+    margin: 0;
+    font-size: 0.9em;
+}
+
+/* Loadingscreen */
 .loading-screen {
     display: none;
     position: fixed;
@@ -167,7 +183,7 @@ button#clearSignature:hover {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0,0,0,0.8);
+    background: rgba(0, 0, 0, 0.8);
     justify-content: center;
     align-items: center;
     flex-direction: column;
@@ -194,7 +210,7 @@ button#clearSignature:hover {
     100% { transform: rotate(360deg); }
 }
 
-/* RESPONSIVE */
+/* Responsive design */
 @media (max-width: 768px) {
     .form-part {
         flex: 1 1 100%;
@@ -209,90 +225,4 @@ button#clearSignature:hover {
     .submit-btn {
         width: 100%;
     }
-}
-
-/* NAVBAR (zoals downloadpagina) */
-.navbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: #003087;
-    padding: 10px 20px;
-}
-
-.nav-logo img {
-    max-height: 50px;
-}
-
-.nav-links {
-    list-style: none;
-    display: flex;
-    gap: 15px;
-}
-
-.nav-links li a {
-    color: white;
-    text-decoration: none;
-    padding: 10px 15px;
-    display: block;
-    border-radius: 5px;
-    transition: background 0.3s;
-}
-
-.nav-links li a:hover {
-    background-color: #00205b;
-}
-
-/* Hamburger menu mobiel */
-.hamburger {
-    display: none;
-    font-size: 24px;
-    color: white;
-    cursor: pointer;
-}
-
-@media (max-width: 768px) {
-    .nav-links {
-        display: none;
-        flex-direction: column;
-        background-color: #003087;
-        position: absolute;
-        top: 70px;
-        right: 0;
-        width: 200px;
-        border-radius: 0 0 10px 10px;
-        overflow: hidden;
-    }
-    .nav-links.active {
-        display: flex;
-    }
-    .hamburger {
-        display: block;
-    }
-}
-
-/* FOOTER (zoals downloadpagina) */
-footer {
-    background-color: #003087;
-    color: white;
-    text-align: center;
-    padding: 20px 10px;
-    flex-shrink: 0;
-}
-
-.footer-content {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    max-width: 1200px;
-    margin: 0 auto;
-}
-
-.footer-left img.footer-logo {
-    max-height: 50px;
-}
-
-.footer-right p {
-    margin: 0;
 }
