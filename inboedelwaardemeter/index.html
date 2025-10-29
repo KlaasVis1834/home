@@ -3,11 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Inboedelwaardemeter- Klaas Vis</title>
+    <title>Inboedelwaardemeter</title>
     <link rel="icon" type="image/png" href="Logo.png">
     <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.1.5/dist/signature_pad.umd.min.js"></script>
-    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -16,29 +15,17 @@
         <p>Formulier wordt verzonden...</p>
     </div>
 
-    <!-- NAVIGATION -->
-    <nav>
-        <div class="nav-container">
-            <div class="logo">
-                <img src="Logo.png" alt="Klaas Vis Logo" class="logo-img">
-                Klaas Vis
-            </div>
-            <button class="hamburger">☰</button>
-            <ul class="nav-list">
-                <li><a href="/schademelden/">Schade melden</a></li>
-                <li><a href="/wijziging-doorgeven/">Doorgeven wijziging</a></li>
-                <li><a href="https://dekkerautoverzekering.github.io/home/">Dekkerautoverzekering</a></li>
-                <li><a href="https://www.nh1816.nl/mijn-nh1816">Mijn NH1816 Polis</a></li>
-                <li><a href="https://www.klaasvis.nl/downloads">Downloads</a></li>
-                <li><a href="https://klaasvis1834.github.io/contact/">Contact</a></li>
-            </ul>
-        </div>
-    </nav>
+    <header>
+        <img src="Logo.png" alt="Klaas Vis Logo" class="logo">
+    </header>
 
     <main>
         <div class="form-wrapper">
             <form id="inventoryForm">
-                <!-- Algemene gegevens -->
+                <h1>Inboedelwaardemeter</h1>
+
+                <div class="form-container">
+                    <!-- Algemene gegevens -->
                     <div class="form-part">
                         <h2>Algemene Gegevens</h2>
                         <div class="form-section narrow">
@@ -263,9 +250,15 @@
                         </div>
                     </div>
 
-                <!-- RECAPTCHA -->
-                <div class="form-section">
-                    <div class="g-recaptcha" data-sitekey="6LdwpegrAAAAAKjnbA7VZJoNpYlFJ6iFeMQp0Dov"></div>
+                    <!-- Handtekening -->
+                    <div class="form-part">
+                        <h2>Handtekening</h2>
+                        <div class="form-section narrow">
+                            <label>Plaats uw digitale handtekening *</label>
+                            <canvas id="signaturePad" width="300" height="100"></canvas>
+                            <button type="button" id="clearSignature">Wissen</button>
+                        </div>
+                    </div>
                 </div>
 
                 <button type="submit" class="submit-btn">Versturen</button>
@@ -274,44 +267,15 @@
     </main>
 
     <footer>
-        <div class="footer-content">
-            <div class="footer-brand">
-                <img src="logo.png" alt="Klaas Vis Logo" class="footer-brand-img">
-                <h3>BV Assurantiekantoor Klaas Vis Ao. 1834</h3>
-                <p>Uw vertrouwde partner sinds 1834.</p>
-                <p style="margin-top: 1rem; font-size: 0.9rem; color: var(--text-muted);">
-                    AFM: 12005878<br>
-                    KvK: 35008554
-                </p>
-            </div>
-            <div class="footer-section">
-                <h4>Snelle Links</h4>
-                <ul class="footer-links">
-                    <li><a href="https://klaasvis1834.github.io/schade/">Schade melden</a></li>
-                    <li><a href="https://klaasvis1834.github.io/wijziging-doorgeven/">Doorgeven wijziging</a></li>
-                    <li><a href="https://dekkerautoverzekering.github.io/home/">Dekkerautoverzekering</a></li>
-                    <li><a href="https://www.nh1816.nl/mijn-nh1816">Mijn NH1816 Polis</a></li>
-                    <li><a href="https://www.klaasvis.nl/downloads">Downloads</a></li>
-                    <li><a href="#contact">Contact</a></li>
-                </ul>
-            </div>
-            <div class="footer-section">
-                <h4>Contact</h4>
-                <ul class="footer-links">
-                    <li><a href="tel:0756314261">075-6314261</a></li>
-                    <li><a href="mailto:info@klaasvis.nl">info@klaasvis.nl</a></li>
-                    <li><a href="http://www.klaasvis.nl">www.klaasvis.nl</a></li>
-                    <li><a href="#contact">Zuiderweg 7, Wijdewormer</a></li>
-                </ul>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <p>&copy; 2025 BV Assurantiekantoor Klaas Vis Ao. 1834. Alle rechten voorbehouden.</p>
-        </div>
+        <p>© 2025 BV Assurantiekantoor Klaas Vis Ao. 1834 | Alle rechten voorbehouden</p>
     </footer>
-<script>
-(function(){if(!window.chatbase||window.chatbase("getState")!=="initialized"){window.chatbase=(...arguments)=>{if(!window.chatbase.q){window.chatbase.q=[]}window.chatbase.q.push(arguments)};window.chatbase=new Proxy(window.chatbase,{get(target,prop){if(prop==="q"){return target.q}return(...args)=>target(prop,...args)}})}const onLoad=function(){const script=document.createElement("script");script.src="https://www.chatbase.co/embed.min.js";script.id="C60jEJW_QuVD7X3vE5rzE";script.domain="www.chatbase.co";document.body.appendChild(script)};if(document.readyState==="complete"){onLoad()}else{window.addEventListener("load",onLoad)}})();
-</script>
+
+    <!-- Chatbase Chatbot -->
+    <script>
+        (function(){if(!window.chatbase||window.chatbase("getState")!=="initialized"){window.chatbase=(...arguments)=>{if(!window.chatbase.q){window.chatbase.q=[]}window.chatbase.q.push(arguments)};window.chatbase=new Proxy(window.chatbase,{get(target,prop){if(prop==="q"){return target.q}return(...args)=>target(prop,...args)}})}const onLoad=function(){const script=document.createElement("script");script.src="https://www.chatbase.co/embed.min.js";script.id="C60jEJW_QuVD7X3vE5rzE";script.domain="www.chatbase.co";document.body.appendChild(script)};if(document.readyState==="complete"){onLoad()}else{window.addEventListener("load",onLoad)}})();
+    </script>
+
     <script src="script.js"></script>
 </body>
 </html>
+
