@@ -11,12 +11,17 @@
 }
 main {
   display: flex;
-  justify-content: center;   /* Horizontaal centreren */
-  align-items: center;       /* Verticaal centreren */
-  min-height: 100vh;         /* Neemt volledige schermhoogte in */
-  padding-top: 120px;        /* ruimte onder de vaste navbar */
-  padding-bottom: 80px;      /* zodat het formulier niet tegen de footer plakt */
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding-top: 120px;
+  padding-bottom: 80px;
   box-sizing: border-box;
+}
+
+.form-wrapper {
+  max-width: 900px;
+  margin: 0 auto;
 }
 body {
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;  /* ← ZELFDE HOMEPAGE! */
@@ -124,6 +129,7 @@ nav {
     color: var(--text);
     cursor: pointer;
     font-weight: 300;
+}
 
 /* Centreer de reCAPTCHA */
 .g-recaptcha {
@@ -133,9 +139,6 @@ nav {
 }
 
 /* Zorg dat de knop altijd mooi in het midden blijft */
-
-
-/* Maak wat extra ruimte onderaan het formulier zodat het niet “op” de footer zit */
 .form-wrapper {
   background: white;
   padding: 40px;
@@ -143,7 +146,7 @@ nav {
   box-shadow: 0 6px 20px rgba(0,0,0,0.1);
 }
 
-}
+
 
 h1 {
     text-align: center;
