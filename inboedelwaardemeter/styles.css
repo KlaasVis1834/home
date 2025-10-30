@@ -132,7 +132,9 @@ main {
   max-width: 900px;
   margin: 0 auto;
 }
-
+    .hidden {
+  display: none !important;
+}
 /* ============================= */
 /* 🧾 FORMULIER OPMAAK */
 /* ============================= */
