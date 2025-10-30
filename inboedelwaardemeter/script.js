@@ -104,9 +104,9 @@ Extra bedrag sieraden: ${data.sieradenExtra || "N.v.t."}
 Bijzondere bezittingen > €15.000: ${data.bezittingen}
 Extra bedrag bezittingen: ${data.bezittingenExtra || "N.v.t."}
 Type woning: ${data.woningType}
-Huurdersbelang > €6.000: ${data.huurdersbelang || "N.v.t."}
+Huurdersbelang > €15.000: ${data.huurdersbelang || "N.v.t."}
 Extra bedrag huurdersbelang: ${data.huurExtra || "N.v.t."}
-Eigenaarsbelang > €6.000: ${data.eigenaarsbelang || "N.v.t."}
+Eigenaarsbelang > €15.000: ${data.eigenaarsbelang || "N.v.t."}
 Extra bedrag eigenaarsbelang: ${data.eigenaarExtra || "N.v.t."}
 Handtekening: ${signaturePad.isEmpty() ? "Niet aanwezig" : "Aanwezig"}
 `;
