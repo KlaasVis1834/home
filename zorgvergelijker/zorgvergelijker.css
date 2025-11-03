@@ -1326,6 +1326,10 @@ footer {
         font-size: 0.9rem;
     }
 
+  .zorg-container {
+    padding: 25px;
+  }
+
     .advantage-details h4 {
         font-size: 0.95rem;
     }
