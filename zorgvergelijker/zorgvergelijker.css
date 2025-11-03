@@ -163,6 +163,40 @@ nav {
     color: var(--text);
     cursor: pointer;
 }
+.intro {
+  font-size: 1rem;
+  margin-bottom: 30px;
+}
+
+.links-box {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.zorg-link {
+  display: block;
+  padding: 15px;
+  border-radius: 10px;
+  font-weight: bold;
+  text-decoration: none;
+  color: white;
+  font-size: 1.1rem;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.zorg-link.particulier {
+  background: #007bff;
+}
+
+.zorg-link.mkb {
+  background: #0056b3;
+}
+
+.zorg-link:hover {
+  transform: scale(1.03);
+  opacity: 0.9;
+}
 
 /* Hero Section */
 .hero {
