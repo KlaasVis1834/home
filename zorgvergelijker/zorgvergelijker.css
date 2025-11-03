@@ -1116,6 +1116,63 @@ footer {
     font-size: 0.95rem;
     color: var(--text-muted);
 }
+.zorg-container {
+  background: #fff;
+  border-radius: 20px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  padding: 40px 30px;
+  max-width: 700px;
+  text-align: center;
+}
+
+.zorg-container h1 {
+  font-size: 2em;
+  color: #003366;
+  margin-bottom: 15px;
+}
+
+.zorg-container .intro {
+  font-size: 1.05em;
+  color: #444;
+  margin-bottom: 30px;
+  line-height: 1.6;
+}
+
+/* Knoppen */
+.links-box {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.zorg-link {
+  text-decoration: none;
+  padding: 14px 25px;
+  border-radius: 12px;
+  font-size: 1.1em;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  display: inline-block;
+}
+
+.zorg-link.particulier {
+  background-color: #007bff;
+  color: white;
+}
+
+.zorg-link.particulier:hover {
+  background-color: #0056b3;
+}
+
+.zorg-link.mkb {
+  background-color: #00a86b;
+  color: white;
+}
+
+.zorg-link.mkb:hover {
+  background-color: #007b52;
+}
 
 /* Responsive aanpassingen */
 @media (max-width: 1200px) {
@@ -1136,63 +1193,65 @@ footer {
         max-width: 100%;
         padding: 0 1rem;
     }
-}
-/* Zorg Section */
-.zorg-section {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 80vh;
-  padding: 40px 15px;
-}
+
 .zorg-container {
   background: #fff;
   border-radius: 20px;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
   padding: 40px 30px;
   max-width: 700px;
   text-align: center;
 }
+
 .zorg-container h1 {
   font-size: 2em;
   color: #003366;
   margin-bottom: 15px;
 }
+
 .zorg-container .intro {
   font-size: 1.05em;
   color: #444;
   margin-bottom: 30px;
+  line-height: 1.6;
 }
 
-/* Buttons */
-.zorg-buttons {
+/* Knoppen */
+.links-box {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
   gap: 20px;
 }
+
 .zorg-link {
   text-decoration: none;
   padding: 14px 25px;
   border-radius: 12px;
   font-size: 1.1em;
   transition: all 0.3s ease;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  display: inline-block;
 }
+
 .zorg-link.particulier {
   background-color: #007bff;
   color: white;
 }
+
 .zorg-link.particulier:hover {
   background-color: #0056b3;
 }
+
 .zorg-link.mkb {
   background-color: #00a86b;
   color: white;
 }
+
 .zorg-link.mkb:hover {
   background-color: #007b52;
 }
+
 @media (max-width: 768px) {
     .hamburger {
         display: block;
