@@ -980,80 +980,40 @@ nav {
     box-shadow: 0 15px 50px rgba(99, 102, 241, 0.3);
 }
 
-/* Footer */
 footer {
-    background: rgba(255, 255, 255, 0.95);
-    border-top: 1px solid rgba(0, 0, 0, 0.1);
-    padding: 3rem 1.5rem 2rem;
-    position: relative;
-    z-index: 1;
+  width: 100%;
+  clear: both;
+  display: block;
+  background: rgba(255, 255, 255, 0.95);
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  padding: 3rem 1.5rem 2rem;
+  position: relative;
+  left: 0;
+  right: 0;
+  text-align: center;
+  box-sizing: border-box;
 }
 
 .footer-content {
-    max-width: 1600px;
-    margin: 0 auto;
-    display: grid;
-    grid-template-columns: 2fr 1fr 1fr;
-    gap: 3rem;
-    margin-bottom: 2rem;
-}
-
-.footer-brand img {
-    max-height: 90px;
-    width: auto;
-    margin: 0 auto 1rem;
-    display: block;
-}
-
-.footer-brand h3 {
-    font-size: 1.8rem;
-    font-weight: 900;
-    background: linear-gradient(135deg, var(--primary-light), var(--accent));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    margin-bottom: 1rem;
-}
-
-.footer-brand p {
-    color: var(--text-muted);
-    line-height: 1.8;
-}
-
-.footer-section h4 {
-    font-size: 1rem;
-    margin-bottom: 1rem;
-    font-weight: 700;
-}
-
-.footer-links {
-    list-style: none;
-}
-
-.footer-links li {
-    margin-bottom: 0.8rem;
-}
-
-.footer-links a {
-    color: var(--text-muted);
-    text-decoration: none;
-    transition: color 0.3s ease;
-}
-
-.footer-links a:hover {
-    color: var(--primary-light);
+  max-width: 1600px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  gap: 3rem;
+  margin-bottom: 2rem;
 }
 
 .footer-bottom {
-    max-width: 1600px;
-    margin: 0 auto;
-    padding-top: 1.5rem;
-    border-top: 1px solid rgba(0, 0, 0, 0.1);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    color: var(--text-muted);
-    font-size: 0.85rem;
+  max-width: 1600px;
+  margin: 0 auto;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: center; /* <-- centreren op desktop */
+  align-items: center;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  text-align: center;
 }
 
 /* Responsive */
