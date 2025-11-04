@@ -22,7 +22,6 @@ body {
     overflow-x: hidden;
 }
 
-/* Animated Background */
 .bg-animation {
     position: fixed;
     top: 0;
@@ -73,7 +72,6 @@ body {
     33% { transform: translate(100px, -100px) scale(1.1); }
     66% { transform: translate(-100px, 100px) scale(0.9); }
 }
-
 /* Navigation */
 nav {
     position: fixed;
