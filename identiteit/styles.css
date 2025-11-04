@@ -27,7 +27,104 @@ body {
     line-height: 1.6;
     overflow-x: hidden;
 }
+.identiteit {
+  padding: 4rem 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  margin-top: 80px; /* ruimte voor navbar */
+}
 
+.identiteit-content {
+  max-width: 800px;
+  width: 100%;
+  background-color: #ffffff;
+  padding: 2.5rem;
+  border-radius: 12px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+}
+
+.identiteit-content h2 {
+  font-family: 'Inter', sans-serif;
+  font-weight: 700;
+  color: #003366;
+  margin-bottom: 1rem;
+  font-size: 2rem;
+}
+
+.identiteit-content p {
+  margin-bottom: 2rem;
+  color: #003366cc;
+  font-weight: 300;
+}
+
+.identiteit-form .form-group {
+  margin-bottom: 1.5rem;
+}
+
+.identiteit-form label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: #003366;
+}
+
+.identiteit-form input,
+.identiteit-form select {
+  width: 100%;
+  padding: 0.8rem 1rem;
+  border-radius: 8px;
+  border: 1px solid #cce0ff;
+  font-size: 1rem;
+  font-family: inherit;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.identiteit-form input:focus,
+.identiteit-form select:focus {
+  border-color: #66a3ff;
+  box-shadow: 0 0 5px rgba(102, 163, 255, 0.5);
+  outline: none;
+}
+
+.identiteit-form hr {
+  margin: 2rem 0;
+  border: none;
+  border-top: 1px solid #e6e6e6;
+}
+
+.identiteit-form h3 {
+  font-weight: 700;
+  font-size: 1.4rem;
+  color: #003087;
+  margin-bottom: 1rem;
+}
+
+.identiteit-form .disclaimer {
+  font-size: 0.9rem;
+  color: #555;
+  background: #f9fafc;
+  padding: 0.8rem 1rem;
+  border-left: 4px solid #007bff;
+  border-radius: 6px;
+}
+
+.identiteit-form button {
+  background-color: #0066cc;
+  color: #fff;
+  border: none;
+  padding: 0.9rem 2rem;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  width: 100%;
+}
+
+.identiteit-form button:hover {
+  background-color: #004c99;
+}
 /* Animated Background */
 .bg-animation {
     position: fixed;
@@ -882,7 +979,6 @@ nav {
     transform: translateY(-3px);
     box-shadow: 0 15px 50px rgba(99, 102, 241, 0.3);
 }
-
 /* Footer */
 footer {
     background: rgba(255, 255, 255, 0.95);
@@ -958,6 +1054,7 @@ footer {
     color: var(--text-muted);
     font-size: 0.85rem;
 }
+
 
 /* Responsive */
 @media (max-width: 1200px) {
