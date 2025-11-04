@@ -126,6 +126,15 @@ nav {
     align-items: center;
 }
 
+.form-container {
+    max-width: 800px;
+    margin: auto;
+    background: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
 .nav-list a {
     text-decoration: none;
     color: var(--text);
