@@ -3,38 +3,78 @@
     --primary: #4f46e5;
     --primary-light: #818cf8;
     --primary-dark: #3730a3;
+    --secondary: #1e293b;
     --accent: #14b8a6;
     --accent-2: #f59e0b;
     --text: #1e293b;
+    --text-light: #475569;
     --text-muted: #64748b;
     --bg-light: #f8fafc;
+    --bg-card: #ffffff;
     --glass: rgba(255, 255, 255, 0.8);
 }
 
 body {
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;  /* ← ZELFDE HOMEPAGE! */
-    background: var(--bg-light);  /* ← ZELFDE HOMEPAGE! */
-    color: var(--text);           /* ← ZELFDE HOMEPAGE! */
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: var(--bg-light);
+    color: var(--text);
     line-height: 1.6;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-}
-/* NAVBAR (MENUBALK) */
-/* ===================== */
-/* Navigation */
-:root {
-    --primary: #4f46e5;
-    --primary-light: #818cf8;
-    --primary-dark: #3730a3;
-    --accent: #14b8a6;
-    --accent-2: #f59e0b;
-    --text: #1e293b;
-    --text-muted: #64748b;
-    --bg-light: #f8fafc;
-    --glass: rgba(255, 255, 255, 0.8);
+    overflow-x: hidden;
 }
 
+/* Animated Background */
+.bg-animation {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    overflow: hidden;
+}
+
+.orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.2;
+    animation: float 20s infinite ease-in-out;
+}
+
+.orb-1 {
+    width: 500px;
+    height: 500px;
+    background: var(--primary-light);
+    top: -200px;
+    left: -200px;
+    animation-delay: 0s;
+}
+
+.orb-2 {
+    width: 400px;
+    height: 400px;
+    background: var(--accent);
+    bottom: -150px;
+    right: -150px;
+    animation-delay: 5s;
+}
+
+.orb-3 {
+    width: 350px;
+    height: 350px;
+    background: var(--primary);
+    top: 50%;
+    left: 50%;
+    animation-delay: 10s;
+}
+
+@keyframes float {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    33% { transform: translate(100px, -100px) scale(1.1); }
+    66% { transform: translate(-100px, 100px) scale(0.9); }
+}
+
+/* Navigation */
 nav {
     position: fixed;
     top: 0;
@@ -81,32 +121,32 @@ nav {
 }
 
 .nav-list a {
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
-  font-size: 0.95rem !important;
-  font-weight: 600 !important;
-  text-decoration: none !important;
-  letter-spacing: 0.3px !important;
-  color: var(--text) !important; /* <- veranderd van white naar zwart (variabele) */
-  transition: all 0.3s ease !important;
-  position: relative !important;
+    text-decoration: none;
+    color: var(--text);
+    font-weight: 600;
+    transition: all 0.3s ease;
+    position: relative;
+    font-size: 0.95rem;
+    letter-spacing: 0.3px;
+}
+
+.nav-list a::before {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--primary), var(--accent));
+    transition: width 0.3s ease;
 }
 
 .nav-list a:hover {
-  color: var(--primary-light) !important;
+    color: var(--primary-light);
 }
 
-.nav-list a::after {
-  content: "";
-  display: block;
-  height: 2px;
-  background: linear-gradient(90deg, var(--primary), var(--accent));
-  transform: scaleX(0);
-  transition: transform 0.3s ease;
-  transform-origin: left;
-}
-
-.nav-list a:hover::after {
-  transform: scaleX(1);
+.nav-list a:hover::before {
+    width: 100%;
 }
 
 .hamburger {
@@ -116,8 +156,8 @@ nav {
     font-size: 1.8rem;
     color: var(--text);
     cursor: pointer;
-    font-weight: 300;
 }
+
 .form-container {
     max-width: 800px;
     margin: auto;
