@@ -77,7 +77,7 @@ nav {
     position: fixed;
     top: 0;
     width: 100%;
-    background: var(--glass);
+    background: var(--bg-card); /* zelfde achtergrond als andere kaarten */
     backdrop-filter: blur(20px) saturate(180%);
     z-index: 1000;
     border-bottom: 1px solid rgba(0, 0, 0, 0.1);
@@ -98,17 +98,10 @@ nav {
     background: linear-gradient(135deg, var(--primary-light), var(--accent));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    background-clip: text;
     display: flex;
     align-items: center;
     gap: 0.8rem;
     letter-spacing: -0.5px;
-}
-
-.logo-img {
-    max-height: 45px;
-    width: auto;
-    display: block;
 }
 
 .nav-list {
@@ -119,13 +112,14 @@ nav {
 }
 
 .nav-list a {
-    text-decoration: none;
-    color: var(--text);
-    font-weight: 600;
-    transition: all 0.3s ease;
     position: relative;
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
     font-size: 0.95rem;
     letter-spacing: 0.3px;
+    text-decoration: none;
+    color: var(--text);
+    transition: all 0.3s ease;
 }
 
 .nav-list a::before {
@@ -156,6 +150,39 @@ nav {
     cursor: pointer;
 }
 
+/* Responsive Mobile Menu */
+@media (max-width: 768px) {
+    .hamburger {
+        display: block;
+    }
+
+    .nav-list {
+        display: none;
+        flex-direction: column;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        background: var(--bg-card);
+        backdrop-filter: blur(20px);
+        padding: 1rem;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    }
+
+    .nav-list.active {
+        display: flex;
+    }
+
+    .nav-list li {
+        margin: 0.5rem 0;
+    }
+
+    .nav-list a {
+        font-size: 1rem;
+        display: block;
+        padding: 0.5rem 1rem;
+    }
+}
 .form-container {
     max-width: 800px;
     margin: auto;
