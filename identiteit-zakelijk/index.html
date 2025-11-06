@@ -125,15 +125,14 @@
 
         <hr>
 
-        <!-- Identificatie -->
-        <h2 class="subtitle">Identificatie</h2>
         <div class="form-group">
-          <label>Bent u in het bezit van het KVK-uittreksel? *</label>
-          <div class="radio-group">
-            <label><input type="radio" name="kvk_uittreksel" value="ja" required> Ja</label>
-            <label><input type="radio" name="kvk_uittreksel" value="nee"> Nee</label>
-          </div>
-        </div>
+  <label for="kvk_uittreksel">Bent u in het bezit van het KVK-uittreksel? *</label>
+  <select id="kvk_uittreksel" name="kvk_uittreksel" required>
+    <option value="">-- Kies een optie --</option>
+    <option value="ja">Ja</option>
+    <option value="nee">Nee</option>
+  </select>
+</div>
 
         <div class="form-group">
           <label for="uitgifte_datum">Datum van uitgifte KVK-uittreksel</label>
