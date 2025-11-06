@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vaststellen van Identiteit</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Navigatie -->
+  <nav>
+    <div class="nav-container">
+      <div class="logo">
+        <img src="Logo.png" alt="Klaas Vis Logo" class="logo-img">
+        Klaas Vis
+      </div>
+      <button class="hamburger">☰</button>
+      <ul class="nav-list">
+        <li><a href="/schademelden/">Schade melden</a></li>
+        <li><a href="/wijziging-doorgeven/">Doorgeven wijziging</a></li>
+        <li><a href="https://dekkerautoverzekering.github.io/home/">Dekkerautoverzekering</a></li>
+        <li><a href="https://www.nh1816.nl/mijn-nh1816">Offerte aanvragen</a></li>
+        <li><a href="https://www.klaasvis.online/downloads">Downloads</a></li>
+        <li><a href="https://klaasvis.online/contact/">Contact</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Hoofdinhoud -->
+  <main class="identiteit">
+    <div class="identiteit-content">
+      <h1>Vaststellen van Identiteit</h1>
+      <p class="intro">
+        Ter bescherming van uw privacy vragen wij u uw identiteit vast te stellen.<br>
+        Wij behandelen uw gegevens conform de <a href="https://www.verzekeraars.nl/media/4993/gedragscode-verwerking-persoonsgegevens-verzekeraars-2018-v-26-juni-2018.pdf" target="_blank">Gedragscode verwerking persoonsgegevens</a>.
+      </p>
+
+      <form id="identiteitForm" class="identiteit-form">
+        <h2 class="subtitle">Gegevens van de aanvrager</h2>
+
+        <div class="form-group">
+          <label for="achternaam">Voorletter(s) en achternaam *</label>
+          <input type="text" id="achternaam" name="achternaam" required>
+        </div>
+
+        <div class="form-group">
+          <label for="voornaam">Voornaam *</label>
+          <input type="text" id="voornaam" name="voornaam" required>
+        </div>
+
+        <div class="form-group">
+          <label for="geboortedatum">Geboortedatum *</label>
+          <input type="date" id="geboortedatum" name="geboortedatum" required>
+        </div>
+
+        <div class="form-group">
+          <label for="nationaliteit">Nationaliteit *</label>
+          <input type="text" id="nationaliteit" name="nationaliteit" required>
+        </div>
+
+        <div class="form-group">
+          <label for="adres">Straat en huisnummer *</label>
+          <input type="text" id="adres" name="adres" required>
+        </div>
+
+        <div class="form-group">
+          <label for="postcode">Postcode en woonplaats *</label>
+          <input type="text" id="postcode" name="postcode" required>
+        </div>
+
+        <hr>
+
+        <h2 class="subtitle">Identificatie</h2>
+
+        <div class="form-group">
+          <label for="identiteitsdocument">Identiteitsdocument *</label>
+          <select id="identiteitsdocument" name="identiteitsdocument" required>
+            <option value="">-- Maak een keuze --</option>
+            <option value="id">Identiteitskaart</option>
+            <option value="paspoort">Paspoort</option>
+            <option value="rijbewijs">Rijbewijs</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="documentnummer">Documentnummer *</label>
+          <input type="text" id="documentnummer" name="documentnummer" required>
+        </div>
+
+        <div class="form-group">
+          <label for="vervaldatum">Vervaldatum document *</label>
+          <input type="date" id="vervaldatum" name="vervaldatum" required>
+        </div>
+
+        <div class="form-group">
+          <label for="uitgiftedatum">Datum van uitgifte *</label>
+          <input type="date" id="uitgiftedatum" name="uitgiftedatum" required>
+        </div>
+
+        <div class="form-group">
+          <label for="uitgifteplaats">Plaats van uitgifte *</label>
+          <input type="text" id="uitgifteplaats" name="uitgifteplaats" required>
+        </div>
+
+        <p class="disclaimer">
+          <strong>Let op:</strong> bij het toezenden van een kopie van uw identiteitsdocument dient het BSN-nummer niet zichtbaar te zijn.
+        </p>
+
+        <div class="form-group">
+          <label for="upload">Optioneel: upload een kopie van uw document (PDF of JPG)</label>
+          <input type="file" id="upload" name="upload" accept=".pdf,.jpg,.jpeg,.png">
+        </div>
+
+        <button type="submit" class="submit-btn">Verzenden</button>
+      </form>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-content">
+      <div class="footer-brand">
+        <img src="Logo.png" alt="Klaas Vis Logo" class="footer-brand-img">
+        <h3>BV Assurantiekantoor Klaas Vis Ao. 1834</h3>
+        <p>Uw vertrouwde partner sinds 1834.</p>
+        <p style="margin-top: 1rem; font-size: 0.9rem; color: var(--text-muted);">
+          AFM: 12005878<br>
+          KvK: 35008554
+        </p>
+      </div>
+      <div class="footer-section">
+        <h4>Snelle Links</h4>
+        <ul class="footer-links">
+          <li><a href="https://klaasvis1834.github.io/schade/">Schade melden</a></li>
+          <li><a href="https://klaasvis1834.github.io/wijziging-doorgeven/">Doorgeven wijziging</a></li>
+          <li><a href="https://dekkerautoverzekering.github.io/home/">Dekkerautoverzekering</a></li>
+          <li><a href="https://www.nh1816.nl/mijn-nh1816">Mijn NH1816 Polis</a></li>
+          <li><a href="https://www.klaasvis.nl/downloads">Downloads</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Contact</h4>
+        <ul class="footer-links">
+          <li><a href="tel:0756314261">075-6314261</a></li>
+          <li><a href="mailto:info@klaasvis.nl">info@klaasvis.nl</a></li>
+          <li><a href="http://www.klaasvis.nl">www.klaasvis.nl</a></li>
+          <li><a href="#contact">Zuiderweg 7, Wijdewormer</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 BV Assurantiekantoor Klaas Vis Ao. 1834. Alle rechten voorbehouden.</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
