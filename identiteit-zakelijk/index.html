@@ -3,8 +3,55 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Vaststellen van Identiteit</title>
+  <title>Vaststellen van Identiteit – Zakelijk</title>
   <link rel="stylesheet" href="styles.css">
+  <style>
+    /* Flex layout voor sticky footer */
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', sans-serif;
+      background: var(--bg-light);
+      color: var(--text);
+      display: flex;
+      flex-direction: column;
+    }
+
+    main {
+      flex: 1;
+      width: 100%;
+    }
+
+    /* Form styling kan je uit je bestaande CSS halen */
+    .identiteit-content {
+      max-width: 900px;
+      margin: 2rem auto;
+      padding: 1rem;
+    }
+
+    .identiteit-form .form-group {
+      margin-bottom: 1rem;
+    }
+
+    .submit-btn {
+      background-color: #4CAF50;
+      color: white;
+      padding: 0.75rem 1.5rem;
+      border: none;
+      cursor: pointer;
+      font-size: 1rem;
+      border-radius: 5px;
+    }
+
+    footer {
+      background: rgba(255, 255, 255, 0.95);
+      border-top: 1px solid rgba(0, 0, 0, 0.1);
+      padding: 2rem 1.5rem;
+      position: relative;
+      z-index: 1;
+    }
+  </style>
 </head>
 <body>
 
@@ -28,102 +75,99 @@
   </nav>
 
   <!-- Hoofdinhoud -->
-  <div class="identiteit-content">
-  <h1>Vaststellen van Identiteit – Zakelijk</h1>
-  <p class="intro">
-    Ter bescherming van uw privacy vragen wij u uw identiteit vast te stellen.<br>
-    Wij behandelen uw gegevens conform de <a href="https://www.verzekeraars.nl/media/4993/gedragscode-verwerking-persoonsgegevens-verzekeraars-2018-v-26-juni-2018.pdf" target="_blank">Gedragscode verwerking persoonsgegevens</a>.
-  </p>
+  <main>
+    <div class="identiteit-content">
+      <h1>Vaststellen van Identiteit – Zakelijk</h1>
+      <p class="intro">
+        Ter bescherming van uw privacy vragen wij u uw identiteit vast te stellen.<br>
+        Wij behandelen uw gegevens conform de 
+        <a href="https://www.verzekeraars.nl/media/4993/gedragscode-verwerking-persoonsgegevens-verzekeraars-2018-v-26-juni-2018.pdf" target="_blank">
+        Gedragscode verwerking persoonsgegevens</a>.
+      </p>
 
-  <form id="identiteitFormZakelijk" class="identiteit-form">
+      <form id="identiteitFormZakelijk" class="identiteit-form">
+        <!-- Bedrijfsgegevens -->
+        <h2 class="subtitle">Bedrijfsgegevens</h2>
+        <div class="form-group">
+          <label for="bedrijfsnaam">Bedrijfsnaam *</label>
+          <input type="text" id="bedrijfsnaam" name="bedrijfsnaam" required>
+        </div>
 
-    <!-- BEDRIJFSGEGEVENS -->
-    <h2 class="subtitle">Bedrijfsgegevens</h2>
+        <div class="form-group">
+          <label for="kvk">KVK-nummer *</label>
+          <input type="text" id="kvk" name="kvk" placeholder="12345678" required>
+        </div>
 
-    <div class="form-group">
-      <label for="bedrijfsnaam">Bedrijfsnaam *</label>
-      <input type="text" id="bedrijfsnaam" name="bedrijfsnaam" required>
-    </div>
+        <div class="form-group">
+          <label for="rechtsvorm">Rechtsvorm *</label>
+          <select id="rechtsvorm" name="rechtsvorm" required>
+            <option value="">-- Kies rechtsvorm --</option>
+            <option value="bv">Besloten Vennootschap (BV)</option>
+            <option value="zzp">Eenmanszaak (ZZP)</option>
+            <option value="nv">Naamloze Vennootschap (NV)</option>
+            <option value="vof">Vennootschap onder Firma (VOF)</option>
+            <option value="stichting">Stichting / Overige</option>
+          </select>
+        </div>
 
-    <div class="form-group">
-      <label for="kvk">KVK-nummer *</label>
-      <input type="text" id="kvk" name="kvk" placeholder="12345678" required>
-    </div>
+        <div class="form-group">
+          <label for="adres">Straat en huisnummer *</label>
+          <input type="text" id="adres" name="adres" required>
+        </div>
 
-    <div class="form-group">
-      <label for="rechtsvorm">Rechtsvorm *</label>
-      <select id="rechtsvorm" name="rechtsvorm" required>
-        <option value="">-- Kies rechtsvorm --</option>
-        <option value="bv">Besloten Vennootschap (BV)</option>
-        <option value="zzp">Eenmanszaak (ZZP)</option>
-        <option value="nv">Naamloze Vennootschap (NV)</option>
-        <option value="vof">Vennootschap onder Firma (VOF)</option>
-        <option value="stichting">Stichting / Overige</option>
-      </select>
-    </div>
+        <div class="form-group">
+          <label for="postcode">Postcode en woonplaats *</label>
+          <input type="text" id="postcode" name="postcode" required>
+        </div>
 
-    <div class="form-group">
-      <label for="adres">Straat en huisnummer *</label>
-      <input type="text" id="adres" name="adres" required>
-    </div>
+        <hr>
 
-    <div class="form-group">
-      <label for="postcode">Postcode en woonplaats *</label>
-      <input type="text" id="postcode" name="postcode" required>
-    </div>
+        <!-- Identificatie -->
+        <h2 class="subtitle">Identificatie</h2>
+        <div class="form-group">
+          <label>Bent u in het bezit van het KVK-uittreksel? *</label>
+          <div class="radio-group">
+            <label><input type="radio" name="kvk_uittreksel" value="ja" required> Ja</label>
+            <label><input type="radio" name="kvk_uittreksel" value="nee"> Nee</label>
+          </div>
+        </div>
 
-    <hr>
+        <div class="form-group">
+          <label for="uitgifte_datum">Datum van uitgifte KVK-uittreksel</label>
+          <input type="date" id="uitgifte_datum" name="uitgifte_datum">
+        </div>
 
-    <!-- IDENTIFICATIE -->
-    <h2 class="subtitle">Identificatie</h2>
+        <div class="form-group">
+          <label for="uitgifte_plaats">Plaats van uitgifte</label>
+          <input type="text" id="uitgifte_plaats" name="uitgifte_plaats">
+        </div>
 
-    <div class="form-group">
-      <label>Bent u in het bezit van het KVK-uittreksel? *</label>
-      <div class="radio-group">
-        <label><input type="radio" name="kvk_uittreksel" value="ja" required> Ja</label>
-        <label><input type="radio" name="kvk_uittreksel" value="nee"> Nee</label>
-      </div>
-    </div>
+        <hr>
 
-    <div class="form-group">
-      <label for="uitgifte_datum">Datum van uitgifte KVK-uittreksel</label>
-      <input type="date" id="uitgifte_datum" name="uitgifte_datum">
-    </div>
+        <!-- UBO -->
+        <h2 class="subtitle">Belanghebbenden (UBO)</h2>
+        <p class="disclaimer"><strong>Let op:</strong> Vermeld alle personen met minimaal 25% aandelen of zeggenschap.</p>
 
-    <div class="form-group">
-      <label for="uitgifte_plaats">Plaats van uitgifte</label>
-      <input type="text" id="uitgifte_plaats" name="uitgifte_plaats">
-    </div>
+        <div class="form-group">
+          <label for="aantal_ubo">Aantal belanghebbenden (UBO) *</label>
+          <select id="aantal_ubo" name="aantal_ubo" required onchange="showUboFields()">
+            <option value="">-- Kies aantal --</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4 of meer (vul hieronder 4 in)</option>
+          </select>
+        </div>
 
-    <hr>
+        <div id="ubo-container"></div>
 
-    <!-- UBO -->
-    <h2 class="subtitle">Belanghebbenden (UBO)</h2>
-    <p class="disclaimer">
-      <strong>Let op:</strong> Vermeld alle personen met minimaal 25% aandelen of zeggenschap.
-    </p>
+        <hr>
 
-    <div class="form-group">
-      <label for="aantal_ubo">Aantal belanghebbenden (UBO) *</label>
-      <select id="aantal_ubo" name="aantal_ubo" required onchange="showUboFields()">
-        <option value="">-- Kies aantal --</option>
-        <option value="1">1</option>
-        <option value="2">2</option>
-        <option value="3">3</option>
-        <option value="4">4 of meer (vul hieronder 4 in)</option>
-      </select>
-    </div>
-
-    <!-- UBO VELDEN (worden getoond met JavaScript) -->
-    <div id="ubo-container"></div>
-
-    <hr>
-
-    <!-- UPLOAD -->
-    <div class="form-group">
-      <label for="kvk_upload">Upload KVK-uittreksel (PDF of afbeelding) *</label>
-      <input type="file" id="kvk_upload" name="kvk_upload" accept=".pdf,.jpg,.jpeg,.png" required>
-    </div>
+        <!-- Upload -->
+        <div class="form-group">
+          <label for="kvk_upload">Upload KVK-uittreksel (PDF of afbeelding) *</label>
+          <input type="file" id="kvk_upload" name="kvk_upload" accept=".pdf,.jpg,.jpeg,.png" required>
+        </div>
 
         <button type="submit" class="submit-btn">Verzenden</button>
       </form>
