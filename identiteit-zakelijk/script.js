@@ -119,6 +119,46 @@
 
       submitBtn.disabled = false;
       submitBtn.textContent = "Verstuur Bericht";
+    }
+      function showUboFields() {
+  const aantal = document.getElementById("aantal_ubo").value;
+  const container = document.getElementById("ubo-container");
+  container.innerHTML = "";
+
+  if (!aantal) return;
+
+  for (let i = 1; i <= Math.min(aantal, 4); i++) {
+    const fieldset = document.createElement("fieldset");
+    fieldset.innerHTML = `
+      <legend>Persoon ${i} ${i === 1 ? "*" : ""}</legend>
+      <div class="form-group">
+        <label>Naam ${i === 1 ? "*" : ""}</label>
+        <input type="text" name="ubo_naam_${i}" ${i===1?'required':''}>
+      </div>
+      <div class="form-group">
+        <label>Adres ${i === 1 ? "*" : ""}</label>
+        <input type="text" name="ubo_adres_${i}" ${i===1?'required':''}>
+      </div>
+      <div class="form-group">
+        <label>Geboortedatum ${i === 1 ? "*" : ""}</label>
+        <input type="date" name="ubo_geboorte_${i}" ${i===1?'required':''}>
+      </div>
+      <div class="form-group">
+        <label>Nationaliteit ${i === 1 ? "*" : ""}</label>
+        <input type="text" name="ubo_nationaliteit_${i}" ${i===1?'required':''}>
+      </div>
+      <div class="form-group">
+        <label>Zeggenschap / belang (%) ${i === 1 ? "*" : ""}</label>
+        <input type="number" min="25" max="100" name="ubo_percentage_${i}" ${i===1?'required':''}>
+      </div>
+    `;
+    container.appendChild(fieldset);
+  }
+
+  if (aantal > 4) {
+    container.innerHTML += `<p style="color:#d00;"><strong>Meer dan 4 UBO's?</strong> Vul de eerste 4 in en mail de rest naar info@klaasvis.nl</p>`;
+  }
+}
     });
   });
 })();
