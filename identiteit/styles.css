@@ -1054,7 +1054,13 @@ footer {
     color: var(--text-muted);
     font-size: 0.85rem;
 }
-
+.footer {
+    background: rgba(255, 255, 255, 0.95);
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    padding: 3rem 1.5rem 2rem;
+    position: relative;
+    z-index: 1;
+}
 
 /* Responsive */
 @media (max-width: 1200px) {
