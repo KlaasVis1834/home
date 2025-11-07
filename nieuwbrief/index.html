@@ -1,69 +1,109 @@
-<!DOCTYPE html>
-<html lang="nl">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Nieuwsbrief - Klaas Vis Assurantiën</title>
-  <link rel="stylesheet" href="style.css"> <!-- jouw bestaande CSS -->
-</head>
 <body>
+  <!-- Animated Background -->
+  <div class="bg-animation">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+  </div>
 
-  <!-- NAVBAR (zelfde als homepage) -->
+  <!-- Navbar -->
   <nav>
-        <div class="nav-container">
-            <div class="logo">
-                <img src="logo.png" alt="Klaas Vis Logo" class="logo-img">
-                Klaas Vis
-            </div>
-            <button class="hamburger">☰</button>
-            <ul class="nav-list">
-                <li><a href="/schademelden/">Schade melden</a></li>
-                <li><a href="/wijziging-doorgeven/">Doorgeven wijziging</a></li>
-                <li><a href="/dekkerautoverzekering/">Dekkerautoverzekering</a></li>
-                <li><a href="/offerte-aanvragen/>Offerte aanvragen</a></li>
-                <li><a href="/downloads/">Downloads</a></li>
-                <li><a href="/contact/">Contact</a></li>
-            </ul>
+    <div class="nav-container">
+      <a href="index.html" class="logo">
+        <img src="Logo-2.webp" alt="Logo" class="logo-img">
+        Klaas Vis
+      </a>
+      <ul class="nav-list">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="diensten.html">Diensten</a></li>
+        <li><a href="nieuwsbrief.html">Nieuwsbrief</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+      <button class="hamburger">&#9776;</button>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-content">
+      <div class="hero-text">
+        <span class="hero-label">Nieuwsbrief</span>
+        <h1>Meld u aan voor onze nieuwsbrief</h1>
+        <p>Blijf op de hoogte van de laatste updates, tips en exclusieve aanbiedingen.</p>
+      </div>
+      <div class="hero-visual">
+        <img src="newsletter-illustratie.png" alt="Nieuwsbrief Illustratie">
+      </div>
+    </div>
+  </section>
+
+  <!-- Aanmeldformulier -->
+  <section class="contact">
+    <div class="form-container">
+      <form id="newsletter-form">
+        <div class="form-group">
+          <label for="naam">Naam *</label>
+          <input type="text" id="naam" name="naam" placeholder="Uw naam" required>
         </div>
-    </nav>
-<section class="hero">
-  <div class="hero-content">
-    <div class="hero-text">
-      <span class="hero-label">Nieuwsbrief</span>
-      <h1>Meld u aan voor onze nieuwsbrief</h1>
-      <p>Blijf op de hoogte van de laatste verzekeringsupdates, tips en aanbiedingen.</p>
-    </div>
-    <div class="hero-visual">
-      <img src="newsletter-illustratie.png" alt="Nieuwsbrief" style="max-width: 100%; border-radius: 24px;">
-    </div>
-  </div>
-</section>
+        <div class="form-group">
+          <label for="email">E-mail *</label>
+          <input type="email" id="email" name="email" placeholder="Uw e-mailadres" required>
+        </div>
+        <div class="form-group checkbox">
+          <input type="checkbox" id="optin" required>
+          <label for="optin">Ik ga akkoord met het ontvangen van de nieuwsbrief en de privacyverklaring.</label>
+        </div>
+        <button type="submit" class="submit-btn">Inschrijven</button>
+      </form>
 
-<section class="contact">
-  <div class="form-container">
-    <form id="newsletter-form">
-      <div class="form-group">
-        <label for="naam">Naam *</label>
-        <input type="text" id="naam" name="naam" placeholder="Uw naam" required>
+      <!-- Wettelijke info -->
+      <div class="newsletter-info" style="margin-top: 2rem; font-size: 0.9rem; color: var(--text-muted);">
+        <p><strong>Waarom wij uw gegevens gebruiken:</strong> Wij gebruiken uw e-mailadres uitsluitend om u onze nieuwsbrief te sturen met updates, tips en aanbiedingen.</p>
+        <p><strong>Privacy & AVG:</strong> Uw gegevens worden veilig opgeslagen en niet gedeeld met derden. U kunt zich te allen tijde uitschrijven via de link in de nieuwsbrief.</p>
+        <p><strong>Verantwoordelijke:</strong> Klaas Vis Assurantiën, info@klaasvis.nl.</p>
+        <p>Door u in te schrijven, gaat u akkoord met het ontvangen van onze nieuwsbrief en onze privacyverklaring.</p>
+        <p>Lees onze <a href="/privacyverklaring" style="color: var(--primary); text-decoration: underline;">privacyverklaring</a> voor meer informatie.</p>
       </div>
-      <div class="form-group">
-        <label for="email">E-mail *</label>
-        <input type="email" id="email" name="email" placeholder="Uw e-mailadres" required>
-      </div>
-      <div class="form-group checkbox">
-        <input type="checkbox" id="optin" required>
-        <label for="optin">Ik ga akkoord met het ontvangen van de nieuwsbrief en de privacyverklaring.</label>
-      </div>
-      <button type="submit" class="submit-btn">Inschrijven</button>
-    </form>
-
-    <!-- Wettelijke en duidelijke info in u-vorm -->
-    <div class="newsletter-info" style="margin-top: 2rem; font-size: 0.9rem; color: var(--text-muted);">
-      <p><strong>Waarom vragen wij uw e-mailadres?</strong> Wij gebruiken uw e-mailadres uitsluitend om u onze nieuwsbrief te sturen met verzekeringsupdates, tips en aanbiedingen.</p>
-      <p><strong>Privacy & AVG:</strong> Uw gegevens worden veilig opgeslagen en niet gedeeld met derden. U kunt zich op elk moment uitschrijven via de link onderaan elke nieuwsbrief.</p>
-      <p><strong>Verantwoordelijke:</strong> Klaas Vis Assurantiën, info@klaasvis.nl.</p>
-      <p>Door u in te schrijven, gaat u akkoord met het ontvangen van onze nieuwsbrief en onze privacyverklaring.</p>
-      <p>Lees onze <a href="/privacyverklaring" style="color: var(--primary); text-decoration: underline;">privacyverklaring</a> voor meer informatie.</p>
     </div>
-  </div>
-</section>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-content">
+      <div class="footer-brand">
+        <img src="Logo-2.webp" alt="Logo">
+        <h3>Klaas Vis</h3>
+        <p>Uw betrouwbare partner in verzekeringen en financiële diensten.</p>
+      </div>
+      <div class="footer-section">
+        <h4>Links</h4>
+        <ul class="footer-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="diensten.html">Diensten</a></li>
+          <li><a href="nieuwsbrief.html">Nieuwsbrief</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Contact</h4>
+        <ul class="footer-links">
+          <li><a href="mailto:info@klaasvis.nl">info@klaasvis.nl</a></li>
+          <li><a href="tel:+31012345678">+31 012 345 678</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; 2025 Klaas Vis Assurantiën. Alle rechten voorbehouden.</span>
+      <span>Privacyverklaring | Algemene voorwaarden</span>
+    </div>
+  </footer>
+
+  <script>
+    // Hamburger menu
+    const hamburger = document.querySelector('.hamburger');
+    const navList = document.querySelector('.nav-list');
+    hamburger.addEventListener('click', () => {
+      navList.classList.toggle('active');
+    });
+  </script>
+</body>
