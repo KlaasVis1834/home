@@ -509,6 +509,7 @@ nav {
 }
 
 .service-card {
+        text-decoration: none; /* verwijdert de onderstreping */
     background: var(--glass);
     backdrop-filter: blur(20px);
     border: 1px solid rgba(0, 0, 0, 0.1);
@@ -1299,3 +1300,4 @@ footer {
         font-size: 0.85rem;
     }
 }
+
