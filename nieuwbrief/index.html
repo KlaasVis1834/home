@@ -1,109 +1,211 @@
-<body>
-  <!-- Animated Background -->
-  <div class="bg-animation">
-    <div class="orb orb-1"></div>
-    <div class="orb orb-2"></div>
-    <div class="orb orb-3"></div>
-  </div>
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nieuwsbrief | Klaas Vis Ao. 1834</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+  <style>
+    /* ==== U-VORM: ALLES IN 1 BESTAND ==== */
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html,body{height:100%;margin:0;font-family:'Inter',sans-serif}
+    body{
+      min-height:100vh;display:flex;flex-direction:column;
+      background:#f8fafc;color:#1e293b;line-height:1.6;
+    }
+    :root{
+      --p:#4f46e5;--pl:#818cf8;--a:#14b8a6;
+      --t:#1e293b;--tl:#475569;--tm:#64748b;
+      --glass:rgba(255,255,255,0.8);
+    }
 
-  <!-- Navbar -->
+    /* NAVBAR */
+    nav{position:fixed;top:0;width:100%;background:var(--glass);
+      backdrop-filter:blur(20px);z-index:1000;
+      border-bottom:1px solid rgba(0,0,0,.1);}
+    .nav-container{max-width:1600px;margin:auto;padding:1rem 3rem;
+      display:flex;justify-content:space-between;align-items:center;}
+    .logo{font-size:1.8rem;font-weight:800;
+      background:linear-gradient(135deg,var(--pl),var(--a));
+      -webkit-background-clip:text;background-clip:text;
+      -webkit-text-fill-color:transparent;display:flex;gap:.8rem;align-items:center;}
+    .logo-img{height:45px}
+    .nav-list{display:flex;gap:2rem;list-style:none}
+    .nav-list a{color:var(--t);text-decoration:none;font-weight:600;position:relative}
+    .nav-list a::before{content:'';position:absolute;bottom:-5px;left:0;width:0;height:2px;
+      background:linear-gradient(90deg,var(--p),var(--a));transition:.3s}
+    .nav-list a:hover::before{width:100%}
+
+    /* ORBS */
+    .orb{position:absolute;border-radius:50%;filter:blur(80px);opacity:.2;
+      animation:float 20s infinite ease-in-out}
+    .orb-1{width:500px;height:500px;background:var(--pl);top:-200px;left:-200px}
+    .orb-2{width:400px;height:400px;background:var(--a);bottom:-150px;right:-150px;animation-delay:5s}
+    @keyframes float{0%,100%{transform:translate(0,0)} 50%{transform:translate(80px,-80px)}}
+
+    /* HERO + FORMULIER */
+    .hero{flex:1;padding:6rem 1.5rem;margin-top:80px;position:relative;overflow:hidden}
+    .hero-content{max-width:1600px;margin:auto;display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center}
+    .newsletter-text h1{font-size:3.5rem;font-weight:900;margin-bottom:1rem;
+      background:linear-gradient(135deg,var(--t),var(--pl));
+      -webkit-background-clip:text;background-clip:text;
+      -webkit-text-fill-color:transparent}
+    .newsletter-text p{font-size:1.2rem;color:var(--tl);margin:1.5rem 0;line-height:1.8}
+    .newsletter-form{background:var(--glass);backdrop-filter:blur(20px);
+      border:1px solid rgba(0,0,0,.1);border-radius:24px;padding:2.5rem;
+      box-shadow:0 25px 80px rgba(0,0,0,.1)}
+    .form-group{margin-bottom:1.5rem}
+    .form-group label{display:block;font-weight:600;margin-bottom:.5rem;color:var(--t)}
+    .form-group input,.form-group select{
+      width:100%;padding:.9rem 1rem;border:1px solid #cce0ff;
+      border-radius:12px;background:rgba(255,255,255,.9);font-size:1rem}
+    .form-group input:focus{outline:none;border-color:var(--p);
+      box-shadow:0 0 0 4px rgba(79,70,229,.1)}
+    .checkbox{display:flex;gap:.8rem;margin:1.5rem 0;align-items:center}
+    .submit-btn{width:100%;padding:1rem;background:linear-gradient(135deg,var(--p),var(--a));
+      color:#fff;border:none;border-radius:12px;font-size:1.1rem;font-weight:700;
+      cursor:pointer;box-shadow:0 10px 40px rgba(79,70,229,.2);transition:.3s}
+    .submit-btn:hover{transform:translateY(-3px);box-shadow:0 15px 50px rgba(79,70,229,.3)}
+    .success{display:none;background:#d1fae5;padding:1rem;border-radius:12px;
+      text-align:center;color:#065f46;margin-top:1rem;font-weight:600}
+
+    /* FOOTER */
+    footer{background:var(--glass);border-top:1px solid rgba(0,0,0,.1);padding:3rem 1.5rem 2rem}
+    .footer-content{max-width:1600px;margin:auto;display:grid;grid-template-columns:2fr 1fr 1fr;gap:3rem}
+    .footer-brand img{max-height:90px;display:block;margin:0 auto 1rem}
+    .footer-brand h3{font-size:1.8rem;font-weight:900;text-align:center;
+      background:linear-gradient(135deg,var(--pl),var(--a));
+      -webkit-background-clip:text;background-clip:text;
+      -webkit-text-fill-color:transparent}
+    .footer-links a{color:var(--tm);text-decoration:none}
+    .footer-links a:hover{color:var(--pl)}
+    .footer-bottom{text-align:center;padding-top:1.5rem;border-top:1px solid rgba(0,0,0,.1);
+      color:var(--tm);font-size:.85rem}
+
+    /* MOBIEL */
+    @media(max-width:768px){
+      .hero-content{grid-template-columns:1fr;text-align:center;gap:2rem}
+      .newsletter-text h1{font-size:2.5rem}
+      .newsletter-form{padding:2rem}
+      .footer-content{grid-template-columns:1fr}
+      .nav-list{display:none;position:absolute;top:100%;left:0;width:100%;
+        background:var(--glass);padding:1rem;flex-direction:column}
+      .nav-list.active{display:flex}
+      .hamburger{display:block;background:none;border:none;font-size:1.8rem;cursor:pointer}
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
   <nav>
     <div class="nav-container">
-      <a href="index.html" class="logo">
-        <img src="Logo-2.webp" alt="Logo" class="logo-img">
-        Klaas Vis
-      </a>
+      <div class="logo">
+        <img src="Logo.png" alt="Logo" class="logo-img"> Klaas Vis
+      </div>
+      <button class="hamburger">☰</button>
       <ul class="nav-list">
-        <li><a href="index.html">Home</a></li>
-        <li><a href="diensten.html">Diensten</a></li>
-        <li><a href="nieuwsbrief.html">Nieuwsbrief</a></li>
-        <li><a href="contact.html">Contact</a></li>
+        <li><a href="/">Home</a></li>
+        <li><a href="/schade/">Schade</a></li>
+        <li><a href="/contact/">Contact</a></li>
       </ul>
-      <button class="hamburger">&#9776;</button>
     </div>
   </nav>
 
-  <!-- Hero Section -->
+  <!-- ORBS -->
+  <div style="position:fixed;top:0;left:0;width:100%;height:100%;z-index:0">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+  </div>
+
+  <!-- HERO + FORMULIER -->
   <section class="hero">
     <div class="hero-content">
-      <div class="hero-text">
-        <span class="hero-label">Nieuwsbrief</span>
-        <h1>Meld u aan voor onze nieuwsbrief</h1>
-        <p>Blijf op de hoogte van de laatste updates, tips en exclusieve aanbiedingen.</p>
+      <div class="newsletter-text">
+        <h1>Blijf op de hoogte</h1>
+        <p>Elke maand slimme tips, exclusieve kortingen en het laatste nieuws van Klaas Vis.</p>
+        <ul style="margin:2rem 0;padding-left:1.5rem;color:var(--tl);font-size:1.1rem">
+          <li>Gratis checklist “Bespaar op je autoverzekering”</li>
+          <li>Vooruitlopen op wetswijzigingen</li>
+          <li>Persoonlijke aanbiedingen</li>
+        </ul>
       </div>
-      <div class="hero-visual">
-        <img src="newsletter-illustratie.png" alt="Nieuwsbrief Illustratie">
-      </div>
-    </div>
-  </section>
 
-  <!-- Aanmeldformulier -->
-  <section class="contact">
-    <div class="form-container">
-      <form id="newsletter-form">
+      <form class="newsletter-form" onsubmit="return submitForm(event)">
         <div class="form-group">
-          <label for="naam">Naam *</label>
-          <input type="text" id="naam" name="naam" placeholder="Uw naam" required>
+          <label>Voor- en achternaam *</label>
+          <input type="text" required placeholder="Klaas Vis">
         </div>
         <div class="form-group">
-          <label for="email">E-mail *</label>
-          <input type="email" id="email" name="email" placeholder="Uw e-mailadres" required>
+          <label>E-mailadres *</label>
+          <input type="email" required placeholder="klaas@vis.nl">
         </div>
-        <div class="form-group checkbox">
-          <input type="checkbox" id="optin" required>
-          <label for="optin">Ik ga akkoord met het ontvangen van de nieuwsbrief en de privacyverklaring.</label>
+        <div class="form-group">
+          <label>Ik ben *</label>
+          <select required>
+            <option value="">Kies...</option>
+            <option>Particulier</option>
+            <option>Zakelijk</option>
+          </select>
         </div>
-        <button type="submit" class="submit-btn">Inschrijven</button>
+
+        <div class="checkbox">
+          <input type="checkbox" id="akkoord" required>
+          <label for="akkoord" style="font-weight:400;cursor:pointer">
+            Ik ga akkoord met de <a href="/privacy" style="color:var(--p);text-decoration:underline">privacyvoorwaarden</a>
+          </label>
+        </div>
+
+        <button type="submit" class="submit-btn">
+          Ja, stuur mij de nieuwsbrief!
+        </button>
+
+        <div class="success" id="success">
+          Bedankt! Je bent aangemeld. Check je mail!
+        </div>
       </form>
-
-      <!-- Wettelijke info -->
-      <div class="newsletter-info" style="margin-top: 2rem; font-size: 0.9rem; color: var(--text-muted);">
-        <p><strong>Waarom wij uw gegevens gebruiken:</strong> Wij gebruiken uw e-mailadres uitsluitend om u onze nieuwsbrief te sturen met updates, tips en aanbiedingen.</p>
-        <p><strong>Privacy & AVG:</strong> Uw gegevens worden veilig opgeslagen en niet gedeeld met derden. U kunt zich te allen tijde uitschrijven via de link in de nieuwsbrief.</p>
-        <p><strong>Verantwoordelijke:</strong> Klaas Vis Assurantiën, info@klaasvis.nl.</p>
-        <p>Door u in te schrijven, gaat u akkoord met het ontvangen van onze nieuwsbrief en onze privacyverklaring.</p>
-        <p>Lees onze <a href="/privacyverklaring" style="color: var(--primary); text-decoration: underline;">privacyverklaring</a> voor meer informatie.</p>
-      </div>
     </div>
   </section>
 
-  <!-- Footer -->
+  <!-- FOOTER -->
   <footer>
     <div class="footer-content">
       <div class="footer-brand">
-        <img src="Logo-2.webp" alt="Logo">
-        <h3>Klaas Vis</h3>
-        <p>Uw betrouwbare partner in verzekeringen en financiële diensten.</p>
+        <img src="Logo.png" alt="Klaas Vis">
+        <h3>BV Assurantiekantoor Klaas Vis Ao. 1834</h3>
+        <p>Uw vertrouwde partner sinds 1834.</p>
       </div>
-      <div class="footer-section">
-        <h4>Links</h4>
+      <div>
+        <h4 style="margin-bottom:1rem;font-weight:700">Links</h4>
         <ul class="footer-links">
-          <li><a href="index.html">Home</a></li>
-          <li><a href="diensten.html">Diensten</a></li>
-          <li><a href="nieuwsbrief.html">Nieuwsbrief</a></li>
-          <li><a href="contact.html">Contact</a></li>
+          <li><a href="/">Home</a></li>
+          <li><a href="/schade/">Schade melden</a></li>
         </ul>
       </div>
-      <div class="footer-section">
-        <h4>Contact</h4>
+      <div>
+        <h4 style="margin-bottom:1rem;font-weight:700">Contact</h4>
         <ul class="footer-links">
+          <li><a href="tel:0756314261">075-6314261</a></li>
           <li><a href="mailto:info@klaasvis.nl">info@klaasvis.nl</a></li>
-          <li><a href="tel:+31012345678">+31 012 345 678</a></li>
         </ul>
       </div>
     </div>
     <div class="footer-bottom">
-      <span>&copy; 2025 Klaas Vis Assurantiën. Alle rechten voorbehouden.</span>
-      <span>Privacyverklaring | Algemene voorwaarden</span>
+      <p>© 2025 Klaas Vis Ao. 1834. Alle rechten voorbehouden.</p>
     </div>
   </footer>
 
   <script>
-    // Hamburger menu
-    const hamburger = document.querySelector('.hamburger');
-    const navList = document.querySelector('.nav-list');
-    hamburger.addEventListener('click', () => {
-      navList.classList.toggle('active');
-    });
+    // Hamburger
+    document.querySelector('.hamburger').onclick = () => 
+      document.querySelector('.nav-list').classList.toggle('active');
+
+    // Formulier (demo)
+    function submitForm(e){
+      e.preventDefault();
+      document.querySelector('.newsletter-form').style.display='none';
+      document.getElementById('success').style.display='block';
+    }
   </script>
 </body>
+</html>
