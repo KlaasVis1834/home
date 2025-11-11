@@ -1,5 +1,5 @@
 /* ===================== */
-/* ALGEMENE STIJLEN (OVERGENOMEN VAN HOMEPAGE) */
+/* ALGEMENE STIJLEN */
 /* ===================== */
 :root {
     --primary: #4f46e5;
@@ -13,42 +13,40 @@
     --glass: rgba(255, 255, 255, 0.8);
 }
 
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
 body {
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;  /* ← ZELFDE HOMEPAGE! */
-    background: var(--bg-light);  /* ← ZELFDE HOMEPAGE! */
-    color: var(--text);           /* ← ZELFDE HOMEPAGE! */
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: var(--bg-light);
+    color: var(--text);
     line-height: 1.6;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
+}
 
 a {
-  text-decoration: none;
-  color: inherit;
+    text-decoration: none;
+    color: inherit;
 }
 
 img {
-  max-width: 100%;
+    max-width: 100%;
+    height: auto;
+    display: block;
 }
 
-/* NAVBAR (MENUBALK) */
 /* ===================== */
-/* Navigation */
-:root {
-    --primary: #4f46e5;
-    --primary-light: #818cf8;
-    --primary-dark: #3730a3;
-    --accent: #14b8a6;
-    --accent-2: #f59e0b;
-    --text: #1e293b;
-    --text-muted: #64748b;
-    --bg-light: #f8fafc;
-    --glass: rgba(255, 255, 255, 0.8);
-}
-
+/* NAVBAR */
+/* ===================== */
 nav {
     position: fixed;
     top: 0;
+    left: 0;
     width: 100%;
     background: var(--glass);
     backdrop-filter: blur(20px) saturate(180%);
@@ -81,7 +79,6 @@ nav {
 .logo-img {
     max-height: 45px;
     width: auto;
-    display: block;
 }
 
 .nav-list {
@@ -92,32 +89,32 @@ nav {
 }
 
 .nav-list a {
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
-  font-size: 0.95rem !important;
-  font-weight: 600 !important;
-  text-decoration: none !important;
-  letter-spacing: 0.3px !important;
-  color: var(--text) !important; /* <- veranderd van white naar zwart (variabele) */
-  transition: all 0.3s ease !important;
-  position: relative !important;
-}
-
-.nav-list a:hover {
-  color: var(--primary-light) !important;
+    font-size: 0.95rem;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    color: var(--text);
+    transition: color 0.3s ease;
+    position: relative;
+    padding: 0.5rem 0;
 }
 
 .nav-list a::after {
-  content: "";
-  display: block;
-  height: 2px;
-  background: linear-gradient(90deg, var(--primary), var(--accent));
-  transform: scaleX(0);
-  transition: transform 0.3s ease;
-  transform-origin: left;
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--primary), var(--accent));
+    transition: width 0.3s ease;
+}
+
+.nav-list a:hover {
+    color: var(--primary-light);
 }
 
 .nav-list a:hover::after {
-  transform: scaleX(1);
+    width: 100%;
 }
 
 .hamburger {
@@ -129,14 +126,15 @@ nav {
     cursor: pointer;
     font-weight: 300;
 }
+
 /* ===================== */
-/* FORMULIER SCHADEN MELDEN */
+/* SCHADEFORMULIER */
 /* ===================== */
 .schade-melden {
     padding: 4rem 1rem;
     display: flex;
     justify-content: center;
-    margin-top: 80px; /* ← Voor fixed nav */
+    margin-top: 80px;
 }
 
 .schade-content {
@@ -149,8 +147,7 @@ nav {
 }
 
 .schade-content h2 {
-    font-family: 'Inter', sans-serif; /* ← Zelfde als homepage */
-    font-weight: 700; /* ← Niet 900 */
+    font-weight: 700;
     color: #003366;
     margin-bottom: 1rem;
     font-size: 2rem;
@@ -159,101 +156,122 @@ nav {
 .schade-content p {
     margin-bottom: 2rem;
     color: #003366cc;
-    font-weight: 300; /* ← DUN */
+    font-weight: 300;
 }
 
 form.schade-form .form-group {
-  margin-bottom: 1.5rem;
+    margin-bottom: 1.5rem;
 }
 
 form.schade-form label {
-  display: block;
-  font-weight: 600;
-  margin-bottom: 0.5rem;
+    display: block;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
 }
 
 form.schade-form input,
 form.schade-form select,
 form.schade-form textarea {
-  width: 100%;
-  padding: 0.8rem 1rem;
-  border-radius: 8px;
-  border: 1px solid #cce0ff;
-  font-size: 1rem;
-  font-family: inherit;
-  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    width: 100%;
+    padding: 0.8rem 1rem;
+    border-radius: 8px;
+    border: 1px solid #cce0ff;
+    font-size: 1rem;
+    font-family: inherit;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 form.schade-form input:focus,
 form.schade-form select:focus,
 form.schade-form textarea:focus {
-  border-color: #66a3ff;
-  box-shadow: 0 0 5px rgba(102, 163, 255, 0.5);
-  outline: none;
+    border-color: #66a3ff;
+    box-shadow: 0 0 5px rgba(102, 163, 255, 0.5);
+    outline: none;
 }
 
 form.schade-form button {
-  background-color: #0066cc;
-  color: #fff;
-  border: none;
-  padding: 0.9rem 2rem;
-  border-radius: 8px;
-  font-size: 1rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
+    background-color: #0066cc;
+    color: #fff;
+    border: none;
+    padding: 0.9rem 2rem;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 
 form.schade-form button:hover {
-  background-color: #004c99;
+    background-color: #004c99;
 }
 
 .form-message {
-  margin-top: 1rem;
-  text-align: center;
-  font-weight: 600;
+    margin-top: 1rem;
+    text-align: center;
+    font-weight: 600;
 }
-* Tiles Section */
-.tiles {
+
+/* ===================== */
+/* TILES & CONTACT */
+/* ===================== */
+.tiles,
+.contact {
     padding: 30px 20px;
     background: #f8f9fa;
     text-align: center;
 }
 
-.tiles-content {
+.tiles-content,
+.contact-content {
     max-width: 1200px;
     margin: 0 auto;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 20px;
 }
 
-.tile {
-    background: #fff;
-    border-radius: 5px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    padding: 20px;
-    text-align: left;
+.contact-content {
+    max-width: 600px;
 }
 
-.tile h3 {
-    font-size: 20px;
-    margin-bottom: 15px;
+.tile,
+.contact h2 {
     color: #003087;
 }
 
-.tile p, .tile li {
+.tile h3,
+.contact h2 {
+    font-size: 20px;
+    margin-bottom: 15px;
+}
+
+.contact h2 {
+    font-size: 28px;
+}
+
+.tile p, .tile li,
+.contact p {
     font-size: 14px;
     margin-bottom: 10px;
 }
 
-.tile ul {
+.contact p {
+    font-size: 16px;
+    margin-bottom: 15px;
+}
+
+.tile ul,
+.contact-options {
     list-style: none;
 }
 
-.tile ul li {
+.tile ul li,
+.contact-options li {
     padding-left: 20px;
     position: relative;
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+.contact-options li {
+    padding-left: 25px;
 }
 
 .tile ul li::before {
@@ -263,76 +281,32 @@ form.schade-form button:hover {
     color: #007bff;
 }
 
-.tile a {
-    color: #007bff;
-    text-decoration: none;
-}
-
-.tile a:hover {
-    text-decoration: underline;
-}
-
-/* Contact Section */
-.contact {
-    padding: 30px 20px;
-    background: #f8f9fa;
-    text-align: center;
-}
-
-.contact-content {
-    max-width: 600px;
-    margin: 0 auto;
-}
-
-.contact h2 {
-    font-size: 28px;
-    margin-bottom: 15px;
-    color: #003087;
-}
-
-.contact p {
-    font-size: 16px;
-    margin-bottom: 15px;
-}
-
-.contact-options {
-    list-style: none;
-    text-align: left;
-    max-width: 500px;
-    margin: 0 auto;
-}
-
-.contact-options li {
-    font-size: 14px;
-    margin-bottom: 10px;
-    padding-left: 25px;
-    position: relative;
-}
-
 .contact-options li::before {
-    content: "📞";
+    content: "Phone";
     position: absolute;
     left: 0;
     color: #007bff;
 }
 
+.tile a,
 .contact-options a {
     color: #007bff;
     text-decoration: none;
 }
 
+.tile a:hover,
 .contact-options a:hover {
     text-decoration: underline;
 }
+
 /* ===================== */
-/* FOOTER (OVERGENOMEN VAN HOMEPAGE) */
+/* FOOTER */
 /* ===================== */
 footer {
     background: rgba(255, 255, 255, 0.95);
     border-top: 1px solid rgba(0, 0, 0, 0.1);
     padding: 3rem 1.5rem 2rem;
-    position: relative;
-    z-index: 1;
+    margin-top: auto;
 }
 
 .footer-content {
@@ -346,7 +320,6 @@ footer {
 
 .footer-brand img {
     max-height: 90px;
-    width: auto;
     margin: 0 auto 1rem;
     display: block;
 }
@@ -372,10 +345,6 @@ footer {
     font-size: 1rem;
     margin-bottom: 1rem;
     font-weight: 700;
-}
-
-.footer-links {
-    list-style: none;
 }
 
 .footer-links li {
@@ -404,9 +373,11 @@ footer {
     font-size: 0.85rem;
 }
 
+/* ===================== */
 /* RESPONSIVE */
+/* ===================== */
 @media (max-width: 768px) {
-    /* MENUBALK MOBIEL */
+    /* Hamburger menu */
     .hamburger {
         display: block;
     }
@@ -422,6 +393,7 @@ footer {
         backdrop-filter: blur(20px);
         padding: 1rem;
         border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        z-index: 999;
     }
 
     .nav-list.active {
@@ -436,16 +408,18 @@ footer {
         font-size: 1rem;
         display: block;
         padding: 0.5rem 1rem;
+        text-align: center;
     }
 
     .nav-container {
         padding: 1rem 1.5rem;
     }
 
-    /* FOOTER MOBIEL */
+    /* Footer */
     .footer-content {
         grid-template-columns: 1fr;
         gap: 2rem;
+        text-align: center;
     }
 
     .footer-bottom {
@@ -475,128 +449,12 @@ footer {
     .logo-img {
         max-height: 35px;
     }
-  * Tiles Section */
-.tiles {
-    padding: 30px 20px;
-    background: #f8f9fa;
-    text-align: center;
+
+    .schade-content {
+        padding: 2rem;
+    }
+
+    .schade-content h2 {
+        font-size: 1.8rem;
+    }
 }
-
-.tiles-content {
-    max-width: 1200px;
-    margin: 0 auto;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 20px;
-}
-
-.tile {
-    background: #fff;
-    border-radius: 5px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    padding: 20px;
-    text-align: left;
-}
-
-.tile h3 {
-    font-size: 20px;
-    margin-bottom: 15px;
-    color: #003087;
-}
-
-.tile p, .tile li {
-    font-size: 14px;
-    margin-bottom: 10px;
-}
-
-.tile ul {
-    list-style: none;
-}
-
-.tile ul li {
-    padding-left: 20px;
-    position: relative;
-}
-
-.tile ul li::before {
-    content: "•";
-    position: absolute;
-    left: 0;
-    color: #007bff;
-}
-
-.tile a {
-    color: #007bff;
-    text-decoration: none;
-}
-
-.tile a:hover {
-    text-decoration: underline;
-}
-
-/* Contact Section */
-.contact {
-    padding: 30px 20px;
-    background: #f8f9fa;
-    text-align: center;
-}
-
-.contact-content {
-    max-width: 600px;
-    margin: 0 auto;
-}
-
-.contact h2 {
-    font-size: 28px;
-    margin-bottom: 15px;
-    color: #003087;
-}
-
-.contact p {
-    font-size: 16px;
-    margin-bottom: 15px;
-}
-
-.contact-options {
-    list-style: none;
-    text-align: left;
-    max-width: 500px;
-    margin: 0 auto;
-}
-
-.contact-options li {
-    font-size: 14px;
-    margin-bottom: 10px;
-    padding-left: 25px;
-    position: relative;
-}
-
-.contact-options li::before {
-    content: "📞";
-    position: absolute;
-    left: 0;
-    color: #007bff;
-}
-
-.contact-options a {
-    color: #007bff;
-    text-decoration: none;
-}
-
-.contact-options a:hover {
-    text-decoration: underline;
-}
-
-}
-
-
-
-
-
-
-
-
-
-
-
-
