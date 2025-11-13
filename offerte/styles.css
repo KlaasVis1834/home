@@ -718,10 +718,8 @@ footer {
     }
 
 
-    /* FOOTER MOBIEL */
-    .footer-content {
+    /    .footer-content {
         grid-template-columns: 1fr;
-        gap: 2rem;
     }
 
     .footer-bottom {
@@ -733,12 +731,6 @@ footer {
     .footer-brand img {
         max-height: 70px;
     }
-
-    footer {
-        padding: 2rem 1rem 1.5rem;
-    }
-}
-
 @media (max-width: 600px) {
     body {
         padding: 10px;
