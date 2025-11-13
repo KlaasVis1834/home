@@ -40,7 +40,15 @@ function updateStepIndicator(n) {
     }
     indicators[n].classList.add("active-step");
 }
-
+// === reCAPTCHA controle functie ===
+function checkRecaptcha() {
+    const recaptchaResponse = grecaptcha.getResponse();
+    if (!recaptchaResponse) {
+        alert("Bevestig eerst dat u geen robot bent (klik op de reCAPTCHA).");
+        return false;
+    }
+    return true;
+}
 // Functie om voertuiggegevens op te halen via RDW API
 async function fetchVehicleData(kenteken) {
     const url = `https://opendata.rdw.nl/resource/m9d7-ebf2.json?kenteken=${kenteken.replace(/-/g, '')}`;
