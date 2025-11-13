@@ -257,7 +257,12 @@ function handleSubmit(isConfirmed) {
                 document.getElementById('resultMessage').style.display = 'block';
                 document.getElementById('quote-form').style.display = 'none';
                 document.querySelector('.navigation-buttons').style.display = 'none';
-
+      const recaptchaResponse =
+        typeof grecaptcha !== "undefined" ? grecaptcha.getResponse() : "";
+      if (!recaptchaResponse) {
+        alert("Bevestig dat u geen robot bent (reCAPTCHA).");
+        return;
+      }
                 // Toon loading screen opnieuw voor redirect
                 setTimeout(() => {
                     loadingScreen.style.display = 'flex';
