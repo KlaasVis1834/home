@@ -686,7 +686,6 @@ footer {
 /* Mobiele aanpassingen */
 * RESPONSIVE */
 @media (max-width: 768px) {
-    /* MENUBALK MOBIEL */
     .hamburger {
         display: block;
     }
@@ -718,9 +717,6 @@ footer {
         padding: 0.5rem 1rem;
     }
 
-    .nav-container {
-        padding: 1rem 1.5rem;
-    }
 
     /* FOOTER MOBIEL */
     .footer-content {
