@@ -367,21 +367,28 @@ function showModal() {
         dekkingText = 'Conform verzekeringsvoorstel';
     }
 
-    for (let [key, value] of formData.entries()) {
-        if (value && value !== 'on') {
-            if ((key === 'rechtsvorm' || key === 'rechtsvorm-omschrijving' || key.startsWith('ubo')) && aanschaf !== 'zakelijk') {
-                continue;
-            }
-            if (key === 'main_coverage' || key === 'extra_schadeverzekering' || key === 'extra_rechtsbijstand') {
-                continue;
-            }
-            if (key === 'dekking') {
-                summaryHtml += `<li>Gewenste dekking: ${dekkingText}</li>`;
-            } else {
-                summaryHtml += `<li>${key}: ${value}</li>`;
-            }
+for (let [key, value] of formData.entries()) {
+
+    // ❌ reCAPTCHA nooit tonen in samenvatting
+    if (key === 'g-recaptcha-response') continue;
+
+    if (value && value !== 'on') {
+
+        if ((key === 'rechtsvorm' || key === 'rechtsvorm-omschrijving' || key.startsWith('ubo')) && aanschaf !== 'zakelijk') {
+            continue;
+        }
+
+        if (key === 'main_coverage' || key === 'extra_schadeverzekering' || key === 'extra_rechtsbijstand') {
+            continue;
+        }
+
+        if (key === 'dekking') {
+            summaryHtml += `<li>Gewenste dekking: ${dekkingText}</li>`;
+        } else {
+            summaryHtml += `<li>${key}: ${value}</li>`;
         }
     }
+}
     summaryHtml += "</ul>";
 
     if (!signaturePad.isEmpty()) {
