@@ -1029,4 +1029,134 @@ footer {
         font-size: 0.85rem;
     }
 }
+@media (max-width: 600px) {
+    body {
+        padding: 10px;
+    }
 
+    .form-container {
+        max-width: 100%;
+        padding: 15px;
+    }
+
+    .logo img {
+        max-width: 100%;
+    }
+
+    .step-indicators {
+        flex-direction: column;
+    }
+
+    .step {
+        width: 100%;
+        padding: 10px;
+        font-size: 14px;
+        margin-bottom: 5px;
+    }
+
+    .form-group label {
+        font-size: 14px;
+    }
+
+    .switch {
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .switch-label {
+        width: 100%;
+        padding: 8px 15px;
+        font-size: 14px;
+        text-align: center;
+    }
+
+    .coverage-switch .switch-label {
+        padding: 8px 10px;
+        font-size: 12px;
+    }
+
+    .tooltip-text {
+        max-width: 90%;
+        left: 0;
+        transform: none;
+        font-size: 11px;
+    }
+
+    .switch-label .tooltip-text {
+        left: 10px;
+        transform: none;
+        width: calc(100% - 20px);
+    }
+
+    .navigation-buttons {
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .navigation-buttons button {
+        width: 100%;
+        padding: 8px 15px;
+        font-size: 14px;
+        margin-bottom: 10px;
+    }
+
+    .terug-button {
+        order: 2;
+    }
+
+    .prev-button {
+        order: 1;
+    }
+
+    .next-button {
+        order: 3;
+    }
+
+    .signature-pad {
+        width: 100%;
+        max-width: 300px;
+        height: 150px;
+    }
+
+    .submit-button {
+        width: 100%;
+        padding: 10px;
+    }
+
+    .modal-content {
+        width: 90%;
+        max-width: 400px;
+        padding: 15px;
+    }
+
+    /* Mobiele stijlen voor loading screens (onveranderd van jouw origineel) */
+    .loading-screen {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(255, 255, 255, 0.9);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
+    }
+
+    .loader {
+        border: 8px solid #f3f3f3;
+        border-top: 8px solid #3498db;
+        border-radius: 50%;
+        width: 60px;
+        height: 60px;
+        animation: spin 1s linear infinite;
+    }
+
+    .loading-screen p {
+        margin-top: 20px;
+        font-size: 18px;
+        color: #333;
+    }
+}
