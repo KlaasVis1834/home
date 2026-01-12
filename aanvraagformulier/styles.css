@@ -680,7 +680,7 @@ footer {
     font-size: 0.85rem;
 }
 
-/@media (max-width: 1200px) {
+@media (max-width: 1200px) {
     .hero-content,
     .dekker-container,
     .contact-container {
