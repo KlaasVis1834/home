@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="nl">
 <head>
@@ -14,8 +13,7 @@
             emailjs.init("ONDQRoTrKQCSL4P-M"); // Jouw User ID
         })();
     </script>
-      <script src="https://www.google.com/recaptcha/api.js" async defer></script>
-
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 </head>
 <body>
 
@@ -23,13 +21,17 @@
     <div id="page-loading-screen">
         <div class="page-loader"></div>
     </div>
-     <nav>
+
+    <nav>
         <div class="nav-container">
             <div class="logo">
-                            <img src="Logo.png" alt="Klaas Vis Logo" class="logo-img">    
-            Klaas Vis
+                <img src="Logo.png" alt="Klaas Vis Logo" class="logo-img">
+                Klaas Vis
             </div>
-            <button class="hamburger">☰</button>
+
+            <!-- ✅ type="button" zodat hij nooit per ongeluk form submit triggert -->
+            <button class="hamburger" type="button" aria-label="Menu" aria-expanded="false">☰</button>
+
             <ul class="nav-list">
                 <li><a href="https://www.klaasvis.online">Home</a></li>
                 <li><a href="/schademelden/">Schade melden</a></li>
@@ -41,27 +43,87 @@
             </ul>
         </div>
     </nav>
-    <div class="logo">
-    </div>
-<br>
-    
-<br>
-    
-<br>
-    
-<br>
-    
+
+    <!-- ✅ Hamburger menu script (minimaal, past bij jouw CSS .nav-list.active) -->
+    <script>
+        (function () {
+            function initHamburgerMenu() {
+                const btn = document.querySelector('.hamburger');
+                const menu = document.querySelector('.nav-list');
+                if (!btn || !menu) return;
+
+                const openMenu = () => {
+                    menu.classList.add('active');
+                    btn.setAttribute('aria-expanded', 'true');
+                    document.documentElement.classList.add('nav-open');
+                    document.body.classList.add('nav-open');
+                };
+
+                const closeMenu = () => {
+                    menu.classList.remove('active');
+                    btn.setAttribute('aria-expanded', 'false');
+                    document.documentElement.classList.remove('nav-open');
+                    document.body.classList.remove('nav-open');
+                };
+
+                const toggleMenu = (e) => {
+                    if (e) e.preventDefault();
+                    if (menu.classList.contains('active')) closeMenu();
+                    else openMenu();
+                };
+
+                // Click + touch (mobiel betrouwbaarheid)
+                btn.addEventListener('click', toggleMenu, { passive: false });
+                btn.addEventListener('touchstart', toggleMenu, { passive: false });
+
+                // Sluit bij klik op link in menu
+                menu.addEventListener('click', (e) => {
+                    const a = e.target.closest('a');
+                    if (a) closeMenu();
+                });
+
+                // Sluit bij klik buiten menu/knop
+                document.addEventListener('click', (e) => {
+                    if (!menu.classList.contains('active')) return;
+                    const clickedInside = menu.contains(e.target) || btn.contains(e.target);
+                    if (!clickedInside) closeMenu();
+                });
+
+                // Sluit met Escape
+                document.addEventListener('keydown', (e) => {
+                    if (e.key === 'Escape' && menu.classList.contains('active')) closeMenu();
+                });
+
+                // Sluit bij resize naar desktop
+                window.addEventListener('resize', () => {
+                    if (window.innerWidth > 768 && menu.classList.contains('active')) closeMenu();
+                });
+            }
+
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', initHamburgerMenu);
+            } else {
+                initHamburgerMenu();
+            }
+        })();
+    </script>
+
+    <div class="logo"></div>
+
+    <br><br><br><br>
+
     <div class="form-container">
         <form id="insurance-form">
             <!-- Verborgen invoerveld om de handtekening-URL op te slaan -->
             <input type="hidden" id="signature_url" name="signature_url">
-            
+
             <div class="step-indicators">
                 <div class="step active-step" id="step1-indicator">Gegevens verzekeringnemer</div>
                 <div class="step" id="step2-indicator">Gegevens auto</div>
                 <div class="step" id="step4-indicator">Slotvragen</div>
                 <div class="step" id="step5-indicator">Ondertekenen en indienen</div>
             </div>
+
             <!-- Stap 1 -->
             <div class="step-content active" id="step1">
                 <div class="form-group">
@@ -104,46 +166,49 @@
                         <input type="text" id="relatie" name="relatie" autocomplete="off">
                     </div>
                 </div>
+
                 <h4>Betaalgegevens</h4>
 
-<div class="form-group">
-  <label>Betalingstermijn:</label>
-  <div class="switch">
-    <input type="radio" id="maandelijks" name="betalingstermijn" value="maandelijks" checked>
-    <label for="maandelijks" class="switch-label">Maandelijks</label>
+                <div class="form-group">
+                  <label>Betalingstermijn:</label>
+                  <div class="switch">
+                    <input type="radio" id="maandelijks" name="betalingstermijn" value="maandelijks" checked>
+                    <label for="maandelijks" class="switch-label">Maandelijks</label>
 
-    <input type="radio" id="kwartaal" name="betalingstermijn" value="kwartaal">
-    <label for="kwartaal" class="switch-label">Kwartaal</label>
+                    <input type="radio" id="kwartaal" name="betalingstermijn" value="kwartaal">
+                    <label for="kwartaal" class="switch-label">Kwartaal</label>
 
-    <input type="radio" id="jaarlijks" name="betalingstermijn" value="jaarlijks">
-    <label for="jaarlijks" class="switch-label">Jaarlijks</label>
-  </div>
-</div>
+                    <input type="radio" id="jaarlijks" name="betalingstermijn" value="jaarlijks">
+                    <label for="jaarlijks" class="switch-label">Jaarlijks</label>
+                  </div>
+                </div>
 
-<!-- Tekst verschijnt alleen bij maand/kwartaal -->
-<div class="form-group" id="incasso-tekst" style="display:none;">
-  <strong>Ik ga akkoord met automatische incasso</strong>
-</div>
+                <!-- Tekst verschijnt alleen bij maand/kwartaal -->
+                <div class="form-group" id="incasso-tekst" style="display:none;">
+                  <strong>Ik ga akkoord met automatische incasso</strong>
+                </div>
 
-<script>
-  const radios = document.querySelectorAll('input[name="betalingstermijn"]');
-  const incassoTekst = document.getElementById('incasso-tekst');
+                <script>
+                  const radios = document.querySelectorAll('input[name="betalingstermijn"]');
+                  const incassoTekst = document.getElementById('incasso-tekst');
 
-  function updateIncasso() {
-    const val = document.querySelector('input[name="betalingstermijn"]:checked').value;
-    incassoTekst.style.display = (val === 'maandelijks' || val === 'kwartaal') ? 'block' : 'none';
-  }
+                  function updateIncasso() {
+                    const val = document.querySelector('input[name="betalingstermijn"]:checked').value;
+                    incassoTekst.style.display = (val === 'maandelijks' || val === 'kwartaal') ? 'block' : 'none';
+                  }
 
-  radios.forEach(r => r.addEventListener('change', updateIncasso));
-  updateIncasso(); // initiale staat
-</script>
+                  radios.forEach(r => r.addEventListener('change', updateIncasso));
+                  updateIncasso(); // initiale staat
+                </script>
 
                 <div class="form-group">
                     <label for="iban">Uw IBAN-rekeningnummer:</label>
                     <input type="text" id="iban" name="iban" autocomplete="iban" required>
                 </div>
             </div>
+
             <div class="footer-logo"></div>
+
             <!-- Stap 2 -->
             <div class="step-content" id="step2">
                 <div class="form-group">
@@ -191,6 +256,7 @@
                         </div>
                     </div>
                 </div>
+
                 <div class="form-group">
                     <label for="schade-ervaring">Heeft u of de regelmatige bestuurder in de afgelopen 5 jaar schade aan of met een motorvoertuig gehad?</label>
                     <div class="switch">
@@ -214,6 +280,7 @@
                         <input type="text" id="soort-schade" name="soort-schade" autocomplete="off">
                     </div>
                 </div>
+
                 <div class="form-group">
                     <label for="schadevrije-jaren">Heeft u bij uw vorige verzekeringsmaatschappij schadevrije jaren opgebouwd?</label>
                     <div class="switch">
@@ -229,6 +296,7 @@
                         <input type="number" id="aantal-schadevrije-jaren" name="aantal-schadevrije-jaren" autocomplete="off">
                     </div>
                 </div>
+
                 <div id="opzegservice-container" class="hidden">
                     <div class="form-group">
                         <label>Indien uw huidige verzekering elders is ondergebracht, kunnen wij deze voor u opzeggen.</label>
@@ -267,6 +335,7 @@
                         </div>
                     </div>
                 </div>
+
                 <div class="form-group">
                     <label for="aanschaf">Heeft u de auto particulier of zakelijk aangeschaft?</label>
                     <div class="switch">
@@ -276,6 +345,7 @@
                         <label for="zakelijk" class="switch-label">Zakelijk</label>
                     </div>
                 </div>
+
                 <div id="zakelijk-info" class="conditional hidden">
                     <div class="form-group">
                         <label for="rechtsvorm">Rechtsvorm:</label>
@@ -297,6 +367,7 @@
                         </select>
                     </div>
                     <h3>UBO verklaring</h3>
+
                     <h4>Belanghebbende 1</h4>
                     <div class="form-group">
                         <label for="ubo1-naam">Voorletter(s) en achternaam</label>
@@ -314,6 +385,7 @@
                         <label for="ubo1-geboortedatum">Geboortedatum</label>
                         <input type="date" id="ubo1-geboortedatum" name="ubo1-geboortedatum" autocomplete="bday">
                     </div>
+
                     <h4>Belanghebbende 2</h4>
                     <div class="form-group">
                         <label for="ubo2-naam">Voorletter(s) en achternaam</label>
@@ -331,6 +403,7 @@
                         <label for="ubo2-geboortedatum">Geboortedatum</label>
                         <input type="date" id="ubo2-geboortedatum" name="ubo2-geboortedatum" autocomplete="bday">
                     </div>
+
                     <h4>Belanghebbende 3</h4>
                     <div class="form-group">
                         <label for="ubo3-naam">Voorletter(s) en achternaam</label>
@@ -348,6 +421,7 @@
                         <label for="ubo3-geboortedatum">Geboortedatum</label>
                         <input type="date" id="ubo3-geboortedatum" name="ubo3-geboortedatum" autocomplete="bday">
                     </div>
+
                     <div class="form-group">
                         <label for="aantal-belanghebbenden">Indien er meer dan 3 belanghebbenden zijn, graag het totaal aantal en de gegevens van deze personen</label>
                         <input type="number" id="aantal-belanghebbenden" name="aantal-belanghebbenden" min="1" max="10" autocomplete="off">
@@ -355,6 +429,7 @@
                     <div id="belanghebbenden-info"></div>
                 </div>
             </div>
+
             <!-- Stap 4 -->
             <div class="step-content" id="step4">
                 <div class="form-group">
@@ -372,6 +447,7 @@
                         </div>
                     </div>
                 </div>
+
                 <div class="form-group">
                     <label for="verzekeraar">Heeft een verzekeraar in de afgelopen 8 jaar:</label>
                     <label>Geweigerd een verzekeringsovereenkomst te sluiten met u of een andere belanghebbende?</label>
@@ -387,6 +463,7 @@
                         <textarea id="verzekeraar-text" name="verzekeraar-text"></textarea>
                     </div>
                 </div>
+
                 <div class="form-group">
                     <label for="failliet">Bent u, of is een andere belanghebbende de laatste 5 jaar failliet verklaard, in een schuldsanering betrokken of is de rechter akkoord gegaan met een (uitstel) surseance van betaling?</label>
                     <div class="switch">
@@ -400,6 +477,7 @@
                         <textarea id="failliet-text" name="failliet-text"></textarea>
                     </div>
                 </div>
+
                 <div class="form-group">
                     <label for="beslag">Heeft de deurwaarder op dit moment beslag gelegd op inkomsten of bezittingen van u of een andere belanghebbende? Of op het te verzekeren risico of andere eigendommen?</label>
                     <div class="switch">
@@ -413,6 +491,7 @@
                         <textarea id="beslag-text" name="beslag-text"></textarea>
                     </div>
                 </div>
+
                 <div class="form-group">
                     <label for="rijontzegging">Heeft u in de laatste 8 jaar een rijverbod of een rijontzegging gehad?</label>
                     <div class="switch">
@@ -426,6 +505,7 @@
                         <textarea id="rijontzegging-text" name="rijontzegging-text"></textarea>
                     </div>
                 </div>
+
                 <div class="form-group">
                     <label for="conflict">Hebt u, of een andere belanghebbende, in de laatste 5 jaar voor het sluiten van deze verzekering een conflict gehad waarbij juridische hulp nodig was?</label>
                     <div class="switch">
@@ -439,6 +519,7 @@
                         <textarea id="conflict-text" name="conflict-text"></textarea>
                     </div>
                 </div>
+
                 <div class="form-group">
                     <label for="meer-informatie">Heeft u verder iets mede te delen over het te verzekeren risico, uzelf of een andere belanghebbende, dat (eventueel) voor de beoordeling van belang zou kunnen zijn?</label>
                     <div class="switch">
@@ -453,6 +534,7 @@
                     </div>
                 </div>
             </div>
+
             <!-- Stap 5 -->
             <div class="step-content" id="step5">
                 <div class="form-group">
@@ -467,7 +549,9 @@
                     <label for="datum-aanvraag">Datum aanvraag:</label>
                     <input type="date" id="datum-aanvraag" name="datum-aanvraag" autocomplete="off" required>
                 </div>
+
                 <br><br>
+
                 <div class="form-confirm">
                     <label>
                         Ik verklaar:
@@ -485,23 +569,25 @@
                     <label for="verklaring-akkoord"><strong>Akkoord</strong></label>
                     <input type="checkbox" id="verklaring-akkoord" name="verklaring" required>
                 </div>
+
                 <br>
+
                 <div class="form-group">
-                    <div class="canvas"> 
+                    <div class="canvas">
                         <br><br><br>
                         <label for="signature-pad"><strong>Uw digitale handtekening</strong></label>
                         <canvas id="signature-pad" width="400" height="200"></canvas>
                         <button type="button" id="clear-signature">Herstel handtekening</button>
                     </div>
-                              <div class="form-group">
-                                  <br>
-            <div
-              class="g-recaptcha"
-              data-sitekey="6LdwpegrAAAAAKjnbA7VZJoNpYlFJ6iFeMQp0Dov"
-            ></div>
-          </div>
+
+                    <div class="form-group">
+                        <br>
+                        <div class="g-recaptcha" data-sitekey="6LdwpegrAAAAAKjnbA7VZJoNpYlFJ6iFeMQp0Dov"></div>
+                    </div>
+
                     <button type="button" class="submit-button" onclick="showModal()">Aanvraag indienen</button>
                 </div>
+
                 <!-- Popup Modal -->
                 <div id="confirmationModal" class="modal hidden">
                     <div class="modal-content">
@@ -514,6 +600,7 @@
                         </div>
                     </div>
                 </div>
+
                 <!-- Resultaat bericht -->
                 <div id="resultMessage" class="modal hidden">
                     <div class="modal-content">
@@ -524,20 +611,23 @@
                     </div>
                 </div>
             </div>
+
             <!-- Navigatieknoppen -->
             <div class="navigation-buttons text-center">
                 <button type="button" class="prev-button" id="prevBtn" onclick="nextPrev(-1)">Vorige</button>
                 <button type="button" class="next-button" id="nextBtn" onclick="nextPrev(1)">Volgende</button>
             </div>
         </form>
+
         <!-- Bestaande Loading Screen -->
         <div id="loadingScreen" class="loading-screen" style="display: none;">
             <div class="loader"></div>
             <p>Uw aanvraag wordt verwerkt, u wordt doorgestuurd...</p>
         </div>
     </div>
-    <br>
-    <br>
+
+    <br><br>
+
     <footer>
         <div class="footer-content">
             <div class="footer-brand">
@@ -574,8 +664,10 @@
             <p>&copy; 2026 BV Assurantiekantoor Klaas Vis Ao. 1834. Alle rechten voorbehouden.</p>
         </div>
     </footer>
+
     <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.0.0/dist/signature_pad.umd.min.js"></script>
     <script src="script.js?v=1"></script>
+
     <!-- Inline JS alleen voor pagina loading screen -->
     <script>
         // Pagina loading screen
