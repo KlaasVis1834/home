@@ -6,21 +6,20 @@ showStep(currentStep);
 // <button class="hamburger">☰</button>
 // <ul class="nav-list">...</ul>
 //
-// Verwacht in CSS (minimaal):
-// .nav-list { display:none; }             (op mobiel)
-// .nav-list.is-open { display:block; }   (op mobiel)
+// Verwacht in CSS (jij hebt):
+// .nav-list { display:none; } (op mobiel)
+// .nav-list.active { display:flex; } (op mobiel)
 // ============================================================
 function initHamburgerMenu() {
     const btn = document.querySelector('.hamburger');
     const menu = document.querySelector('.nav-list');
     if (!btn || !menu) return;
 
-    // a11y attributen (geen layout impact)
     btn.setAttribute('aria-label', 'Menu');
-    btn.setAttribute('aria-expanded', menu.classList.contains('is-open') ? 'true' : 'false');
+    btn.setAttribute('aria-expanded', menu.classList.contains('active') ? 'true' : 'false');
 
     const openMenu = () => {
-        menu.classList.add('is-open');
+        menu.classList.add('active');
         btn.classList.add('is-active');
         btn.setAttribute('aria-expanded', 'true');
         document.documentElement.classList.add('nav-open');
@@ -28,7 +27,7 @@ function initHamburgerMenu() {
     };
 
     const closeMenu = () => {
-        menu.classList.remove('is-open');
+        menu.classList.remove('active');
         btn.classList.remove('is-active');
         btn.setAttribute('aria-expanded', 'false');
         document.documentElement.classList.remove('nav-open');
@@ -37,35 +36,30 @@ function initHamburgerMenu() {
 
     const toggleMenu = (e) => {
         if (e) e.preventDefault();
-        if (menu.classList.contains('is-open')) closeMenu();
+        if (menu.classList.contains('active')) closeMenu();
         else openMenu();
     };
 
-    // Click + touch (mobiel betrouwbaarheid)
     btn.addEventListener('click', toggleMenu, { passive: false });
     btn.addEventListener('touchstart', toggleMenu, { passive: false });
 
-    // Sluit bij klik op link in menu
     menu.addEventListener('click', (e) => {
         const a = e.target.closest('a');
         if (a) closeMenu();
     });
 
-    // Sluit bij klik buiten menu/knop
     document.addEventListener('click', (e) => {
-        if (!menu.classList.contains('is-open')) return;
+        if (!menu.classList.contains('active')) return;
         const clickedInside = menu.contains(e.target) || btn.contains(e.target);
         if (!clickedInside) closeMenu();
     });
 
-    // Sluit op Escape
     document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && menu.classList.contains('is-open')) closeMenu();
+        if (e.key === 'Escape' && menu.classList.contains('active')) closeMenu();
     });
 
-    // Sluit bij resize naar desktop
     window.addEventListener('resize', () => {
-        if (window.innerWidth > 992 && menu.classList.contains('is-open')) closeMenu();
+        if (window.innerWidth > 992 && menu.classList.contains('active')) closeMenu();
     });
 }
 
@@ -85,20 +79,18 @@ function checkRecaptcha() {
 // Functie om handtekening te uploaden naar Cloudinary
 async function uploadSignature(signatureBase64) {
     try {
-        // Log de Base64-string om te controleren
         console.log('Base64 handtekening:', signatureBase64.substring(0, 50) + '...');
         if (!signatureBase64.startsWith('data:image/png;base64,')) {
             throw new Error('Ongeldige Base64-string: Verwacht data:image/png;base64,');
         }
 
-        // Genereer een unieke public_id zonder slashes
         const publicId = 'handtekening_' + Date.now();
 
         const response = await fetch('https://api.cloudinary.com/v1_1/dqvftnitv/image/upload', {
             method: 'POST',
             body: JSON.stringify({
                 file: signatureBase64,
-                upload_preset: 'signatureupload', // Nieuwe preset
+                upload_preset: 'signatureupload',
                 public_id: publicId
             }),
             headers: {
@@ -106,7 +98,6 @@ async function uploadSignature(signatureBase64) {
             },
         });
 
-        // Log de HTTP-status
         console.log('Cloudinary response status:', response.status, response.statusText);
 
         const result = await response.json();
@@ -130,7 +121,7 @@ function showStep(n) {
         steps[i].style.display = 'none';
     }
     steps[n].style.display = 'block';
-    
+
     if (n == 0) {
         document.getElementById("prevBtn").style.display = 'none';
     } else {
@@ -177,15 +168,13 @@ document.querySelectorAll('input[name="regelmatige-bestuurder"]').forEach((elem)
 
 // Dekking logica
 document.addEventListener('DOMContentLoaded', function() {
-    // ✅ Hamburger init
     initHamburgerMenu();
 
-    // ✅ SignaturePad init (pas als DOM geladen is)
+    // SignaturePad init
     var canvas = document.getElementById('signature-pad');
     if (canvas) {
         signaturePad = new SignaturePad(canvas);
 
-        // SignaturePad clear knop
         var clearButton = document.getElementById('clear-signature');
         if (clearButton) {
             clearButton.addEventListener('click', function() {
@@ -214,9 +203,10 @@ document.addEventListener('DOMContentLoaded', function() {
         dekkingOmschrijving.style.display = 'none';
     }
 
-    // Tooltip-functionaliteit voor info-iconen
+    // Tooltip-functionaliteit
     document.querySelectorAll('.info-icon').forEach(icon => {
-        icon.addEventListener('click', function() {
+        icon.addEventListener('click', function(e) {
+            e.stopPropagation();
             const tooltip = this.nextElementSibling;
             if (tooltip && tooltip.classList.contains('tooltip-text')) {
                 tooltip.style.display = tooltip.style.display === 'block' ? 'none' : 'block';
@@ -224,7 +214,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Sluit tooltips als er buiten wordt geklikt
     document.addEventListener('click', function(event) {
         if (!event.target.classList.contains('info-icon')) {
             document.querySelectorAll('.tooltip-text').forEach(tooltip => {
@@ -238,40 +227,27 @@ document.addEventListener('DOMContentLoaded', function() {
 document.addEventListener('DOMContentLoaded', function() {
     const schadeErvaringRadios = document.getElementsByName('schade-ervaring');
     const schadeErvaringInfo = document.getElementById('schade-ervaring-info');
-    
+
     schadeErvaringRadios.forEach(radio => {
         radio.addEventListener('change', function() {
-            if (this.value === 'yes') {
-                schadeErvaringInfo.style.display = 'block';
-            } else {
-                schadeErvaringInfo.style.display = 'none';
-            }
+            schadeErvaringInfo.style.display = (this.value === 'yes') ? 'block' : 'none';
         });
     });
 
     const schadeVrijeJarenRadios = document.getElementsByName('schadevrije-jaren');
     const schadeVrijeJarenInfo = document.getElementById('schadevrije-jaren-info');
-    
+
     schadeVrijeJarenRadios.forEach(radio => {
         radio.addEventListener('change', function() {
-            if (this.value === 'yes') {
-                schadeVrijeJarenInfo.style.display = 'block';
-            } else {
-                schadeVrijeJarenInfo.style.display = 'none';
-            }
+            schadeVrijeJarenInfo.style.display = (this.value === 'yes') ? 'block' : 'none';
         });
     });
 
     schadeErvaringRadios.forEach(radio => {
-        if (radio.checked && radio.value === 'yes') {
-            schadeErvaringInfo.style.display = 'block';
-        }
+        if (radio.checked && radio.value === 'yes') schadeErvaringInfo.style.display = 'block';
     });
-
     schadeVrijeJarenRadios.forEach(radio => {
-        if (radio.checked && radio.value === 'yes') {
-            schadeVrijeJarenInfo.style.display = 'block';
-        }
+        if (radio.checked && radio.value === 'yes') schadeVrijeJarenInfo.style.display = 'block';
     });
 });
 
@@ -284,7 +260,7 @@ const opzegserviceNo = document.getElementById('opzegservice-no');
 const opzegserviceDetails = document.getElementById('opzegservice-details');
 
 function toggleOpzegservice() {
-    if (schadevrijeJarenYes.checked) {
+    if (schadevrijeJarenYes && schadevrijeJarenYes.checked) {
         opzegserviceContainer.style.display = 'block';
     } else {
         opzegserviceContainer.style.display = 'none';
@@ -293,7 +269,7 @@ function toggleOpzegservice() {
 }
 
 function toggleOpzegserviceDetails() {
-    if (opzegserviceYes.checked) {
+    if (opzegserviceYes && opzegserviceYes.checked) {
         opzegserviceDetails.style.display = 'block';
     } else {
         opzegserviceDetails.style.display = 'none';
@@ -318,32 +294,29 @@ const aantalBelanghebbendenInput = document.getElementById('aantal-belanghebbend
 const belanghebbendenInfo = document.getElementById('belanghebbenden-info');
 
 function toggleZakelijkInfo() {
-    if (zakelijkRadio.checked) {
+    if (zakelijkRadio && zakelijkRadio.checked) {
         zakelijkInfo.style.display = 'block';
     } else {
         zakelijkInfo.style.display = 'none';
-        rechtsvormOmschrijvingContainer.style.display = 'none';
-        belanghebbendenInfo.innerHTML = '';
+        if (rechtsvormOmschrijvingContainer) rechtsvormOmschrijvingContainer.style.display = 'none';
+        if (belanghebbendenInfo) belanghebbendenInfo.innerHTML = '';
     }
 }
 
 function toggleRechtsvormOmschrijving() {
-    const selectedValue = rechtsvormSelect.value;
-    if (selectedValue === 'anders') {
-        rechtsvormOmschrijvingContainer.style.display = 'block';
-    } else {
-        rechtsvormOmschrijvingContainer.style.display = 'block';
-    }
+    if (!rechtsvormSelect || !rechtsvormOmschrijvingContainer) return;
+    rechtsvormOmschrijvingContainer.style.display = 'block';
 }
 
 function updateBelanghebbendenInfo() {
-    const aantal = aantalBelanghebbendenInput.value;
+    if (!aantalBelanghebbendenInput || !belanghebbendenInfo) return;
+    const aantal = parseInt(aantalBelanghebbendenInput.value || '0', 10);
     belanghebbendenInfo.innerHTML = '';
 
     for (let i = 1; i <= aantal; i++) {
         const belanghebbendeContainer = document.createElement('div');
         belanghebbendeContainer.classList.add('belanghebbende-container');
-        
+
         const nameLabel = document.createElement('label');
         nameLabel.textContent = `Belanghebbende ${i} Voor- en achternaam:`;
         const nameInput = document.createElement('input');
@@ -397,14 +370,10 @@ document.addEventListener('DOMContentLoaded', function() {
     function toggleAdditionalInfo(radioGroupName, infoDivId) {
         const radios = document.getElementsByName(radioGroupName);
         const infoDiv = document.getElementById(infoDivId);
-        
+
         radios.forEach(radio => {
             radio.addEventListener('change', function() {
-                if (this.value === 'yes') {
-                    infoDiv.style.display = 'block';
-                } else {
-                    infoDiv.style.display = 'none';
-                }
+                infoDiv.style.display = (this.value === 'yes') ? 'block' : 'none';
             });
         });
     }
@@ -417,7 +386,6 @@ document.addEventListener('DOMContentLoaded', function() {
     toggleAdditionalInfo('beslag', 'beslag-info');
     toggleAdditionalInfo('meer-informatie', 'meer-informatie-info');
 
-    // Stel de standaarddatum in voor "datum-aanvraag"
     const today = new Date();
     const formattedDate = today.toISOString().split('T')[0];
     const datumAanvraag = document.getElementById('datum-aanvraag');
@@ -431,7 +399,6 @@ function showModal() {
     let summaryHtml = "<strong>Ingevulde gegevens:</strong><ul>";
     const aanschaf = formData.get('aanschaf');
 
-    // Verzamel dekking specifiek voor weergave
     let dekkingText = '';
     const dekkingAnders = formData.get('dekking') === 'anders';
     if (dekkingAnders) {
@@ -440,42 +407,25 @@ function showModal() {
         const extraOptions = [];
         if (formData.get('extra_schadeverzekering')) extraOptions.push('Schadeverzekering voor Inzittenden');
         if (formData.get('extra_rechtsbijstand')) extraOptions.push('Rechtsbijstand Verkeer');
-        if (extraOptions.length > 0) {
-            dekkingText += `, Extra opties: ${extraOptions.join(', ')}`;
-        }
+        if (extraOptions.length > 0) dekkingText += `, Extra opties: ${extraOptions.join(', ')}`;
     } else {
         dekkingText = 'Conform verzekeringsvoorstel';
     }
 
     for (let [key, value] of formData.entries()) {
-
-        // ❌ reCAPTCHA nooit tonen in samenvatting
         if (key === 'g-recaptcha-response') continue;
-
         if (value && value !== 'on') {
+            if ((key === 'rechtsvorm' || key === 'rechtsvorm-omschrijving' || key.startsWith('ubo')) && aanschaf !== 'zakelijk') continue;
+            if (key === 'main_coverage' || key === 'extra_schadeverzekering' || key === 'extra_rechtsbijstand') continue;
 
-            if ((key === 'rechtsvorm' || key === 'rechtsvorm-omschrijving' || key.startsWith('ubo')) && aanschaf !== 'zakelijk') {
-                continue;
-            }
-
-            if (key === 'main_coverage' || key === 'extra_schadeverzekering' || key === 'extra_rechtsbijstand') {
-                continue;
-            }
-
-            if (key === 'dekking') {
-                summaryHtml += `<li>Gewenste dekking: ${dekkingText}</li>`;
-            } else {
-                summaryHtml += `<li>${key}: ${value}</li>`;
-            }
+            if (key === 'dekking') summaryHtml += `<li>Gewenste dekking: ${dekkingText}</li>`;
+            else summaryHtml += `<li>${key}: ${value}</li>`;
         }
     }
     summaryHtml += "</ul>";
 
-    if (signaturePad && !signaturePad.isEmpty()) {
-        summaryHtml += "<p><strong>Handtekening:</strong> Aanwezig</p>";
-    } else {
-        summaryHtml += "<p><strong>Handtekening:</strong> Niet aanwezig</p>";
-    }
+    if (signaturePad && !signaturePad.isEmpty()) summaryHtml += "<p><strong>Handtekening:</strong> Aanwezig</p>";
+    else summaryHtml += "<p><strong>Handtekening:</strong> Niet aanwezig</p>";
 
     document.getElementById('summary').innerHTML = summaryHtml;
     document.getElementById('confirmationModal').style.display = 'block';
@@ -527,26 +477,22 @@ async function handleSubmit(isConfirmed) {
             const extraOptions = [];
             if (formData.get('extra_schadeverzekering')) extraOptions.push('Schadeverzekering voor Inzittenden');
             if (formData.get('extra_rechtsbijstand')) extraOptions.push('Rechtsbijstand Verkeer');
-            if (extraOptions.length > 0) {
-                dekkingText += `, Extra opties: ${extraOptions.join(', ')}`;
-            }
+            if (extraOptions.length > 0) dekkingText += `, Extra opties: ${extraOptions.join(', ')}`;
         } else {
             dekkingText = 'Conform verzekeringsvoorstel';
         }
 
         for (let [key, value] of formData.entries()) {
+
+            // ✅ FIX: reCAPTCHA token nooit meesturen in mail
+            if (key === 'g-recaptcha-response') continue;
+
             if (value && value !== 'on') {
-                if ((key === 'rechtsvorm' || key === 'rechtsvorm-omschrijving' || key.startsWith('ubo')) && aanschaf === 'particulier') {
-                    continue;
-                }
-                if (key === 'main_coverage' || key === 'extra_schadeverzekering' || key === 'extra_rechtsbijstand') {
-                    continue;
-                }
-                if (key === 'dekking') {
-                    emailBody += `Gewenste dekking: ${dekkingText}\n`;
-                } else {
-                    emailBody += `${key}: ${value}\n`;
-                }
+                if ((key === 'rechtsvorm' || key === 'rechtsvorm-omschrijving' || key.startsWith('ubo')) && aanschaf === 'particulier') continue;
+                if (key === 'main_coverage' || key === 'extra_schadeverzekering' || key === 'extra_rechtsbijstand') continue;
+
+                if (key === 'dekking') emailBody += `Gewenste dekking: ${dekkingText}\n`;
+                else emailBody += `${key}: ${value}\n`;
             }
         }
 
@@ -566,26 +512,20 @@ async function handleSubmit(isConfirmed) {
                 emailBody += `\nHandtekening: Niet aanwezig\n`;
             }
 
-            console.log("E-mailinhoud:", emailBody);
-            // Log de EmailJS-parameters
             const emailParams = {
                 message: emailBody,
                 reply_to: email,
                 signature_url: signatureUrl || ''
             };
-            console.log("EmailJS parameters:", emailParams);
 
-            console.log("Start verzending...");
             await emailjs.send("service_37glay9", "template_igkvytp", emailParams);
 
-            console.log("Service e-mail succesvol verzonden");
             await emailjs.send("service_37glay9", "template_vjmqckj", {
                 to_email: email,
                 email: email,
                 message: "Bedankt voor uw aanvraag!\n\nHieronder uw ingevulde gegevens:\n" + emailBody
             });
 
-            console.log("Klant e-mail succesvol verzonden");
             loadingScreen.classList.add('hidden');
             setTimeout(() => {
                 loadingScreen.style.display = 'none';
@@ -631,13 +571,7 @@ async function handleSubmit(isConfirmed) {
     }
 }
 
-// Voeg event listener toe aan de submit-knop
-document.querySelector('.submit-button').addEventListener('click', function(event) {
-    event.preventDefault();
-    console.log("Klik op verzenden, modal wordt geopend");
-    showModal();
-});
-// === Event listener voor submitknop met reCAPTCHA-check ===
+// ✅ Laat maar 1 submit-listener staan (met reCAPTCHA-check)
 document.querySelector('.submit-button').addEventListener('click', function(event) {
     event.preventDefault();
     console.log("Klik op verzenden, reCAPTCHA wordt gecontroleerd...");
@@ -676,5 +610,4 @@ document.querySelector('.submit-button').addEventListener('click', function(even
     } else {
         window.addEventListener('load', onLoad);
     }
-
 })();
