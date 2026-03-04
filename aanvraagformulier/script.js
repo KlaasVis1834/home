@@ -2,24 +2,27 @@ let currentStep = 0;
 showStep(currentStep);
 
 // ============================================================
-// ✅ Hamburger menu (mobiel) — minimale toevoeging
-// Verwacht in je HTML bijv.:
-// <button id="hamburgerBtn" aria-controls="mobileMenu" aria-expanded="false">...</button>
-// <nav id="mobileMenu">...</nav>
-// CSS: #mobileMenu.is-open { display:block; } (of transform/slide)
+// ✅ Hamburger menu (mobiel) — werkt met jouw HTML:
+// <button class="hamburger">☰</button>
+// <ul class="nav-list">...</ul>
+//
+// Verwacht in CSS (minimaal):
+// .nav-list { display:none; }             (op mobiel)
+// .nav-list.is-open { display:block; }   (op mobiel)
 // ============================================================
 function initHamburgerMenu() {
-    const btn = document.getElementById('hamburgerBtn');
-    const menu = document.getElementById('mobileMenu');
-
-    // Als jouw ids anders zijn: pas alleen deze 2 regels aan
+    const btn = document.querySelector('.hamburger');
+    const menu = document.querySelector('.nav-list');
     if (!btn || !menu) return;
+
+    // a11y attributen (geen layout impact)
+    btn.setAttribute('aria-label', 'Menu');
+    btn.setAttribute('aria-expanded', menu.classList.contains('is-open') ? 'true' : 'false');
 
     const openMenu = () => {
         menu.classList.add('is-open');
         btn.classList.add('is-active');
         btn.setAttribute('aria-expanded', 'true');
-        // Scroll lock (optioneel maar handig op mobiel)
         document.documentElement.classList.add('nav-open');
         document.body.classList.add('nav-open');
     };
@@ -38,36 +41,31 @@ function initHamburgerMenu() {
         else openMenu();
     };
 
-    // Click + touch (sommige mobiele browsers zijn “touchy”)
+    // Click + touch (mobiel betrouwbaarheid)
     btn.addEventListener('click', toggleMenu, { passive: false });
     btn.addEventListener('touchstart', toggleMenu, { passive: false });
 
-    // Sluit menu bij klik op een link in het menu
+    // Sluit bij klik op link in menu
     menu.addEventListener('click', (e) => {
         const a = e.target.closest('a');
         if (a) closeMenu();
     });
 
-    // Sluit menu bij klik buiten menu/btn
+    // Sluit bij klik buiten menu/knop
     document.addEventListener('click', (e) => {
-        if (menu.classList.contains('is-open')) {
-            const clickedInside = menu.contains(e.target) || btn.contains(e.target);
-            if (!clickedInside) closeMenu();
-        }
+        if (!menu.classList.contains('is-open')) return;
+        const clickedInside = menu.contains(e.target) || btn.contains(e.target);
+        if (!clickedInside) closeMenu();
+    });
+
+    // Sluit op Escape
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && menu.classList.contains('is-open')) closeMenu();
     });
 
     // Sluit bij resize naar desktop
     window.addEventListener('resize', () => {
-        if (window.innerWidth > 992 && menu.classList.contains('is-open')) {
-            closeMenu();
-        }
-    });
-
-    // Sluit met Escape
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && menu.classList.contains('is-open')) {
-            closeMenu();
-        }
+        if (window.innerWidth > 992 && menu.classList.contains('is-open')) closeMenu();
     });
 }
 
