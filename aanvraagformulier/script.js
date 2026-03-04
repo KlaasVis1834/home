@@ -1,9 +1,78 @@
 let currentStep = 0;
 showStep(currentStep);
 
-// Initialize SignaturePad globally
-var canvas = document.getElementById('signature-pad');
-var signaturePad = new SignaturePad(canvas);
+// ============================================================
+// ✅ Hamburger menu (mobiel) — minimale toevoeging
+// Verwacht in je HTML bijv.:
+// <button id="hamburgerBtn" aria-controls="mobileMenu" aria-expanded="false">...</button>
+// <nav id="mobileMenu">...</nav>
+// CSS: #mobileMenu.is-open { display:block; } (of transform/slide)
+// ============================================================
+function initHamburgerMenu() {
+    const btn = document.getElementById('hamburgerBtn');
+    const menu = document.getElementById('mobileMenu');
+
+    // Als jouw ids anders zijn: pas alleen deze 2 regels aan
+    if (!btn || !menu) return;
+
+    const openMenu = () => {
+        menu.classList.add('is-open');
+        btn.classList.add('is-active');
+        btn.setAttribute('aria-expanded', 'true');
+        // Scroll lock (optioneel maar handig op mobiel)
+        document.documentElement.classList.add('nav-open');
+        document.body.classList.add('nav-open');
+    };
+
+    const closeMenu = () => {
+        menu.classList.remove('is-open');
+        btn.classList.remove('is-active');
+        btn.setAttribute('aria-expanded', 'false');
+        document.documentElement.classList.remove('nav-open');
+        document.body.classList.remove('nav-open');
+    };
+
+    const toggleMenu = (e) => {
+        if (e) e.preventDefault();
+        if (menu.classList.contains('is-open')) closeMenu();
+        else openMenu();
+    };
+
+    // Click + touch (sommige mobiele browsers zijn “touchy”)
+    btn.addEventListener('click', toggleMenu, { passive: false });
+    btn.addEventListener('touchstart', toggleMenu, { passive: false });
+
+    // Sluit menu bij klik op een link in het menu
+    menu.addEventListener('click', (e) => {
+        const a = e.target.closest('a');
+        if (a) closeMenu();
+    });
+
+    // Sluit menu bij klik buiten menu/btn
+    document.addEventListener('click', (e) => {
+        if (menu.classList.contains('is-open')) {
+            const clickedInside = menu.contains(e.target) || btn.contains(e.target);
+            if (!clickedInside) closeMenu();
+        }
+    });
+
+    // Sluit bij resize naar desktop
+    window.addEventListener('resize', () => {
+        if (window.innerWidth > 992 && menu.classList.contains('is-open')) {
+            closeMenu();
+        }
+    });
+
+    // Sluit met Escape
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && menu.classList.contains('is-open')) {
+            closeMenu();
+        }
+    });
+}
+
+// Initialize SignaturePad (veilig op mobiel/als script in <head> staat)
+var signaturePad = null;
 
 // === reCAPTCHA controle functie ===
 function checkRecaptcha() {
@@ -14,6 +83,7 @@ function checkRecaptcha() {
     }
     return true;
 }
+
 // Functie om handtekening te uploaden naar Cloudinary
 async function uploadSignature(signatureBase64) {
     try {
@@ -94,12 +164,6 @@ function updateStepIndicator(n) {
     indicators[n].classList.add("active-step");
 }
 
-// SignaturePad clear knop
-var clearButton = document.getElementById('clear-signature');
-clearButton.addEventListener('click', function() {
-    signaturePad.clear();
-});
-
 // Regelmatige bestuurder logica
 document.querySelectorAll('input[name="regelmatige-bestuurder"]').forEach((elem) => {
     elem.addEventListener("change", function(event) {
@@ -115,6 +179,23 @@ document.querySelectorAll('input[name="regelmatige-bestuurder"]').forEach((elem)
 
 // Dekking logica
 document.addEventListener('DOMContentLoaded', function() {
+    // ✅ Hamburger init
+    initHamburgerMenu();
+
+    // ✅ SignaturePad init (pas als DOM geladen is)
+    var canvas = document.getElementById('signature-pad');
+    if (canvas) {
+        signaturePad = new SignaturePad(canvas);
+
+        // SignaturePad clear knop
+        var clearButton = document.getElementById('clear-signature');
+        if (clearButton) {
+            clearButton.addEventListener('click', function() {
+                signaturePad.clear();
+            });
+        }
+    }
+
     const dekkingRadios = document.getElementsByName('dekking');
     const dekkingOmschrijving = document.getElementById('dekking-omschrijving');
 
@@ -221,13 +302,13 @@ function toggleOpzegserviceDetails() {
     }
 }
 
-schadevrijeJarenYes.addEventListener('change', toggleOpzegservice);
-schadevrijeJarenNo.addEventListener('change', toggleOpzegservice);
-opzegserviceYes.addEventListener('change', toggleOpzegserviceDetails);
-opzegserviceNo.addEventListener('change', toggleOpzegserviceDetails);
+if (schadevrijeJarenYes) schadevrijeJarenYes.addEventListener('change', toggleOpzegservice);
+if (schadevrijeJarenNo) schadevrijeJarenNo.addEventListener('change', toggleOpzegservice);
+if (opzegserviceYes) opzegserviceYes.addEventListener('change', toggleOpzegserviceDetails);
+if (opzegserviceNo) opzegserviceNo.addEventListener('change', toggleOpzegserviceDetails);
 
-toggleOpzegservice();
-toggleOpzegserviceDetails();
+if (schadevrijeJarenYes && schadevrijeJarenNo) toggleOpzegservice();
+if (opzegserviceYes && opzegserviceNo) toggleOpzegserviceDetails();
 
 // Zakelijk aanschaf logica
 const particulierRadio = document.getElementById('particulier');
@@ -306,12 +387,12 @@ function updateBelanghebbendenInfo() {
     }
 }
 
-particulierRadio.addEventListener('change', toggleZakelijkInfo);
-zakelijkRadio.addEventListener('change', toggleZakelijkInfo);
-rechtsvormSelect.addEventListener('change', toggleRechtsvormOmschrijving);
-aantalBelanghebbendenInput.addEventListener('input', updateBelanghebbendenInfo);
+if (particulierRadio) particulierRadio.addEventListener('change', toggleZakelijkInfo);
+if (zakelijkRadio) zakelijkRadio.addEventListener('change', toggleZakelijkInfo);
+if (rechtsvormSelect) rechtsvormSelect.addEventListener('change', toggleRechtsvormOmschrijving);
+if (aantalBelanghebbendenInput) aantalBelanghebbendenInput.addEventListener('input', updateBelanghebbendenInfo);
 
-toggleZakelijkInfo();
+if (particulierRadio && zakelijkRadio) toggleZakelijkInfo();
 
 // Extra info toggle logica
 document.addEventListener('DOMContentLoaded', function() {
@@ -341,7 +422,8 @@ document.addEventListener('DOMContentLoaded', function() {
     // Stel de standaarddatum in voor "datum-aanvraag"
     const today = new Date();
     const formattedDate = today.toISOString().split('T')[0];
-    document.getElementById('datum-aanvraag').value = formattedDate;
+    const datumAanvraag = document.getElementById('datum-aanvraag');
+    if (datumAanvraag) datumAanvraag.value = formattedDate;
 });
 
 // Modal en verzend logica
@@ -367,31 +449,31 @@ function showModal() {
         dekkingText = 'Conform verzekeringsvoorstel';
     }
 
-for (let [key, value] of formData.entries()) {
+    for (let [key, value] of formData.entries()) {
 
-    // ❌ reCAPTCHA nooit tonen in samenvatting
-    if (key === 'g-recaptcha-response') continue;
+        // ❌ reCAPTCHA nooit tonen in samenvatting
+        if (key === 'g-recaptcha-response') continue;
 
-    if (value && value !== 'on') {
+        if (value && value !== 'on') {
 
-        if ((key === 'rechtsvorm' || key === 'rechtsvorm-omschrijving' || key.startsWith('ubo')) && aanschaf !== 'zakelijk') {
-            continue;
-        }
+            if ((key === 'rechtsvorm' || key === 'rechtsvorm-omschrijving' || key.startsWith('ubo')) && aanschaf !== 'zakelijk') {
+                continue;
+            }
 
-        if (key === 'main_coverage' || key === 'extra_schadeverzekering' || key === 'extra_rechtsbijstand') {
-            continue;
-        }
+            if (key === 'main_coverage' || key === 'extra_schadeverzekering' || key === 'extra_rechtsbijstand') {
+                continue;
+            }
 
-        if (key === 'dekking') {
-            summaryHtml += `<li>Gewenste dekking: ${dekkingText}</li>`;
-        } else {
-            summaryHtml += `<li>${key}: ${value}</li>`;
+            if (key === 'dekking') {
+                summaryHtml += `<li>Gewenste dekking: ${dekkingText}</li>`;
+            } else {
+                summaryHtml += `<li>${key}: ${value}</li>`;
+            }
         }
     }
-}
     summaryHtml += "</ul>";
 
-    if (!signaturePad.isEmpty()) {
+    if (signaturePad && !signaturePad.isEmpty()) {
         summaryHtml += "<p><strong>Handtekening:</strong> Aanwezig</p>";
     } else {
         summaryHtml += "<p><strong>Handtekening:</strong> Niet aanwezig</p>";
@@ -472,7 +554,7 @@ async function handleSubmit(isConfirmed) {
 
         try {
             let signatureUrl = '';
-            if (!signaturePad.isEmpty()) {
+            if (signaturePad && !signaturePad.isEmpty()) {
                 const signatureBase64 = signaturePad.toDataURL('image/png');
                 try {
                     signatureUrl = await uploadSignature(signatureBase64);
@@ -565,6 +647,7 @@ document.querySelector('.submit-button').addEventListener('click', function(even
         showModal();
     }
 });
+
 // Chatbase chatbot integratie
 (function() {
     if (!window.chatbase || window.chatbase('getState') !== 'initialized') {
