@@ -1,14 +1,11 @@
 let currentStep = 0;
 showStep(currentStep);
 
+// SignaturePad (later init)
+let signaturePad = null;
+
 // ============================================================
-// ✅ Hamburger menu (mobiel) — werkt met jouw HTML:
-// <button class="hamburger">☰</button>
-// <ul class="nav-list">...</ul>
-//
-// Verwacht in CSS (jij hebt):
-// .nav-list { display:none; } (op mobiel)
-// .nav-list.active { display:flex; } (op mobiel)
+// ✅ Hamburger menu (mobiel) — werkt met jouw CSS: .nav-list.active
 // ============================================================
 function initHamburgerMenu() {
     const btn = document.querySelector('.hamburger');
@@ -63,11 +60,12 @@ function initHamburgerMenu() {
     });
 }
 
-// Initialize SignaturePad (veilig op mobiel/als script in <head> staat)
-var signaturePad = null;
-
 // === reCAPTCHA controle functie ===
 function checkRecaptcha() {
+    if (!window.grecaptcha) {
+        alert("reCAPTCHA kon niet laden. Probeer opnieuw.");
+        return false;
+    }
     const recaptchaResponse = grecaptcha.getResponse();
     if (!recaptchaResponse) {
         alert("Bevestig eerst dat u geen robot bent (klik op de reCAPTCHA).");
@@ -78,41 +76,22 @@ function checkRecaptcha() {
 
 // Functie om handtekening te uploaden naar Cloudinary
 async function uploadSignature(signatureBase64) {
-    try {
-        console.log('Base64 handtekening:', signatureBase64.substring(0, 50) + '...');
-        if (!signatureBase64.startsWith('data:image/png;base64,')) {
-            throw new Error('Ongeldige Base64-string: Verwacht data:image/png;base64,');
-        }
+    const publicId = 'handtekening_' + Date.now();
 
-        const publicId = 'handtekening_' + Date.now();
+    const response = await fetch('https://api.cloudinary.com/v1_1/dqvftnitv/image/upload', {
+        method: 'POST',
+        body: JSON.stringify({
+            file: signatureBase64,
+            upload_preset: 'signatureupload',
+            public_id: publicId
+        }),
+        headers: { 'Content-Type': 'application/json' },
+    });
 
-        const response = await fetch('https://api.cloudinary.com/v1_1/dqvftnitv/image/upload', {
-            method: 'POST',
-            body: JSON.stringify({
-                file: signatureBase64,
-                upload_preset: 'signatureupload',
-                public_id: publicId
-            }),
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        });
+    const result = await response.json();
+    if (result.secure_url) return result.secure_url;
 
-        console.log('Cloudinary response status:', response.status, response.statusText);
-
-        const result = await response.json();
-        console.log('Cloudinary response:', result);
-
-        if (result.secure_url) {
-            console.log('Handtekening geüpload naar Cloudinary:', result.secure_url);
-            return result.secure_url;
-        } else {
-            throw new Error(`Cloudinary upload mislukt: Geen secure_url ontvangen. Fout: ${JSON.stringify(result.error || result)}`);
-        }
-    } catch (error) {
-        console.error('Fout bij het uploaden van handtekening naar Cloudinary:', error);
-        throw error;
-    }
+    throw new Error(`Cloudinary upload mislukt: ${JSON.stringify(result.error || result)}`);
 }
 
 function showStep(n) {
@@ -122,16 +101,12 @@ function showStep(n) {
     }
     steps[n].style.display = 'block';
 
-    if (n == 0) {
-        document.getElementById("prevBtn").style.display = 'none';
-    } else {
-        document.getElementById("prevBtn").style.display = 'inline';
-    }
-    if (n == (steps.length - 1)) {
-        document.getElementById("nextBtn").style.display = 'none';
-    } else {
-        document.getElementById("nextBtn").style.display = 'inline';
-    }
+    if (n === 0) document.getElementById("prevBtn").style.display = 'none';
+    else document.getElementById("prevBtn").style.display = 'inline';
+
+    if (n === (steps.length - 1)) document.getElementById("nextBtn").style.display = 'none';
+    else document.getElementById("nextBtn").style.display = 'inline';
+
     updateStepIndicator(n);
 }
 
@@ -139,9 +114,7 @@ function nextPrev(n) {
     let steps = document.getElementsByClassName("step-content");
     steps[currentStep].style.display = 'none';
     currentStep = currentStep + n;
-    if (currentStep >= steps.length) {
-        return false;
-    }
+    if (currentStep >= steps.length) return false;
     showStep(currentStep);
 }
 
@@ -158,24 +131,20 @@ document.querySelectorAll('input[name="regelmatige-bestuurder"]').forEach((elem)
     elem.addEventListener("change", function(event) {
         const value = event.target.value;
         const info = document.getElementById("regelmatige-bestuurder-info");
-        if (value === "no") {
-            info.classList.add("active");
-        } else {
-            info.classList.remove("active");
-        }
+        if (!info) return;
+        if (value === "no") info.classList.add("active");
+        else info.classList.remove("active");
     });
 });
 
-// Dekking logica
+// DOM loaded init
 document.addEventListener('DOMContentLoaded', function() {
     initHamburgerMenu();
 
-    // SignaturePad init
-    var canvas = document.getElementById('signature-pad');
-    if (canvas) {
+    const canvas = document.getElementById('signature-pad');
+    if (canvas && window.SignaturePad) {
         signaturePad = new SignaturePad(canvas);
-
-        var clearButton = document.getElementById('clear-signature');
+        const clearButton = document.getElementById('clear-signature');
         if (clearButton) {
             clearButton.addEventListener('click', function() {
                 signaturePad.clear();
@@ -183,27 +152,23 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
+    // Dekking logica
     const dekkingRadios = document.getElementsByName('dekking');
     const dekkingOmschrijving = document.getElementById('dekking-omschrijving');
 
     dekkingRadios.forEach(radio => {
         radio.addEventListener('change', function() {
-            if (this.value === 'anders') {
-                dekkingOmschrijving.style.display = 'block';
-            } else {
-                dekkingOmschrijving.style.display = 'none';
-            }
+            if (!dekkingOmschrijving) return;
+            dekkingOmschrijving.style.display = (this.value === 'anders') ? 'block' : 'none';
         });
     });
 
     const checkedDekking = document.querySelector('input[name="dekking"]:checked');
-    if (checkedDekking && checkedDekking.value === 'anders') {
-        dekkingOmschrijving.style.display = 'block';
-    } else {
-        dekkingOmschrijving.style.display = 'none';
+    if (dekkingOmschrijving) {
+        dekkingOmschrijving.style.display = (checkedDekking && checkedDekking.value === 'anders') ? 'block' : 'none';
     }
 
-    // Tooltip-functionaliteit
+    // Tooltips
     document.querySelectorAll('.info-icon').forEach(icon => {
         icon.addEventListener('click', function(e) {
             e.stopPropagation();
@@ -221,6 +186,13 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         }
     });
+
+    // Datum aanvraag default
+    const datumAanvraag = document.getElementById('datum-aanvraag');
+    if (datumAanvraag) {
+        const today = new Date();
+        datumAanvraag.value = today.toISOString().split('T')[0];
+    }
 });
 
 // Schade-ervaring en schadevrije jaren logica
@@ -230,6 +202,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     schadeErvaringRadios.forEach(radio => {
         radio.addEventListener('change', function() {
+            if (!schadeErvaringInfo) return;
             schadeErvaringInfo.style.display = (this.value === 'yes') ? 'block' : 'none';
         });
     });
@@ -239,15 +212,17 @@ document.addEventListener('DOMContentLoaded', function() {
 
     schadeVrijeJarenRadios.forEach(radio => {
         radio.addEventListener('change', function() {
+            if (!schadeVrijeJarenInfo) return;
             schadeVrijeJarenInfo.style.display = (this.value === 'yes') ? 'block' : 'none';
         });
     });
 
     schadeErvaringRadios.forEach(radio => {
-        if (radio.checked && radio.value === 'yes') schadeErvaringInfo.style.display = 'block';
+        if (radio.checked && radio.value === 'yes' && schadeErvaringInfo) schadeErvaringInfo.style.display = 'block';
     });
+
     schadeVrijeJarenRadios.forEach(radio => {
-        if (radio.checked && radio.value === 'yes') schadeVrijeJarenInfo.style.display = 'block';
+        if (radio.checked && radio.value === 'yes' && schadeVrijeJarenInfo) schadeVrijeJarenInfo.style.display = 'block';
     });
 });
 
@@ -260,20 +235,19 @@ const opzegserviceNo = document.getElementById('opzegservice-no');
 const opzegserviceDetails = document.getElementById('opzegservice-details');
 
 function toggleOpzegservice() {
+    if (!opzegserviceContainer) return;
     if (schadevrijeJarenYes && schadevrijeJarenYes.checked) {
         opzegserviceContainer.style.display = 'block';
     } else {
         opzegserviceContainer.style.display = 'none';
-        opzegserviceDetails.style.display = 'none';
+        if (opzegserviceDetails) opzegserviceDetails.style.display = 'none';
     }
 }
 
 function toggleOpzegserviceDetails() {
-    if (opzegserviceYes && opzegserviceYes.checked) {
-        opzegserviceDetails.style.display = 'block';
-    } else {
-        opzegserviceDetails.style.display = 'none';
-    }
+    if (!opzegserviceDetails) return;
+    if (opzegserviceYes && opzegserviceYes.checked) opzegserviceDetails.style.display = 'block';
+    else opzegserviceDetails.style.display = 'none';
 }
 
 if (schadevrijeJarenYes) schadevrijeJarenYes.addEventListener('change', toggleOpzegservice);
@@ -281,8 +255,8 @@ if (schadevrijeJarenNo) schadevrijeJarenNo.addEventListener('change', toggleOpze
 if (opzegserviceYes) opzegserviceYes.addEventListener('change', toggleOpzegserviceDetails);
 if (opzegserviceNo) opzegserviceNo.addEventListener('change', toggleOpzegserviceDetails);
 
-if (schadevrijeJarenYes && schadevrijeJarenNo) toggleOpzegservice();
-if (opzegserviceYes && opzegserviceNo) toggleOpzegserviceDetails();
+toggleOpzegservice();
+toggleOpzegserviceDetails();
 
 // Zakelijk aanschaf logica
 const particulierRadio = document.getElementById('particulier');
@@ -294,6 +268,7 @@ const aantalBelanghebbendenInput = document.getElementById('aantal-belanghebbend
 const belanghebbendenInfo = document.getElementById('belanghebbenden-info');
 
 function toggleZakelijkInfo() {
+    if (!zakelijkInfo) return;
     if (zakelijkRadio && zakelijkRadio.checked) {
         zakelijkInfo.style.display = 'block';
     } else {
@@ -304,57 +279,33 @@ function toggleZakelijkInfo() {
 }
 
 function toggleRechtsvormOmschrijving() {
-    if (!rechtsvormSelect || !rechtsvormOmschrijvingContainer) return;
+    if (!rechtsvormOmschrijvingContainer) return;
     rechtsvormOmschrijvingContainer.style.display = 'block';
 }
 
 function updateBelanghebbendenInfo() {
     if (!aantalBelanghebbendenInput || !belanghebbendenInfo) return;
-    const aantal = parseInt(aantalBelanghebbendenInput.value || '0', 10);
+    const aantal = Number(aantalBelanghebbendenInput.value || 0);
     belanghebbendenInfo.innerHTML = '';
 
     for (let i = 1; i <= aantal; i++) {
-        const belanghebbendeContainer = document.createElement('div');
-        belanghebbendeContainer.classList.add('belanghebbende-container');
+        const wrap = document.createElement('div');
+        wrap.classList.add('belanghebbende-container');
 
-        const nameLabel = document.createElement('label');
-        nameLabel.textContent = `Belanghebbende ${i} Voor- en achternaam:`;
-        const nameInput = document.createElement('input');
-        nameInput.type = 'text';
-        nameInput.name = `ubo${i}-naam`;
-        nameInput.id = `belanghebbende-${i}-naam`;
+        wrap.innerHTML = `
+            <label>Belanghebbende ${i} Voor- en achternaam:</label>
+            <input type="text" name="ubo${i}-naam" id="belanghebbende-${i}-naam">
 
-        const addressLabel = document.createElement('label');
-        addressLabel.textContent = `Belanghebbende ${i} Adres:`;
-        const addressInput = document.createElement('input');
-        addressInput.type = 'text';
-        addressInput.name = `ubo${i}-adres`;
-        addressInput.id = `belanghebbende-${i}-adres`;
+            <label>Belanghebbende ${i} Adres:</label>
+            <input type="text" name="ubo${i}-adres" id="belanghebbende-${i}-adres">
 
-        const postalCodeLabel = document.createElement('label');
-        postalCodeLabel.textContent = `Belanghebbende ${i} Postcode en Woonplaats:`;
-        const postalCodeInput = document.createElement('input');
-        postalCodeInput.type = 'text';
-        postalCodeInput.name = `ubo${i}-postcode`;
-        postalCodeInput.id = `belanghebbende-${i}-postcode`;
+            <label>Belanghebbende ${i} Postcode en Woonplaats:</label>
+            <input type="text" name="ubo${i}-postcode" id="belanghebbende-${i}-postcode">
 
-        const birthDateLabel = document.createElement('label');
-        birthDateLabel.textContent = `Belanghebbende ${i} Geboortedatum:`;
-        const birthDateInput = document.createElement('input');
-        birthDateInput.type = 'date';
-        birthDateInput.name = `ubo${i}-geboortedatum`;
-        birthDateInput.id = `belanghebbende-${i}-geboortedatum`;
-
-        belanghebbendeContainer.appendChild(nameLabel);
-        belanghebbendeContainer.appendChild(nameInput);
-        belanghebbendeContainer.appendChild(addressLabel);
-        belanghebbendeContainer.appendChild(addressInput);
-        belanghebbendeContainer.appendChild(postalCodeLabel);
-        belanghebbendeContainer.appendChild(postalCodeInput);
-        belanghebbendeContainer.appendChild(birthDateLabel);
-        belanghebbendeContainer.appendChild(birthDateInput);
-
-        belanghebbendenInfo.appendChild(belanghebbendeContainer);
+            <label>Belanghebbende ${i} Geboortedatum:</label>
+            <input type="date" name="ubo${i}-geboortedatum" id="belanghebbende-${i}-geboortedatum">
+        `;
+        belanghebbendenInfo.appendChild(wrap);
     }
 }
 
@@ -363,13 +314,14 @@ if (zakelijkRadio) zakelijkRadio.addEventListener('change', toggleZakelijkInfo);
 if (rechtsvormSelect) rechtsvormSelect.addEventListener('change', toggleRechtsvormOmschrijving);
 if (aantalBelanghebbendenInput) aantalBelanghebbendenInput.addEventListener('input', updateBelanghebbendenInfo);
 
-if (particulierRadio && zakelijkRadio) toggleZakelijkInfo();
+toggleZakelijkInfo();
 
 // Extra info toggle logica
 document.addEventListener('DOMContentLoaded', function() {
     function toggleAdditionalInfo(radioGroupName, infoDivId) {
         const radios = document.getElementsByName(radioGroupName);
         const infoDiv = document.getElementById(infoDivId);
+        if (!infoDiv) return;
 
         radios.forEach(radio => {
             radio.addEventListener('change', function() {
@@ -385,20 +337,33 @@ document.addEventListener('DOMContentLoaded', function() {
     toggleAdditionalInfo('conflict', 'conflict-info');
     toggleAdditionalInfo('beslag', 'beslag-info');
     toggleAdditionalInfo('meer-informatie', 'meer-informatie-info');
-
-    const today = new Date();
-    const formattedDate = today.toISOString().split('T')[0];
-    const datumAanvraag = document.getElementById('datum-aanvraag');
-    if (datumAanvraag) datumAanvraag.value = formattedDate;
 });
+
+// Modal helpers
+function openModal(id) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.classList.remove('hidden');
+    el.style.display = 'block';
+}
+
+function closeModalEl(id) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.style.display = 'none';
+    el.classList.add('hidden');
+}
 
 // Modal en verzend logica
 function showModal() {
     const form = document.getElementById('insurance-form');
+    if (!form) return;
+
     const formData = new FormData(form);
     let summaryHtml = "<strong>Ingevulde gegevens:</strong><ul>";
     const aanschaf = formData.get('aanschaf');
 
+    // Dekking tekst voor weergave
     let dekkingText = '';
     const dekkingAnders = formData.get('dekking') === 'anders';
     if (dekkingAnders) {
@@ -413,7 +378,9 @@ function showModal() {
     }
 
     for (let [key, value] of formData.entries()) {
+        // ❌ reCAPTCHA nooit tonen
         if (key === 'g-recaptcha-response') continue;
+
         if (value && value !== 'on') {
             if ((key === 'rechtsvorm' || key === 'rechtsvorm-omschrijving' || key.startsWith('ubo')) && aanschaf !== 'zakelijk') continue;
             if (key === 'main_coverage' || key === 'extra_schadeverzekering' || key === 'extra_rechtsbijstand') continue;
@@ -422,165 +389,172 @@ function showModal() {
             else summaryHtml += `<li>${key}: ${value}</li>`;
         }
     }
+
     summaryHtml += "</ul>";
 
     if (signaturePad && !signaturePad.isEmpty()) summaryHtml += "<p><strong>Handtekening:</strong> Aanwezig</p>";
     else summaryHtml += "<p><strong>Handtekening:</strong> Niet aanwezig</p>";
 
-    document.getElementById('summary').innerHTML = summaryHtml;
-    document.getElementById('confirmationModal').style.display = 'block';
+    const summary = document.getElementById('summary');
+    if (summary) summary.innerHTML = summaryHtml;
+
+    openModal('confirmationModal');
 }
 
 function closeModal() {
-    document.getElementById('confirmationModal').style.display = 'none';
-    document.getElementById('resultMessage').style.display = 'none';
+    closeModalEl('confirmationModal');
+    closeModalEl('resultMessage');
 }
 
 async function handleSubmit(isConfirmed) {
     const loadingScreen = document.getElementById('loadingScreen');
     const resultTextElement = document.getElementById('resultText');
-    document.getElementById('confirmationModal').style.display = 'none';
 
-    if (isConfirmed) {
-        requestAnimationFrame(() => {
-            loadingScreen.style.transition = 'none';
-            loadingScreen.style.display = 'flex';
-            loadingScreen.style.opacity = '1';
-            setTimeout(() => {
-                loadingScreen.style.transition = 'opacity 0.3s ease';
-            }, 0);
+    closeModalEl('confirmationModal');
+
+    if (!isConfirmed) {
+        if (resultTextElement) {
+            resultTextElement.innerHTML = `U wordt teruggeleid naar het formulier om uw antwoorden te controleren.`;
+        }
+        openModal('resultMessage');
+        return;
+    }
+
+    if (!loadingScreen) return;
+
+    requestAnimationFrame(() => {
+        loadingScreen.style.transition = 'none';
+        loadingScreen.style.display = 'flex';
+        loadingScreen.style.opacity = '1';
+        setTimeout(() => {
+            loadingScreen.style.transition = 'opacity 0.3s ease';
+        }, 0);
+    });
+
+    const form = document.getElementById('insurance-form');
+    const formData = new FormData(form);
+
+    let emailBody = "Aanvraagformulier Dekkerautoverzekering\n\n";
+    const email = formData.get('email');
+    const aanschaf = formData.get('aanschaf');
+
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        loadingScreen.classList.add('hidden');
+        setTimeout(() => {
+            loadingScreen.style.display = 'none';
+            if (resultTextElement) resultTextElement.innerHTML = 'FOUT: Geen geldig e-mailadres opgegeven.';
+            openModal('resultMessage');
+        }, 300);
+        return;
+    }
+
+    // Dekking tekst voor email
+    let dekkingText = '';
+    const dekkingAnders = formData.get('dekking') === 'anders';
+    if (dekkingAnders) {
+        const mainCoverage = formData.get('main_coverage');
+        dekkingText += `Hoofddekking: ${mainCoverage || 'WA'}`;
+        const extraOptions = [];
+        if (formData.get('extra_schadeverzekering')) extraOptions.push('Schadeverzekering voor Inzittenden');
+        if (formData.get('extra_rechtsbijstand')) extraOptions.push('Rechtsbijstand Verkeer');
+        if (extraOptions.length > 0) dekkingText += `, Extra opties: ${extraOptions.join(', ')}`;
+    } else {
+        dekkingText = 'Conform verzekeringsvoorstel';
+    }
+
+    // ✅ Loop 1: service mail
+    for (let [key, value] of formData.entries()) {
+        if (key === 'g-recaptcha-response') continue; // ✅ FIX: nooit mee mailen
+        if (value && value !== 'on') {
+            if ((key === 'rechtsvorm' || key === 'rechtsvorm-omschrijving' || key.startsWith('ubo')) && aanschaf === 'particulier') continue;
+            if (key === 'main_coverage' || key === 'extra_schadeverzekering' || key === 'extra_rechtsbijstand') continue;
+
+            if (key === 'dekking') emailBody += `Gewenste dekking: ${dekkingText}\n`;
+            else emailBody += `${key}: ${value}\n`;
+        }
+    }
+
+    try {
+        let signatureUrl = '';
+        if (signaturePad && !signaturePad.isEmpty()) {
+            const signatureBase64 = signaturePad.toDataURL('image/png');
+            signatureUrl = await uploadSignature(signatureBase64);
+            emailBody += `\nHandtekening: Bekijk de handtekening via deze link: ${signatureUrl}\n`;
+            const sigField = document.getElementById('signature_url');
+            if (sigField) sigField.value = signatureUrl;
+        } else {
+            emailBody += `\nHandtekening: Niet aanwezig\n`;
+        }
+
+        const emailParams = {
+            message: emailBody,
+            reply_to: email,
+            signature_url: signatureUrl || ''
+        };
+
+        await emailjs.send("service_37glay9", "template_igkvytp", emailParams);
+
+        // ✅ klant mail (hier zat vaak de token-leak)
+        await emailjs.send("service_37glay9", "template_vjmqckj", {
+            to_email: email,
+            email: email,
+            message: "Bedankt voor uw aanvraag!\n\nHieronder uw ingevulde gegevens:\n" + emailBody
         });
 
-        const form = document.getElementById('insurance-form');
-        const formData = new FormData(form);
-        let emailBody = "Aanvraagformulier Dekkerautoverzekering\n\n";
-        const email = formData.get('email');
-        const aanschaf = formData.get('aanschaf');
-
-        console.log("E-mailadres uit formulier:", email);
-        if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-            console.error("FOUT: Ongeldig of ontbrekend e-mailadres!");
-            loadingScreen.classList.add('hidden');
-            setTimeout(() => {
-                loadingScreen.style.display = 'none';
-                resultTextElement.innerHTML = 'FOUT: Geen geldig e-mailadres opgegeven. Vul een geldig e-mailadres in.';
-                document.getElementById('resultMessage').style.display = 'block';
-            }, 300);
-            return;
-        }
-
-        let dekkingText = '';
-        const dekkingAnders = formData.get('dekking') === 'anders';
-        if (dekkingAnders) {
-            const mainCoverage = formData.get('main_coverage');
-            dekkingText += `Hoofddekking: ${mainCoverage || 'WA'}`;
-            const extraOptions = [];
-            if (formData.get('extra_schadeverzekering')) extraOptions.push('Schadeverzekering voor Inzittenden');
-            if (formData.get('extra_rechtsbijstand')) extraOptions.push('Rechtsbijstand Verkeer');
-            if (extraOptions.length > 0) dekkingText += `, Extra opties: ${extraOptions.join(', ')}`;
-        } else {
-            dekkingText = 'Conform verzekeringsvoorstel';
-        }
-
-        for (let [key, value] of formData.entries()) {
-
-            // ✅ FIX: reCAPTCHA token nooit meesturen in mail
-            if (key === 'g-recaptcha-response') continue;
-
-            if (value && value !== 'on') {
-                if ((key === 'rechtsvorm' || key === 'rechtsvorm-omschrijving' || key.startsWith('ubo')) && aanschaf === 'particulier') continue;
-                if (key === 'main_coverage' || key === 'extra_schadeverzekering' || key === 'extra_rechtsbijstand') continue;
-
-                if (key === 'dekking') emailBody += `Gewenste dekking: ${dekkingText}\n`;
-                else emailBody += `${key}: ${value}\n`;
-            }
-        }
-
-        try {
-            let signatureUrl = '';
-            if (signaturePad && !signaturePad.isEmpty()) {
-                const signatureBase64 = signaturePad.toDataURL('image/png');
-                try {
-                    signatureUrl = await uploadSignature(signatureBase64);
-                    emailBody += `\nHandtekening: Bekijk de handtekening via deze link: ${signatureUrl}\n`;
-                    document.getElementById('signature_url').value = signatureUrl;
-                } catch (uploadError) {
-                    console.warn('Handtekening upload mislukt, e-mail wordt verzonden zonder handtekening:', uploadError);
-                    emailBody += `\nHandtekening: Kon niet worden geüpload vanwege een fout: ${uploadError.message}\n`;
-                }
-            } else {
-                emailBody += `\nHandtekening: Niet aanwezig\n`;
-            }
-
-            const emailParams = {
-                message: emailBody,
-                reply_to: email,
-                signature_url: signatureUrl || ''
-            };
-
-            await emailjs.send("service_37glay9", "template_igkvytp", emailParams);
-
-            await emailjs.send("service_37glay9", "template_vjmqckj", {
-                to_email: email,
-                email: email,
-                message: "Bedankt voor uw aanvraag!\n\nHieronder uw ingevulde gegevens:\n" + emailBody
-            });
-
-            loadingScreen.classList.add('hidden');
-            setTimeout(() => {
-                loadingScreen.style.display = 'none';
+        loadingScreen.classList.add('hidden');
+        setTimeout(() => {
+            loadingScreen.style.display = 'none';
+            if (resultTextElement) {
                 resultTextElement.innerHTML = `
                     <strong>Uw aanvraag is verzonden!</strong><br><br>
                     Wij danken u voor het vertrouwen.<br>
                     Een bevestiging is gestuurd naar ${email}.<br>
                     Uw auto is in voorlopige dekking per ingangsdatum. Binnen 10 werkdagen ontvangt u de polisstukken.
                 `;
-                document.getElementById('resultMessage').style.display = 'block';
-                document.getElementById('insurance-form').style.display = 'none';
-                document.querySelector('.navigation-buttons').style.display = 'none';
+            }
+            openModal('resultMessage');
 
-                setTimeout(() => {
-                    loadingScreen.style.display = 'flex';
-                    loadingScreen.classList.remove('hidden');
-                    setTimeout(() => {
-                        window.location.href = 'https://www.klaasvis.nl';
-                    }, 3000);
-                }, 2000);
-            }, 300);
-        } catch (error) {
-            console.error("Fout bij verzenden:", error);
-            loadingScreen.classList.add('hidden');
+            const formEl = document.getElementById('insurance-form');
+            if (formEl) formEl.style.display = 'none';
+            const navBtns = document.querySelector('.navigation-buttons');
+            if (navBtns) navBtns.style.display = 'none';
+
             setTimeout(() => {
-                loadingScreen.style.display = 'none';
+                loadingScreen.style.display = 'flex';
+                loadingScreen.classList.remove('hidden');
+                setTimeout(() => {
+                    window.location.href = 'https://www.klaasvis.nl';
+                }, 3000);
+            }, 2000);
+        }, 300);
+
+    } catch (error) {
+        loadingScreen.classList.add('hidden');
+        setTimeout(() => {
+            loadingScreen.style.display = 'none';
+            if (resultTextElement) {
                 resultTextElement.innerHTML = `
                     Er is een fout opgetreden: ${error.message || error}<br>
                     Controleer de console (F12) voor meer info.
                 `;
-                document.getElementById('resultMessage').style.display = 'block';
-            }, 300);
-        }
-    } else {
-        loadingScreen.classList.add('hidden');
-        setTimeout(() => {
-            loadingScreen.style.display = 'none';
-            resultTextElement.innerHTML = `
-                U wordt teruggeleid naar het formulier om uw antwoorden te controleren.
-            `;
-            document.getElementById('resultMessage').style.display = 'block';
+            }
+            openModal('resultMessage');
         }, 300);
     }
 }
 
-// ✅ Laat maar 1 submit-listener staan (met reCAPTCHA-check)
-document.querySelector('.submit-button').addEventListener('click', function(event) {
-    event.preventDefault();
-    console.log("Klik op verzenden, reCAPTCHA wordt gecontroleerd...");
-    if (checkRecaptcha()) {
-        showModal();
-    }
+// ✅ Eén submit listener (niet dubbel)
+document.addEventListener('DOMContentLoaded', () => {
+    const submitBtn = document.querySelector('.submit-button');
+    if (!submitBtn) return;
+
+    submitBtn.addEventListener('click', function(event) {
+        event.preventDefault();
+        if (checkRecaptcha()) showModal();
+    });
 });
 
-// Chatbase chatbot integratie
+// Chatbase chatbot integratie (jouw code)
 (function() {
     if (!window.chatbase || window.chatbase('getState') !== 'initialized') {
         window.chatbase = (...args) => {
@@ -591,9 +565,7 @@ document.querySelector('.submit-button').addEventListener('click', function(even
         };
         window.chatbase = new Proxy(window.chatbase, {
             get(target, prop) {
-                if (prop === 'q') {
-                    return target.q;
-                }
+                if (prop === 'q') return target.q;
                 return (...args) => target(prop, ...args);
             }
         });
@@ -605,9 +577,6 @@ document.querySelector('.submit-button').addEventListener('click', function(even
         script.setAttribute('domain', 'www.chatbase.co');
         document.body.appendChild(script);
     };
-    if (document.readyState === 'complete') {
-        onLoad();
-    } else {
-        window.addEventListener('load', onLoad);
-    }
+    if (document.readyState === 'complete') onLoad();
+    else window.addEventListener('load', onLoad);
 })();
