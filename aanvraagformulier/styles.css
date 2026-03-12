@@ -231,3 +231,29 @@ footer {
         display: none;
     }
 }
+
+@media (max-width: 768px) {
+
+    .footer-content {
+        grid-template-columns: 1fr;
+    }
+
+    .footer-bottom {
+        flex-direction: column;
+        gap: 0.5rem;
+        text-align: center;
+    }
+}
+
+@media (max-width: 600px) {
+
+    body {
+        padding: 10px;
+        padding-top: 90px;
+    }
+
+    .form-container {
+        width: 100%;
+        padding: 15px;
+    }
+}
