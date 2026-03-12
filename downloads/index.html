@@ -5,12 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Downloads | Klaas Vis</title>
 
-  <!-- bestaande hoofd-styles (houd deze bij je site) -->
   <link rel="stylesheet" href="styles.css" />
-
-  <!-- extra styles specifiek voor downloads -->
   <link rel="stylesheet" href="downloads.css" />
-
   <link rel="icon" type="image/png" href="Logo.png" />
 </head>
 <body>
@@ -20,14 +16,15 @@
     <div class="orb orb-3"></div>
   </div>
 
-  <!-- NAV (zelfde als op je andere pagina's) -->
   <nav>
     <div class="nav-container">
-      <div class="logo">
+      <a href="https://klaasvis.online/" class="logo">
         <img src="Logo.png" alt="Klaas Vis Logo" class="logo-img">
-        Klaas Vis
-      </div>
-      <button class="hamburger">☰</button>
+        <span>Klaas Vis</span>
+      </a>
+
+      <button class="hamburger" aria-label="Menu openen" aria-expanded="false">☰</button>
+
       <ul class="nav-list">
         <li><a href="/schademelden/">Schade melden</a></li>
         <li><a href="/wijziging-doorgeven/">Doorgeven wijziging</a></li>
@@ -39,7 +36,6 @@
     </div>
   </nav>
 
-  <!-- Pagina header -->
   <section class="digital-services" style="padding-top: 120px;">
     <div class="container">
       <div class="section-header">
@@ -48,16 +44,12 @@
         <p class="section-subtitle">Onderstaande documenten kunt u downloaden. Klik op het document om het bestand te openen of te downloaden.</p>
       </div>
 
-      <!-- zoekbalk en quick actions -->
       <div class="downloads-controls">
         <input id="downloads-search" type="search" placeholder="Zoek documenten (bv. 'schade', 'privacy')" aria-label="Zoek downloads">
         <button id="show-all" class="btn btn-secondary">Toon alles</button>
       </div>
 
-      <!-- Downloads overzicht (categorieën) -->
       <div class="downloads-list">
-
-        <!-- Algemeen -->
         <article class="downloads-category" data-category="Algemeen">
           <h3 class="downloads-category-title">Algemeen</h3>
           <div class="downloads-grid">
@@ -93,7 +85,6 @@
           </div>
         </article>
 
-        <!-- Schadeverzekeringen -->
         <article class="downloads-category" data-category="Schadeverzekeringen">
           <h3 class="downloads-category-title">Schadeverzekeringen</h3>
           <div class="downloads-grid">
@@ -129,14 +120,13 @@
           </div>
         </article>
 
-        <!-- Dekker Autoverzekering -->
         <article class="downloads-category" data-category="Dekker Autoverzekering">
           <h3 class="downloads-category-title">Dekkerautoverzekering</h3>
           <div class="downloads-grid">
-            <!-- Bestelautoverzekering  -->
-            <div class="downloads-subtitle">Bestelautoverzekering </div>
+            <div class="downloads-subtitle">Bestelautoverzekering</div>
+
             <a class="download-card" href="Algemene voorwaarden AVZ 2022-01.pdf" download>
-              <div class="download-title">Bestelautoverzekering  — Algemene voorwaarden</div>
+              <div class="download-title">Bestelautoverzekering — Algemene voorwaarden</div>
               <div class="download-meta">PDF • Dekkerautoverzekering</div>
             </a>
 
@@ -170,15 +160,15 @@
               <div class="download-meta">PDF • Dekkerautoverzekering</div>
             </a>
 
-            <a class="download-card" href="www.klaasvis.online/aanvraagformulier" download>
+            <a class="download-card" href="https://www.klaasvis.online/aanvraagformulier">
               <div class="download-title">Aanvraagformulier Digitaal</div>
-              <div class="download-meta">PDF • Dekkerautoverzekering</div>
+              <div class="download-meta">Link • Dekkerautoverzekering</div>
             </a>
 
-            <!-- Personenautoverzekering -->
-            <div class="downloads-subtitle">Personenautoverzekering </div>
+            <div class="downloads-subtitle">Personenautoverzekering</div>
+
             <a class="download-card" href="Algemene voorwaarden AVZ 2022-01.pdf" download>
-              <div class="download-title">Personenautoverzekering  — Algemene voorwaarden</div>
+              <div class="download-title">Personenautoverzekering — Algemene voorwaarden</div>
               <div class="download-meta">PDF • Dekkerautoverzekering</div>
             </a>
 
@@ -212,15 +202,13 @@
               <div class="download-meta">PDF • Dekkerautoverzekering</div>
             </a>
 
-            <a class="download-card" href="www.klaasvis.online/aanvraagformulier" download>
+            <a class="download-card" href="https://www.klaasvis.online/aanvraagformulier">
               <div class="download-title">Aanvraagformulier Digitaal</div>
-              <div class="download-meta">PDF • Dekkerautoverzekering</div>
+              <div class="download-meta">Link • Dekkerautoverzekering</div>
             </a>
-
           </div>
         </article>
 
-        <!-- Verzekeringskaarten (externe links) -->
         <article class="downloads-category" data-category="Verzekeringskaarten">
           <h3 class="downloads-category-title">Verzekeringskaarten (links)</h3>
           <div class="downloads-grid">
@@ -250,8 +238,7 @@
             </a>
           </div>
         </article>
-
-      </div> <!-- /downloads-list -->
+      </div>
 
       <p style="margin-top: 1.5rem; color: var(--text-muted); font-size: 0.95rem;">
         Staat een document er niet bij of wilt u dat we een PDF voor u uploaden? Neem dan gerust contact met ons op via <a href="https://klaasvis1834.github.io/contact/">Contact</a>.
@@ -259,7 +246,6 @@
     </div>
   </section>
 
-  <!-- FOOTER (zelfde als op je andere pagina's) -->
   <footer>
     <div class="footer-content">
       <div class="footer-brand">
@@ -271,6 +257,7 @@
           KvK: 35008554
         </p>
       </div>
+
       <div class="footer-section">
         <h4>Snelle Links</h4>
         <ul class="footer-links">
@@ -279,31 +266,31 @@
           <li><a href="https://dekkerautoverzekering.github.io/home/">Dekkerautoverzekering</a></li>
           <li><a href="https://www.nh1816.nl/mijn-nh1816">Mijn NH1816 Polis</a></li>
           <li><a href="/downloads/">Downloads</a></li>
-          <li><a href="#contact">Contact</a></li>
+          <li><a href="https://klaasvis1834.github.io/contact/">Contact</a></li>
         </ul>
       </div>
+
       <div class="footer-section">
         <h4>Contact</h4>
         <ul class="footer-links">
           <li><a href="tel:0756314261">075-6314261</a></li>
           <li><a href="mailto:info@klaasvis.nl">info@klaasvis.nl</a></li>
           <li><a href="http://www.klaasvis.nl">www.klaasvis.nl</a></li>
-          <li><a href="#contact">Zuiderweg 7, Wijdewormer</a></li>
+          <li><a href="https://klaasvis1834.github.io/contact/">Zuiderweg 7, Wijdewormer</a></li>
         </ul>
       </div>
     </div>
+
     <div class="footer-bottom">
       <p>&copy; 2026 BV Assurantiekantoor Klaas Vis Ao. 1834. Alle rechten voorbehouden.</p>
     </div>
   </footer>
-<script>
-(function(){if(!window.chatbase||window.chatbase("getState")!=="initialized"){window.chatbase=(...arguments)=>{if(!window.chatbase.q){window.chatbase.q=[]}window.chatbase.q.push(arguments)};window.chatbase=new Proxy(window.chatbase,{get(target,prop){if(prop==="q"){return target.q}return(...args)=>target(prop,...args)}})}const onLoad=function(){const script=document.createElement("script");script.src="https://www.chatbase.co/embed.min.js";script.id="C60jEJW_QuVD7X3vE5rzE";script.domain="www.chatbase.co";document.body.appendChild(script)};if(document.readyState==="complete"){onLoad()}else{window.addEventListener("load",onLoad)}})();
-</script>
-  <!-- bestaande algemene scripts -->
+
+  <script>
+    (function(){if(!window.chatbase||window.chatbase("getState")!=="initialized"){window.chatbase=(...arguments)=>{if(!window.chatbase.q){window.chatbase.q=[]}window.chatbase.q.push(arguments)};window.chatbase=new Proxy(window.chatbase,{get(target,prop){if(prop==="q"){return target.q}return(...args)=>target(prop,...args)}})}const onLoad=function(){const script=document.createElement("script");script.src="https://www.chatbase.co/embed.min.js";script.id="C60jEJW_QuVD7X3vE5rzE";script.domain="www.chatbase.co";document.body.appendChild(script)};if(document.readyState==="complete"){onLoad()}else{window.addEventListener("load",onLoad)}})();
+  </script>
+
   <script src="script.js"></script>
-
-  <!-- specifieke downloads script -->
   <script src="downloads.js"></script>
-
 </body>
 </html>
