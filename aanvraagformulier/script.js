@@ -12,7 +12,9 @@ function initHamburgerMenu() {
     const menu = document.querySelector('.nav-list');
     if (!btn || !menu) return;
 
-    btn.addEventListener('click', toggleMenu);
+    btn.setAttribute('aria-expanded', 'false');
+    btn.setAttribute('aria-label', 'Menu');
+
     const openMenu = () => {
         menu.classList.add('active');
         btn.classList.add('is-active');
@@ -31,12 +33,16 @@ function initHamburgerMenu() {
 
     const toggleMenu = (e) => {
         if (e) e.preventDefault();
-        if (menu.classList.contains('active')) closeMenu();
-        else openMenu();
+        e?.stopPropagation();
+
+        if (menu.classList.contains('active')) {
+            closeMenu();
+        } else {
+            openMenu();
+        }
     };
 
-    btn.addEventListener('click', toggleMenu, { passive: false });
-    btn.addEventListener('touchstart', toggleMenu, { passive: false });
+    btn.addEventListener('click', toggleMenu);
 
     menu.addEventListener('click', (e) => {
         const a = e.target.closest('a');
@@ -50,14 +56,17 @@ function initHamburgerMenu() {
     });
 
     document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && menu.classList.contains('active')) closeMenu();
+        if (e.key === 'Escape' && menu.classList.contains('active')) {
+            closeMenu();
+        }
     });
 
     window.addEventListener('resize', () => {
-        if (window.innerWidth > 992 && menu.classList.contains('active')) closeMenu();
+        if (window.innerWidth > 768 && menu.classList.contains('active')) {
+            closeMenu();
+        }
     });
 }
-
 // ============================================================
 // ✅ reCAPTCHA controle functie
 // ============================================================
