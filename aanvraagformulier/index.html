@@ -45,65 +45,6 @@
         </div>
     </nav>
 
-    <!-- ✅ Hamburger menu script -->
-    <script>
-        (function () {
-            function initHamburgerMenu() {
-                const btn = document.querySelector('.hamburger');
-                const menu = document.querySelector('.nav-list');
-                if (!btn || !menu) return;
-
-                const openMenu = () => {
-                    menu.classList.add('active');
-                    btn.setAttribute('aria-expanded', 'true');
-                    document.documentElement.classList.add('nav-open');
-                    document.body.classList.add('nav-open');
-                };
-
-                const closeMenu = () => {
-                    menu.classList.remove('active');
-                    btn.setAttribute('aria-expanded', 'false');
-                    document.documentElement.classList.remove('nav-open');
-                    document.body.classList.remove('nav-open');
-                };
-
-                const toggleMenu = (e) => {
-                    if (e) e.preventDefault();
-                    if (menu.classList.contains('active')) closeMenu();
-                    else openMenu();
-                };
-
-                btn.addEventListener('click', toggleMenu, { passive: false });
-                btn.addEventListener('touchstart', toggleMenu, { passive: false });
-
-                menu.addEventListener('click', (e) => {
-                    const a = e.target.closest('a');
-                    if (a) closeMenu();
-                });
-
-                document.addEventListener('click', (e) => {
-                    if (!menu.classList.contains('active')) return;
-                    const clickedInside = menu.contains(e.target) || btn.contains(e.target);
-                    if (!clickedInside) closeMenu();
-                });
-
-                document.addEventListener('keydown', (e) => {
-                    if (e.key === 'Escape' && menu.classList.contains('active')) closeMenu();
-                });
-
-                window.addEventListener('resize', () => {
-                    if (window.innerWidth > 768 && menu.classList.contains('active')) closeMenu();
-                });
-            }
-
-            if (document.readyState === 'loading') {
-                document.addEventListener('DOMContentLoaded', initHamburgerMenu);
-            } else {
-                initHamburgerMenu();
-            }
-        })();
-    </script>
-
     <div class="logo"></div>
 
     <br><br><br><br>
