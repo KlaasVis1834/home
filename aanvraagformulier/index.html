@@ -11,7 +11,7 @@
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <script type="text/javascript">
         (function() {
-            emailjs.init("ONDQRoTrKQCSL4P-M"); // Jouw User ID
+            emailjs.init("ONDQRoTrKQCSL4P-M");
         })();
     </script>
 
@@ -26,12 +26,11 @@
 
     <nav>
         <div class="nav-container">
-            <div class="logo">
+            <a href="https://www.klaasvis.online" class="logo">
                 <img src="Logo.png" alt="Klaas Vis Logo" class="logo-img">
-                Klaas Vis
-            </div>
+                <span>Klaas Vis</span>
+            </a>
 
-            <!-- ✅ type="button" zodat hij nooit per ongeluk form submit triggert -->
             <button class="hamburger" type="button" aria-label="Menu" aria-expanded="false">☰</button>
 
             <ul class="nav-list">
@@ -46,7 +45,7 @@
         </div>
     </nav>
 
-    <!-- ✅ Hamburger menu script (minimaal, past bij jouw CSS .nav-list.active) -->
+    <!-- ✅ Hamburger menu script -->
     <script>
         (function () {
             function initHamburgerMenu() {
@@ -74,29 +73,24 @@
                     else openMenu();
                 };
 
-                // Click + touch (mobiel betrouwbaarheid)
                 btn.addEventListener('click', toggleMenu, { passive: false });
                 btn.addEventListener('touchstart', toggleMenu, { passive: false });
 
-                // Sluit bij klik op link in menu
                 menu.addEventListener('click', (e) => {
                     const a = e.target.closest('a');
                     if (a) closeMenu();
                 });
 
-                // Sluit bij klik buiten menu/knop
                 document.addEventListener('click', (e) => {
                     if (!menu.classList.contains('active')) return;
                     const clickedInside = menu.contains(e.target) || btn.contains(e.target);
                     if (!clickedInside) closeMenu();
                 });
 
-                // Sluit met Escape
                 document.addEventListener('keydown', (e) => {
                     if (e.key === 'Escape' && menu.classList.contains('active')) closeMenu();
                 });
 
-                // Sluit bij resize naar desktop
                 window.addEventListener('resize', () => {
                     if (window.innerWidth > 768 && menu.classList.contains('active')) closeMenu();
                 });
@@ -116,7 +110,6 @@
 
     <div class="form-container">
         <form id="insurance-form">
-            <!-- Verborgen invoerveld om de handtekening-URL op te slaan -->
             <input type="hidden" id="signature_url" name="signature_url">
 
             <div class="step-indicators">
@@ -185,7 +178,6 @@
                   </div>
                 </div>
 
-                <!-- Tekst verschijnt alleen bij maand/kwartaal -->
                 <div class="form-group" id="incasso-tekst" style="display:none;">
                   <strong>Ik ga akkoord met automatische incasso</strong>
                 </div>
@@ -200,7 +192,7 @@
                   }
 
                   radios.forEach(r => r.addEventListener('change', updateIncasso));
-                  updateIncasso(); // initiale staat
+                  updateIncasso();
                 </script>
 
                 <div class="form-group">
@@ -587,11 +579,9 @@
                         <div class="g-recaptcha" data-sitekey="6LdwpegrAAAAAKjnbA7VZJoNpYlFJ6iFeMQp0Dov"></div>
                     </div>
 
-                    <!-- ✅ GEEN onclick showModal hier. script.js doet: reCAPTCHA check -> showModal -->
                     <button type="button" class="submit-button">Aanvraag indienen</button>
                 </div>
 
-                <!-- Popup Modal -->
                 <div id="confirmationModal" class="modal hidden">
                     <div class="modal-content">
                         <h3>Controleer uw gegevens</h3>
@@ -604,7 +594,6 @@
                     </div>
                 </div>
 
-                <!-- Resultaat bericht -->
                 <div id="resultMessage" class="modal hidden">
                     <div class="modal-content">
                         <p id="resultText"></p>
@@ -615,14 +604,12 @@
                 </div>
             </div>
 
-            <!-- Navigatieknoppen -->
             <div class="navigation-buttons text-center">
                 <button type="button" class="prev-button" id="prevBtn" onclick="nextPrev(-1)">Vorige</button>
                 <button type="button" class="next-button" id="nextBtn" onclick="nextPrev(1)">Volgende</button>
             </div>
         </form>
 
-        <!-- Bestaande Loading Screen -->
         <div id="loadingScreen" class="loading-screen" style="display: none;">
             <div class="loader"></div>
             <p>Uw aanvraag wordt verwerkt, u wordt doorgestuurd...</p>
@@ -650,7 +637,7 @@
                     <li><a href="https://dekkerautoverzekering.github.io/home/">Dekkerautoverzekering</a></li>
                     <li><a href="https://www.nh1816.nl/mijn-nh1816">Mijn NH1816 Polis</a></li>
                     <li><a href="https://www.klaasvis.nl/downloads">Downloads</a></li>
-                    <li><a href="#contact">Contact</a></li>
+                    <li><a href="https://klaasvis1834.github.io/contact/">Contact</a></li>
                 </ul>
             </div>
             <div class="footer-section">
@@ -659,7 +646,7 @@
                     <li><a href="tel:0756314261">075-6314261</a></li>
                     <li><a href="mailto:info@klaasvis.nl">info@klaasvis.nl</a></li>
                     <li><a href="http://www.klaasvis.nl">www.klaasvis.nl</a></li>
-                    <li><a href="#contact">Zuiderweg 7, Wijdewormer</a></li>
+                    <li><a href="https://klaasvis1834.github.io/contact/">Zuiderweg 7, Wijdewormer</a></li>
                 </ul>
             </div>
         </div>
@@ -671,9 +658,7 @@
     <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.0.0/dist/signature_pad.umd.min.js"></script>
     <script src="script.js?v=1"></script>
 
-    <!-- Inline JS alleen voor pagina loading screen -->
     <script>
-        // Pagina loading screen
         window.addEventListener('load', function() {
             const pageLoadingScreen = document.getElementById('page-loading-screen');
             setTimeout(() => {
