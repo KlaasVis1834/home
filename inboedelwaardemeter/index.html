@@ -11,7 +11,7 @@
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 </head>
 <body>
-    <div id="page-loading-screen">
+    <div id="page-loading-screen" class="page-loading-screen">
         <div class="page-loader"></div>
     </div>
 
@@ -40,7 +40,6 @@
         <div class="form-wrapper">
             <form id="inventoryForm">
                 <div class="form-container">
-                    <!-- Algemene gegevens -->
                     <div class="form-part">
                         <h2>Algemene Gegevens</h2>
                         <div class="form-section narrow">
@@ -53,11 +52,10 @@
                         </div>
                     </div>
 
-                    <!-- Deel A -->
                     <div class="form-part" id="deelA">
                         <h2>Deel A: Persoonlijke Gegevens</h2>
                         <div class="form-section">
-                            <label>Wat is de leeftijd van de hoofdkostwinner? *</label>
+                            <label for="leeftijd">Wat is de leeftijd van de hoofdkostwinner? *</label>
                             <select id="leeftijd" name="leeftijd" required>
                                 <option value="">Kies een optie</option>
                                 <option value="35 jaar en jonger">35 jaar en jonger</option>
@@ -67,7 +65,7 @@
                             </select>
                         </div>
                         <div class="form-section">
-                            <label>Hoe ziet uw gezinssamenstelling eruit? *</label>
+                            <label for="gezinssamenstelling">Hoe ziet uw gezinssamenstelling eruit? *</label>
                             <select id="gezinssamenstelling" name="gezinssamenstelling" required>
                                 <option value="">Kies een optie</option>
                                 <option value="Alleenstaande">Alleenstaande (met/zonder kinderen)</option>
@@ -75,7 +73,7 @@
                             </select>
                         </div>
                         <div class="form-section">
-                            <label>Wat is het netto maandinkomen van de hoofdkostwinner? *</label>
+                            <label for="inkomen">Wat is het netto maandinkomen van de hoofdkostwinner? *</label>
                             <select id="inkomen" name="inkomen" required>
                                 <option value="">Kies een optie</option>
                                 <option value="T/m € 1.000">Tot € 1.000</option>
@@ -95,7 +93,7 @@
                                 <label class="switch-label" for="oppervlakteNee">Nee</label>
                             </div>
                             <div id="oppervlakteGroot" class="hidden">
-                                <label>Wat is de totale oppervlakte?</label>
+                                <label for="totaleOppervlakte">Wat is de totale oppervlakte?</label>
                                 <select id="totaleOppervlakte" name="totaleOppervlakte">
                                     <option value="">Kies een optie</option>
                                     <option value="300 m² t/m 350 m²">300 m² t/m 350 m²</option>
@@ -104,7 +102,7 @@
                                 </select>
                             </div>
                             <div id="kamers" class="hidden">
-                                <label>Hoeveel kamers heeft uw woning?</label>
+                                <label for="aantalKamers">Hoeveel kamers heeft uw woning?</label>
                                 <select id="aantalKamers" name="aantalKamers">
                                     <option value="">Kies een optie</option>
                                     <option value="1 of 2 kamers">1 of 2 kamers</option>
@@ -116,7 +114,6 @@
                         </div>
                     </div>
 
-                    <!-- Deel B -->
                     <div class="form-part" id="deelB">
                         <h2>Deel B: Bezittingen en Woning</h2>
                         <div class="form-section">
@@ -128,7 +125,7 @@
                                 <label class="switch-label" for="audioNee">Nee</label>
                             </div>
                             <div id="audioBedrag" class="hidden">
-                                <label>Wat is het extra bedrag boven € 12.000,-?</label>
+                                <label for="audioExtra">Wat is het extra bedrag boven € 12.000,-?</label>
                                 <select id="audioExtra" name="audioExtra">
                                     <option value="">Kies een optie</option>
                                     <option value="€ 2.000,-">€ 2.000,-</option>
@@ -155,7 +152,7 @@
                                 <label class="switch-label" for="sieradenNee">Nee</label>
                             </div>
                             <div id="sieradenBedrag" class="hidden">
-                                <label>Wat is het extra bedrag boven € 6.000,-?</label>
+                                <label for="sieradenExtra">Wat is het extra bedrag boven € 6.000,-?</label>
                                 <select id="sieradenExtra" name="sieradenExtra">
                                     <option value="">Kies een optie</option>
                                     <option value="€ 2.000,-">€ 2.000,-</option>
@@ -182,7 +179,7 @@
                                 <label class="switch-label" for="bezittingenNee">Nee</label>
                             </div>
                             <div id="bezittingenBedrag" class="hidden">
-                                <label>Wat is het extra bedrag boven € 15.000,-?</label>
+                                <label for="bezittingenExtra">Wat is het extra bedrag boven € 15.000,-?</label>
                                 <select id="bezittingenExtra" name="bezittingenExtra">
                                     <option value="">Kies een optie</option>
                                     <option value="€ 2.000,-">€ 2.000,-</option>
@@ -201,7 +198,7 @@
                             </div>
                         </div>
                         <div class="form-section">
-                            <label>Wat voor type woning heeft u? *</label>
+                            <label for="woningType">Wat voor type woning heeft u? *</label>
                             <select id="woningType" name="woningType" required>
                                 <option value="">Kies een optie</option>
                                 <option value="Huurwoning">Huurwoning</option>
@@ -217,7 +214,7 @@
                                     <label class="switch-label" for="huurNee">Nee</label>
                                 </div>
                                 <div id="huurBedrag" class="hidden">
-                                    <label>Wat is het extra bedrag boven € 15.000,-?</label>
+                                    <label for="huurExtra">Wat is het extra bedrag boven € 15.000,-?</label>
                                     <select id="huurExtra" name="huurExtra">
                                         <option value="">Kies een optie</option>
                                         <option value="€ 2.000,-">€ 2.000,-</option>
@@ -244,7 +241,7 @@
                                     <label class="switch-label" for="eigenaarNee">Nee</label>
                                 </div>
                                 <div id="eigenaarBedrag" class="hidden">
-                                    <label>Wat is het extra bedrag boven € 15.000,-?</label>
+                                    <label for="eigenaarExtra">Wat is het extra bedrag boven € 15.000,-?</label>
                                     <select id="eigenaarExtra" name="eigenaarExtra">
                                         <option value="">Kies een optie</option>
                                         <option value="€ 2.000,-">€ 2.000,-</option>
@@ -265,11 +262,10 @@
                         </div>
                     </div>
 
-                    <!-- Handtekening -->
                     <div class="form-part">
                         <h2>Handtekening</h2>
                         <div class="form-section narrow">
-                            <label>Plaats uw digitale handtekening *</label>
+                            <label for="signaturePad">Plaats uw digitale handtekening *</label>
                             <canvas id="signaturePad" width="300" height="100"></canvas>
                             <button type="button" id="clearSignature">Herstel handtekening</button>
                         </div>
@@ -294,7 +290,6 @@
                     KvK: 35008554
                 </p>
             </div>
-
             <div class="footer-section">
                 <h4>Snelle Links</h4>
                 <ul class="footer-links">
@@ -306,7 +301,6 @@
                     <li><a href="https://klaasvis.online/contact/">Contact</a></li>
                 </ul>
             </div>
-
             <div class="footer-section">
                 <h4>Contact</h4>
                 <ul class="footer-links">
@@ -317,13 +311,11 @@
                 </ul>
             </div>
         </div>
-
         <div class="footer-bottom">
             <p>&copy; 2026 BV Assurantiekantoor Klaas Vis Ao. 1834. Alle rechten voorbehouden.</p>
         </div>
     </footer>
 
-    <!-- Chatbase Chatbot -->
     <script>
         (function(){if(!window.chatbase||window.chatbase("getState")!=="initialized"){window.chatbase=(...arguments)=>{if(!window.chatbase.q){window.chatbase.q=[]}window.chatbase.q.push(arguments)};window.chatbase=new Proxy(window.chatbase,{get(target,prop){if(prop==="q"){return target.q}return(...args)=>target(prop,...args)}})}const onLoad=function(){const script=document.createElement("script");script.src="https://www.chatbase.co/embed.min.js";script.id="C60jEJW_QuVD7X3vE5rzE";script.domain="www.chatbase.co";document.body.appendChild(script)};if(document.readyState==="complete"){onLoad()}else{window.addEventListener("load",onLoad)}})();
     </script>
