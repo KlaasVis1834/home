@@ -239,14 +239,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 reply_to: email
             })
             .then(() => {
-                console.log("E-mail naar kantoor verzonden");
                 return emailjs.send("service_hcds2qk", "template_gco2wsm", {
                     to_email: email,
                     message: "Bedankt voor uw verzoek!\n\nHieronder uw ingevulde gegevens:\n" + emailBody
                 });
             })
             .then(() => {
-                console.log("Bevestiging verzonden");
                 setTimeout(() => {
                     if (loadingScreen) {
                         loadingScreen.style.display = 'none';
