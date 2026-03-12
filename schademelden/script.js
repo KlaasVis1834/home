@@ -1,4 +1,3 @@
-<script>
 (function () {
   const $ = (sel, ctx = document) => ctx.querySelector(sel);
 
@@ -12,70 +11,84 @@
     if (hamburger && navList) {
       hamburger.setAttribute('aria-expanded', 'false');
       hamburger.setAttribute('aria-controls', 'main-navigation');
-      if (!navList.id) navList.id = 'main-navigation';
+
+      if (!navList.id) {
+        navList.id = 'main-navigation';
+      }
 
       function toggleMenu(open) {
-        const isOpen = typeof open === 'boolean' ? open : !navList.classList.contains('active');
+        const isOpen =
+          typeof open === 'boolean' ? open : !navList.classList.contains('active');
+
         navList.classList.toggle('active', isOpen);
         hamburger.textContent = isOpen ? '✕' : '☰';
         hamburger.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
       }
 
-      const pointerHandler = (evt) => {
-        if (evt.target.closest('.hamburger')) {
-          evt.preventDefault();
-          toggleMenu();
-        }
-      };
+      hamburger.addEventListener('click', (evt) => {
+        evt.preventDefault();
+        toggleMenu();
+      });
 
-      const linkClickHandler = (evt) => {
-        if (evt.target.closest('.nav-list a')) setTimeout(() => toggleMenu(false), 100);
-      };
+      navList.querySelectorAll('a').forEach((link) => {
+        link.addEventListener('click', () => {
+          if (window.innerWidth <= 900) {
+            toggleMenu(false);
+          }
+        });
+      });
 
-      const outsideClickHandler = (evt) => {
+      document.addEventListener('click', (evt) => {
         if (!navList.classList.contains('active')) return;
-        if (!evt.target.closest('.nav-list') && !evt.target.closest('.hamburger')) toggleMenu(false);
-      };
 
-      hamburger.addEventListener('pointerdown', pointerHandler);
-      hamburger.addEventListener('click', pointerHandler);
-      navList.addEventListener('click', linkClickHandler);
-      document.addEventListener('pointerdown', outsideClickHandler);
+        if (!evt.target.closest('.nav-list') && !evt.target.closest('.hamburger')) {
+          toggleMenu(false);
+        }
+      });
 
       document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && navList.classList.contains('active')) toggleMenu(false);
+        if (e.key === 'Escape' && navList.classList.contains('active')) {
+          toggleMenu(false);
+        }
       });
 
       window.addEventListener('resize', () => {
-        if (window.innerWidth > 768 && navList.classList.contains('active')) toggleMenu(false);
+        if (window.innerWidth > 900 && navList.classList.contains('active')) {
+          toggleMenu(false);
+        }
       });
     }
 
-// Schadeformulier EmailJS + reCAPTCHA-controle
-document.getElementById('schade-form').addEventListener('submit', async function(event) {
-    event.preventDefault();
-
-    const form = this;
+    /* ===========================
+       SCHADEFORMULIER VERZENDEN
+    =========================== */
+    const schadeForm = document.getElementById('schade-form');
     const messageDiv = document.getElementById('form-message');
-    const fileInput = document.getElementById('bijlagen');
-    const submitButton = form.querySelector('button[type="submit"]');
 
-    // ✅ Controleer of reCAPTCHA is voltooid
-    const recaptchaResponse = grecaptcha.getResponse();
-    if (!recaptchaResponse || recaptchaResponse.length === 0) {
+    if (!schadeForm || !messageDiv) return;
+
+    schadeForm.addEventListener('submit', async function (event) {
+      event.preventDefault();
+
+      const form = this;
+      const fileInput = document.getElementById('bijlagen');
+      const submitButton = form.querySelector('button[type="submit"]');
+
+      const recaptchaResponse =
+        typeof grecaptcha !== 'undefined' ? grecaptcha.getResponse() : '';
+
+      if (!recaptchaResponse || recaptchaResponse.length === 0) {
         messageDiv.textContent = '❗ Bevestig eerst dat u geen robot bent.';
         messageDiv.style.color = '#dc3545';
-        submitButton.disabled = false;
-        return; // 👉 voorkomt verdere uitvoering
-    }
+        if (submitButton) submitButton.disabled = false;
+        return;
+      }
 
-    // Disable knop tijdens verzenden
-    submitButton.disabled = true;
-    messageDiv.textContent = 'Bezig met verzenden...';
-    messageDiv.style.color = '#007bff';
+      if (submitButton) submitButton.disabled = true;
+      messageDiv.textContent = 'Bezig met verzenden...';
+      messageDiv.style.color = '#007bff';
 
-    // Formulierdata verzamelen
-    const formData = {
+      const formData = {
         name: form.name.value.trim(),
         email: form.email.value.trim(),
         phone: form.phone.value.trim() || 'Niet opgegeven',
@@ -83,13 +96,12 @@ document.getElementById('schade-form').addEventListener('submit', async function
         polisnummer: form.polisnummer.value.trim(),
         datum: form.datum.value,
         beschrijving: form.beschrijving.value.trim(),
-        to_email: form.email.value.trim(), // Voor klant
-        to_email_mij: 'rbuijs@klaasvis.nl', // Voor jou
+        to_email: form.email.value.trim(),
+        to_email_mij: 'rbuijs@klaasvis.nl',
         bijlagen_data: []
-    };
+      };
 
-    // Berichttekst opbouwen
-    formData.message = `
+      formData.message = `
 Nieuwe schademelding ontvangen:
 
 - Naam: ${formData.name}
@@ -101,79 +113,83 @@ Nieuwe schademelding ontvangen:
 - Beschrijving: ${formData.beschrijving}
 `;
 
-    // E-mailadres valideren
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(formData.to_email)) {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(formData.to_email)) {
         messageDiv.textContent = 'Fout: Ongeldig e-mailadres.';
         messageDiv.style.color = '#dc3545';
-        submitButton.disabled = false;
+        if (submitButton) submitButton.disabled = false;
         return;
-    }
+      }
 
-    // Controleer EmailJS
-    if (!window.emailjs) {
+      if (!window.emailjs) {
         messageDiv.textContent = 'Fout: EmailJS niet geladen.';
         messageDiv.style.color = '#dc3545';
-        submitButton.disabled = false;
+        if (submitButton) submitButton.disabled = false;
         return;
-    }
+      }
 
-    // Bestanden verwerken
-    const maxFileSize = 1 * 1024 * 1024; // 1 MB
-    const maxFiles = 5;
-    let oversizeFiles = false;
+      const maxFileSize = 1 * 1024 * 1024; // 1 MB
+      const maxFiles = 5;
+      let oversizeFiles = false;
 
-    if (fileInput.files.length > 0) {
+      if (fileInput && fileInput.files && fileInput.files.length > 0) {
         if (fileInput.files.length > maxFiles) {
-            messageDiv.textContent = `Fout: Maximaal ${maxFiles} bestanden toegestaan.`;
-            messageDiv.style.color = '#dc3545';
-            submitButton.disabled = false;
-            return;
+          messageDiv.textContent = `Fout: Maximaal ${maxFiles} bestanden toegestaan.`;
+          messageDiv.style.color = '#dc3545';
+          if (submitButton) submitButton.disabled = false;
+          return;
         }
 
         formData.message += '\nBijlagen:\n';
-        for (const file of fileInput.files) {
-            if (file.size > maxFileSize) {
-                oversizeFiles = true;
-                formData.message += `- ${file.name} (te groot, >1MB)\n`;
-                continue;
-            }
-            const base64 = await new Promise((resolve, reject) => {
-                const reader = new FileReader();
-                reader.onload = () => resolve(reader.result);
-                reader.onerror = reject;
-                reader.readAsDataURL(file);
-            });
-            formData.bijlagen_data.push({
-                name: file.name,
-                type: file.type,
-                base64: base64
-            });
-            formData.message += `- ${file.name}\n`;
-        }
-    } else {
-        formData.message += '\nBijlagen: Geen';
-    }
 
-    // ✅ Alleen als reCAPTCHA geldig is, wordt nu verstuurd
-    try {
+        for (const file of fileInput.files) {
+          if (file.size > maxFileSize) {
+            oversizeFiles = true;
+            formData.message += `- ${file.name} (te groot, >1MB)\n`;
+            continue;
+          }
+
+          const base64 = await new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onload = () => resolve(reader.result);
+            reader.onerror = reject;
+            reader.readAsDataURL(file);
+          });
+
+          formData.bijlagen_data.push({
+            name: file.name,
+            type: file.type,
+            base64: base64
+          });
+
+          formData.message += `- ${file.name}\n`;
+        }
+      } else {
+        formData.message += '\nBijlagen: Geen';
+      }
+
+      try {
         await emailjs.send('service_h6az3sj', 'template_naxxu2a', formData);
         await emailjs.send('service_h6az3sj', 'template_yqe7y7e', formData);
 
         messageDiv.textContent = '✅ Schade succesvol gemeld! Wij nemen spoedig contact met u op.';
         messageDiv.style.color = '#28a745';
         form.reset();
-        grecaptcha.reset(); // reset reCAPTCHA
-    } catch (error) {
+
+        if (typeof grecaptcha !== 'undefined') {
+          grecaptcha.reset();
+        }
+      } catch (error) {
         console.error('EmailJS fout:', error);
         messageDiv.textContent = '❌ Fout bij verzenden. Probeer het later opnieuw.';
         messageDiv.style.color = '#dc3545';
-    } finally {
-        submitButton.disabled = false;
-        if (oversizeFiles) {
-            messageDiv.textContent += ' Let op: sommige bestanden waren te groot (>1MB).';
-        }
-    }
-});
-                            </script>
+      } finally {
+        if (submitButton) submitButton.disabled = false;
 
+        if (oversizeFiles) {
+          messageDiv.textContent += ' Let op: sommige bestanden waren te groot (>1MB).';
+        }
+      }
+    });
+  });
+})();
