@@ -1,94 +1,150 @@
 // ===========================
 // HAMBURGER MENU
 // ===========================
-const hamburger = document.querySelector('.hamburger');
-const navList = document.querySelector('.nav-list');
+document.addEventListener("DOMContentLoaded", () => {
+  const hamburger = document.querySelector(".hamburger");
+  const navList = document.querySelector(".nav-list");
 
-if (hamburger && navList) {
-  hamburger.setAttribute('aria-expanded', 'false');
-  hamburger.setAttribute('aria-controls', 'main-navigation');
-  if (!navList.id) navList.id = 'main-navigation';
+  if (hamburger && navList) {
+    hamburger.setAttribute("aria-expanded", "false");
+    hamburger.setAttribute("aria-controls", "main-navigation");
 
-  function toggleMenu(open) {
-    const isOpen = typeof open === 'boolean' ? open : !navList.classList.contains('active');
-    navList.classList.toggle('active', isOpen);
-    hamburger.textContent = isOpen ? '✕' : '☰';
-    hamburger.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+    if (!navList.id) {
+      navList.id = "main-navigation";
+    }
+
+    function toggleMenu(open) {
+      const isOpen =
+        typeof open === "boolean" ? open : !navList.classList.contains("active");
+
+      navList.classList.toggle("active", isOpen);
+      hamburger.textContent = isOpen ? "✕" : "☰";
+      hamburger.setAttribute("aria-expanded", isOpen ? "true" : "false");
+    }
+
+    hamburger.addEventListener("click", (evt) => {
+      evt.preventDefault();
+      toggleMenu();
+    });
+
+    navList.querySelectorAll("a").forEach((link) => {
+      link.addEventListener("click", () => {
+        if (window.innerWidth <= 900) {
+          toggleMenu(false);
+        }
+      });
+    });
+
+    document.addEventListener("click", (evt) => {
+      if (!navList.classList.contains("active")) return;
+      if (!evt.target.closest(".nav-list") && !evt.target.closest(".hamburger")) {
+        toggleMenu(false);
+      }
+    });
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && navList.classList.contains("active")) {
+        toggleMenu(false);
+      }
+    });
+
+    window.addEventListener("resize", () => {
+      if (window.innerWidth > 900 && navList.classList.contains("active")) {
+        toggleMenu(false);
+      }
+    });
   }
 
-  hamburger.addEventListener('click', (evt) => {
-    evt.preventDefault();
-    toggleMenu();
+  // ===========================
+  // EmailJS INITIALISEREN
+  // ===========================
+  emailjs.init("noRYJWEETvdqfI2sL");
+
+  // ===========================
+  // HANDTEKENING (SIGNATURE PAD)
+  // ===========================
+  const canvas = document.getElementById("signaturePad");
+  let signaturePad = null;
+
+  if (canvas) {
+    signaturePad = new SignaturePad(canvas);
+  }
+
+  const clearSignatureBtn = document.getElementById("clearSignature");
+  if (clearSignatureBtn && signaturePad) {
+    clearSignatureBtn.addEventListener("click", () => signaturePad.clear());
+  }
+
+  // ===========================
+  // DYNAMISCHE FORMULIER LOGICA
+  // ===========================
+  document.querySelectorAll('.switch input[type="radio"]').forEach((input) => {
+    input.addEventListener("change", (e) => {
+      const targetId = e.target.id;
+
+      const toggle = (yesId, showId, hideId) => {
+        const showElement = document.getElementById(showId);
+        const hideElement = hideId ? document.getElementById(hideId) : null;
+
+        if (targetId === `${yesId}Ja` && showElement) {
+          showElement.classList.remove("hidden");
+        }
+
+        if (targetId === `${yesId}Nee` && showElement) {
+          showElement.classList.add("hidden");
+        }
+
+        if (hideElement) {
+          hideElement.classList.toggle("hidden", targetId === `${yesId}Ja`);
+        }
+      };
+
+      toggle("oppervlakte", "oppervlakteGroot", "kamers");
+      toggle("audio", "audioBedrag");
+      toggle("sieraden", "sieradenBedrag");
+      toggle("bezittingen", "bezittingenBedrag");
+      toggle("huur", "huurBedrag");
+      toggle("eigenaar", "eigenaarBedrag");
+    });
   });
 
-  document.addEventListener('click', (evt) => {
-    if (!navList.classList.contains('active')) return;
-    if (!evt.target.closest('.nav-list') && !evt.target.closest('.hamburger')) toggleMenu(false);
-  });
+  const woningType = document.getElementById("woningType");
+  if (woningType) {
+    woningType.addEventListener("change", (e) => {
+      const value = e.target.value;
+      const huurdersbelang = document.getElementById("huurdersbelang");
+      const eigenaarsbelang = document.getElementById("eigenaarsbelang");
 
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && navList.classList.contains('active')) toggleMenu(false);
-  });
+      if (huurdersbelang) huurdersbelang.classList.add("hidden");
+      if (eigenaarsbelang) eigenaarsbelang.classList.add("hidden");
 
-  window.addEventListener('resize', () => {
-    if (window.innerWidth > 768 && navList.classList.contains('active')) toggleMenu(false);
-  });
-}
+      if (value === "Huurwoning" && huurdersbelang) {
+        huurdersbelang.classList.remove("hidden");
+      }
 
-// ===========================
-// EmailJS INITIALISEREN
-// ===========================
-emailjs.init("noRYJWEETvdqfI2sL");
+      if (value === "Koopappartement" && eigenaarsbelang) {
+        eigenaarsbelang.classList.remove("hidden");
+      }
+    });
+  }
 
-// ===========================
-// HANDTEKENING (SIGNATURE PAD)
-// ===========================
-const canvas = document.getElementById("signaturePad");
-const signaturePad = new SignaturePad(canvas);
-document.getElementById("clearSignature").addEventListener("click", () => signaturePad.clear());
+  // ===========================
+  // FORMULIER VERZENDEN
+  // ===========================
+  const inventoryForm = document.getElementById("inventoryForm");
+  if (inventoryForm) {
+    inventoryForm.addEventListener("submit", (e) => {
+      e.preventDefault();
 
-// ===========================
-// DYNAMISCHE FORMULIER LOGICA
-// ===========================
-document.querySelectorAll('.switch input[type="radio"]').forEach(input => {
-  input.addEventListener('change', (e) => {
-    const targetId = e.target.id;
+      const loadingScreen = document.getElementById("page-loading-screen");
+      if (loadingScreen) {
+        loadingScreen.style.display = "flex";
+      }
 
-    const toggle = (yesId, showId, hideId) => {
-      if (targetId === `${yesId}Ja`) document.getElementById(showId).classList.remove("hidden");
-      if (targetId === `${yesId}Nee`) document.getElementById(showId).classList.add("hidden");
-      if (hideId) document.getElementById(hideId).classList.toggle("hidden", targetId === `${yesId}Ja`);
-    };
+      const formData = new FormData(e.target);
+      const data = Object.fromEntries(formData.entries());
 
-    toggle("oppervlakte", "oppervlakteGroot", "kamers");
-    toggle("audio", "audioBedrag");
-    toggle("sieraden", "sieradenBedrag");
-    toggle("bezittingen", "bezittingenBedrag");
-    toggle("huur", "huurBedrag");
-    toggle("eigenaar", "eigenaarBedrag");
-  });
-});
-
-document.getElementById("woningType").addEventListener("change", (e) => {
-  const value = e.target.value;
-  document.getElementById("huurdersbelang").classList.add("hidden");
-  document.getElementById("eigenaarsbelang").classList.add("hidden");
-  if (value === "Huurwoning") document.getElementById("huurdersbelang").classList.remove("hidden");
-  if (value === "Koopappartement") document.getElementById("eigenaarsbelang").classList.remove("hidden");
-});
-
-// ===========================
-// FORMULIER VERZENDEN
-// ===========================
-document.getElementById("inventoryForm").addEventListener("submit", (e) => {
-  e.preventDefault();
-
-  document.getElementById("loadingScreen").style.display = "flex";
-
-  const formData = new FormData(e.target);
-  const data = Object.fromEntries(formData.entries());
-
-  const message = `
+      const message = `
 Polisnummer: ${data.polisnummer}
 E-mailadres: ${data.email || "Niet opgegeven"}
 Leeftijd hoofdkostwinner: ${data.leeftijd}
@@ -108,26 +164,30 @@ Huurdersbelang > €15.000: ${data.huurdersbelang || "N.v.t."}
 Extra bedrag huurdersbelang: ${data.huurExtra || "N.v.t."}
 Eigenaarsbelang > €15.000: ${data.eigenaarsbelang || "N.v.t."}
 Extra bedrag eigenaarsbelang: ${data.eigenaarExtra || "N.v.t."}
-Handtekening: ${signaturePad.isEmpty() ? "Niet aanwezig" : "Aanwezig"}
+Handtekening: ${signaturePad && !signaturePad.isEmpty() ? "Aanwezig" : "Niet aanwezig"}
 `;
 
-  const emailData = {
-    message,
-    to_email: data.email || "rbuijs@klaasvis.nl"
-  };
+      const emailData = {
+        message,
+        to_email: data.email || "rbuijs@klaasvis.nl"
+      };
 
-  const sendToMe = emailjs.send("service_lpsiijc", "template_l7dk1hc", { message });
-  const sendToClient = emailjs.send("service_lpsiijc", "template_ksj01md", emailData);
+      const sendToMe = emailjs.send("service_lpsiijc", "template_l7dk1hc", { message });
+      const sendToClient = emailjs.send("service_lpsiijc", "template_ksj01md", emailData);
 
-  Promise.all([sendToMe, sendToClient])
-    .then(() => {
-      setTimeout(() => {
-        window.location.href = "https://www.klaasvis.nl";
-      }, 2000);
-    })
-    .catch(err => {
-      console.error("Fout bij verzenden:", err);
-      document.getElementById("loadingScreen").style.display = "none";
-      alert("Er is een fout opgetreden bij het verzenden.");
+      Promise.all([sendToMe, sendToClient])
+        .then(() => {
+          setTimeout(() => {
+            window.location.href = "https://www.klaasvis.nl";
+          }, 2000);
+        })
+        .catch((err) => {
+          console.error("Fout bij verzenden:", err);
+          if (loadingScreen) {
+            loadingScreen.style.display = "none";
+          }
+          alert("Er is een fout opgetreden bij het verzenden.");
+        });
     });
+  }
 });
