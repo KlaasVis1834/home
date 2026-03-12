@@ -12,9 +12,7 @@ function initHamburgerMenu() {
     const menu = document.querySelector('.nav-list');
     if (!btn || !menu) return;
 
-    btn.setAttribute('aria-label', 'Menu');
-    btn.setAttribute('aria-expanded', menu.classList.contains('active') ? 'true' : 'false');
-
+    btn.addEventListener('click', toggleMenu);
     const openMenu = () => {
         menu.classList.add('active');
         btn.classList.add('is-active');
