@@ -5,7 +5,7 @@ showStep(currentStep);
 let signaturePad = null;
 
 // ============================================================
-// ✅ Hamburger menu (mobiel) — werkt met jouw CSS: .nav-list.active
+// ✅ Hamburger menu (mobiel)
 // ============================================================
 function initHamburgerMenu() {
     const btn = document.querySelector('.hamburger');
@@ -32,8 +32,10 @@ function initHamburgerMenu() {
     };
 
     const toggleMenu = (e) => {
-        if (e) e.preventDefault();
-        e?.stopPropagation();
+        if (e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
 
         if (menu.classList.contains('active')) {
             closeMenu();
@@ -67,6 +69,7 @@ function initHamburgerMenu() {
         }
     });
 }
+
 // ============================================================
 // ✅ reCAPTCHA controle functie
 // ============================================================
