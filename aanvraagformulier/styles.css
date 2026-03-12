@@ -176,6 +176,18 @@ footer {
 /* ===================== */
 
 @media (max-width: 900px) {
+    .nav-container {
+        padding: 0.9rem 1rem;
+    }
+
+    .logo {
+        font-size: 1.15rem;
+        gap: 0.55rem;
+    }
+
+    .logo-img {
+        max-height: 38px;
+    }
 
     .hamburger {
         display: block;
@@ -189,15 +201,14 @@ footer {
         top: 100%;
         left: 0;
         width: 100%;
-
-        /* ✅ VOLLE WITTE ACHTERGROND */
         background: #ffffff;
         backdrop-filter: none;
         -webkit-backdrop-filter: none;
-
         padding: 1rem;
-        border-bottom: 1px solid rgba(0,0,0,0.1);
-        box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        gap: 0;
+        align-items: stretch;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
     }
 
     .nav-list.active {
@@ -212,36 +223,11 @@ footer {
     .nav-list a {
         font-size: 1rem;
         display: block;
-        padding: 0.6rem 1rem;
+        padding: 0.5rem 1rem;
+        width: 100%;
     }
 
     .nav-list a::after {
         display: none;
-    }
-}
-
-@media (max-width: 768px) {
-
-    .footer-content {
-        grid-template-columns: 1fr;
-    }
-
-    .footer-bottom {
-        flex-direction: column;
-        gap: 0.5rem;
-        text-align: center;
-    }
-}
-
-@media (max-width: 600px) {
-
-    body {
-        padding: 10px;
-        padding-top: 90px;
-    }
-
-    .form-container {
-        width: 100%;
-        padding: 15px;
     }
 }
