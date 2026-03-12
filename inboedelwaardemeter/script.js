@@ -1,7 +1,7 @@
-// ===========================
-// HAMBURGER MENU
-// ===========================
 document.addEventListener("DOMContentLoaded", () => {
+  // ===========================
+  // HAMBURGER MENU
+  // ===========================
   const hamburger = document.querySelector(".hamburger");
   const navList = document.querySelector(".nav-list");
 
@@ -61,7 +61,7 @@ document.addEventListener("DOMContentLoaded", () => {
   emailjs.init("noRYJWEETvdqfI2sL");
 
   // ===========================
-  // HANDTEKENING (SIGNATURE PAD)
+  // HANDTEKENING
   // ===========================
   const canvas = document.getElementById("signaturePad");
   let signaturePad = null;
