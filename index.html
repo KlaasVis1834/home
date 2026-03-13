@@ -4,391 +4,427 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Klaas Vis | Makelaars in Assurantiën sinds 1834</title>
-  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="styles.css?v=1" />
   <link rel="icon" type="image/png" href="logo.png" />
 
-  <!-- ✅ EmailJS -->
+  <!-- EmailJS -->
   <script src="https://unpkg.com/@emailjs/browser@4/dist/email.min.js"></script>
   <script>
     (function () {
-      emailjs.init("7s23tMHc0wTVQEW3f"); // Je public key
+      emailjs.init("7s23tMHc0wTVQEW3f");
     })();
   </script>
 
-  <!-- ✅ reCAPTCHA -->
+  <!-- reCAPTCHA -->
   <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 </head>
 <body>
-    <div class="bg-animation">
-        <div class="orb orb-1"></div>
-        <div class="orb orb-2"></div>
-        <div class="orb orb-3"></div>
+  <div class="bg-animation">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+  </div>
+
+  <nav>
+    <div class="nav-container">
+      <a href="https://www.klaasvis.online/" class="logo">
+        <img src="logo.png" alt="Klaas Vis Logo" class="logo-img">
+        <span>Klaas Vis</span>
+      </a>
+
+      <button class="hamburger" type="button" aria-label="Menu" aria-expanded="false">☰</button>
+
+      <ul class="nav-list">
+        <li><a href="/schademelden/">Schade melden</a></li>
+        <li><a href="/wijziging-doorgeven/">Doorgeven wijziging</a></li>
+        <li><a href="/dekkerautoverzekering/">Dekkerautoverzekering</a></li>
+        <li><a href="/offerte-aanvragen/">Offerte aanvragen</a></li>
+        <li><a href="/downloads/">Downloads</a></li>
+        <li><a href="/contact/">Contact</a></li>
+      </ul>
     </div>
+  </nav>
 
-    <nav>
-        <div class="nav-container">
-            <div class="logo">
-                <img src="logo.png" alt="Klaas Vis Logo" class="logo-img">
-                Klaas Vis
-            </div>
-            <button class="hamburger">☰</button>
-            <ul class="nav-list">
-                <li><a href="/schademelden/">Schade melden</a></li>
-                <li><a href="/wijziging-doorgeven/">Doorgeven wijziging</a></li>
-                <li><a href="/dekkerautoverzekering/">Dekkerautoverzekering</a></li>
-                <li><a href="/offerte-aanvragen/">Offerte aanvragen</a></li>
-                <li><a href="/downloads/">Downloads</a></li>
-                <li><a href="/contact/">Contact</a></li>
-            </ul>
-        </div>
-    </nav>
+  <section class="hero">
+    <div class="hero-content">
+      <div class="hero-text">
+        <div class="hero-label">Sinds 1834 - Vertrouwd en onafhankelijk</div>
+        <h1>Makelaars in Assurantiën</h1>
+        <p>
+          Met jarenlange ervaring helpen wij particulieren en ondernemers met verzekeringsoplossingen die passen bij hun situatie.
+          Persoonlijk, deskundig en betrokken.
+        </p>
 
-    <section class="hero">
-        <div class="hero-content">
-            <div class="hero-text">
-                <div class="hero-label">✨ Sinds 1834 - 190 Jaar Vertrouwen</div>
-                <h1>Makelaars in Assurantiën</h1>
-                <p>Met 190 jaar ervaring staan wij klaar om u te helpen met schade- en inkomensverzekeringen die écht bij u passen. Persoonlijk, betrouwbaar en altijd dichtbij.</p>
-                <div class="cta-group">
-                    <a href="/contact/" class="btn btn-primary">
-                        Neem Contact Op →
-                    </a>
-                    <a href="#diensten" class="btn btn-secondary">
-                        Bekijk Onze Diensten
-                    </a>
-                </div>
-                <div class="hero-stats">
-                    <div class="hero-stat">
-                        <div class="hero-stat-number">190+</div>
-                        <div class="hero-stat-label">Jaar Ervaring</div>
-                    </div>
-                    <div class="hero-stat">
-                        <div class="hero-stat-number">100%</div>
-                        <div class="hero-stat-label">Onafhankelijk</div>
-                    </div>
-                    <div class="hero-stat">
-                        <div class="hero-stat-number">24/7</div>
-                        <div class="hero-stat-label">Service</div>
-                    </div>
-                </div>
-            </div>
-            <div class="hero-visual">
-                <div class="glass-card">
-                    <h3 style="margin-bottom: 1rem; font-size: 1.3rem;">Samen Vinden We de Beste Oplossing</h3>
-                    <p style="color: var(--text-muted); margin-bottom: 2rem;">Uw zekerheid, onze zorg</p>
-                    <div style="display: grid; gap: 1rem;">
-                        <div style="display: flex; align-items: center; gap: 1rem;">
-                            <div style="width: 50px; height: 50px; background: rgba(99, 102, 241, 0.1); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem;">✓</div>
-                            <div>
-                                <div style="font-weight: 700;">Persoonlijk Advies</div>
-                                <div style="font-size: 0.9rem; color: var(--text-muted);">Wij luisteren naar uw wensen</div>
-                            </div>
-                        </div>
-                        <div style="display: flex; align-items: center; gap: 1rem;">
-                            <div style="width: 50px; height: 50px; background: rgba(20, 184, 166, 0.1); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem;">✓</div>
-                            <div>
-                                <div style="font-weight: 700;">Snelle Hulp bij Schade</div>
-                                <div style="font-size: 0.9rem; color: var(--text-muted);">Altijd direct geregeld</div>
-                            </div>
-                        </div>
-                        <div style="display: flex; align-items: center; gap: 1rem;">
-                            <div style="width: 50px; height: 50px; background: rgba(245, 158, 11, 0.1); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem;">✓</div>
-                            <div>
-                                <div style="font-weight: 700;">Betrouwbare Expertise</div>
-                                <div style="font-size: 0.9rem; color: var(--text-muted);">Gediplomeerd en betrokken</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="floating-badge floating-badge-1">
-                    <div class="badge-number">5.000+</div>
-                    <div class="badge-text">Tevreden Klanten</div>
-                </div>
-                <div class="floating-badge floating-badge-2">
-                    <div class="badge-number">10+</div>
-                    <div class="badge-text">Verzekeraars</div>
-                </div>
-            </div>
+        <div class="cta-group">
+          <a href="/contact/" class="btn btn-primary">Neem contact op</a>
+          <a href="#diensten" class="btn btn-secondary">Bekijk onze diensten</a>
         </div>
-    </section>
 
-    <div class="news-ticker">
-        <div class="ticker-content">
-            <div class="ticker-item"> Dekkerautoverzekering met extra korting beschikbaar!</div>
-            <div class="ticker-item">Inkomensverzekeringen nu met flexibele voorwaarden!</div>
-            <div class="ticker-item">Snelle en eenvoudige schadeafhandeling!</div>
-            <div class="ticker-item">Dekkerautoverzekering met extra korting beschikbaar!</div>
-            <div class="ticker-item">Inkomensverzekeringen nu met flexibele voorwaarden!</div>
-            <div class="ticker-item">Snelle en eenvoudige schadeafhandeling!</div>
+        <div class="hero-stats">
+          <div class="hero-stat">
+            <div class="hero-stat-number">190+</div>
+            <div class="hero-stat-label">Jaar ervaring</div>
+          </div>
+          <div class="hero-stat">
+            <div class="hero-stat-number">100%</div>
+            <div class="hero-stat-label">Onafhankelijk advies</div>
+          </div>
+          <div class="hero-stat">
+            <div class="hero-stat-number">Persoonlijk</div>
+            <div class="hero-stat-label">Direct contact</div>
+          </div>
         </div>
+      </div>
+
+      <div class="hero-visual">
+        <div class="glass-card">
+          <h3 style="margin-bottom: 1rem; font-size: 1.3rem;">Verzekeringen met persoonlijke aandacht</h3>
+          <p style="color: var(--text-muted); margin-bottom: 2rem;">Uw zekerheid, onze zorg.</p>
+
+          <div style="display: grid; gap: 1rem;">
+            <div style="display: flex; align-items: center; gap: 1rem;">
+              <div style="width: 50px; height: 50px; background: rgba(99, 102, 241, 0.1); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1rem; font-weight: 700;">01</div>
+              <div>
+                <div style="font-weight: 700;">Persoonlijk advies</div>
+                <div style="font-size: 0.9rem; color: var(--text-muted);">Aandacht voor uw situatie en wensen</div>
+              </div>
+            </div>
+
+            <div style="display: flex; align-items: center; gap: 1rem;">
+              <div style="width: 50px; height: 50px; background: rgba(20, 184, 166, 0.1); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1rem; font-weight: 700;">02</div>
+              <div>
+                <div style="font-weight: 700;">Snelle schadehulp</div>
+                <div style="font-size: 0.9rem; color: var(--text-muted);">Ondersteuning wanneer het nodig is</div>
+              </div>
+            </div>
+
+            <div style="display: flex; align-items: center; gap: 1rem;">
+              <div style="width: 50px; height: 50px; background: rgba(245, 158, 11, 0.1); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1rem; font-weight: 700;">03</div>
+              <div>
+                <div style="font-weight: 700;">Betrouwbare expertise</div>
+                <div style="font-size: 0.9rem; color: var(--text-muted);">Deskundig, helder en onafhankelijk</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="floating-badge floating-badge-1">
+          <div class="badge-number">5.000+</div>
+          <div class="badge-text">Tevreden klanten</div>
+        </div>
+
+        <div class="floating-badge floating-badge-2">
+          <div class="badge-number">10+</div>
+          <div class="badge-text">Samenwerkende verzekeraars</div>
+        </div>
+      </div>
     </div>
-    <section id="digitaal" class="digital-services">
-        <div class="container">
-            <div class="section-header">
-                <div class="section-label">Digitaal Geregeld</div>
-                <h2 class="section-title">Snel en Eenvoudig Online</h2>
-                <p class="section-subtitle">Regel alles gemakkelijk online, van schade melden tot het aanvragen van een offerte. Wij maken het u graag eenvoudig!</p>
-            </div>
-            <div class="digital-grid">
-                <div class="digital-card">
-                    <div class="digital-icon">⚠️</div>
-                    <h3>Schade Melden</h3>
-                    <p>Meld uw schade snel en eenvoudig via ons online formulier.</p>
-                    <a href="/schademelden/">Naar Schade Melden</a>
-                </div>
-                <div class="digital-card">
-                    <div class="digital-icon">📝</div>
-                    <h3>Wijziging Doorgeven</h3>
-                    <p>Geef wijzigingen in uw situatie direct online door.</p>
-                    <a href="/wijziging-doorgeven/">Naar Wijziging Doorgeven</a>
-                </div>
-                <div class="digital-card">
-                    <div class="digital-icon">📄</div>
-                    <h3>Offerte Aanvragen</h3>
-                    <p>Vraag een offerte aan voor onze verzekeringen, op maat voor u.</p>
-                    <a href="/offerte-aanvragen/">Naar Offerte Aanvragen</a>
-                </div>
-                <div class="digital-card">
-                    <div class="digital-icon">✉️</div>
-                    <h3>Contact Opnemen</h3>
-                    <p>Neem contact met ons op voor persoonlijk advies of vragen.</p>
-                    <a href="/contact/">Naar Contact</a>
-                </div>
-            </div>
-        </div>
-    </section>
+  </section>
 
-<section id="diensten" class="services">
-  <div class="container">
-    <div class="section-header">
-      <div class="section-label">Onze Diensten</div>
-      <h2 class="section-title">Verzekeringen die bij u passen</h2>
-      <p class="section-subtitle">
-        Of u nu particulier bent of ondernemer, wij bieden oplossingen die uw leven en bedrijf beschermen.
-      </p>
-    </div>
-
-    <div class="service-grid">
-
-  <a href="/offerte-aanvragen/" class="service-card">
-    <div class="service-icon">🏠</div>
-    <h3>Particuliere Schadeverzekeringen</h3>
-    <p>Bescherm uw huis, auto en spullen met verzekeringen die aansluiten bij uw leven.</p>
-  </a>
-
-      <a href="/offerte-aanvragen/" class="service-card">
-        <div class="service-icon">💼</div>
-        <h3>Zakelijke Schadeverzekeringen</h3>
-        <p>Zorg dat uw bedrijf goed beschermd is, van pand tot aansprakelijkheid.</p>
-      </a>
-
-      <a href="/offerte-aanvragen/" class="service-card">
-        <div class="service-icon">💰</div>
-        <h3>Inkomensverzekeringen</h3>
-        <p>Financiële zekerheid bij ziekte of arbeidsongeschiktheid, voor u en uw gezin.</p>
-      </a>
-
-      <a href="/schademelden/" class="service-card">
-        <div class="service-icon">⚖️</div>
-        <h3>Schadeafhandeling</h3>
-        <p>Wij regelen uw schade snel en zorgvuldig, zodat u zonder zorgen verder kunt.</p>
-      </a>
-
-      <a href="/offerte/" class="service-card">
-        <div class="service-icon">🚗</div>
-        <h3>Dekkerautoverzekering</h3>
-        <p>Een unieke autoverzekering met scherpe premies en extra voordelen.</p>
-      </a>
-
-      <a href="/contact/" class="service-card">
-        <div class="service-icon">🛡️</div>
-        <h3>Persoonlijk Advies</h3>
-        <p>Wij helpen u met advies dat past bij uw situatie, altijd eerlijk en onafhankelijk.</p>
-      </a>
-
+  <div class="news-ticker">
+    <div class="ticker-content">
+      <div class="ticker-item">Dekkerautoverzekering met aantrekkelijke voorwaarden beschikbaar</div>
+      <div class="ticker-item">Inkomensverzekeringen op maat voor ondernemers</div>
+      <div class="ticker-item">Snelle en duidelijke schadeafhandeling</div>
+      <div class="ticker-item">Dekkerautoverzekering met aantrekkelijke voorwaarden beschikbaar</div>
+      <div class="ticker-item">Inkomensverzekeringen op maat voor ondernemers</div>
+      <div class="ticker-item">Snelle en duidelijke schadeafhandeling</div>
     </div>
   </div>
-</section>
-    <section id="dekker-auto" class="dekker-auto">
-    <div class="dekker-container">
-        <div class="dekker-text">
-            <div class="section-header">
-                <div class="dekker-logo">
-                    <img src="AfbeeldingDekker.png" alt="Dekkerautoverzekering Logo">
-                </div>
-                <p class="section-subtitle">Samen met Dekkerautogroep bieden wij een unieke autoverzekering met scherpe premies en topvoorwaarden van ASR Verzekeringen. Laat ons u helpen!</p>
-            </div>
-			<br>
-			<br>
-			<br>
-			<br>
-			<br>
-			<br>
-			<br>
-			<br>
-			<br>
-            <a href="/offerte/" class="btn btn-primary">Offerte Aanvragen</a>
+
+  <section id="digitaal" class="digital-services">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-label">Digitaal geregeld</div>
+        <h2 class="section-title">Snel en eenvoudig online</h2>
+        <p class="section-subtitle">
+          Regel belangrijke zaken eenvoudig online, van schade melden tot het aanvragen van een offerte.
+        </p>
+      </div>
+
+      <div class="digital-grid">
+        <div class="digital-card">
+          <div class="digital-icon">SM</div>
+          <h3>Schade melden</h3>
+          <p>Meld uw schade snel en eenvoudig via ons online formulier.</p>
+          <a href="/schademelden/">Naar schade melden</a>
         </div>
-        <div class="dekker-advantages">
-            <h3 style="font-size: 1.4rem; font-weight: 700; margin-bottom: 1.5rem;">Waarom kiezen voor Dekkerautoverzekering?</h3>
-            <div class="advantage-item">
-                <div class="advantage-icon">📉</div>
-                <div class="advantage-details">
-                    <h4>Hoge Bonus-Malus Korting</h4>
-                    <p>Profiteer van hoge kortingen, zelfs zonder schadevrije jaren.</p>
-                </div>
-            </div>
-            <div class="advantage-item">
-                <div class="advantage-icon">🛠️</div>
-                <div class="advantage-details">
-                    <h4>Geen Eigen Risico</h4>
-                    <p>Geen eigen risico bij reparaties door Dekkerautogroep.</p>
-                </div>
-            </div>
-            <div class="advantage-item">
-                <div class="advantage-icon">🚗</div>
-                <div class="advantage-details">
-                    <h4>Gratis Vervangend Vervoer</h4>
-                    <p>Blijf mobiel tijdens reparaties door Dekkerautogroep.</p>
-                </div>
-            </div>
-            <div class="advantage-item">
-                <div class="advantage-icon">🛡️</div>
-                <div class="advantage-details">
-                    <h4>Schadebescherming</h4>
-                    <p>Geen kortingsverlies bij niet-toegeschreven schades (vandalisme, etc.).</p>
-                </div>
-            </div>
-            <div class="advantage-item">
-                <div class="advantage-icon">💰</div>
-                <div class="advantage-details">
-                    <h4>Nieuwe-Waarderegeling</h4>
-                    <p>100% vergoeding voor auto’s tot 12 maanden, tot 36 maanden deels.</p>
-                </div>
-            </div>
-            <a href="https://www.klaasvis.online/dekkerautoverzekering/#policies" class="btn btn-primary" style="margin-top: 1.5rem;">Bekijk Polisvoorwaarden</a>
+
+        <div class="digital-card">
+          <div class="digital-icon">WD</div>
+          <h3>Wijziging doorgeven</h3>
+          <p>Geef wijzigingen in uw situatie direct online aan ons door.</p>
+          <a href="/wijziging-doorgeven/">Naar wijziging doorgeven</a>
         </div>
+
+        <div class="digital-card">
+          <div class="digital-icon">OA</div>
+          <h3>Offerte aanvragen</h3>
+          <p>Vraag een offerte aan voor een verzekering die bij u past.</p>
+          <a href="/offerte-aanvragen/">Naar offerte aanvragen</a>
+        </div>
+
+        <div class="digital-card">
+          <div class="digital-icon">CT</div>
+          <h3>Contact opnemen</h3>
+          <p>Neem contact met ons op voor vragen of persoonlijk advies.</p>
+          <a href="/contact/">Naar contact</a>
+        </div>
+      </div>
     </div>
-</section>
+  </section>
 
-    <section id="nieuws" class="live-news">
-        <div class="container">
-            <div class="section-header">         
-                <div class="section-label">Actueel</div>
-                <h2 class="section-title">Het Laatste Nieuws</h2>
-                <p class="section-subtitle">Blijf op de hoogte van belangrijke updates in de verzekeringswereld.</p>
-            </div>
-            <div class="news-grid">
-                <div class="news-card">
-                    <div class="news-header">📢</div>
-                    <div class="news-content">
-                        <div class="news-date">4 oktober 2025</div>
-                        <h3>Stijging premies autoverzekeringen door inflatie</h3>
-                        <p>Door stijgende reparatiekosten en inflatie kunnen premies voor autoverzekeringen in 2026 licht stijgen. Laat ons uw polis checken!</p>
-                        <div class="news-source">Bron: <a href="https://www.amweb.nl" target="_blank">AMWeb</a></div>
-                    </div>
-                    <div class="news-badge">Update</div>
-                </div>
-                <div class="news-card">
-                    <div class="news-header">🛡️</div>
-                    <div class="news-content">
-                        <div class="news-date">1 oktober 2025</div>
-                        <h3>Arbeidsongeschiktheidsverzekeringen in trek</h3>
-                        <p>ZZP’ers en ondernemers kiezen steeds vaker voor AOV’s om hun inkomen te beschermen bij ziekte of ongeval.</p>
-                        <div class="news-source">Bron: <a href="https://www.verzekeraars.nl" target="_blank">Verbond van Verzekeraars</a></div>
-                    </div>
-                    <div class="news-badge">Trend</div>
-                </div>
-                <div class="news-card">
-                    <div class="news-header">⚡</div>
-                    <div class="news-content">
-                        <div class="news-date">28 september 2025</div>
-                        <h3>Schade door extreem weer neemt toe</h3>
-                        <p>Extreme weersomstandigheden leiden tot meer claims bij inboedel- en opstalverzekeringen. Controleer uw dekking!</p>
-                        <div class="news-source">Bron: <a href="https://www.independer.nl" target="_blank">Independer</a></div>
-                    </div>
-                    <div class="news-badge">Waarschuwing</div>
-                </div>
-            </div>
+  <section id="diensten" class="services">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-label">Onze diensten</div>
+        <h2 class="section-title">Verzekeringen die bij u passen</h2>
+        <p class="section-subtitle">
+          Voor particulieren en ondernemers bieden wij passende verzekeringsoplossingen met persoonlijk advies.
+        </p>
+      </div>
+
+      <div class="service-grid">
+        <a href="/offerte-aanvragen/" class="service-card">
+          <div class="service-icon">PS</div>
+          <h3>Particuliere schadeverzekeringen</h3>
+          <p>Bescherm uw woning, voertuig en bezittingen met verzekeringen die aansluiten op uw situatie.</p>
+        </a>
+
+        <a href="/offerte-aanvragen/" class="service-card">
+          <div class="service-icon">ZS</div>
+          <h3>Zakelijke schadeverzekeringen</h3>
+          <p>Zorg voor een goede bescherming van uw onderneming, bedrijfspand en aansprakelijkheid.</p>
+        </a>
+
+        <a href="/offerte-aanvragen/" class="service-card">
+          <div class="service-icon">IV</div>
+          <h3>Inkomensverzekeringen</h3>
+          <p>Financiële zekerheid bij arbeidsongeschiktheid of ziekte, voor uzelf en uw gezin.</p>
+        </a>
+
+        <a href="/schademelden/" class="service-card">
+          <div class="service-icon">SA</div>
+          <h3>Schadeafhandeling</h3>
+          <p>Wij begeleiden u zorgvuldig bij schade, zodat alles snel en duidelijk wordt geregeld.</p>
+        </a>
+
+        <a href="/dekkerautoverzekering/" class="service-card">
+          <div class="service-icon">DA</div>
+          <h3>Dekkerautoverzekering</h3>
+          <p>Een autoverzekering met scherpe premies en aantrekkelijke aanvullende voordelen.</p>
+        </a>
+
+        <a href="/contact/" class="service-card">
+          <div class="service-icon">PA</div>
+          <h3>Persoonlijk advies</h3>
+          <p>Wij geven eerlijk, helder en onafhankelijk advies dat past bij uw situatie.</p>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section id="dekker-auto" class="dekker-auto">
+    <div class="dekker-container">
+      <div class="dekker-text">
+        <div class="section-header">
+          <div class="dekker-logo">
+            <img src="AfbeeldingDekker.png" alt="Dekkerautoverzekering Logo">
+          </div>
+          <p class="section-subtitle">
+            Samen met Dekkerautogroep bieden wij een autoverzekering met scherpe premies en sterke voorwaarden van a.s.r. Verzekeringen.
+          </p>
         </div>
-    </section>
 
-    <section id="over-ons" class="services">
-        <div class="container">
-            <div class="section-header">
-                <div class="section-label">Over Ons</div>
-                <h2 class="section-title">Wie Wij Zijn</h2>
-                <p class="section-subtitle">Al sinds 1834 staan wij voor u klaar met persoonlijke service en onafhankelijk advies.</p>
-            </div>
-            <div class="service-grid">
-                <div class="service-card">
-                    <div class="service-icon">🛡️</div>
-                    <h3>Onze Geschiedenis</h3>
-                    <p>Al 190 jaar een vertrouwde naam in verzekeringen, met een focus op uw toekomst.</p>
-                </div>
-                <div class="service-card">
-                    <div class="service-icon">🤝</div>
-                    <h3>Onze Missie</h3>
-                    <p>Wij zorgen voor oplossingen die bij u passen, met een persoonlijke en transparante aanpak.</p>
-                </div>
-                <div class="service-card">
-                    <div class="service-icon">🌟</div>
-                    <h3>Onze Waarden</h3>
-                    <p>Eerlijkheid, betrokkenheid en professionaliteit staan bij ons altijd voorop.</p>
-                </div>
-            </div>
+        <a href="/offerte-aanvragen/" class="btn btn-primary">Offerte aanvragen</a>
+      </div>
+
+      <div class="dekker-advantages">
+        <h3 style="font-size: 1.4rem; font-weight: 700; margin-bottom: 1.5rem;">Waarom kiezen voor Dekkerautoverzekering?</h3>
+
+        <div class="advantage-item">
+          <div class="advantage-icon">01</div>
+          <div class="advantage-details">
+            <h4>Hoge bonus-malus korting</h4>
+            <p>Profiteer van hoge kortingen, ook wanneer u nog weinig schadevrije jaren heeft opgebouwd.</p>
+          </div>
         </div>
-    </section>
 
-    <section id="beoordelingen" class="services">
-        <div class="container">
-            <div class="section-header">
-                <div class="section-label">Beoordelingen</div>
-                <h2 class="section-title">Beoordelingen van Onze Klanten</h2>
-                <p class="section-subtitle">Ontdek wat onze verzekerden over ons zeggen en lees hun ervaringen.</p>
-            </div>
-            <div class="reviews-iframe">
-<iframe src="https://feeddex.nh1816.nl/?intermediair=22352&type=minimal-transparent" name="cam" 
-width="100%" height="280" frameborder="0" scrolling="auto"></iframe> 
+        <div class="advantage-item">
+          <div class="advantage-icon">02</div>
+          <div class="advantage-details">
+            <h4>Geen eigen risico</h4>
+            <p>Geen eigen risico bij reparaties via Dekkerautogroep, afhankelijk van de dekking en voorwaarden.</p>
+          </div>
         </div>
-    </section>
 
-    <section id="contact" class="contact">
-        <div class="contact-container">
-            <div class="contact-info-card">
-                <h2 class="section-title">Contactgegevens</h2>
-                <p class="section-subtitle">Heeft u vragen over uw verzekeringen? Wij helpen u graag verder, persoonlijk en snel.</p>
-            <br>
-				<div class="contact-item">
-                    <div class="contact-icon">📍</div>
-                    <div class="contact-details">
-                        <h4>Adres</h4>
-                        <p>Zuiderweg 7<br>1456 NC Wijdewormer</p>
-                    </div>
-                </div>
-                <div class="contact-item">
-                    <div class="contact-icon">📞</div>
-                    <div class="contact-details">
-                        <h4>Telefoon</h4>
-                        <p><a href="tel:0756314261" style="color: var(--text-muted); text-decoration: none;">075-6314261</a></p>
-                    </div>
-                </div>
-                <div class="contact-item">
-                    <div class="contact-icon">✉️</div>
-                    <div class="contact-details">
-                        <h4>E-mail</h4>
-                        <p><a href="mailto:info@klaasvis.nl" style="color: var(--text-muted); text-decoration: none;">info@klaasvis.nl</a></p>
-                    </div>
-                </div>
-				<br>
-                <div class="contact-logos" style="display: flex; gap: 1.5rem; margin-top: 2rem; flex-wrap: wrap;">
-                    <img src="adfiz-logo.png" alt="Lid van Adfiz" style="max-height: 75px; width: auto;">
-                    <img src="afm-logo.png" alt="AFM" style="max-height: 80px; width: auto;">
-                    <img src="kifid-logo.png" alt="Kifid" style="max-height: 90px; width: auto;">
-                </div>
-            </div>
-            <div class="form-container">
-        <h2 class="section-title">Stuur Ons Een Bericht</h2>
+        <div class="advantage-item">
+          <div class="advantage-icon">03</div>
+          <div class="advantage-details">
+            <h4>Vervangend vervoer</h4>
+            <p>Blijf mobiel tijdens de reparatieduur wanneer uw voertuig wordt hersteld via Dekkerautogroep.</p>
+          </div>
+        </div>
+
+        <div class="advantage-item">
+          <div class="advantage-icon">04</div>
+          <div class="advantage-details">
+            <h4>Schadebescherming</h4>
+            <p>Geen kortingsverlies bij bepaalde niet-toegeschreven schades, zoals vandalisme.</p>
+          </div>
+        </div>
+
+        <div class="advantage-item">
+          <div class="advantage-icon">05</div>
+          <div class="advantage-details">
+            <h4>Nieuwewaarderegeling</h4>
+            <p>Voor jonge voertuigen geldt een aantrekkelijke regeling bij totaal verlies of diefstal.</p>
+          </div>
+        </div>
+
+        <a href="https://www.klaasvis.online/dekkerautoverzekering/#policies" class="btn btn-primary" style="margin-top: 1.5rem;">Bekijk polisvoorwaarden</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="nieuws" class="live-news">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-label">Actueel</div>
+        <h2 class="section-title">Het laatste nieuws</h2>
+        <p class="section-subtitle">Blijf op de hoogte van ontwikkelingen binnen de verzekeringswereld.</p>
+      </div>
+
+      <div class="news-grid">
+        <div class="news-card">
+          <div class="news-header">Nieuws</div>
+          <div class="news-content">
+            <div class="news-date">4 oktober 2025</div>
+            <h3>Premies autoverzekeringen onder druk door stijgende kosten</h3>
+            <p>Door hogere reparatiekosten en inflatie kunnen premies in de markt stijgen. Wij kijken graag met u mee naar een passende oplossing.</p>
+            <div class="news-source">Bron: <a href="https://www.amweb.nl" target="_blank" rel="noopener">AMWeb</a></div>
+          </div>
+          <div class="news-badge">Update</div>
+        </div>
+
+        <div class="news-card">
+          <div class="news-header">Nieuws</div>
+          <div class="news-content">
+            <div class="news-date">1 oktober 2025</div>
+            <h3>Meer aandacht voor inkomensverzekeringen bij ondernemers</h3>
+            <p>Steeds meer ondernemers kiezen voor extra zekerheid bij ziekte of arbeidsongeschiktheid.</p>
+            <div class="news-source">Bron: <a href="https://www.verzekeraars.nl" target="_blank" rel="noopener">Verbond van Verzekeraars</a></div>
+          </div>
+          <div class="news-badge">Markt</div>
+        </div>
+
+        <div class="news-card">
+          <div class="news-header">Nieuws</div>
+          <div class="news-content">
+            <div class="news-date">28 september 2025</div>
+            <h3>Toename van schades door extreem weer</h3>
+            <p>Extreme weersomstandigheden zorgen voor meer claims op inboedel- en opstalverzekeringen. Controle van uw dekking blijft belangrijk.</p>
+            <div class="news-source">Bron: <a href="https://www.independer.nl" target="_blank" rel="noopener">Independer</a></div>
+          </div>
+          <div class="news-badge">Belangrijk</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="over-ons" class="services">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-label">Over ons</div>
+        <h2 class="section-title">Wie wij zijn</h2>
+        <p class="section-subtitle">Sinds 1834 staan wij voor persoonlijke service, onafhankelijk advies en duurzame relaties.</p>
+      </div>
+
+      <div class="service-grid">
+        <div class="service-card">
+          <div class="service-icon">01</div>
+          <h3>Onze geschiedenis</h3>
+          <p>Al generaties lang zijn wij een vertrouwde naam op het gebied van verzekeringen en advies.</p>
+        </div>
+
+        <div class="service-card">
+          <div class="service-icon">02</div>
+          <h3>Onze missie</h3>
+          <p>Wij helpen klanten met duidelijke oplossingen, persoonlijke aandacht en passend advies.</p>
+        </div>
+
+        <div class="service-card">
+          <div class="service-icon">03</div>
+          <h3>Onze waarden</h3>
+          <p>Betrokkenheid, betrouwbaarheid en professionaliteit vormen de basis van onze dienstverlening.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="beoordelingen" class="services">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-label">Beoordelingen</div>
+        <h2 class="section-title">Beoordelingen van onze klanten</h2>
+        <p class="section-subtitle">Lees hoe onze klanten onze dienstverlening ervaren.</p>
+      </div>
+
+      <div class="reviews-iframe">
+        <iframe
+          src="https://feeddex.nh1816.nl/?intermediair=22352&type=minimal-transparent"
+          name="cam"
+          width="100%"
+          height="280"
+          frameborder="0"
+          scrolling="auto">
+        </iframe>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact" class="contact">
+    <div class="contact-container">
+      <div class="contact-info-card">
+        <h2 class="section-title">Contactgegevens</h2>
+        <p class="section-subtitle">Heeft u vragen over uw verzekeringen of wilt u persoonlijk advies? Wij helpen u graag verder.</p>
+        <br>
+
+        <div class="contact-item">
+          <div class="contact-icon">AD</div>
+          <div class="contact-details">
+            <h4>Adres</h4>
+            <p>Zuiderweg 7<br>1456 NC Wijdewormer</p>
+          </div>
+        </div>
+
+        <div class="contact-item">
+          <div class="contact-icon">TE</div>
+          <div class="contact-details">
+            <h4>Telefoon</h4>
+            <p><a href="tel:0756314261" style="color: var(--text-muted); text-decoration: none;">075-6314261</a></p>
+          </div>
+        </div>
+
+        <div class="contact-item">
+          <div class="contact-icon">EM</div>
+          <div class="contact-details">
+            <h4>E-mail</h4>
+            <p><a href="mailto:info@klaasvis.nl" style="color: var(--text-muted); text-decoration: none;">info@klaasvis.nl</a></p>
+          </div>
+        </div>
+
+        <br>
+
+        <div class="contact-logos" style="display: flex; gap: 1.5rem; margin-top: 2rem; flex-wrap: wrap;">
+          <img src="adfiz-logo.png" alt="Lid van Adfiz" style="max-height: 75px; width: auto;">
+          <img src="afm-logo.png" alt="AFM" style="max-height: 80px; width: auto;">
+          <img src="kifid-logo.png" alt="Kifid" style="max-height: 90px; width: auto;">
+        </div>
+      </div>
+
+      <div class="form-container">
+        <h2 class="section-title">Stuur ons een bericht</h2>
         <form id="contact-form">
           <div class="form-group">
             <label for="contact-name">Naam</label>
@@ -400,6 +436,7 @@ width="100%" height="280" frameborder="0" scrolling="auto"></iframe>
               required
             />
           </div>
+
           <div class="form-group">
             <label for="contact-email">E-mail</label>
             <input
@@ -410,6 +447,7 @@ width="100%" height="280" frameborder="0" scrolling="auto"></iframe>
               required
             />
           </div>
+
           <div class="form-group">
             <label for="contact-message">Bericht</label>
             <textarea
@@ -419,92 +457,88 @@ width="100%" height="280" frameborder="0" scrolling="auto"></iframe>
               required
             ></textarea>
           </div>
+
           <div class="form-group checkbox">
             <input type="checkbox" id="newsletter" name="newsletter" />
             <label for="newsletter">Aanmelden voor onze nieuwsbrief</label>
           </div>
+
           <div class="form-group">
-            <div
-              class="g-recaptcha"
-              data-sitekey="6LdwpegrAAAAAKjnbA7VZJoNpYlFJ6iFeMQp0Dov"
-            ></div>
+            <div class="g-recaptcha" data-sitekey="6LdwpegrAAAAAKjnbA7VZJoNpYlFJ6iFeMQp0Dov"></div>
           </div>
-          <button type="submit" class="submit-btn">Verstuur Bericht</button>
+
+          <button type="submit" class="submit-btn">Verstuur bericht</button>
         </form>
       </div>
     </div>
   </section>
-        </div>
-    </section>
 
-    <footer>
-        <div class="footer-content">
-            <div class="footer-brand">
-                <img src="logo.png" alt="Klaas Vis Logo" class="footer-brand-img">
-                <h3>BV Assurantiekantoor Klaas Vis Ao. 1834</h3>
-                <p>Uw vertrouwde partner sinds 1834.</p>
-                <p style="margin-top: 1rem; font-size: 0.9rem; color: var(--text-muted);">
-                    AFM: 12005878<br>
-                    KvK: 35008554
-                </p>
-            </div>
-            <div class="footer-section">
-                <h4>Snelle Links</h4>
-                <ul class="footer-links">
-                    <li><a href="/schademelden/">Schade melden</a></li>
-                    <li><a href="/wijziging-doorgeven/">Doorgeven wijziging</a></li>
-                    <li><a href="/dekkerautoverzekering/">Dekkerautoverzekering</a></li>
-                    <li><a href="/offerte-aanvragen/">Offerte aanvragen</a></li>
-                    <li><a href="/downloads/">Downloads</a></li>
-                    <li><a href="/contact/">Contact</a></li>
-                </ul>
-            </div>
-            <div class="footer-section">
-                <h4>Contact</h4>
-                <ul class="footer-links">
-                    <li><a href="tel:0756314261">075-6314261</a></li>
-                    <li><a href="mailto:info@klaasvis.nl">info@klaasvis.nl</a></li>
-                    <li><a href="http://www.klaasvis.nl">www.klaasvis.nl</a></li>
-                    <li><a href="https://www.google.com/maps?ll=52.495138,4.917932&z=15&t=m&hl=nl&gl=NL&mapclient=embed&q=Zuiderweg+7+1456+NC+Wijdewormer">Zuiderweg 7, Wijdewormer</a></li>
-                </ul>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <p>&copy; 2026 BV Assurantiekantoor Klaas Vis Ao. 1834. Alle rechten voorbehouden.</p>
-        </div>
-    </footer>
-<script>
-(function(){if(!window.chatbase||window.chatbase("getState")!=="initialized"){window.chatbase=(...arguments)=>{if(!window.chatbase.q){window.chatbase.q=[]}window.chatbase.q.push(arguments)};window.chatbase=new Proxy(window.chatbase,{get(target,prop){if(prop==="q"){return target.q}return(...args)=>target(prop,...args)}})}const onLoad=function(){const script=document.createElement("script");script.src="https://www.chatbase.co/embed.min.js";script.id="C60jEJW_QuVD7X3vE5rzE";script.domain="www.chatbase.co";document.body.appendChild(script)};if(document.readyState==="complete"){onLoad()}else{window.addEventListener("load",onLoad)}})();
-</script>
-    <script src="script.js"></script>
+  <footer>
+    <div class="footer-content">
+      <div class="footer-brand">
+        <img src="logo.png" alt="Klaas Vis Logo" class="footer-brand-img">
+        <h3>BV Assurantiekantoor Klaas Vis Ao. 1834</h3>
+        <p>Uw vertrouwde partner sinds 1834.</p>
+        <p style="margin-top: 1rem; font-size: 0.9rem; color: var(--text-muted);">
+          AFM: 12005878<br>
+          KvK: 35008554
+        </p>
+      </div>
+
+      <div class="footer-section">
+        <h4>Snelle Links</h4>
+        <ul class="footer-links">
+          <li><a href="/schademelden/">Schade melden</a></li>
+          <li><a href="/wijziging-doorgeven/">Doorgeven wijziging</a></li>
+          <li><a href="/dekkerautoverzekering/">Dekkerautoverzekering</a></li>
+          <li><a href="/offerte-aanvragen/">Offerte aanvragen</a></li>
+          <li><a href="/downloads/">Downloads</a></li>
+          <li><a href="/contact/">Contact</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-section">
+        <h4>Contact</h4>
+        <ul class="footer-links">
+          <li><a href="tel:0756314261">075-6314261</a></li>
+          <li><a href="mailto:info@klaasvis.nl">info@klaasvis.nl</a></li>
+          <li><a href="http://www.klaasvis.nl">www.klaasvis.nl</a></li>
+          <li><a href="https://www.google.com/maps?ll=52.495138,4.917932&z=15&t=m&hl=nl&gl=NL&mapclient=embed&q=Zuiderweg+7+1456+NC+Wijdewormer">Zuiderweg 7, Wijdewormer</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p>&copy; 2026 BV Assurantiekantoor Klaas Vis Ao. 1834. Alle rechten voorbehouden.</p>
+    </div>
+  </footer>
+
+  <script>
+    (function(){
+      if(!window.chatbase || window.chatbase("getState") !== "initialized"){
+        window.chatbase = (...arguments) => {
+          if(!window.chatbase.q){ window.chatbase.q = []; }
+          window.chatbase.q.push(arguments);
+        };
+        window.chatbase = new Proxy(window.chatbase,{
+          get(target,prop){
+            if(prop === "q"){ return target.q; }
+            return (...args) => target(prop,...args);
+          }
+        });
+      }
+      const onLoad = function(){
+        const script = document.createElement("script");
+        script.src = "https://www.chatbase.co/embed.min.js";
+        script.id = "C60jEJW_QuVD7X3vE5rzE";
+        script.domain = "www.chatbase.co";
+        document.body.appendChild(script);
+      };
+      if(document.readyState === "complete"){ onLoad(); }
+      else { window.addEventListener("load", onLoad); }
+    })();
+  </script>
+
+  <script src="script.js?v=1"></script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
