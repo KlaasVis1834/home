@@ -30,6 +30,10 @@ body {
     min-height: 100svh;
     display: flex;
     flex-direction: column;
+}
+
+.page-content {
+    width: 100%;
     padding-top: 96px;
 }
 
@@ -791,13 +795,13 @@ footer {
 }
 
 @media (max-width: 600px) {
-    body {
-        padding: 96px 10px 0;
+    .page-content {
+        padding-top: 96px;
     }
 
     .form-container {
         max-width: 100%;
-        width: 100%;
+        width: calc(100% - 20px);
         padding: 15px;
     }
 
