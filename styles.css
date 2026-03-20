@@ -821,7 +821,7 @@ nav {
 .contact-grid {
   display: grid;
   grid-template-columns: 0.9fr 1.1fr;
-  gap: 24px;
+  gap: 32px;
   align-items: start;
 }
 
@@ -830,23 +830,59 @@ nav {
   padding: 26px;
 }
 
+/* 🔥 FIX HIER */
+.contact-info-card {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
 .contact-row {
   display: flex;
-  gap: 14px;
-  margin-bottom: 18px;
   align-items: flex-start;
+  gap: 16px;
 }
 
+/* ICON strak maken */
+.feature-icon.small {
+  width: 44px;
+  height: 44px;
+  min-width: 44px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+/* tekstblok netjes */
+.contact-row div:last-child {
+  display: flex;
+  flex-direction: column;
+}
+
+/* titels */
 .contact-row h3 {
   font-size: 1rem;
-  margin-bottom: 2px;
+  margin: 0 0 4px;
+  font-weight: 600;
 }
 
+/* tekst */
 .contact-row p,
 .contact-row a {
+  margin: 0;
   color: var(--text-muted);
+  line-height: 1.6;
 }
 
+/* optioneel: nette scheiding */
+.contact-row:not(:last-child) {
+  padding-bottom: 16px;
+  border-bottom: 1px solid #e5e7eb;
+}
 .register-box {
   margin-top: 24px;
   padding: 20px;
