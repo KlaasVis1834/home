@@ -299,7 +299,7 @@
     </div>
   </nav>
 
-
+  <main>
     <section id="verzekeringskeuze" class="section soft choices-section">
       <div class="container">
         <div class="section-head center">
@@ -313,7 +313,7 @@
         <div class="choice-cards">
           <!-- PARTICULIER -->
           <article class="choice-card" data-group="particulier">
-          <div class="choice-card-head">
+            <div class="choice-card-head">
               <div>
                 <h3>Particulier</h3>
                 <p>Persoonlijke verzekeringen voor u en uw gezin.</p>
@@ -387,7 +387,7 @@
 
           <!-- ZAKELIJK -->
           <article class="choice-card" data-group="zakelijk">
-           <div class="choice-card-head">
+            <div class="choice-card-head">
               <div>
                 <h3>Zakelijk</h3>
                 <p>Bedrijfsverzekeringen voor ondernemers en bedrijven.</p>
@@ -461,7 +461,7 @@
 
           <!-- INKOMEN -->
           <article class="choice-card" data-group="inkomen">
-             <div class="choice-card-head">
+            <div class="choice-card-head">
               <div>
                 <h3>Inkomensverzekeringen</h3>
                 <p>Financiële zekerheid bij arbeidsongeschiktheid, overlijden of pensioen.</p>
@@ -729,6 +729,7 @@
 
   <script>
     document.addEventListener("DOMContentLoaded", () => {
+      const STORAGE_KEY = "klaasvis_offer_data";
       const tabButtons = document.querySelectorAll(".tab-button");
 
       tabButtons.forEach((button) => {
@@ -789,11 +790,29 @@
             return;
           }
 
-          const query = new URLSearchParams();
-          query.set("type", type);
-          selected.forEach((item) => query.append("verzekering", item));
+          const offerData = {
+            type: type,
+            selectedInsurances: selected,
+            insuranceDetails: {},
+            personalData: {}
+          };
 
-          window.location.href = `/contact/?${query.toString()}`;
+          sessionStorage.setItem(STORAGE_KEY, JSON.stringify(offerData));
+
+          if (type === "particulier") {
+            window.location.href = "/offerte-details-particulier/";
+            return;
+          }
+
+          if (type === "zakelijk") {
+            window.location.href = "/offerte-details-zakelijk/";
+            return;
+          }
+
+          if (type === "inkomen") {
+            window.location.href = "/offerte-details-inkomen/";
+            return;
+          }
         });
       });
     });
