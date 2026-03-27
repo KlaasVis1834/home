@@ -1,0 +1,972 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Particuliere offerte details | Klaas Vis</title>
+  <meta
+    name="description"
+    content="Vul de aanvullende gegevens in voor uw particuliere verzekeringen."
+  />
+
+  <link rel="icon" type="image/png" href="/logo.png" />
+  <link rel="stylesheet" href="/styles.css?v=2" />
+  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+
+  <style>
+    .details-hero {
+      padding: 42px 0 24px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .details-wrap {
+      display: grid;
+      gap: 24px;
+    }
+
+    .summary-card,
+    .details-card,
+    .insurance-block {
+      background: rgba(255,255,255,0.9);
+      border: 1px solid rgba(20,25,40,0.08);
+      box-shadow: var(--shadow-sm);
+      border-radius: var(--radius);
+    }
+
+    .summary-card,
+    .details-card {
+      padding: 24px;
+    }
+
+    .summary-card h3,
+    .details-card h3 {
+      font-size: 1.15rem;
+      font-weight: 800;
+      margin-bottom: 12px;
+    }
+
+    .summary-list {
+      padding-left: 18px;
+      color: var(--text-muted);
+    }
+
+    .insurance-block {
+      padding: 22px;
+      margin-bottom: 18px;
+    }
+
+    .insurance-block:last-child {
+      margin-bottom: 0;
+    }
+
+    .insurance-block-head {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .insurance-block-head .feature-icon {
+      margin-bottom: 0;
+      flex-shrink: 0;
+    }
+
+    .insurance-block h4 {
+      font-size: 1.08rem;
+      font-weight: 800;
+      margin: 0;
+    }
+
+    .insurance-block p {
+      color: var(--text-muted);
+      margin: 4px 0 0;
+    }
+
+    .detail-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-top: 10px;
+    }
+
+    .detail-grid .field-full {
+      grid-column: 1 / -1;
+    }
+
+    .lookup-row {
+      display: flex;
+      gap: 10px;
+      align-items: end;
+    }
+
+    .lookup-row .form-group {
+      flex: 1;
+      margin-bottom: 0;
+    }
+
+    .lookup-row .btn {
+      min-height: 52px;
+      white-space: nowrap;
+    }
+
+    .readonly-field {
+      background: #f8fafc !important;
+    }
+
+    .status-text {
+      margin-top: 8px;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+
+    .step-actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 22px;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 32px 20px;
+      color: var(--text-muted);
+    }
+
+    .helper-box {
+      margin-top: 20px;
+      padding: 16px 18px;
+      border-radius: 16px;
+      background: rgba(79,70,229,0.04);
+      border: 1px solid rgba(79,70,229,0.08);
+    }
+
+    .helper-box strong {
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    @media (max-width: 768px) {
+      .detail-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .lookup-row,
+      .step-actions {
+        flex-direction: column;
+      }
+
+      .lookup-row .btn,
+      .step-actions .btn {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-blur bg-blur-1"></div>
+  <div class="bg-blur bg-blur-2"></div>
+
+  <nav>
+    <div class="nav-container">
+      <a href="/" class="logo">
+        <img src="/logo.png" alt="Klaas Vis Logo" class="logo-img" />
+        <span>Klaas Vis</span>
+      </a>
+
+      <button class="hamburger" type="button" aria-label="Menu openen" aria-expanded="false">☰</button>
+
+      <ul class="nav-list">
+        <li><a href="/schademelden/">Schade melden</a></li>
+        <li><a href="/wijziging-doorgeven/">Wijziging doorgeven</a></li>
+        <li><a href="/dekkerautoverzekering/">Dekkerautoverzekering</a></li>
+        <li><a href="/offerte-aanvragen/">Offerte aanvragen</a></li>
+        <li><a href="/downloads/">Downloads</a></li>
+        <li><a href="/contact/">Contact</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main>
+    <section class="details-hero">
+      <div class="container">
+        <div class="section-head center">
+          <div class="eyebrow">Stap 2 • Particulier</div>
+          <h2>Aanvullende gegevens voor uw aanvraag.</h2>
+          <p>
+            Vul hieronder de aanvullende gegevens in voor de geselecteerde particuliere verzekeringen.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section soft" style="padding-top: 24px;">
+      <div class="container details-wrap">
+        <div class="summary-card">
+          <h3>Geselecteerde verzekeringen</h3>
+          <ul id="selected-insurance-list" class="summary-list"></ul>
+
+          <div class="helper-box">
+            <strong>Goed om te weten</strong>
+            Voor voertuigverzekeringen is kentekenherkenning voorbereid en voor adresgegevens is postcode + huisnummer lookup voorbereid.
+            Zodra je de exacte API’s wilt koppelen, kunnen die direct in deze pagina worden aangesloten.
+          </div>
+        </div>
+
+        <form id="particulier-details-form" class="details-card">
+          <h3>Verzekeringsdetails</h3>
+          <div id="insurance-fields-container"></div>
+
+          <div class="step-actions">
+            <a href="/offerte-aanvragen/" class="btn btn-secondary">Terug</a>
+            <button type="submit" class="btn btn-primary">Verder naar persoonsgegevens</button>
+          </div>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <script src="/script.js?v=2"></script>
+
+  <script>
+    const STORAGE_KEY = "klaasvis_offer_data";
+
+    /*
+      Hier voeg je later per verzekering de exacte velden toe.
+      type:
+      - text
+      - number
+      - date
+      - select
+      - textarea
+      - postcode_lookup
+      - kenteken_lookup
+    */
+    const PARTICULIER_FIELDS = {
+      "Reisverzekering": [
+        {
+          type: "select",
+          name: "reisverzekering_type",
+          label: "Type verzekering",
+          required: true,
+          options: ["Doorlopend", "Kortlopend"]
+        },
+        {
+          type: "number",
+          name: "aantal_personen",
+          label: "Aantal meeverzekerde personen",
+          required: true
+        },
+        {
+          type: "textarea",
+          name: "aanvullende_info",
+          label: "Aanvullende informatie",
+          required: false,
+          full: true
+        }
+      ],
+
+      "Caravan / Vouwwagen": [
+        {
+          type: "text",
+          name: "merk_type",
+          label: "Merk / type",
+          required: true
+        },
+        {
+          type: "text",
+          name: "waarde",
+          label: "Aanschafwaarde / dagwaarde",
+          required: true
+        }
+      ],
+
+      "Stacaravan": [
+        {
+          type: "text",
+          name: "locatie",
+          label: "Locatie / standplaats",
+          required: true
+        },
+        {
+          type: "text",
+          name: "waarde",
+          label: "Waarde",
+          required: true
+        }
+      ],
+
+      "Camper": [
+        {
+          type: "kenteken_lookup",
+          name: "camper_kenteken_lookup",
+          label: "Kenteken en voertuiggegevens",
+          required: true,
+          full: true
+        }
+      ],
+
+      "Recreatiewoning": [
+        {
+          type: "postcode_lookup",
+          name: "recreatiewoning_adres",
+          label: "Adres recreatiewoning",
+          required: true,
+          full: true
+        }
+      ],
+
+      "Bootverzekering": [
+        {
+          type: "text",
+          name: "boot_type",
+          label: "Type boot",
+          required: true
+        },
+        {
+          type: "text",
+          name: "boot_waarde",
+          label: "Waarde",
+          required: true
+        }
+      ],
+
+      "Ongevallenverzekering": [
+        {
+          type: "number",
+          name: "aantal_personen",
+          label: "Aantal te verzekeren personen",
+          required: true
+        }
+      ],
+
+      "Verkeersdeelnemersverzekering": [
+        {
+          type: "number",
+          name: "huishouden_personen",
+          label: "Aantal personen in huishouden",
+          required: true
+        }
+      ],
+
+      "Personenautoverzekering": [
+        {
+          type: "kenteken_lookup",
+          name: "auto_kenteken_lookup",
+          label: "Kenteken en voertuiggegevens",
+          required: true,
+          full: true
+        },
+        {
+          type: "number",
+          name: "schadevrije_jaren",
+          label: "Aantal schadevrije jaren",
+          required: true
+        },
+        {
+          type: "select",
+          name: "gewenste_dekking",
+          label: "Gewenste dekking",
+          required: true,
+          options: ["WA", "WA Beperkt Casco", "Allrisk"]
+        }
+      ],
+
+      "Motorverzekering": [
+        {
+          type: "kenteken_lookup",
+          name: "motor_kenteken_lookup",
+          label: "Kenteken en voertuiggegevens",
+          required: true,
+          full: true
+        },
+        {
+          type: "number",
+          name: "schadevrije_jaren",
+          label: "Aantal schadevrije jaren",
+          required: true
+        }
+      ],
+
+      "Bromfietsverzekering": [
+        {
+          type: "kenteken_lookup",
+          name: "bromfiets_kenteken_lookup",
+          label: "Kenteken en voertuiggegevens",
+          required: true,
+          full: true
+        }
+      ],
+
+      "Oldtimerverzekering": [
+        {
+          type: "kenteken_lookup",
+          name: "oldtimer_kenteken_lookup",
+          label: "Kenteken en voertuiggegevens",
+          required: false,
+          full: true
+        },
+        {
+          type: "text",
+          name: "oldtimer_merk_model",
+          label: "Merk / model",
+          required: true
+        },
+        {
+          type: "number",
+          name: "bouwjaar",
+          label: "Bouwjaar",
+          required: true
+        }
+      ],
+
+      "Bestelautoverzekering": [
+        {
+          type: "kenteken_lookup",
+          name: "bestelauto_kenteken_lookup",
+          label: "Kenteken en voertuiggegevens",
+          required: true,
+          full: true
+        },
+        {
+          type: "text",
+          name: "gebruik_voertuig",
+          label: "Gebruik van het voertuig",
+          required: true
+        }
+      ],
+
+      "Aanhangwagenverzekering": [
+        {
+          type: "text",
+          name: "type_aanhangwagen",
+          label: "Type aanhangwagen",
+          required: true
+        },
+        {
+          type: "text",
+          name: "waarde",
+          label: "Waarde",
+          required: true
+        }
+      ],
+
+      "Hobbytractorverzekering": [
+        {
+          type: "text",
+          name: "type_hobbytractor",
+          label: "Type hobbytractor",
+          required: true
+        }
+      ],
+
+      "Quad / Trike / MP3": [
+        {
+          type: "kenteken_lookup",
+          name: "quad_kenteken_lookup",
+          label: "Kenteken en voertuiggegevens",
+          required: true,
+          full: true
+        }
+      ],
+
+      "Fietsverzekering": [
+        {
+          type: "text",
+          name: "soort_fiets",
+          label: "Soort fiets",
+          required: true
+        },
+        {
+          type: "text",
+          name: "aankoopbedrag",
+          label: "Aankoopbedrag",
+          required: true
+        }
+      ],
+
+      "Inboedelverzekering": [
+        {
+          type: "postcode_lookup",
+          name: "inboedel_adres",
+          label: "Adres van de woning",
+          required: true,
+          full: true
+        },
+        {
+          type: "text",
+          name: "globale_inboedelwaarde",
+          label: "Globale inboedelwaarde",
+          required: true
+        }
+      ],
+
+      "Woonhuisverzekering": [
+        {
+          type: "postcode_lookup",
+          name: "woonhuis_adres",
+          label: "Adres van de woning",
+          required: true,
+          full: true
+        },
+        {
+          type: "number",
+          name: "bouwjaar_woning",
+          label: "Bouwjaar woning",
+          required: true
+        }
+      ],
+
+      "Aansprakelijkheidsverzekering": [
+        {
+          type: "text",
+          name: "huishoudsamenstelling",
+          label: "Huishoudsamenstelling",
+          required: true
+        }
+      ],
+
+      "Rechtsbijstandsverzekering": [
+        {
+          type: "text",
+          name: "gezinssituatie",
+          label: "Gezinssituatie",
+          required: true
+        }
+      ]
+    };
+
+    function safeKey(value) {
+      return String(value).replace(/[^a-zA-Z0-9_-]/g, "_");
+    }
+
+    function escapeHtml(value) {
+      return String(value)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+
+    function getOfferData() {
+      const raw = sessionStorage.getItem(STORAGE_KEY);
+      return raw ? JSON.parse(raw) : null;
+    }
+
+    function saveOfferData(data) {
+      sessionStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+    }
+
+    function createStandardField(insuranceKey, field) {
+      const fieldId = `${insuranceKey}__${field.name}`;
+      const wrapperClass = field.full ? "form-group field-full" : "form-group";
+
+      if (field.type === "select") {
+        return `
+          <div class="${wrapperClass}">
+            <label for="${fieldId}">${field.label}</label>
+            <select id="${fieldId}" name="${fieldId}" ${field.required ? "required" : ""}>
+              <option value="">Kies een optie</option>
+              ${(field.options || []).map(option => `<option value="${escapeHtml(option)}">${escapeHtml(option)}</option>`).join("")}
+            </select>
+          </div>
+        `;
+      }
+
+      if (field.type === "textarea") {
+        return `
+          <div class="${wrapperClass}">
+            <label for="${fieldId}">${field.label}</label>
+            <textarea id="${fieldId}" name="${fieldId}" ${field.required ? "required" : ""}></textarea>
+          </div>
+        `;
+      }
+
+      return `
+        <div class="${wrapperClass}">
+          <label for="${fieldId}">${field.label}</label>
+          <input type="${field.type || "text"}" id="${fieldId}" name="${fieldId}" ${field.required ? "required" : ""} />
+        </div>
+      `;
+    }
+
+    function createPostcodeLookupField(insuranceKey, field) {
+      const baseId = `${insuranceKey}__${field.name}`;
+
+      return `
+        <div class="form-group field-full" data-lookup-type="postcode" data-base-id="${baseId}">
+          <label>${field.label}</label>
+
+          <div class="lookup-row">
+            <div class="form-group">
+              <label for="${baseId}__postcode">Postcode</label>
+              <input type="text" id="${baseId}__postcode" data-role="postcode" ${field.required ? "required" : ""} placeholder="Bijv. 1456NC" />
+            </div>
+
+            <div class="form-group">
+              <label for="${baseId}__huisnummer">Huisnummer</label>
+              <input type="text" id="${baseId}__huisnummer" data-role="huisnummer" ${field.required ? "required" : ""} placeholder="Bijv. 7" />
+            </div>
+
+            <div class="form-group">
+              <label for="${baseId}__toevoeging">Toevoeging</label>
+              <input type="text" id="${baseId}__toevoeging" data-role="toevoeging" placeholder="Bijv. A" />
+            </div>
+
+            <button type="button" class="btn btn-secondary" data-action="lookup-postcode">Zoek adres</button>
+          </div>
+
+          <div class="detail-grid" style="margin-top:14px;">
+            <div class="form-group">
+              <label for="${baseId}__straat">Straat</label>
+              <input type="text" id="${baseId}__straat" data-role="straat" class="readonly-field" readonly />
+            </div>
+
+            <div class="form-group">
+              <label for="${baseId}__plaats">Plaats</label>
+              <input type="text" id="${baseId}__plaats" data-role="plaats" class="readonly-field" readonly />
+            </div>
+
+            <div class="form-group field-full">
+              <label for="${baseId}__volledig_adres">Volledig adres</label>
+              <input type="text" id="${baseId}__volledig_adres" data-role="volledig_adres" class="readonly-field" readonly />
+            </div>
+          </div>
+
+          <div class="status-text" data-role="status"></div>
+        </div>
+      `;
+    }
+
+    function createKentekenLookupField(insuranceKey, field) {
+      const baseId = `${insuranceKey}__${field.name}`;
+
+      return `
+        <div class="form-group field-full" data-lookup-type="kenteken" data-base-id="${baseId}">
+          <label>${field.label}</label>
+
+          <div class="lookup-row">
+            <div class="form-group">
+              <label for="${baseId}__kenteken">Kenteken</label>
+              <input type="text" id="${baseId}__kenteken" data-role="kenteken" ${field.required ? "required" : ""} placeholder="Bijv. 12AB34" />
+            </div>
+
+            <button type="button" class="btn btn-secondary" data-action="lookup-kenteken">Zoek voertuig</button>
+          </div>
+
+          <div class="detail-grid" style="margin-top:14px;">
+            <div class="form-group">
+              <label for="${baseId}__merk">Merk</label>
+              <input type="text" id="${baseId}__merk" data-role="merk" class="readonly-field" readonly />
+            </div>
+
+            <div class="form-group">
+              <label for="${baseId}__model">Model</label>
+              <input type="text" id="${baseId}__model" data-role="model" class="readonly-field" readonly />
+            </div>
+
+            <div class="form-group">
+              <label for="${baseId}__bouwjaar">Bouwjaar</label>
+              <input type="text" id="${baseId}__bouwjaar" data-role="bouwjaar" class="readonly-field" readonly />
+            </div>
+
+            <div class="form-group">
+              <label for="${baseId}__brandstof">Brandstof</label>
+              <input type="text" id="${baseId}__brandstof" data-role="brandstof" class="readonly-field" readonly />
+            </div>
+          </div>
+
+          <div class="status-text" data-role="status"></div>
+        </div>
+      `;
+    }
+
+    function createFieldHtml(insuranceName, field) {
+      const insuranceKey = safeKey(insuranceName);
+
+      if (field.type === "postcode_lookup") {
+        return createPostcodeLookupField(insuranceKey, field);
+      }
+
+      if (field.type === "kenteken_lookup") {
+        return createKentekenLookupField(insuranceKey, field);
+      }
+
+      return createStandardField(insuranceKey, field);
+    }
+
+    function createInsuranceBlockHtml(insuranceName) {
+      const fields = PARTICULIER_FIELDS[insuranceName] || [
+        {
+          type: "textarea",
+          name: "extra_toelichting",
+          label: "Aanvullende gegevens",
+          required: true,
+          full: true
+        }
+      ];
+
+      return `
+        <div class="insurance-block" data-insurance-name="${escapeHtml(insuranceName)}">
+          <div class="insurance-block-head">
+            <div class="feature-icon">PA</div>
+            <div>
+              <h4>${escapeHtml(insuranceName)}</h4>
+              <p>Vul hieronder de aanvullende gegevens in.</p>
+            </div>
+          </div>
+
+          <div class="detail-grid">
+            ${fields.map(field => createFieldHtml(insuranceName, field)).join("")}
+          </div>
+        </div>
+      `;
+    }
+
+    async function lookupAddress({ postcode, huisnummer, toevoeging }) {
+      /*
+        PLAATSHOUDER:
+        Hier koppel je later jouw postcode API.
+        Voorbeeld return:
+        {
+          straat: "Zuiderweg",
+          plaats: "Wijdewormer",
+          volledigAdres: "Zuiderweg 7, 1456 NC Wijdewormer"
+        }
+      */
+
+      console.log("Adres lookup voorbereid voor:", { postcode, huisnummer, toevoeging });
+
+      // Voor nu dummy response
+      return {
+        straat: "",
+        plaats: "",
+        volledigAdres: ""
+      };
+    }
+
+    async function lookupVehicleByKenteken(kenteken) {
+      /*
+        PLAATSHOUDER:
+        Hier koppel je later jouw kenteken API.
+        Voorbeeld return:
+        {
+          merk: "Volkswagen",
+          model: "Golf",
+          bouwjaar: "2021",
+          brandstof: "Benzine"
+        }
+      */
+
+      console.log("Kenteken lookup voorbereid voor:", kenteken);
+
+      // Voor nu dummy response
+      return {
+        merk: "",
+        model: "",
+        bouwjaar: "",
+        brandstof: ""
+      };
+    }
+
+    function bindLookupButtons() {
+      document.querySelectorAll('[data-action="lookup-postcode"]').forEach((button) => {
+        button.addEventListener("click", async () => {
+          const wrapper = button.closest('[data-lookup-type="postcode"]');
+          const postcode = wrapper.querySelector('[data-role="postcode"]').value.trim();
+          const huisnummer = wrapper.querySelector('[data-role="huisnummer"]').value.trim();
+          const toevoeging = wrapper.querySelector('[data-role="toevoeging"]').value.trim();
+          const status = wrapper.querySelector('[data-role="status"]');
+
+          if (!postcode || !huisnummer) {
+            status.textContent = "Vul eerst postcode en huisnummer in.";
+            return;
+          }
+
+          status.textContent = "Adres wordt opgezocht...";
+
+          try {
+            const result = await lookupAddress({ postcode, huisnummer, toevoeging });
+
+            wrapper.querySelector('[data-role="straat"]').value = result.straat || "";
+            wrapper.querySelector('[data-role="plaats"]').value = result.plaats || "";
+            wrapper.querySelector('[data-role="volledig_adres"]').value = result.volledigAdres || "";
+
+            status.textContent = result.volledigAdres
+              ? "Adres succesvol opgehaald."
+              : "Nog geen adres gevonden. API wordt later gekoppeld.";
+          } catch (error) {
+            console.error(error);
+            status.textContent = "Adres kon niet worden opgehaald.";
+          }
+        });
+      });
+
+      document.querySelectorAll('[data-action="lookup-kenteken"]').forEach((button) => {
+        button.addEventListener("click", async () => {
+          const wrapper = button.closest('[data-lookup-type="kenteken"]');
+          const kenteken = wrapper.querySelector('[data-role="kenteken"]').value.trim().replace(/\s+/g, "").toUpperCase();
+          const status = wrapper.querySelector('[data-role="status"]');
+
+          if (!kenteken) {
+            status.textContent = "Vul eerst een kenteken in.";
+            return;
+          }
+
+          status.textContent = "Voertuiggegevens worden opgezocht...";
+
+          try {
+            const result = await lookupVehicleByKenteken(kenteken);
+
+            wrapper.querySelector('[data-role="merk"]').value = result.merk || "";
+            wrapper.querySelector('[data-role="model"]').value = result.model || "";
+            wrapper.querySelector('[data-role="bouwjaar"]').value = result.bouwjaar || "";
+            wrapper.querySelector('[data-role="brandstof"]').value = result.brandstof || "";
+
+            status.textContent = (result.merk || result.model)
+              ? "Voertuiggegevens succesvol opgehaald."
+              : "Nog geen voertuiggegevens gevonden. API wordt later gekoppeld.";
+          } catch (error) {
+            console.error(error);
+            status.textContent = "Voertuiggegevens konden niet worden opgehaald.";
+          }
+        });
+      });
+    }
+
+    function restorePreviousValues(offerData) {
+      const detailData = offerData.insuranceDetails?.particulier || {};
+
+      Object.entries(detailData).forEach(([insuranceName, values]) => {
+        const insuranceKey = safeKey(insuranceName);
+
+        Object.entries(values || {}).forEach(([fieldName, value]) => {
+          const input = document.getElementById(`${insuranceKey}__${fieldName}`);
+          if (input) {
+            input.value = value;
+          }
+        });
+      });
+    }
+
+    function collectInsuranceValues(insuranceName) {
+      const insuranceKey = safeKey(insuranceName);
+      const block = document.querySelector(`[data-insurance-name="${CSS.escape(insuranceName)}"]`);
+      const values = {};
+
+      if (!block) return values;
+
+      block.querySelectorAll("input, select, textarea").forEach((el) => {
+        const fullId = el.id || "";
+        const prefix = `${insuranceKey}__`;
+
+        if (!fullId.startsWith(prefix)) return;
+
+        const fieldName = fullId.replace(prefix, "");
+        values[fieldName] = el.value.trim();
+      });
+
+      return values;
+    }
+
+    function validateInsuranceBlock(insuranceName) {
+      const fields = PARTICULIER_FIELDS[insuranceName] || [
+        {
+          type: "textarea",
+          name: "extra_toelichting",
+          label: "Aanvullende gegevens",
+          required: true,
+          full: true
+        }
+      ];
+
+      const insuranceKey = safeKey(insuranceName);
+
+      for (const field of fields) {
+        if (field.type === "postcode_lookup") {
+          const postcode = document.getElementById(`${insuranceKey}__${field.name}__postcode`);
+          const huisnummer = document.getElementById(`${insuranceKey}__${field.name}__huisnummer`);
+
+          if (field.required && (!postcode?.value.trim() || !huisnummer?.value.trim())) {
+            alert(`Vul postcode en huisnummer in bij ${insuranceName}.`);
+            postcode?.focus();
+            return false;
+          }
+          continue;
+        }
+
+        if (field.type === "kenteken_lookup") {
+          const kenteken = document.getElementById(`${insuranceKey}__${field.name}__kenteken`);
+
+          if (field.required && !kenteken?.value.trim()) {
+            alert(`Vul een kenteken in bij ${insuranceName}.`);
+            kenteken?.focus();
+            return false;
+          }
+          continue;
+        }
+
+        const el = document.getElementById(`${insuranceKey}__${field.name}`);
+        if (field.required && el && !el.value.trim()) {
+          alert(`Vul het veld "${field.label}" in bij ${insuranceName}.`);
+          el.focus();
+          return false;
+        }
+      }
+
+      return true;
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      const offerData = getOfferData();
+
+      if (!offerData) {
+        window.location.href = "/offerte-aanvragen/";
+        return;
+      }
+
+      const type = offerData.type;
+      const selected = offerData.selectedInsurances || [];
+
+      if (type !== "particulier" || !selected.length) {
+        window.location.href = "/offerte-aanvragen/";
+        return;
+      }
+
+      const listEl = document.getElementById("selected-insurance-list");
+      const fieldsContainer = document.getElementById("insurance-fields-container");
+
+      listEl.innerHTML = selected.map(item => `<li>${escapeHtml(item)}</li>`).join("");
+      fieldsContainer.innerHTML = selected.map(createInsuranceBlockHtml).join("");
+
+      bindLookupButtons();
+      restorePreviousValues(offerData);
+
+      document.getElementById("particulier-details-form").addEventListener("submit", (e) => {
+        e.preventDefault();
+
+        for (const insuranceName of selected) {
+          if (!validateInsuranceBlock(insuranceName)) {
+            return;
+          }
+        }
+
+        const collected = {};
+        selected.forEach((insuranceName) => {
+          collected[insuranceName] = collectInsuranceValues(insuranceName);
+        });
+
+        if (!offerData.insuranceDetails) {
+          offerData.insuranceDetails = {};
+        }
+
+        offerData.insuranceDetails.particulier = collected;
+        saveOfferData(offerData);
+
+        window.location.href = "/offerte-persoonsgegevens/";
+      });
+    });
+  </script>
+</body>
+</html>
