@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Verzekeringen | Klaas Vis</title>
+  <meta
+    name="description"
+    content="Kies uit particuliere verzekeringen, zakelijke verzekeringen en inkomensverzekeringen. Onafhankelijk advies van Klaas Vis sinds 1834."
+  />
+
+  <link rel="icon" type="image/png" href="logo.png" />
+  <link rel="stylesheet" href="styles.css?v=2" />
+
+  <script src="https://unpkg.com/@emailjs/browser@4/dist/email.min.js"></script>
+  <script>
+    (function () {
+      emailjs.init("7s23tMHc0wTVQEW3f");
+    })();
+  </script>
+
+  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+</head>
+<body>
+  <div class="bg-blur bg-blur-1"></div>
+  <div class="bg-blur bg-blur-2"></div>
+
+  <nav>
+    <div class="nav-container">
+      <a href="/" class="logo">
+        <img src="logo.png" alt="Klaas Vis Logo" class="logo-img" />
+        <span>Klaas Vis</span>
+      </a>
+
+      <button class="hamburger" type="button" aria-label="Menu openen" aria-expanded="false">☰</button>
+
+      <ul class="nav-list">
+        <li><a href="/schademelden/">Schade melden</a></li>
+        <li><a href="/wijziging-doorgeven/">Wijziging doorgeven</a></li>
+        <li><a href="/dekkerautoverzekering/">Dekkerautoverzekering</a></li>
+        <li><a href="/offerte-aanvragen/">Offerte aanvragen</a></li>
+        <li><a href="/downloads/">Downloads</a></li>
+        <li><a href="/contact/">Contact</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main>
+    <section class="hero">
+      <div class="container hero-grid">
+        <div class="hero-copy">
+          <div class="eyebrow">Verzekeringen op maat • onafhankelijk advies</div>
+          <h1>Kies de <span><br>verzekering die bij u past</span>.</h1>
+          <p class="hero-text">
+            Of het nu gaat om uw woning, onderneming of inkomen:
+            wij helpen u met persoonlijk en onafhankelijk advies,
+            zodat u kiest voor zekerheid die echt aansluit op uw situatie.
+          </p>
+
+          <div class="hero-actions">
+            <a href="#rubrieken" class="btn btn-primary">Bekijk rubrieken</a>
+            <a href="/contact/" class="btn btn-secondary">Neem contact op</a>
+          </div>
+
+          <div class="hero-stats">
+            <div class="stat">
+              <strong>3</strong>
+              <span>verzekeringsrubrieken</span>
+            </div>
+            <div class="stat">
+              <strong>100%</strong>
+              <span>onafhankelijk advies</span>
+            </div>
+            <div class="stat">
+              <strong>1834</strong>
+              <span>vertrouwd sinds</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-visual">
+          <div class="visual-card">
+            <div class="visual-top">
+              <img src="verzekeringen-hero.png" alt="Verzekeringen en persoonlijk advies" />
+            </div>
+            <div class="visual-bottom">
+              <div class="mini-card">
+                <div class="mini-kicker">Onze aanpak</div>
+                <div class="mini-title">Helder & persoonlijk</div>
+                <div class="mini-text">Advies dat aansluit op uw leven of onderneming.</div>
+              </div>
+              <div class="mini-card mini-highlight">
+                <div class="mini-big">3</div>
+                <div class="mini-text">rubrieken</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="floating-pill floating-pill-1">Voor particulier én zakelijk</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="ticker">
+      <div class="ticker-track">
+        <span>Particuliere verzekeringen voor wonen, reizen, verkeer en aansprakelijkheid</span>
+        <span>Zakelijke verzekeringen voor uw bedrijf, personeel en continuïteit</span>
+        <span>Inkomensverzekeringen voor zekerheid bij arbeidsongeschiktheid of uitval</span>
+        <span>Particuliere verzekeringen voor wonen, reizen, verkeer en aansprakelijkheid</span>
+        <span>Zakelijke verzekeringen voor uw bedrijf, personeel en continuïteit</span>
+        <span>Inkomensverzekeringen voor zekerheid bij arbeidsongeschiktheid of uitval</span>
+      </div>
+    </section>
+
+    <section id="rubrieken" class="section soft">
+      <div class="container">
+        <div class="section-head center">
+          <div class="eyebrow">Onze rubrieken</div>
+          <h2>Drie duidelijke keuzes.</h2>
+          <p>
+            Kies hieronder de rubriek die past bij uw situatie. Daarna helpen wij u graag verder met passend advies of een offerte op maat.
+          </p>
+        </div>
+
+        <div class="grid grid-3 service-grid">
+          <a href="#particulier" class="image-card">
+            <img src="particulier.png" alt="Particuliere verzekeringen" />
+            <div class="image-card-overlay">
+              <h3>Particuliere verzekeringen</h3>
+              <p>Voor woning, inboedel, aansprakelijkheid, auto, reis en meer.</p>
+            </div>
+          </a>
+
+          <a href="#zakelijk" class="image-card">
+            <img src="zakelijk.png" alt="Zakelijke verzekeringen" />
+            <div class="image-card-overlay">
+              <h3>Zakelijke verzekeringen</h3>
+              <p>Bescherming voor uw onderneming, bedrijfsmiddelen en aansprakelijkheid.</p>
+            </div>
+          </a>
+
+          <a href="#inkomen" class="image-card">
+            <img src="inkomen.png" alt="Inkomensverzekeringen" />
+            <div class="image-card-overlay">
+              <h3>Inkomensverzekeringen</h3>
+              <p>Financiële zekerheid bij ziekte, arbeidsongeschiktheid of uitval.</p>
+            </div>
+          </a>
+        </div>
+
+        <div class="advice-banner">
+          <div class="advice-left">
+            <div class="feature-icon small">KV</div>
+            <div>
+              <strong>Advies op maat</strong>
+              <p>Wij kijken niet alleen naar premie, maar vooral naar wat echt bij u past.</p>
+            </div>
+          </div>
+          <a href="/offerte-aanvragen/" class="btn btn-primary">Offerte aanvragen</a>
+        </div>
+      </div>
+    </section>
+
+    <section id="particulier" class="section">
+      <div class="container">
+        <div class="section-head center">
+          <div class="eyebrow">Particulier</div>
+          <h2>Particuliere verzekeringen.</h2>
+          <p>
+            Voor uw huis, gezin, auto en dagelijkse zekerheid. Wij helpen u om uw risico’s goed af te dekken zonder onnodige kosten.
+          </p>
+        </div>
+
+        <div class="grid grid-4">
+          <div class="feature-card">
+            <div class="feature-icon">WO</div>
+            <h3>Woonverzekeringen</h3>
+            <p>Voor onder andere opstal, inboedel en glas, passend bij uw woning en situatie.</p>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon">AU</div>
+            <h3>Autoverzekeringen</h3>
+            <p>Van WA tot Allrisk, met advies over dekking, premie en aanvullende opties.</p>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon">AA</div>
+            <h3>Aansprakelijkheid</h3>
+            <p>Bescherming tegen schade die u of uw gezinsleden per ongeluk aan anderen veroorzaken.</p>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon">RE</div>
+            <h3>Reis & recreatie</h3>
+            <p>Voor vakanties, annuleringsrisico’s en recreatieve bezittingen zoals caravan of boot.</p>
+          </div>
+        </div>
+
+        <div class="info-strip">
+          <div>Persoonlijk en onafhankelijk advies</div>
+          <div>Voor woning, gezin en mobiliteit</div>
+          <div><a href="/offerte-aanvragen/">Vraag direct een offerte aan</a></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="zakelijk" class="section soft">
+      <div class="container">
+        <div class="section-head center">
+          <div class="eyebrow">Zakelijk</div>
+          <h2>Zakelijke verzekeringen.</h2>
+          <p>
+            Uw onderneming verdient continuïteit en zekerheid. Wij adviseren u over passende verzekeringen voor bedrijf, personeel en aansprakelijkheid.
+          </p>
+        </div>
+
+        <div class="grid grid-4">
+          <div class="feature-card">
+            <div class="feature-icon">BE</div>
+            <h3>Bedrijfsaansprakelijkheid</h3>
+            <p>Voor schade aan personen of zaken waarvoor uw onderneming aansprakelijk wordt gesteld.</p>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon">GE</div>
+            <h3>Gebouwen & inventaris</h3>
+            <p>Bescherming van uw pand, inventaris, voorraden en bedrijfsmiddelen.</p>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon">VE</div>
+            <h3>Vervoer & voertuigen</h3>
+            <p>Voor zakelijke auto’s, bestelauto’s en overige vervoersrisico’s binnen uw onderneming.</p>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon">RB</div>
+            <h3>Rechtsbijstand zakelijk</h3>
+            <p>Juridische ondersteuning bij conflicten met klanten, leveranciers of andere zakelijke partijen.</p>
+          </div>
+        </div>
+
+        <div class="advice-banner">
+          <div class="advice-left">
+            <div class="feature-icon small">ZA</div>
+            <div>
+              <strong>Voor starters en gevestigde bedrijven</strong>
+              <p>Wij denken mee over de risico’s van uw branche, werkzaamheden en toekomstplannen.</p>
+            </div>
+          </div>
+          <a href="/contact/" class="btn btn-primary">Bespreek uw situatie</a>
+        </div>
+      </div>
+    </section>
+
+    <section id="inkomen" class="section">
+      <div class="container">
+        <div class="section-head center">
+          <div class="eyebrow">Inkomen</div>
+          <h2>Inkomensverzekeringen.</h2>
+          <p>
+            Als uw inkomen tijdelijk of langdurig wegvalt, kan dat grote gevolgen hebben. Wij helpen u bij het kiezen van de juiste financiële zekerheid.
+          </p>
+        </div>
+
+        <div class="grid grid-3">
+          <div class="feature-card">
+            <div class="feature-icon">AO</div>
+            <h3>Arbeidsongeschiktheid</h3>
+            <p>Voor bescherming van uw inkomen wanneer u door ziekte of ongeval niet kunt werken.</p>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon">OV</div>
+            <h3>Overlijdensrisico</h3>
+            <p>Financiële ondersteuning voor uw nabestaanden bij overlijden gedurende de looptijd.</p>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon">PE</div>
+            <h3>Pensioenoplossingen</h3>
+            <p>Voor ondernemers en werkgevers die ook op langere termijn zekerheid willen regelen.</p>
+          </div>
+        </div>
+
+        <div class="info-strip">
+          <div>Financiële zekerheid bij uitval</div>
+          <div>Advies afgestemd op werk en inkomen</div>
+          <div><a href="/contact/">Neem contact op voor advies</a></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section about-section">
+      <div class="container about-grid">
+        <div class="about-visual">
+          <div class="about-stack">
+            <div class="about-photo small">
+              <img src="omgeving.png" alt="Klaas Vis omgeving" />
+            </div>
+            <div class="about-year">
+              <strong>1834</strong>
+              <span>opgericht</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="about-copy">
+          <div class="eyebrow">Waarom Klaas Vis</div>
+          <h2>Verzekeren met <span>helder en persoonlijk advies</span>.</h2>
+          <p>
+            Wij zijn een onafhankelijk assurantiekantoor met een lange historie en een persoonlijke aanpak.
+          </p>
+          <p>
+            Dat betekent: geen standaardadvies, maar een oplossing die aansluit op uw situatie, wensen en toekomst.
+          </p>
+
+          <div class="grid grid-2 about-points">
+            <div class="point-card">
+              <h3>Onafhankelijk</h3>
+              <p>Advies zonder binding aan één verzekeraar.</p>
+            </div>
+            <div class="point-card">
+              <h3>Duidelijk</h3>
+              <p>Heldere uitleg over dekking, premie en risico’s.</p>
+            </div>
+            <div class="point-card">
+              <h3>Persoonlijk</h3>
+              <p>Direct contact met mensen die uw situatie begrijpen.</p>
+            </div>
+            <div class="point-card">
+              <h3>Ervaren</h3>
+              <p>Al generaties lang een vertrouwd adres voor verzekeringen.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" class="section contact-section">
+      <div class="container">
+        <div class="section-head center">
+          <div class="eyebrow">Contact</div>
+          <h2>Neem contact op.</h2>
+          <p>Wilt u advies of een offerte binnen één van deze rubrieken? Wij helpen u graag verder.</p>
+        </div>
+
+        <div class="contact-grid">
+          <div class="contact-info-card">
+            <div class="contact-row">
+              <div class="feature-icon small">🏠︎</div>
+              <div>
+                <h3>Adres</h3>
+                <p>Zuiderweg 7<br>1456 NC Wijdewormer</p>
+              </div>
+            </div>
+
+            <div class="contact-row">
+              <div class="feature-icon small">☏</div>
+              <div>
+                <h3>Telefoon</h3>
+                <p><a href="tel:0756314261">075-631 4261</a></p>
+              </div>
+            </div>
+
+            <div class="contact-row">
+              <div class="feature-icon small">📨︎</div>
+              <div>
+                <h3>E-mail</h3>
+                <p><a href="mailto:info@klaasvis.nl">info@klaasvis.nl</a></p>
+              </div>
+            </div>
+
+            <div class="contact-row">
+              <div class="feature-icon small">⌚︎</div>
+              <div>
+                <h3>Openingstijden</h3>
+                <p>Ma–Vr: 09:00–16:00<br>Za–Zo: gesloten</p>
+              </div>
+            </div>
+
+            <div class="register-box">
+              <div><span>AFM-nummer</span><strong>12005878</strong></div>
+              <div><span>KvK-nummer</span><strong>35008554</strong></div>
+            </div>
+
+            <div class="trust-logos">
+              <img src="afm-logo.png" alt="AFM" />
+              <img src="kifid-logo.png" alt="Kifid" />
+              <img src="adfiz-logo.png" alt="Adfiz" />
+            </div>
+          </div>
+
+          <div class="contact-form-card">
+            <h3>Stuur ons een bericht</h3>
+            <form id="contact-form">
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="contact-name">Naam</label>
+                  <input type="text" id="contact-name" name="name" placeholder="Uw volledige naam" required />
+                </div>
+                <div class="form-group">
+                  <label for="contact-email">E-mailadres</label>
+                  <input type="email" id="contact-email" name="email" placeholder="uw@email.nl" required />
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="contact-phone">Telefoonnummer</label>
+                  <input type="tel" id="contact-phone" name="phone" placeholder="06-12345678" />
+                </div>
+                <div class="form-group">
+                  <label for="contact-subject">Onderwerp</label>
+                  <select id="contact-subject" name="subject">
+                    <option value="">Kies een onderwerp</option>
+                    <option value="particulier">Particuliere verzekeringen</option>
+                    <option value="zakelijk">Zakelijke verzekeringen</option>
+                    <option value="inkomen">Inkomensverzekeringen</option>
+                    <option value="algemeen">Algemene vraag</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="contact-message">Bericht</label>
+                <textarea id="contact-message" name="message" placeholder="Omschrijf uw vraag of situatie..." required></textarea>
+              </div>
+
+              <div class="form-group checkbox">
+                <input type="checkbox" id="privacy-check" required />
+                <label for="privacy-check">Ik ga akkoord met het privacybeleid</label>
+              </div>
+
+              <div class="form-group">
+                <div class="g-recaptcha" data-sitekey="6LdwpegrAAAAAKjnbA7VZJoNpYlFJ6iFeMQp0Dov"></div>
+              </div>
+
+              <button type="submit" class="btn btn-gradient submit-btn">Verstuur bericht</button>
+              <p class="form-note">Uw gegevens worden vertrouwelijk behandeld conform ons privacybeleid.</p>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="footer-content">
+      <div class="footer-brand">
+        <img src="logo.png" alt="Klaas Vis Logo" class="footer-brand-img" />
+        <h3>BV Assurantiekantoor Klaas Vis Ao. 1834</h3>
+        <p>Uw vertrouwde partner sinds 1834.</p>
+        <p style="margin-top: 1rem; font-size: 0.9rem; color: var(--text-muted);">
+          AFM: 12005878<br />
+          KvK: 35008554
+        </p>
+      </div>
+
+      <div class="footer-section">
+        <h4>Diensten</h4>
+        <ul class="footer-links">
+          <li><a href="/schademelden/">Schade melden</a></li>
+          <li><a href="/wijziging-doorgeven/">Wijziging doorgeven</a></li>
+          <li><a href="/dekkerautoverzekering/">Dekkerautoverzekering</a></li>
+          <li><a href="/offerte-aanvragen/">Offerte aanvragen</a></li>
+          <li><a href="/downloads/">Downloads</a></li>
+          <li><a href="/contact/">Contact</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-section">
+        <h4>Contact</h4>
+        <ul class="footer-links">
+          <li><a href="https://www.google.com/maps?ll=52.495138,4.917932&z=15&t=m&hl=nl&gl=NL&mapclient=embed&q=Zuiderweg+7+1456+NC+Wijdewormer">Zuiderweg 7, Wijdewormer</a></li>
+          <li><a href="tel:0756314261">075-631 4261</a></li>
+          <li><a href="mailto:info@klaasvis.nl">info@klaasvis.nl</a></li>
+          <li><a href="https://www.klaasvis.nl">www.klaasvis.nl</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p>&copy; 2026 — B.V. Assurantiekantoor Klaas Vis Anno 1834</p>
+      <div class="footer-bottom-links"></div>
+    </div>
+  </footer>
+
+  <script>
+    (function(){if(!window.chatbase||window.chatbase("getState")!=="initialized"){window.chatbase=(...arguments)=>{if(!window.chatbase.q){window.chatbase.q=[]}window.chatbase.q.push(arguments)};window.chatbase=new Proxy(window.chatbase,{get(target,prop){if(prop==="q"){return target.q}return(...args)=>target(prop,...args)}})}const onLoad=function(){const script=document.createElement("script");script.src="https://www.chatbase.co/embed.min.js";script.id="C60jEJW_QuVD7X3vE5rzE";script.domain="www.chatbase.co";document.body.appendChild(script)};if(document.readyState==="complete"){onLoad()}else{window.addEventListener("load",onLoad)}})();
+  </script>
+
+  <script src="script.js?v=2"></script>
+</body>
+</html>
