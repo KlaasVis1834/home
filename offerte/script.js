@@ -345,6 +345,8 @@ function handleSubmit(isConfirmed) {
             key !== 'extra_rechtsbijstand' &&
             key !== 'ford-dekker' &&
             key !== 'waarheid'
+            key !== 'g-recaptcha-response'
+
         ) {
             emailBody += `${key}: ${value}\n`;
         }
