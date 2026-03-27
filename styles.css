@@ -929,7 +929,26 @@ nav {
 .register-box strong {
   font-weight: 800;
 }
+.trust-logos {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  margin-top: 20px;
+  flex-wrap: wrap;
+}
 
+.trust-logos img {
+  height: 40px;
+  object-fit: contain;
+  opacity: 0.9;
+  transition: 0.3s;
+}
+
+.trust-logos img:hover {
+  opacity: 1;
+  transform: scale(1.05);
+}
 .form-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
