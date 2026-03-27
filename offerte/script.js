@@ -255,6 +255,8 @@ function showModal() {
             key !== 'extra_rechtsbijstand' &&
             key !== 'ford-dekker' &&
             key !== 'waarheid'
+            key !== 'g-recaptcha-response'
+
         ) {
             summaryHtml += `<li>${key}: ${value}</li>`;
         }
