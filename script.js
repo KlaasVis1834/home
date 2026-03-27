@@ -50,74 +50,85 @@
       });
     }
 
-    /* ===========================
-       CONTACTFORMULIER (EmailJS + reCAPTCHA)
-    =========================== */
-    const contactForm = document.getElementById("contact-form");
-    const submitBtn = document.querySelector(".submit-btn");
+/* ===========================
+   CONTACTFORMULIER (EmailJS + reCAPTCHA)
+=========================== */
+const contactForm = document.getElementById("contact-form");
+const submitBtn = document.querySelector(".submit-btn");
 
-    if (!contactForm || !submitBtn) return;
+if (contactForm && submitBtn) {
+  contactForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
 
-    contactForm.addEventListener("submit", async (e) => {
-      e.preventDefault();
+    const recaptchaResponse =
+      typeof grecaptcha !== "undefined" ? grecaptcha.getResponse() : "";
 
-      const recaptchaResponse =
-        typeof grecaptcha !== "undefined" ? grecaptcha.getResponse() : "";
-      if (!recaptchaResponse) {
-        alert("Bevestig dat u geen robot bent (reCAPTCHA).");
-        return;
-      }
+    if (!recaptchaResponse) {
+      alert("Bevestig dat u geen robot bent (reCAPTCHA).");
+      return;
+    }
 
-      const name = document.getElementById("contact-name").value.trim();
-      const email = document.getElementById("contact-email").value.trim();
-      const message = document.getElementById("contact-message").value.trim();
-      const newsletter = document.getElementById("newsletter")?.checked;
+    const name = document.getElementById("contact-name")?.value.trim();
+    const email = document.getElementById("contact-email")?.value.trim();
+    const phone = document.getElementById("contact-phone")?.value.trim();
+    const subject = document.getElementById("contact-subject")?.value.trim();
+    const message = document.getElementById("contact-message")?.value.trim();
+    const privacyCheck = document.getElementById("privacy-check")?.checked;
 
-      if (!name || !email || !message) {
-        alert("Vul alle verplichte velden in.");
-        return;
-      }
+    if (!name || !email || !message) {
+      alert("Vul alle verplichte velden in.");
+      return;
+    }
 
-      const templateParams = {
-        from_name: name,
-        to_email: email,
-        message: message,
-        newsletter: newsletter
-          ? "Ja, aangemeld voor nieuwsbrief"
-          : "Nee, niet aangemeld",
-        "g-recaptcha-response": recaptchaResponse,
-      };
+    if (!privacyCheck) {
+      alert("U moet akkoord gaan met het privacybeleid.");
+      return;
+    }
 
-      submitBtn.disabled = true;
-      submitBtn.textContent = "Bezig met versturen...";
+    const templateParams = {
+      from_name: name,
+      from_email: email,
+      reply_to: email,
+      phone: phone || "Niet ingevuld",
+      subject: subject || "Geen onderwerp gekozen",
+      message: message,
+      privacy_accepted: "Ja",
+    };
 
-      const timeout = setTimeout(() => {
-        submitBtn.disabled = false;
-        submitBtn.textContent = "Verstuur Bericht";
-        alert("Verzenden duurt te lang. Probeer het later opnieuw.");
-      }, 12000);
+    submitBtn.disabled = true;
+    submitBtn.textContent = "Bezig met versturen...";
 
-      try {
-        const response = await emailjs.send(
-          "service_zfo7hza",
-          "template_28mlibw",
-          templateParams,
-          "7s23tMHc0wTVQEW3f"
-        );
-
-        clearTimeout(timeout);
-        alert("✅ Bericht succesvol verzonden!");
-        contactForm.reset();
-        if (typeof grecaptcha !== "undefined") grecaptcha.reset();
-      } catch (error) {
-        clearTimeout(timeout);
-        console.error("EmailJS fout:", error);
-        alert("Er is iets misgegaan bij het verzenden. Probeer het later opnieuw.");
-      }
-
+    const timeout = setTimeout(() => {
       submitBtn.disabled = false;
-      submitBtn.textContent = "Verstuur Bericht";
-    });
+      submitBtn.textContent = "Verstuur bericht";
+      alert("Verzenden duurt te lang. Probeer het later opnieuw.");
+    }, 12000);
+
+    try {
+      await emailjs.send(
+        "service_zfo7hza",
+        "template_28mlibw",
+        templateParams,
+        "7s23tMHc0wTVQEW3f"
+      );
+
+      clearTimeout(timeout);
+      alert("✅ Bericht succesvol verzonden!");
+      contactForm.reset();
+
+      if (typeof grecaptcha !== "undefined") {
+        grecaptcha.reset();
+      }
+    } catch (error) {
+      clearTimeout(timeout);
+      console.error("EmailJS fout:", error);
+      alert("Er is iets misgegaan bij het verzenden. Probeer het later opnieuw.");
+    } finally {
+      submitBtn.disabled = false;
+      submitBtn.textContent = "Verstuur bericht";
+    }
+  });
+}
   });
 })();
 
