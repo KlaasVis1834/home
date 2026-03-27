@@ -148,6 +148,22 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 /* ===========================
+   HULPFUNCTIE UITSLUITEN VELDEN
+=========================== */
+function shouldIncludeField(key, value) {
+    const excludedFields = [
+        'main_coverage',
+        'extra_schadeverzekering',
+        'extra_rechtsbijstand',
+        'ford-dekker',
+        'waarheid',
+        'g-recaptcha-response'
+    ];
+
+    return value && value !== 'on' && !excludedFields.includes(key);
+}
+
+/* ===========================
    STAPPENFORMULIER
 =========================== */
 function showStep(n) {
@@ -157,18 +173,19 @@ function showStep(n) {
         steps[i].style.display = 'none';
     }
 
-    steps[n].style.display = 'block';
-
-    if (n === 0) {
-        document.getElementById('prevBtn').style.display = 'none';
-    } else {
-        document.getElementById('prevBtn').style.display = 'inline';
+    if (steps[n]) {
+        steps[n].style.display = 'block';
     }
 
-    if (n === steps.length - 1) {
-        document.getElementById('nextBtn').style.display = 'none';
-    } else {
-        document.getElementById('nextBtn').style.display = 'inline';
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+
+    if (prevBtn) {
+        prevBtn.style.display = n === 0 ? 'none' : 'inline';
+    }
+
+    if (nextBtn) {
+        nextBtn.style.display = n === steps.length - 1 ? 'none' : 'inline';
     }
 
     updateStepIndicator(n);
@@ -176,11 +193,17 @@ function showStep(n) {
 
 function nextPrev(n) {
     let steps = document.getElementsByClassName('step-content');
+    if (!steps[currentStep]) return false;
+
     steps[currentStep].style.display = 'none';
     currentStep = currentStep + n;
 
     if (currentStep >= steps.length) {
         return false;
+    }
+
+    if (currentStep < 0) {
+        currentStep = 0;
     }
 
     showStep(currentStep);
@@ -193,7 +216,9 @@ function updateStepIndicator(n) {
         indicators[i].classList.remove('active-step');
     }
 
-    indicators[n].classList.add('active-step');
+    if (indicators[n]) {
+        indicators[n].classList.add('active-step');
+    }
 }
 
 /* ===========================
@@ -247,23 +272,13 @@ function showModal() {
     let summaryHtml = '<strong>Ingevulde gegevens:</strong><ul>';
 
     for (let [key, value] of formData.entries()) {
-        if (
-            value &&
-            value !== 'on' &&
-            key !== 'main_coverage' &&
-            key !== 'extra_schadeverzekering' &&
-            key !== 'extra_rechtsbijstand' &&
-            key !== 'ford-dekker' &&
-            key !== 'waarheid'
-            key !== 'g-recaptcha-response'
-
-        ) {
+        if (shouldIncludeField(key, value)) {
             summaryHtml += `<li>${key}: ${value}</li>`;
         }
     }
 
     const mainCoverage = formData.get('main_coverage');
-    summaryHtml += `<li>Hoofddekking: ${mainCoverage}</li>`;
+    summaryHtml += `<li>Hoofddekking: ${mainCoverage || ''}</li>`;
 
     const extraSchadeverzekering = formData.has('extra_schadeverzekering') ? 'Ja' : 'Nee';
     summaryHtml += `<li>Schadeverzekering voor Inzittenden: ${extraSchadeverzekering}</li>`;
@@ -339,23 +354,13 @@ function handleSubmit(isConfirmed) {
     }
 
     for (let [key, value] of formData.entries()) {
-        if (
-            value &&
-            value !== 'on' &&
-            key !== 'main_coverage' &&
-            key !== 'extra_schadeverzekering' &&
-            key !== 'extra_rechtsbijstand' &&
-            key !== 'ford-dekker' &&
-            key !== 'waarheid'
-            key !== 'g-recaptcha-response'
-
-        ) {
+        if (shouldIncludeField(key, value)) {
             emailBody += `${key}: ${value}\n`;
         }
     }
 
     const mainCoverage = formData.get('main_coverage');
-    emailBody += `Hoofddekking: ${mainCoverage}\n`;
+    emailBody += `Hoofddekking: ${mainCoverage || ''}\n`;
 
     const extraSchadeverzekering = formData.has('extra_schadeverzekering') ? 'Ja' : 'Nee';
     emailBody += `Schadeverzekering voor Inzittenden: ${extraSchadeverzekering}\n`;
@@ -399,7 +404,11 @@ function handleSubmit(isConfirmed) {
                 `;
                 document.getElementById('resultMessage').style.display = 'block';
                 document.getElementById('quote-form').style.display = 'none';
-                document.querySelector('.navigation-buttons').style.display = 'none';
+
+                const navigationButtons = document.querySelector('.navigation-buttons');
+                if (navigationButtons) {
+                    navigationButtons.style.display = 'none';
+                }
 
                 setTimeout(() => {
                     loadingScreen.style.display = 'flex';
