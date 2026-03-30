@@ -795,20 +795,39 @@
   }
 ],
 
-      "Aanhangwagenverzekering": [
-        {
-          type: "text",
-          name: "type_aanhangwagen",
-          label: "Type aanhangwagen",
-          required: true
-        },
-        {
-          type: "text",
-          name: "waarde",
-          label: "Waarde",
-          required: true
-        }
-      ],
+"Aanhangwagenverzekering": [
+  {
+    type: "select",
+    name: "gekentekend",
+    label: "Gekentekend",
+    required: true,
+    options: ["Ja", "Nee"]
+  },
+  {
+    type: "text",
+    name: "kenteken",
+    label: "Kenteken",
+    required: true
+  },
+  {
+    type: "text",
+    name: "merk",
+    label: "Merk",
+    required: true
+  },
+  {
+    type: "number",
+    name: "bouwjaar",
+    label: "Bouwjaar",
+    required: true
+  },
+  {
+    type: "text",
+    name: "cataloguswaarde",
+    label: "Cataloguswaarde",
+    required: true
+  }
+],
 
       "Hobbytractorverzekering": [
         {
@@ -908,19 +927,122 @@
       ],
 
       "Fietsverzekering": [
-        {
-          type: "text",
-          name: "soort_fiets",
-          label: "Soort fiets",
-          required: true
-        },
-        {
-          type: "text",
-          name: "aankoopbedrag",
-          label: "Aankoopbedrag",
-          required: true
-        }
-      ],
+  {
+    type: "select",
+    name: "soort_fiets",
+    label: "Soort",
+    required: true,
+    options: [
+      "Stads-/tourfiets",
+      "Racefiets",
+      "Racefiets",
+      "Mountainbike / ATB",
+      "Ligfiets / vouwfiets",
+      "(opvouwbare) Fatbike",
+      "High speed e-bike"
+    ]
+  },
+  {
+    type: "select",
+    name: "elektrische_trapondersteuning",
+    label: "Is de fiets voorzien van elektrische trapondersteuning?",
+    required: true,
+    options: ["Ja", "Nee"]
+  },
+  {
+    type: "text",
+    name: "merk",
+    label: "Merk",
+    required: true
+  },
+  {
+    type: "text",
+    name: "model",
+    label: "Model",
+    required: true
+  },
+  {
+    type: "text",
+    name: "type_fiets",
+    label: "Type",
+    required: false
+  },
+  {
+    type: "text",
+    name: "verzekerd_bedrag",
+    label: "Verzekerd bedrag",
+    required: true
+  },
+  {
+    type: "select",
+    name: "tweedehands_verzekerd",
+    label: "Is de fiets tweedehands verzekerd geweest?",
+    required: true,
+    options: ["Ja", "Nee"]
+  },
+  {
+    type: "date",
+    name: "aankoopdatum",
+    label: "Aankoopdatum",
+    required: true
+  },
+  {
+    type: "select",
+    name: "andere_bestuurder",
+    label: "Is er sprake van een andere bestuurder dan de aanvrager?",
+    required: true,
+    options: ["Ja", "Nee"]
+  },
+  {
+    type: "date",
+    name: "geboortedatum",
+    label: "Geboortedatum",
+    required: true
+  },
+  {
+    type: "text",
+    name: "postcode_bestuurder",
+    label: "Postcode",
+    required: true
+  },
+  {
+    type: "text",
+    name: "huisnummer",
+    label: "Huisnummer",
+    required: true
+  },
+  {
+    type: "text",
+    name: "toevoeging",
+    label: "Toevoeging",
+    required: false
+  },
+  {
+    type: "text",
+    name: "straat",
+    label: "Straat",
+    required: true
+  },
+  {
+    type: "text",
+    name: "plaats",
+    label: "Plaats",
+    required: true
+  },
+  {
+    type: "text",
+    name: "gewenste_dekking",
+    label: "Dekking",
+    required: true
+  },
+  {
+    type: "select",
+    name: "ongevallen_opzittenden",
+    label: "Eigen risico bij diefstal / Ongevallen opzittenden",
+    required: true,
+    options: ["Ja", "Nee"]
+  }
+],
 
       "Inboedelverzekering": [
         {
