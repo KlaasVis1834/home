@@ -11,8 +11,9 @@
 
   <link rel="icon" type="image/png" href="/logo.png" />
   <link rel="stylesheet" href="/styles.css?v=2" />
+  <script id="Cookiebot" src="https://consent.cookiebot.com/uc.js" data-cbid="9273cf7a-daab-4567-a9d7-3429830702b0" data-blockingmode="auto" type="text/javascript"></script>
   <script src="https://www.google.com/recaptcha/api.js" async defer></script>
-<script id="Cookiebot" src="https://consent.cookiebot.com/uc.js" data-cbid="9273cf7a-daab-4567-a9d7-3429830702b0" data-blockingmode="auto" type="text/javascript"></script>
+
   <style>
     .details-hero {
       padding: 42px 0 24px;
@@ -205,6 +206,7 @@
         <div class="summary-card">
           <h3>Geselecteerde verzekeringen</h3>
           <ul id="selected-insurance-list" class="summary-list"></ul>
+        </div>
 
         <form id="particulier-details-form" class="details-card">
           <h3>Verzekeringsdetails</h3>
@@ -224,17 +226,6 @@
   <script>
     const STORAGE_KEY = "klaasvis_offer_data";
 
-    /*
-      Hier voeg je later per verzekering de exacte velden toe.
-      type:
-      - text
-      - number
-      - date
-      - select
-      - textarea
-      - postcode_lookup
-      - kenteken_lookup
-    */
     const PARTICULIER_FIELDS = {
       "Reisverzekering": [
         {
@@ -551,6 +542,34 @@
       sessionStorage.setItem(STORAGE_KEY, JSON.stringify(data));
     }
 
+    function normalizePostcode(postcode) {
+      return String(postcode || "").replace(/\s+/g, "").toUpperCase();
+    }
+
+    function normalizeKenteken(kenteken) {
+      return String(kenteken || "").replace(/-/g, "").replace(/\s+/g, "").toUpperCase();
+    }
+
+    function formatDateToYear(value) {
+      if (!value) return "";
+
+      const raw = String(value).trim();
+
+      if (/^\d{8}$/.test(raw)) {
+        return raw.slice(0, 4);
+      }
+
+      if (/^\d{4}-\d{2}-\d{2}$/.test(raw)) {
+        return raw.slice(0, 4);
+      }
+
+      if (/^\d{4}$/.test(raw)) {
+        return raw;
+      }
+
+      return raw;
+    }
+
     function createStandardField(insuranceKey, field) {
       const fieldId = `${insuranceKey}__${field.name}`;
       const wrapperClass = field.full ? "form-group field-full" : "form-group";
@@ -718,113 +737,228 @@
     }
 
     async function lookupAddress({ postcode, huisnummer, toevoeging }) {
-      /*
-        PLAATSHOUDER:
-        Hier koppel je later jouw postcode API.
-        Voorbeeld return:
-        {
-          straat: "Zuiderweg",
-          plaats: "Wijdewormer",
-          volledigAdres: "Zuiderweg 7, 1456 NC Wijdewormer"
-        }
-      */
+      const normalizedPostcode = normalizePostcode(postcode);
+      const normalizedToevoeging = String(toevoeging || "").trim().toUpperCase();
+      const query = `${normalizedPostcode} ${huisnummer}${normalizedToevoeging ? " " + normalizedToevoeging : ""}`;
+      const url = `https://api.pdok.nl/bzk/locatieserver/search/v3_1/free?q=${encodeURIComponent(query)}&rows=1`;
 
-      console.log("Adres lookup voorbereid voor:", { postcode, huisnummer, toevoeging });
+      const response = await fetch(url);
 
-      // Voor nu dummy response
+      if (!response.ok) {
+        throw new Error("PDOK request mislukt");
+      }
+
+      const data = await response.json();
+
+      if (!data?.response?.numFound || !data.response.docs?.length) {
+        return {
+          straat: "",
+          plaats: "",
+          volledigAdres: ""
+        };
+      }
+
+      const adres = data.response.docs[0];
+      const straat = adres.straatnaam || "";
+      const plaats = adres.woonplaatsnaam || "";
+      const gevondenPostcode = normalizePostcode(adres.postcode || normalizedPostcode);
+      const gevondenHuisnummer = adres.huisnummer || huisnummer || "";
+      const huisletter = adres.huisletter || "";
+      const huisnummertoevoeging = adres.huisnummertoevoeging || normalizedToevoeging || "";
+      const nummerDeel = `${gevondenHuisnummer}${huisletter}${huisnummertoevoeging ? " " + huisnummertoevoeging : ""}`.trim();
+      const volledigAdres = [straat && nummerDeel ? `${straat} ${nummerDeel}` : straat, gevondenPostcode, plaats]
+        .filter(Boolean)
+        .join(", ");
+
       return {
-        straat: "",
-        plaats: "",
-        volledigAdres: ""
+        straat,
+        plaats,
+        volledigAdres
       };
     }
 
     async function lookupVehicleByKenteken(kenteken) {
-      /*
-        PLAATSHOUDER:
-        Hier koppel je later jouw kenteken API.
-        Voorbeeld return:
-        {
-          merk: "Volkswagen",
-          model: "Golf",
-          bouwjaar: "2021",
-          brandstof: "Benzine"
-        }
-      */
+      const normalizedKenteken = normalizeKenteken(kenteken);
+      const url = `https://opendata.rdw.nl/resource/m9d7-ebf2.json?kenteken=${encodeURIComponent(normalizedKenteken)}`;
 
-      console.log("Kenteken lookup voorbereid voor:", kenteken);
+      const response = await fetch(url);
 
-      // Voor nu dummy response
+      if (!response.ok) {
+        throw new Error("RDW request mislukt");
+      }
+
+      const data = await response.json();
+
+      if (!Array.isArray(data) || !data.length) {
+        return {
+          merk: "",
+          model: "",
+          bouwjaar: "",
+          brandstof: ""
+        };
+      }
+
+      const vehicle = data[0];
+
       return {
-        merk: "",
-        model: "",
-        bouwjaar: "",
-        brandstof: ""
+        merk: vehicle.merk || "",
+        model: vehicle.handelsbenaming || vehicle.inrichting || "",
+        bouwjaar: formatDateToYear(
+          vehicle.datum_eerste_toelating ||
+          vehicle.datum_tenaamstelling ||
+          vehicle.vervaldatum_apk ||
+          ""
+        ),
+        brandstof:
+          vehicle.brandstof_omschrijving ||
+          vehicle.brandstof ||
+          vehicle.zuinigheidsclassificatie ||
+          ""
       };
+    }
+
+    async function runAddressLookup(wrapper) {
+      const postcodeInput = wrapper.querySelector('[data-role="postcode"]');
+      const huisnummerInput = wrapper.querySelector('[data-role="huisnummer"]');
+      const toevoegingInput = wrapper.querySelector('[data-role="toevoeging"]');
+      const straatInput = wrapper.querySelector('[data-role="straat"]');
+      const plaatsInput = wrapper.querySelector('[data-role="plaats"]');
+      const volledigAdresInput = wrapper.querySelector('[data-role="volledig_adres"]');
+      const status = wrapper.querySelector('[data-role="status"]');
+
+      const postcode = normalizePostcode(postcodeInput.value);
+      const huisnummer = huisnummerInput.value.trim();
+      const toevoeging = toevoegingInput.value.trim();
+
+      postcodeInput.value = postcode;
+
+      if (!postcode || postcode.length !== 6 || !huisnummer) {
+        status.textContent = "Vul eerst een geldige postcode en huisnummer in.";
+        return;
+      }
+
+      status.textContent = "Adres wordt opgezocht...";
+
+      try {
+        const result = await lookupAddress({ postcode, huisnummer, toevoeging });
+
+        straatInput.value = result.straat || "";
+        plaatsInput.value = result.plaats || "";
+        volledigAdresInput.value = result.volledigAdres || "";
+
+        status.textContent = result.volledigAdres
+          ? "Adres succesvol opgehaald."
+          : "Adres niet gevonden.";
+      } catch (error) {
+        console.error("Fout bij ophalen adres:", error);
+        straatInput.value = "";
+        plaatsInput.value = "";
+        volledigAdresInput.value = "";
+        status.textContent = "Adres kon niet worden opgehaald.";
+      }
+    }
+
+    async function runKentekenLookup(wrapper) {
+      const kentekenInput = wrapper.querySelector('[data-role="kenteken"]');
+      const merkInput = wrapper.querySelector('[data-role="merk"]');
+      const modelInput = wrapper.querySelector('[data-role="model"]');
+      const bouwjaarInput = wrapper.querySelector('[data-role="bouwjaar"]');
+      const brandstofInput = wrapper.querySelector('[data-role="brandstof"]');
+      const status = wrapper.querySelector('[data-role="status"]');
+
+      const kenteken = normalizeKenteken(kentekenInput.value);
+
+      kentekenInput.value = kenteken;
+
+      if (!kenteken) {
+        status.textContent = "Vul eerst een kenteken in.";
+        return;
+      }
+
+      status.textContent = "Voertuiggegevens worden opgezocht...";
+
+      try {
+        const result = await lookupVehicleByKenteken(kenteken);
+
+        merkInput.value = result.merk || "";
+        modelInput.value = result.model || "";
+        bouwjaarInput.value = result.bouwjaar || "";
+        brandstofInput.value = result.brandstof || "";
+
+        status.textContent = (result.merk || result.model)
+          ? "Voertuiggegevens succesvol opgehaald."
+          : "Kenteken niet gevonden.";
+      } catch (error) {
+        console.error("Fout bij ophalen voertuiggegevens:", error);
+        merkInput.value = "";
+        modelInput.value = "";
+        bouwjaarInput.value = "";
+        brandstofInput.value = "";
+        status.textContent = "Voertuiggegevens konden niet worden opgehaald.";
+      }
     }
 
     function bindLookupButtons() {
       document.querySelectorAll('[data-action="lookup-postcode"]').forEach((button) => {
         button.addEventListener("click", async () => {
           const wrapper = button.closest('[data-lookup-type="postcode"]');
-          const postcode = wrapper.querySelector('[data-role="postcode"]').value.trim();
-          const huisnummer = wrapper.querySelector('[data-role="huisnummer"]').value.trim();
-          const toevoeging = wrapper.querySelector('[data-role="toevoeging"]').value.trim();
-          const status = wrapper.querySelector('[data-role="status"]');
-
-          if (!postcode || !huisnummer) {
-            status.textContent = "Vul eerst postcode en huisnummer in.";
-            return;
-          }
-
-          status.textContent = "Adres wordt opgezocht...";
-
-          try {
-            const result = await lookupAddress({ postcode, huisnummer, toevoeging });
-
-            wrapper.querySelector('[data-role="straat"]').value = result.straat || "";
-            wrapper.querySelector('[data-role="plaats"]').value = result.plaats || "";
-            wrapper.querySelector('[data-role="volledig_adres"]').value = result.volledigAdres || "";
-
-            status.textContent = result.volledigAdres
-              ? "Adres succesvol opgehaald."
-              : "Nog geen adres gevonden. API wordt later gekoppeld.";
-          } catch (error) {
-            console.error(error);
-            status.textContent = "Adres kon niet worden opgehaald.";
-          }
+          await runAddressLookup(wrapper);
         });
       });
 
       document.querySelectorAll('[data-action="lookup-kenteken"]').forEach((button) => {
         button.addEventListener("click", async () => {
           const wrapper = button.closest('[data-lookup-type="kenteken"]');
-          const kenteken = wrapper.querySelector('[data-role="kenteken"]').value.trim().replace(/\s+/g, "").toUpperCase();
-          const status = wrapper.querySelector('[data-role="status"]');
-
-          if (!kenteken) {
-            status.textContent = "Vul eerst een kenteken in.";
-            return;
-          }
-
-          status.textContent = "Voertuiggegevens worden opgezocht...";
-
-          try {
-            const result = await lookupVehicleByKenteken(kenteken);
-
-            wrapper.querySelector('[data-role="merk"]').value = result.merk || "";
-            wrapper.querySelector('[data-role="model"]').value = result.model || "";
-            wrapper.querySelector('[data-role="bouwjaar"]').value = result.bouwjaar || "";
-            wrapper.querySelector('[data-role="brandstof"]').value = result.brandstof || "";
-
-            status.textContent = (result.merk || result.model)
-              ? "Voertuiggegevens succesvol opgehaald."
-              : "Nog geen voertuiggegevens gevonden. API wordt later gekoppeld.";
-          } catch (error) {
-            console.error(error);
-            status.textContent = "Voertuiggegevens konden niet worden opgehaald.";
-          }
+          await runKentekenLookup(wrapper);
         });
+      });
+    }
+
+    function bindAutoLookups() {
+      document.querySelectorAll('[data-lookup-type="postcode"]').forEach((wrapper) => {
+        const postcodeInput = wrapper.querySelector('[data-role="postcode"]');
+        const huisnummerInput = wrapper.querySelector('[data-role="huisnummer"]');
+        const toevoegingInput = wrapper.querySelector('[data-role="toevoeging"]');
+
+        let addressLookupTimeout;
+
+        const triggerAddressLookup = () => {
+          clearTimeout(addressLookupTimeout);
+          addressLookupTimeout = setTimeout(() => {
+            const postcode = normalizePostcode(postcodeInput.value);
+            const huisnummer = huisnummerInput.value.trim();
+
+            if (postcode.length === 6 && huisnummer) {
+              runAddressLookup(wrapper);
+            }
+          }, 350);
+        };
+
+        postcodeInput.addEventListener("input", triggerAddressLookup);
+        huisnummerInput.addEventListener("input", triggerAddressLookup);
+        toevoegingInput.addEventListener("input", triggerAddressLookup);
+        postcodeInput.addEventListener("blur", triggerAddressLookup);
+        huisnummerInput.addEventListener("blur", triggerAddressLookup);
+        toevoegingInput.addEventListener("blur", triggerAddressLookup);
+      });
+
+      document.querySelectorAll('[data-lookup-type="kenteken"]').forEach((wrapper) => {
+        const kentekenInput = wrapper.querySelector('[data-role="kenteken"]');
+
+        let kentekenLookupTimeout;
+
+        const triggerKentekenLookup = () => {
+          clearTimeout(kentekenLookupTimeout);
+          kentekenLookupTimeout = setTimeout(() => {
+            const kenteken = normalizeKenteken(kentekenInput.value);
+            if (kenteken.length >= 6) {
+              runKentekenLookup(wrapper);
+            }
+          }, 350);
+        };
+
+        kentekenInput.addEventListener("blur", triggerKentekenLookup);
+        kentekenInput.addEventListener("change", triggerKentekenLookup);
       });
     }
 
@@ -934,6 +1068,7 @@
       fieldsContainer.innerHTML = selected.map(createInsuranceBlockHtml).join("");
 
       bindLookupButtons();
+      bindAutoLookups();
       restorePreviousValues(offerData);
 
       document.getElementById("particulier-details-form").addEventListener("submit", (e) => {
