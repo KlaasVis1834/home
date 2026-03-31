@@ -713,14 +713,40 @@
   }
 ],
 
-      "Hobbytractorverzekering": [
-        {
-          type: "text",
-          name: "type_hobbytractor",
-          label: "Type hobbytractor",
-          required: true
-        }
-      ],
+"Hobbytractorverzekering": [
+  {
+    type: "select",
+    name: "gekentekend",
+    label: "Is de hobbytractor voorzien van kenteken?",
+    required: true,
+    options: ["Ja", "Nee"]
+  },
+  {
+    type: "kenteken_lookup",
+    name: "hobbytractor_kenteken_lookup",
+    label: "Kenteken en voertuiggegevens",
+    required: false,
+    full: true
+  },
+  {
+    type: "text",
+    name: "merk",
+    label: "Merk",
+    required: true
+  },
+  {
+    type: "text",
+    name: "model",
+    label: "Model",
+    required: true
+  },
+  {
+    type: "text",
+    name: "meldcode",
+    label: "Meldcode",
+    required: true
+  }
+],
 
       "Quad / Trike / MP3": [
   {
