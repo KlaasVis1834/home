@@ -227,93 +227,535 @@
     const STORAGE_KEY = "klaasvis_offer_data";
 
     const PARTICULIER_FIELDS = {
-      "Reisverzekering": [
-        {
-          type: "select",
-          name: "reisverzekering_type",
-          label: "Type verzekering",
-          required: true,
-          options: ["Doorlopend", "Kortlopend"]
-        },
-        {
-          type: "number",
-          name: "aantal_personen",
-          label: "Aantal meeverzekerde personen",
-          required: true
-        },
-        {
-          type: "textarea",
-          name: "aanvullende_info",
-          label: "Aanvullende informatie",
-          required: false,
-          full: true
-        }
-      ],
+"Reisverzekering": [
+  {
+    type: "select",
+    name: "gezinssamenstelling",
+    label: "Gezinssamenstelling",
+    required: true,
+    options: [
+      "Gezin",
+      "2 Volwassenen / 1 volwassene en 1 kind",
+      "Alleenreizend"
+    ]
+  },
+  {
+    type: "select",
+    name: "uitbreiding_180_dagen",
+    label: "Uitbreiding tot 180 dagen",
+    required: true,
+    options: ["Ja", "Nee"]
+  },
+  {
+    type: "select",
+    name: "werelddekking",
+    label: "Wereld",
+    required: true,
+    options: ["Ja", "Nee"]
+  },
+  {
+    type: "select",
+    name: "geneeskundige_kosten",
+    label: "Geneeskundige kosten",
+    required: true,
+    options: ["Ja", "Nee"]
+  },
+  {
+    type: "select",
+    name: "annuleringskosten",
+    label: "Annuleringskosten",
+    required: true,
+    options: ["Ja", "Nee"]
+  },
+  {
+    type: "select",
+    name: "uitbreiding_annuleringskosten",
+    label: "Uitbreiding annuleringskosten",
+    required: true,
+    options: ["Nee", "€ 2.500", "€ 3.500"]
+  },
+  {
+    type: "select",
+    name: "annuleringsgarantie_tot_1500",
+    label: "Annuleringsgarantie tot € 1.500",
+    required: true,
+    options: ["Ja", "Nee"]
+  },
+  {
+    type: "select",
+    name: "zaakwaarnemer",
+    label: "Zaakwaarnemer",
+    required: true,
+    options: ["Ja", "Nee"]
+  },
+  {
+    type: "select",
+    name: "ongevallen",
+    label: "Ongevallen",
+    required: true,
+    options: ["Ja", "Nee"]
+  },
+  {
+    type: "select",
+    name: "winter_en_onderwatersport",
+    label: "Winter- en onderwatersport",
+    required: true,
+    options: ["Ja", "Nee"]
+  },
+  {
+    type: "select",
+    name: "hulpverlening_vervoer",
+    label: "Hulpverlening vervoer",
+    required: true,
+    options: ["Ja", "Nee"]
+  },
+  {
+    type: "select",
+    name: "uitbreiding_geld_tot_750",
+    label: "Uitbreiding geld tot € 750",
+    required: true,
+    options: ["Ja", "Nee"]
+  },
+  {
+    type: "select",
+    name: "zakenreizen",
+    label: "Zakenreizen",
+    required: true,
+    options: ["Ja", "Nee"]
+  },
+  {
+    type: "select",
+    name: "uitbreiding_sportuitrusting_tot_2000",
+    label: "Uitbreiding sportuitrusting tot € 2.000",
+    required: true,
+    options: ["Ja", "Nee"]
+  },
+  {
+    type: "select",
+    name: "uitbreiding_fiets_tot_2000",
+    label: "Uitbreiding fiets tot € 2.000",
+    required: true,
+    options: ["Ja", "Nee"]
+  }
+],
 
-      "Caravan / Vouwwagen": [
-        {
-          type: "text",
-          name: "merk_type",
-          label: "Merk / type",
-          required: true
-        },
-        {
-          type: "text",
-          name: "waarde",
-          label: "Aanschafwaarde / dagwaarde",
-          required: true
-        }
-      ],
+"Caravan / Vouwwagen": [
+  {
+    type: "select",
+    name: "soort_voertuig",
+    label: "Soort",
+    required: true,
+    options: ["Caravan", "Vouwwagen"]
+  },
+  {
+    type: "number",
+    name: "bouwjaar",
+    label: "Bouwjaar",
+    required: true
+  },
+  {
+    type: "select",
+    name: "gekentekend",
+    label: "Gekentekend",
+    required: true,
+    options: ["Ja", "Nee"]
+  },
+  {
+    type: "text",
+    name: "kenteken",
+    label: "Kenteken",
+    required: false
+  },
+  {
+    type: "text",
+    name: "cataloguswaarde",
+    label: "Cataloguswaarde",
+    required: true
+  },
+  {
+    type: "select",
+    name: "eerste_eigenaar",
+    label: "1e eigenaar",
+    required: true,
+    options: ["Ja", "Nee"]
+  },
 
-      "Stacaravan": [
-        {
-          type: "text",
-          name: "locatie",
-          label: "Locatie / standplaats",
-          required: true
-        },
-        {
-          type: "text",
-          name: "waarde",
-          label: "Waarde",
-          required: true
-        }
-      ],
+  {
+    type: "select",
+    name: "accessoires",
+    label: "Accessoires",
+    required: true,
+    options: ["Nee", "€ 1.000", "€ 2.000", "€ 3.000", "€ 4.000", "€ 5.000", "€ 7.500", "€ 10.000"]
+  },
+  {
+    type: "select",
+    name: "inboedel",
+    label: "Inboedel",
+    required: true,
+    options: ["Nee", "€ 1.000", "€ 2.500", "€ 5.000", "€ 7.500"]
+  },
+  {
+    type: "select",
+    name: "hagel_neerslag",
+    label: "Hagel / neerslag",
+    required: true,
+    options: ["Ja", "Nee"]
+  }
+],
 
-      "Camper": [
-        {
-          type: "kenteken_lookup",
-          name: "camper_kenteken_lookup",
-          label: "Kenteken en voertuiggegevens",
-          required: true,
-          full: true
-        }
-      ],
+"Stacaravan": [
+  {
+    type: "postcode_lookup",
+    name: "stacaravan_adres",
+    label: "Risicoadres",
+    required: true,
+    full: true
+  },
+  {
+    type: "number",
+    name: "bouwjaar",
+    label: "Bouwjaar",
+    required: true
+  },
+  {
+    type: "text",
+    name: "herbouwwaarde",
+    label: "Herbouwwaarde",
+    required: true
+  },
+  {
+    type: "select",
+    name: "accessoires",
+    label: "Accessoires",
+    required: true,
+    options: ["Ja", "Nee"]
+  },
+  {
+    type: "text",
+    name: "accessoires_bedrag",
+    label: "Bedrag accessoires",
+    required: false
+  },
+  {
+    type: "select",
+    name: "bijgebouw",
+    label: "Bijgebouw",
+    required: true,
+    options: ["Ja", "Nee"]
+  },
+  {
+    type: "text",
+    name: "bijgebouw_bedrag",
+    label: "Bedrag bijgebouw",
+    required: false
+  },
+  {
+    type: "select",
+    name: "inboedel",
+    label: "Inboedel",
+    required: true,
+    options: ["Ja", "Nee"]
+  },
+  {
+    type: "text",
+    name: "inboedel_bedrag",
+    label: "Bedrag inboedel",
+    required: false
+  },
+  {
+    type: "select",
+    name: "verhuur",
+    label: "Verhuur",
+    required: true,
+    options: ["Ja", "Nee"]
+  }
+],
 
-      "Recreatiewoning": [
-        {
-          type: "postcode_lookup",
-          name: "recreatiewoning_adres",
-          label: "Adres recreatiewoning",
-          required: true,
-          full: true
-        }
-      ],
+"Camper": [
+  {
+    type: "kenteken_lookup",
+    name: "camper_kenteken_lookup",
+    label: "Kenteken en voertuiggegevens",
+    required: true,
+    full: true
+  },
+  {
+    type: "text",
+    name: "type_voertuig",
+    label: "Type",
+    required: false
+  },
+  {
+    type: "text",
+    name: "indicatie_dagwaarde",
+    label: "Indicatie dagwaarde",
+    required: true
+  },
+  {
+    type: "text",
+    name: "totaalgewicht",
+    label: "Totaalgewicht",
+    required: false
+  },
+  {
+    type: "number",
+    name: "aantal_zitplaatsen",
+    label: "Aantal zitplaatsen",
+    required: false
+  },
+  {
+    type: "text",
+    name: "meldcode",
+    label: "Meldcode",
+    required: true
+  }
+  {
+    type: "select",
+    name: "meerdere_voertuigen",
+    label: "Meerdere voertuigen",
+    required: true,
+    options: ["Eerste voertuig", "Tweede en volgend voertuig"]
+  },
+  {
+    type: "select",
+    name: "jaarkilometrage",
+    label: "Jaarkilometrage",
+    required: true,
+    options: ["Tot 7.500 km", "Onbeperkt"]
+  },
+  {
+    type: "number",
+    name: "schadevrije_jaren",
+    label: "Schadevrije jaren",
+    required: true
+  },
+  {
+    type: "select",
+    name: "gewenste_dekking",
+    label: "Gewenste dekking",
+    required: true,
+    options: ["WA", "WA Beperkt Casco", "WA Casco"]
+  },
+  {
+    type: "select",
+    name: "ongevallen_inzittenden",
+    label: "Ongevallen inzittenden",
+    required: true,
+    options: ["Ja", "Nee"]
+  },
+  {
+    type: "select",
+    name: "schadeverzekering_inzittenden",
+    label: "Schadeverzekering inzittenden",
+    required: true,
+    options: ["Ja", "Nee"]
+  },
+  {
+    type: "select",
+    name: "motorrijtuigenrechtsbijstand",
+    label: "Motorrijtuigenrechtsbijstand",
+    required: true,
+    options: ["Ja", "Nee"]
+  },
+  {
+    type: "select",
+    name: "verhaalsrechtsbijstand",
+    label: "Verhaalsrechtsbijstand",
+    required: true,
+    options: ["Ja", "Nee"]
+  },
+  {
+    type: "select",
+    name: "pechhulp",
+    label: "Pechhulp",
+    required: true,
+    options: ["Ja", "Nee"]
+  },
+  
+],
 
-      "Bootverzekering": [
-        {
-          type: "text",
-          name: "boot_type",
-          label: "Type boot",
-          required: true
-        },
-        {
-          type: "text",
-          name: "boot_waarde",
-          label: "Waarde",
-          required: true
-        }
-      ],
+"Recreatiewoning": [
+  {
+    type: "postcode_lookup",
+    name: "recreatiewoning_adres",
+    label: "Parkgegevens",
+    required: true,
+    full: true
+  },
+  {
+    type: "select",
+    name: "fundering",
+    label: "Fundering",
+    required: true,
+    options: ["Ja", "Nee"]
+  },
+  {
+    type: "select",
+    name: "bouwaard",
+    label: "Bouwaard",
+    required: true,
+    options: [
+      "Steen / Hard",
+      "Steen / Riet met schroefdak",
+      "Hout / Hard",
+      "Kunststof / Hard"
+    ]
+  },
+  {
+    type: "text",
+    name: "herbouwwaarde",
+    label: "Herbouwwaarde",
+    required: true
+  },
+  {
+    type: "select",
+    name: "bijgebouw",
+    label: "Bijgebouw",
+    required: true,
+    options: ["Ja", "Nee"]
+  },
+  {
+    type: "text",
+    name: "bijgebouw_bedrag",
+    label: "Bedrag bijgebouw",
+    required: false
+  },
+  {
+    type: "select",
+    name: "inboedel",
+    label: "Inboedel",
+    required: true,
+    options: ["Ja", "Nee"]
+  },
+  {
+    type: "text",
+    name: "inboedel_bedrag",
+    label: "Bedrag inboedel",
+    required: false
+  },
+  {
+    type: "select",
+    name: "verhuur",
+    label: "Verhuur",
+    required: true,
+    options: ["Ja", "Nee"]
+  }
+],
+"Bootverzekering": [
+  {
+    type: "select",
+    name: "soort_boot",
+    label: "Soort boot",
+    required: true,
+    options: [
+      "Sloep",
+      "Open motorboot",
+      "Kajuitmotorboot",
+      "Speedboot",
+      "Jetski / waterscooter",
+      "Kano / roeiboot",
+      "Zeilboot",
+      "Rubberboot"
+    ]
+  },
+  {
+    type: "text",
+    name: "merk",
+    label: "Merk",
+    required: true
+  },
+  {
+    type: "text",
+    name: "type_boot",
+    label: "Type",
+    required: false
+  },
+  {
+    type: "text",
+    name: "ligplaats",
+    label: "Ligplaats",
+    required: true
+  },
+  {
+    type: "select",
+    name: "aankoop_in_afgelopen_3_maanden",
+    label: "Aankoop in de afgelopen 3 maanden?",
+    required: true,
+    options: ["Ja", "Nee"]
+  },
+  {
+    type: "date",
+    name: "aankoopdatum",
+    label: "Aankoopdatum",
+    required: false
+  },
+  {
+    type: "text",
+    name: "aankoopbedrag",
+    label: "Aankoopbedrag",
+    required: false
+  },
+  {
+    type: "text",
+    name: "huidige_waarde",
+    label: "Huidige waarde",
+    required: true
+  },
+  {
+    type: "text",
+    name: "motor_vermogen",
+    label: "Motorvermogen",
+    required: false
+  },
+  {
+    type: "select",
+    name: "bezit_vaarbewijs",
+    label: "In bezit van vaarbewijs?",
+    required: true,
+    options: ["Ja", "Nee"]
+  },
+  {
+    type: "number",
+    name: "schadevrije_jaren",
+    label: "Schadevrije jaren",
+    required: false
+  },
+  {
+    type: "select",
+    name: "eerdere_schades",
+    label: "Schades geclaimd in de laatste 5 jaar?",
+    required: true,
+    options: ["Ja", "Nee"]
+  },
+  {
+    type: "textarea",
+    name: "toelichting_schades",
+    label: "Toelichting schades",
+    required: false,
+    full: true
+  },
+  {
+    type: "select",
+    name: "gewenste_dekking",
+    label: "Gewenste dekking",
+    required: true,
+    options: ["WA", "WA Beperkt-casco" "WA  Casco-Compleet (Allrisk)"]
+  },
+  {
+    type: "select",
+    name: "wedstrijddeelname",
+    label: "Deelname aan wedstrijden?",
+    required: true,
+    options: ["Ja", "Nee"]
+  },
+  {
+    type: "select",
+    name: "verhuur",
+    label: "Wordt de boot verhuurd?",
+    required: true,
+    options: ["Ja", "Nee"]
+  }
+],
 
       "Ongevallenverzekering": [
         {
