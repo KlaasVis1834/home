@@ -18,7 +18,7 @@
       emailjs.init("7s23tMHc0wTVQEW3f");
     })();
   </script>
-<script id="Cookiebot" src="https://consent.cookiebot.com/uc.js" data-cbid="9273cf7a-daab-4567-a9d7-3429830702b0" data-blockingmode="auto" type="text/javascript"></script>
+  <script id="Cookiebot" src="https://consent.cookiebot.com/uc.js" data-cbid="9273cf7a-daab-4567-a9d7-3429830702b0" data-blockingmode="auto" type="text/javascript"></script>
   <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 
   <style>
@@ -28,88 +28,168 @@
       z-index: 2;
     }
 
-    .offer-hero-grid {
-      display: grid;
-      grid-template-columns: 1.02fr 0.98fr;
-      gap: 42px;
-      align-items: center;
-    }
-
-    .offer-visual-card {
-      background: rgba(255,255,255,0.78);
-      border: 1px solid rgba(255,255,255,0.8);
-      box-shadow: var(--shadow-lg);
-      border-radius: 26px;
-      padding: 16px;
-      backdrop-filter: blur(16px);
-    }
-
-    .offer-visual-card img {
-      width: 100%;
-      height: 360px;
-      object-fit: cover;
-      border-radius: 18px;
-    }
-
     .choices-section {
       padding-top: 48px;
     }
 
+    .choice-helper {
+      max-width: 900px;
+      margin: 0 auto 26px;
+      padding: 18px 20px;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.86);
+      border: 1px solid rgba(20,25,40,0.08);
+      box-shadow: var(--shadow-sm);
+      color: var(--text-muted);
+      text-align: center;
+    }
+
+    .choice-helper strong {
+      color: var(--text);
+    }
+
     .choice-cards {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 24px;
+      grid-template-columns: 1fr;
+      gap: 18px;
+      max-width: 1080px;
+      margin: 0 auto;
     }
 
     .choice-card {
-      background: rgba(255,255,255,0.9);
+      background: rgba(255,255,255,0.92);
       border: 1px solid rgba(20,25,40,0.08);
       box-shadow: var(--shadow-sm);
-      border-radius: var(--radius);
-      padding: 28px 24px;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      border-radius: 24px;
+      overflow: hidden;
+      transition: box-shadow 0.3s ease, transform 0.3s ease;
     }
 
     .choice-card:hover {
-      transform: translateY(-6px);
       box-shadow: var(--shadow-md);
     }
 
-    .choice-card-head {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      margin-bottom: 14px;
+    .choice-card.active {
+      box-shadow: var(--shadow-md);
     }
 
-    .choice-card-head .feature-icon {
-      margin-bottom: 0;
+    .choice-card-toggle {
+      width: 100%;
+      border: 0;
+      background: transparent;
+      text-align: left;
+      padding: 24px 24px 20px;
+      cursor: pointer;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .choice-card-left {
+      min-width: 0;
+    }
+
+    .choice-card-topline {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 8px;
+    }
+
+    .choice-pill {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 34px;
+      height: 34px;
+      padding: 0 12px;
+      border-radius: 999px;
+      background: rgba(79,70,229,0.08);
+      color: var(--primary);
+      font-size: 0.85rem;
+      font-weight: 800;
     }
 
     .choice-card h3 {
-      font-size: 1.3rem;
+      font-size: 1.35rem;
       font-weight: 800;
-      margin-bottom: 6px;
+      margin: 0;
+      color: var(--text);
     }
 
-    .choice-card > p {
+    .choice-card-subtext {
       color: var(--text-muted);
-      margin-bottom: 18px;
+      margin: 0;
+      max-width: 760px;
+    }
+
+    .choice-card-meta {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 10px;
+      flex-shrink: 0;
+    }
+
+    .selected-count {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 38px;
+      height: 38px;
+      padding: 0 12px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, var(--primary) 0%, #6258ff 100%);
+      color: #fff;
+      font-size: 0.9rem;
+      font-weight: 800;
+      box-shadow: 0 10px 20px rgba(79,70,229,0.18);
+    }
+
+    .selected-count.empty {
+      background: rgba(148,163,184,0.16);
+      color: var(--text-muted);
+      box-shadow: none;
+    }
+
+    .toggle-arrow {
+      font-size: 1.15rem;
+      color: var(--text-muted);
+      transition: transform 0.25s ease;
+      line-height: 1;
+    }
+
+    .choice-card.active .toggle-arrow {
+      transform: rotate(180deg);
+    }
+
+    .choice-card-body {
+      display: none;
+      padding: 0 24px 24px;
+      border-top: 1px solid rgba(20,25,40,0.06);
+    }
+
+    .choice-card.active .choice-card-body {
+      display: block;
     }
 
     .insurance-tabs {
       margin: 18px 0 20px;
       padding: 18px;
-      border-radius: 18px;
+      border-radius: 20px;
       background: linear-gradient(180deg, rgba(79,70,229,0.03), rgba(20,184,166,0.03));
       border: 1px solid var(--border);
     }
 
     .tab-buttons {
       display: flex;
-      flex-wrap: wrap;
       gap: 10px;
       margin-bottom: 16px;
+      overflow-x: auto;
+      padding-bottom: 4px;
+      scrollbar-width: thin;
     }
 
     .tab-button {
@@ -118,11 +198,13 @@
       background: rgba(255,255,255,0.95);
       color: var(--text);
       border-radius: 999px;
-      padding: 0.8rem 1rem;
+      padding: 0.78rem 1rem;
       font-size: 0.9rem;
       font-weight: 700;
       cursor: pointer;
       transition: all 0.25s ease;
+      white-space: nowrap;
+      flex: 0 0 auto;
     }
 
     .tab-button:hover {
@@ -160,19 +242,20 @@
 
     .insurance-grid {
       display: grid;
-      grid-template-columns: 1fr;
-      gap: 10px;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
     }
 
     .insurance-item {
       display: flex;
       align-items: flex-start;
       gap: 12px;
-      padding: 12px 14px;
-      border-radius: 14px;
+      padding: 14px 15px;
+      border-radius: 16px;
       background: #fff;
       border: 1px solid rgba(20,25,40,0.06);
-      transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+      transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+      min-height: 62px;
     }
 
     .insurance-item:hover {
@@ -181,9 +264,15 @@
       box-shadow: 0 10px 20px rgba(17,24,39,0.05);
     }
 
+    .insurance-item:has(input:checked) {
+      border-color: rgba(79,70,229,0.22);
+      background: rgba(79,70,229,0.04);
+      box-shadow: 0 10px 20px rgba(79,70,229,0.06);
+    }
+
     .insurance-item input[type="checkbox"] {
       margin-top: 2px;
-      transform: scale(1.15);
+      transform: scale(1.12);
       accent-color: var(--primary);
       flex-shrink: 0;
     }
@@ -193,19 +282,6 @@
       line-height: 1.45;
       color: var(--text);
       font-size: 0.95rem;
-    }
-
-    .choice-actions {
-      display: flex;
-      gap: 12px;
-      flex-wrap: wrap;
-      margin-top: 20px;
-    }
-
-    .choice-note {
-      margin-top: 14px;
-      color: var(--text-muted);
-      font-size: 0.9rem;
     }
 
     .selected-summary {
@@ -223,8 +299,22 @@
       display: block;
     }
 
+    .choice-actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 20px;
+      align-items: center;
+    }
+
+    .choice-note {
+      margin-top: 14px;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
     .process-strip {
-      margin-top: 24px;
+      margin-top: 26px;
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 18px;
@@ -250,26 +340,36 @@
     }
 
     @media (max-width: 1200px) {
-      .offer-hero-grid,
-      .choice-cards,
       .process-strip {
         grid-template-columns: 1fr;
       }
     }
 
+    @media (max-width: 900px) {
+      .insurance-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
     @media (max-width: 768px) {
-      .tab-buttons,
+      .choice-card-toggle {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .choice-card-meta {
+        width: 100%;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+      }
+
       .choice-actions {
         flex-direction: column;
       }
 
-      .tab-button,
       .choice-actions .btn {
         width: 100%;
-      }
-
-      .offer-visual-card img {
-        height: auto;
       }
     }
   </style>
@@ -310,201 +410,235 @@
           </p>
         </div>
 
+        <div class="choice-helper">
+          <strong>Zo werkt het:</strong> open de rubriek die bij uw situatie past, vink één of meerdere verzekeringen aan en ga daarna verder met uw aanvraag.
+        </div>
+
         <div class="choice-cards">
           <!-- PARTICULIER -->
-          <article class="choice-card" data-group="particulier">
-            <div class="choice-card-head">
-              <div>
-                <h3>Particulier</h3>
-                <p>Persoonlijke verzekeringen voor u en uw gezin.</p>
+          <article class="choice-card active" data-group="particulier">
+            <button class="choice-card-toggle" type="button" data-card-toggle="particulier" aria-expanded="true">
+              <div class="choice-card-left">
+                <div class="choice-card-topline">
+                  <span class="choice-pill">Particulier</span>
+                </div>
+                <h3>Particuliere verzekeringen</h3>
+                <p class="choice-card-subtext">Persoonlijke verzekeringen voor u, uw gezin, woning, vervoer en vrije tijd.</p>
               </div>
+
+              <div class="choice-card-meta">
+                <span class="selected-count empty" id="count-particulier">0</span>
+                <span class="toggle-arrow">⌄</span>
+              </div>
+            </button>
+
+            <div class="choice-card-body">
+              <div class="insurance-tabs">
+                <div class="tab-buttons">
+                  <button class="tab-button active" type="button" data-tab-target="particulier-reizen">Reizen & recreatie</button>
+                  <button class="tab-button" type="button" data-tab-target="particulier-leven">Leven & welzijn</button>
+                  <button class="tab-button" type="button" data-tab-target="particulier-vervoer">Vervoer</button>
+                  <button class="tab-button" type="button" data-tab-target="particulier-wonen">Wonen</button>
+                  <button class="tab-button" type="button" data-tab-target="particulier-recht">Recht</button>
+                </div>
+
+                <div class="tab-content active" id="particulier-reizen">
+                  <div class="insurance-grid">
+                    <div class="insurance-item"><input type="checkbox" id="reisverzekering" value="Reisverzekering" data-type="particulier"><label for="reisverzekering">Reisverzekering</label></div>
+                    <div class="insurance-item"><input type="checkbox" id="caravan" value="Caravan / Vouwwagen" data-type="particulier"><label for="caravan">Caravan / Vouwwagen</label></div>
+                    <div class="insurance-item"><input type="checkbox" id="stacaravan" value="Stacaravan" data-type="particulier"><label for="stacaravan">Stacaravan</label></div>
+                    <div class="insurance-item"><input type="checkbox" id="camper" value="Camper" data-type="particulier"><label for="camper">Camper</label></div>
+                    <div class="insurance-item"><input type="checkbox" id="recreatiewoning" value="Recreatiewoning" data-type="particulier"><label for="recreatiewoning">Recreatiewoning</label></div>
+                    <div class="insurance-item"><input type="checkbox" id="bootverzekering" value="Bootverzekering" data-type="particulier"><label for="bootverzekering">Bootverzekering</label></div>
+                  </div>
+                </div>
+
+                <div class="tab-content" id="particulier-leven">
+                  <div class="insurance-grid">
+                    <div class="insurance-item"><input type="checkbox" id="ongevallenverzekering" value="Ongevallenverzekering" data-type="particulier"><label for="ongevallenverzekering">Ongevallenverzekering</label></div>
+                    <div class="insurance-item"><input type="checkbox" id="verkeersdeelnemers" value="Verkeersdeelnemersverzekering" data-type="particulier"><label for="verkeersdeelnemers">Verkeersdeelnemersverzekering</label></div>
+                  </div>
+                </div>
+
+                <div class="tab-content" id="particulier-vervoer">
+                  <div class="insurance-grid">
+                    <div class="insurance-item"><input type="checkbox" id="autoverzekering" value="Personenautoverzekering" data-type="particulier"><label for="autoverzekering">Personenautoverzekering</label></div>
+                    <div class="insurance-item"><input type="checkbox" id="motorverzekering" value="Motorverzekering" data-type="particulier"><label for="motorverzekering">Motorverzekering</label></div>
+                    <div class="insurance-item"><input type="checkbox" id="bromfiets" value="Bromfietsverzekering" data-type="particulier"><label for="bromfiets">Bromfietsverzekering</label></div>
+                    <div class="insurance-item"><input type="checkbox" id="oldtimer" value="Oldtimerverzekering" data-type="particulier"><label for="oldtimer">Oldtimerverzekering</label></div>
+                    <div class="insurance-item"><input type="checkbox" id="bestelauto" value="Bestelautoverzekering" data-type="particulier"><label for="bestelauto">Bestelautoverzekering</label></div>
+                    <div class="insurance-item"><input type="checkbox" id="aanhangwagen" value="Aanhangwagenverzekering" data-type="particulier"><label for="aanhangwagen">Aanhangwagenverzekering</label></div>
+                    <div class="insurance-item"><input type="checkbox" id="hobbytractor" value="Hobbytractorverzekering" data-type="particulier"><label for="hobbytractor">Hobbytractorverzekering</label></div>
+                    <div class="insurance-item"><input type="checkbox" id="quad" value="Quad / Trike / MP3" data-type="particulier"><label for="quad">Quad / Trike / MP3</label></div>
+                    <div class="insurance-item"><input type="checkbox" id="fietsverzekering" value="Fietsverzekering" data-type="particulier"><label for="fietsverzekering">Fietsverzekering</label></div>
+                  </div>
+                </div>
+
+                <div class="tab-content" id="particulier-wonen">
+                  <div class="insurance-grid">
+                    <div class="insurance-item"><input type="checkbox" id="inboedel" value="Inboedelverzekering" data-type="particulier"><label for="inboedel">Inboedelverzekering</label></div>
+                    <div class="insurance-item"><input type="checkbox" id="woonhuis" value="Woonhuisverzekering" data-type="particulier"><label for="woonhuis">Woonhuisverzekering</label></div>
+                  </div>
+                </div>
+
+                <div class="tab-content" id="particulier-recht">
+                  <div class="insurance-grid">
+                    <div class="insurance-item"><input type="checkbox" id="aansprakelijkheid" value="Aansprakelijkheidsverzekering" data-type="particulier"><label for="aansprakelijkheid">Aansprakelijkheidsverzekering</label></div>
+                    <div class="insurance-item"><input type="checkbox" id="rechtsbijstand" value="Rechtsbijstandsverzekering" data-type="particulier"><label for="rechtsbijstand">Rechtsbijstandsverzekering</label></div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="selected-summary" id="summary-particulier"></div>
+
+              <div class="choice-actions">
+                <button class="btn btn-primary" type="button" data-offer-type="particulier">Particuliere offerte</button>
+              </div>
+
+              <p class="choice-note">U kunt meerdere verzekeringen selecteren binnen deze rubriek.</p>
             </div>
-
-            <div class="insurance-tabs">
-              <div class="tab-buttons">
-                <button class="tab-button active" type="button" data-tab-target="particulier-reizen">Reizen & recreatie</button>
-                <button class="tab-button" type="button" data-tab-target="particulier-leven">Leven & welzijn</button>
-                <button class="tab-button" type="button" data-tab-target="particulier-vervoer">Vervoer</button>
-                <button class="tab-button" type="button" data-tab-target="particulier-wonen">Wonen</button>
-                <button class="tab-button" type="button" data-tab-target="particulier-recht">Recht</button>
-              </div>
-
-              <div class="tab-content active" id="particulier-reizen">
-                <div class="insurance-grid">
-                  <div class="insurance-item"><input type="checkbox" id="reisverzekering" value="Reisverzekering" data-type="particulier"><label for="reisverzekering">Reisverzekering</label></div>
-                  <div class="insurance-item"><input type="checkbox" id="caravan" value="Caravan / Vouwwagen" data-type="particulier"><label for="caravan">Caravan / Vouwwagen</label></div>
-                  <div class="insurance-item"><input type="checkbox" id="stacaravan" value="Stacaravan" data-type="particulier"><label for="stacaravan">Stacaravan</label></div>
-                  <div class="insurance-item"><input type="checkbox" id="camper" value="Camper" data-type="particulier"><label for="camper">Camper</label></div>
-                  <div class="insurance-item"><input type="checkbox" id="recreatiewoning" value="Recreatiewoning" data-type="particulier"><label for="recreatiewoning">Recreatiewoning</label></div>
-                  <div class="insurance-item"><input type="checkbox" id="bootverzekering" value="Bootverzekering" data-type="particulier"><label for="bootverzekering">Bootverzekering</label></div>
-                </div>
-              </div>
-
-              <div class="tab-content" id="particulier-leven">
-                <div class="insurance-grid">
-                  <div class="insurance-item"><input type="checkbox" id="ongevallenverzekering" value="Ongevallenverzekering" data-type="particulier"><label for="ongevallenverzekering">Ongevallenverzekering</label></div>
-                  <div class="insurance-item"><input type="checkbox" id="verkeersdeelnemers" value="Verkeersdeelnemersverzekering" data-type="particulier"><label for="verkeersdeelnemers">Verkeersdeelnemersverzekering</label></div>
-                </div>
-              </div>
-
-              <div class="tab-content" id="particulier-vervoer">
-                <div class="insurance-grid">
-                  <div class="insurance-item"><input type="checkbox" id="autoverzekering" value="Personenautoverzekering" data-type="particulier"><label for="autoverzekering">Personenautoverzekering</label></div>
-                  <div class="insurance-item"><input type="checkbox" id="motorverzekering" value="Motorverzekering" data-type="particulier"><label for="motorverzekering">Motorverzekering</label></div>
-                  <div class="insurance-item"><input type="checkbox" id="bromfiets" value="Bromfietsverzekering" data-type="particulier"><label for="bromfiets">Bromfietsverzekering</label></div>
-                  <div class="insurance-item"><input type="checkbox" id="oldtimer" value="Oldtimerverzekering" data-type="particulier"><label for="oldtimer">Oldtimerverzekering</label></div>
-                  <div class="insurance-item"><input type="checkbox" id="bestelauto" value="Bestelautoverzekering" data-type="particulier"><label for="bestelauto">Bestelautoverzekering</label></div>
-                  <div class="insurance-item"><input type="checkbox" id="aanhangwagen" value="Aanhangwagenverzekering" data-type="particulier"><label for="aanhangwagen">Aanhangwagenverzekering</label></div>
-                  <div class="insurance-item"><input type="checkbox" id="hobbytractor" value="Hobbytractorverzekering" data-type="particulier"><label for="hobbytractor">Hobbytractorverzekering</label></div>
-                  <div class="insurance-item"><input type="checkbox" id="quad" value="Quad / Trike / MP3" data-type="particulier"><label for="quad">Quad / Trike / MP3</label></div>
-                  <div class="insurance-item"><input type="checkbox" id="fietsverzekering" value="Fietsverzekering" data-type="particulier"><label for="fietsverzekering">Fietsverzekering</label></div>
-                </div>
-              </div>
-
-              <div class="tab-content" id="particulier-wonen">
-                <div class="insurance-grid">
-                  <div class="insurance-item"><input type="checkbox" id="inboedel" value="Inboedelverzekering" data-type="particulier"><label for="inboedel">Inboedelverzekering</label></div>
-                  <div class="insurance-item"><input type="checkbox" id="woonhuis" value="Woonhuisverzekering" data-type="particulier"><label for="woonhuis">Woonhuisverzekering</label></div>
-                </div>
-              </div>
-
-              <div class="tab-content" id="particulier-recht">
-                <div class="insurance-grid">
-                  <div class="insurance-item"><input type="checkbox" id="aansprakelijkheid" value="Aansprakelijkheidsverzekering" data-type="particulier"><label for="aansprakelijkheid">Aansprakelijkheidsverzekering</label></div>
-                  <div class="insurance-item"><input type="checkbox" id="rechtsbijstand" value="Rechtsbijstandsverzekering" data-type="particulier"><label for="rechtsbijstand">Rechtsbijstandsverzekering</label></div>
-                </div>
-              </div>
-            </div>
-
-            <div class="selected-summary" id="summary-particulier"></div>
-
-            <div class="choice-actions">
-              <button class="btn btn-primary" type="button" data-offer-type="particulier">Particuliere offerte</button>
-            </div>
-
-            <p class="choice-note">U kunt meerdere verzekeringen selecteren binnen deze rubriek.</p>
           </article>
 
           <!-- ZAKELIJK -->
           <article class="choice-card" data-group="zakelijk">
-            <div class="choice-card-head">
-              <div>
-                <h3>Zakelijk</h3>
-                <p>Bedrijfsverzekeringen voor ondernemers en bedrijven.</p>
+            <button class="choice-card-toggle" type="button" data-card-toggle="zakelijk" aria-expanded="false">
+              <div class="choice-card-left">
+                <div class="choice-card-topline">
+                  <span class="choice-pill">Zakelijk</span>
+                </div>
+                <h3>Zakelijke verzekeringen</h3>
+                <p class="choice-card-subtext">Bedrijfsverzekeringen voor ondernemers, voertuigen, juridische risico’s en bedrijfspanden.</p>
               </div>
+
+              <div class="choice-card-meta">
+                <span class="selected-count empty" id="count-zakelijk">0</span>
+                <span class="toggle-arrow">⌄</span>
+              </div>
+            </button>
+
+            <div class="choice-card-body">
+              <div class="insurance-tabs">
+                <div class="tab-buttons">
+                  <button class="tab-button active" type="button" data-tab-target="zakelijk-inkomen">Inkomen</button>
+                  <button class="tab-button" type="button" data-tab-target="zakelijk-voertuigen">Voertuigen</button>
+                  <button class="tab-button" type="button" data-tab-target="zakelijk-juridisch">Juridisch & financieel</button>
+                  <button class="tab-button" type="button" data-tab-target="zakelijk-transport">Transport</button>
+                  <button class="tab-button" type="button" data-tab-target="zakelijk-pand">Pand & inventaris</button>
+                </div>
+
+                <div class="tab-content active" id="zakelijk-inkomen">
+                  <div class="insurance-grid">
+                    <div class="insurance-item"><input type="checkbox" id="aov" value="Arbeidsongeschiktheidsverzekering (AOV)" data-type="zakelijk"><label for="aov">Arbeidsongeschiktheidsverzekering (AOV)</label></div>
+                    <div class="insurance-item"><input type="checkbox" id="ongevallen-zakelijk" value="Ongevallenverzekering" data-type="zakelijk"><label for="ongevallen-zakelijk">Ongevallenverzekering</label></div>
+                    <div class="insurance-item"><input type="checkbox" id="inkomen-collectief" value="Inkomen Collectief" data-type="zakelijk"><label for="inkomen-collectief">Inkomen Collectief</label></div>
+                  </div>
+                </div>
+
+                <div class="tab-content" id="zakelijk-voertuigen">
+                  <div class="insurance-grid">
+                    <div class="insurance-item"><input type="checkbox" id="auto-zakelijk" value="Zakelijke Personenautoverzekering" data-type="zakelijk"><label for="auto-zakelijk">Zakelijke Personenautoverzekering</label></div>
+                    <div class="insurance-item"><input type="checkbox" id="bestelauto-zakelijk" value="Zakelijke Bestelautoverzekering" data-type="zakelijk"><label for="bestelauto-zakelijk">Zakelijke Bestelautoverzekering</label></div>
+                    <div class="insurance-item"><input type="checkbox" id="vrachtauto" value="Vrachtautoverzekering" data-type="zakelijk"><label for="vrachtauto">Vrachtautoverzekering</label></div>
+                    <div class="insurance-item"><input type="checkbox" id="motor-zakelijk" value="Zakelijke Motorverzekering" data-type="zakelijk"><label for="motor-zakelijk">Zakelijke Motorverzekering</label></div>
+                    <div class="insurance-item"><input type="checkbox" id="bromfiets-zakelijk" value="Zakelijke Bromfietsverzekering" data-type="zakelijk"><label for="bromfiets-zakelijk">Zakelijke Bromfietsverzekering</label></div>
+                    <div class="insurance-item"><input type="checkbox" id="oldtimer-zakelijk" value="Zakelijke Oldtimerverzekering" data-type="zakelijk"><label for="oldtimer-zakelijk">Zakelijke Oldtimerverzekering</label></div>
+                  </div>
+                </div>
+
+                <div class="tab-content" id="zakelijk-juridisch">
+                  <div class="insurance-grid">
+                    <div class="insurance-item"><input type="checkbox" id="bouw-montage" value="Bouw en Montageverzekering" data-type="zakelijk"><label for="bouw-montage">Bouw en Montageverzekering</label></div>
+                    <div class="insurance-item"><input type="checkbox" id="verkeersschade" value="Verkeersschadeverzekering voor Werknemers" data-type="zakelijk"><label for="verkeersschade">Verkeersschadeverzekering voor Werknemers</label></div>
+                    <div class="insurance-item"><input type="checkbox" id="aansprakelijkheid-zakelijk" value="Aansprakelijkheid voor Bedrijven" data-type="zakelijk"><label for="aansprakelijkheid-zakelijk">Aansprakelijkheid voor Bedrijven</label></div>
+                    <div class="insurance-item"><input type="checkbox" id="rechtsbijstand-zakelijk" value="Rechtsbijstand voor Bedrijven en Beroepen" data-type="zakelijk"><label for="rechtsbijstand-zakelijk">Rechtsbijstand voor Bedrijven en Beroepen</label></div>
+                    <div class="insurance-item"><input type="checkbox" id="bedrijfsschade" value="Bedrijfsschadeverzekering" data-type="zakelijk"><label for="bedrijfsschade">Bedrijfsschadeverzekering</label></div>
+                  </div>
+                </div>
+
+                <div class="tab-content" id="zakelijk-transport">
+                  <div class="insurance-grid">
+                    <div class="insurance-item"><input type="checkbox" id="eigen-vervoer" value="Eigen Vervoerverzekering" data-type="zakelijk"><label for="eigen-vervoer">Eigen Vervoerverzekering</label></div>
+                    <div class="insurance-item"><input type="checkbox" id="landmateriaal" value="Landmateriaalverzekering" data-type="zakelijk"><label for="landmateriaal">Landmateriaalverzekering</label></div>
+                    <div class="insurance-item"><input type="checkbox" id="vervoerdersaansprakelijkheid" value="Vervoerdersaansprakelijkheidsverzekering" data-type="zakelijk"><label for="vervoerdersaansprakelijkheid">Vervoerdersaansprakelijkheidsverzekering</label></div>
+                    <div class="insurance-item"><input type="checkbox" id="goederentransport" value="Goederentransportverzekering" data-type="zakelijk"><label for="goederentransport">Goederentransportverzekering</label></div>
+                  </div>
+                </div>
+
+                <div class="tab-content" id="zakelijk-pand">
+                  <div class="insurance-grid">
+                    <div class="insurance-item"><input type="checkbox" id="gebouwen" value="Gebouwenverzekering" data-type="zakelijk"><label for="gebouwen">Gebouwenverzekering</label></div>
+                    <div class="insurance-item"><input type="checkbox" id="inventaris" value="Inventaris en Goederen" data-type="zakelijk"><label for="inventaris">Inventaris en Goederen</label></div>
+                    <div class="insurance-item"><input type="checkbox" id="milieuschade" value="Milieuschadeverzekering" data-type="zakelijk"><label for="milieuschade">Milieuschadeverzekering</label></div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="selected-summary" id="summary-zakelijk"></div>
+
+              <div class="choice-actions">
+                <button class="btn btn-primary" type="button" data-offer-type="zakelijk">Zakelijke offerte</button>
+              </div>
+
+              <p class="choice-note">Meerdere selecties binnen zakelijk zijn mogelijk.</p>
             </div>
-
-            <div class="insurance-tabs">
-              <div class="tab-buttons">
-                <button class="tab-button active" type="button" data-tab-target="zakelijk-inkomen">Inkomen</button>
-                <button class="tab-button" type="button" data-tab-target="zakelijk-voertuigen">Voertuigen</button>
-                <button class="tab-button" type="button" data-tab-target="zakelijk-juridisch">Juridisch & financieel</button>
-                <button class="tab-button" type="button" data-tab-target="zakelijk-transport">Transport</button>
-                <button class="tab-button" type="button" data-tab-target="zakelijk-pand">Pand & inventaris</button>
-              </div>
-
-              <div class="tab-content active" id="zakelijk-inkomen">
-                <div class="insurance-grid">
-                  <div class="insurance-item"><input type="checkbox" id="aov" value="Arbeidsongeschiktheidsverzekering (AOV)" data-type="zakelijk"><label for="aov">Arbeidsongeschiktheidsverzekering (AOV)</label></div>
-                  <div class="insurance-item"><input type="checkbox" id="ongevallen-zakelijk" value="Ongevallenverzekering" data-type="zakelijk"><label for="ongevallen-zakelijk">Ongevallenverzekering</label></div>
-                  <div class="insurance-item"><input type="checkbox" id="inkomen-collectief" value="Inkomen Collectief" data-type="zakelijk"><label for="inkomen-collectief">Inkomen Collectief</label></div>
-                </div>
-              </div>
-
-              <div class="tab-content" id="zakelijk-voertuigen">
-                <div class="insurance-grid">
-                  <div class="insurance-item"><input type="checkbox" id="auto-zakelijk" value="Zakelijke Personenautoverzekering" data-type="zakelijk"><label for="auto-zakelijk">Zakelijke Personenautoverzekering</label></div>
-                  <div class="insurance-item"><input type="checkbox" id="bestelauto-zakelijk" value="Zakelijke Bestelautoverzekering" data-type="zakelijk"><label for="bestelauto-zakelijk">Zakelijke Bestelautoverzekering</label></div>
-                  <div class="insurance-item"><input type="checkbox" id="vrachtauto" value="Vrachtautoverzekering" data-type="zakelijk"><label for="vrachtauto">Vrachtautoverzekering</label></div>
-                  <div class="insurance-item"><input type="checkbox" id="motor-zakelijk" value="Zakelijke Motorverzekering" data-type="zakelijk"><label for="motor-zakelijk">Zakelijke Motorverzekering</label></div>
-                  <div class="insurance-item"><input type="checkbox" id="bromfiets-zakelijk" value="Zakelijke Bromfietsverzekering" data-type="zakelijk"><label for="bromfiets-zakelijk">Zakelijke Bromfietsverzekering</label></div>
-                  <div class="insurance-item"><input type="checkbox" id="oldtimer-zakelijk" value="Zakelijke Oldtimerverzekering" data-type="zakelijk"><label for="oldtimer-zakelijk">Zakelijke Oldtimerverzekering</label></div>
-                </div>
-              </div>
-
-              <div class="tab-content" id="zakelijk-juridisch">
-                <div class="insurance-grid">
-                  <div class="insurance-item"><input type="checkbox" id="bouw-montage" value="Bouw en Montageverzekering" data-type="zakelijk"><label for="bouw-montage">Bouw en Montageverzekering</label></div>
-                  <div class="insurance-item"><input type="checkbox" id="verkeersschade" value="Verkeersschadeverzekering voor Werknemers" data-type="zakelijk"><label for="verkeersschade">Verkeersschadeverzekering voor Werknemers</label></div>
-                  <div class="insurance-item"><input type="checkbox" id="aansprakelijkheid-zakelijk" value="Aansprakelijkheid voor Bedrijven" data-type="zakelijk"><label for="aansprakelijkheid-zakelijk">Aansprakelijkheid voor Bedrijven</label></div>
-                  <div class="insurance-item"><input type="checkbox" id="rechtsbijstand-zakelijk" value="Rechtsbijstand voor Bedrijven en Beroepen" data-type="zakelijk"><label for="rechtsbijstand-zakelijk">Rechtsbijstand voor Bedrijven en Beroepen</label></div>
-                  <div class="insurance-item"><input type="checkbox" id="bedrijfsschade" value="Bedrijfsschadeverzekering" data-type="zakelijk"><label for="bedrijfsschade">Bedrijfsschadeverzekering</label></div>
-                </div>
-              </div>
-
-              <div class="tab-content" id="zakelijk-transport">
-                <div class="insurance-grid">
-                  <div class="insurance-item"><input type="checkbox" id="eigen-vervoer" value="Eigen Vervoerverzekering" data-type="zakelijk"><label for="eigen-vervoer">Eigen Vervoerverzekering</label></div>
-                  <div class="insurance-item"><input type="checkbox" id="landmateriaal" value="Landmateriaalverzekering" data-type="zakelijk"><label for="landmateriaal">Landmateriaalverzekering</label></div>
-                  <div class="insurance-item"><input type="checkbox" id="vervoerdersaansprakelijkheid" value="Vervoerdersaansprakelijkheidsverzekering" data-type="zakelijk"><label for="vervoerdersaansprakelijkheid">Vervoerdersaansprakelijkheidsverzekering</label></div>
-                  <div class="insurance-item"><input type="checkbox" id="goederentransport" value="Goederentransportverzekering" data-type="zakelijk"><label for="goederentransport">Goederentransportverzekering</label></div>
-                </div>
-              </div>
-
-              <div class="tab-content" id="zakelijk-pand">
-                <div class="insurance-grid">
-                  <div class="insurance-item"><input type="checkbox" id="gebouwen" value="Gebouwenverzekering" data-type="zakelijk"><label for="gebouwen">Gebouwenverzekering</label></div>
-                  <div class="insurance-item"><input type="checkbox" id="inventaris" value="Inventaris en Goederen" data-type="zakelijk"><label for="inventaris">Inventaris en Goederen</label></div>
-                  <div class="insurance-item"><input type="checkbox" id="milieuschade" value="Milieuschadeverzekering" data-type="zakelijk"><label for="milieuschade">Milieuschadeverzekering</label></div>
-                </div>
-              </div>
-            </div>
-
-            <div class="selected-summary" id="summary-zakelijk"></div>
-
-            <div class="choice-actions">
-              <button class="btn btn-primary" type="button" data-offer-type="zakelijk">Zakelijke offerte</button>
-            </div>
-
-            <p class="choice-note">Meerdere selecties binnen zakelijk zijn mogelijk.</p>
           </article>
 
           <!-- INKOMEN -->
           <article class="choice-card" data-group="inkomen">
-            <div class="choice-card-head">
-              <div>
+            <button class="choice-card-toggle" type="button" data-card-toggle="inkomen" aria-expanded="false">
+              <div class="choice-card-left">
+                <div class="choice-card-topline">
+                  <span class="choice-pill">Inkomen</span>
+                </div>
                 <h3>Inkomensverzekeringen</h3>
-                <p>Financiële zekerheid bij arbeidsongeschiktheid, overlijden of pensioen.</p>
-              </div>
-            </div>
-
-            <div class="insurance-tabs">
-              <div class="tab-buttons">
-                <button class="tab-button active" type="button" data-tab-target="inkomen-zekerheid">Zekerheid</button>
-                <button class="tab-button" type="button" data-tab-target="inkomen-pensioen">Pensioen</button>
-                <button class="tab-button" type="button" data-tab-target="inkomen-nabestaanden">Nabestaanden</button>
+                <p class="choice-card-subtext">Financiële zekerheid bij arbeidsongeschiktheid, overlijden en pensioenopbouw.</p>
               </div>
 
-              <div class="tab-content active" id="inkomen-zekerheid">
-                <div class="insurance-grid">
-                  <div class="insurance-item"><input type="checkbox" id="aov-particulier" value="Arbeidsongeschiktheidsverzekering" data-type="inkomen"><label for="aov-particulier">Arbeidsongeschiktheidsverzekering</label></div>
-                  <div class="insurance-item"><input type="checkbox" id="woonlasten" value="Woonlastenverzekering" data-type="inkomen"><label for="woonlasten">Woonlastenverzekering</label></div>
-                  <div class="insurance-item"><input type="checkbox" id="ongevallen-inkomen" value="Ongevallenverzekering inkomen" data-type="inkomen"><label for="ongevallen-inkomen">Ongevallenverzekering</label></div>
+              <div class="choice-card-meta">
+                <span class="selected-count empty" id="count-inkomen">0</span>
+                <span class="toggle-arrow">⌄</span>
+              </div>
+            </button>
+
+            <div class="choice-card-body">
+              <div class="insurance-tabs">
+                <div class="tab-buttons">
+                  <button class="tab-button active" type="button" data-tab-target="inkomen-zekerheid">Zekerheid</button>
+                  <button class="tab-button" type="button" data-tab-target="inkomen-pensioen">Pensioen</button>
+                  <button class="tab-button" type="button" data-tab-target="inkomen-nabestaanden">Nabestaanden</button>
+                </div>
+
+                <div class="tab-content active" id="inkomen-zekerheid">
+                  <div class="insurance-grid">
+                    <div class="insurance-item"><input type="checkbox" id="aov-particulier" value="Arbeidsongeschiktheidsverzekering" data-type="inkomen"><label for="aov-particulier">Arbeidsongeschiktheidsverzekering</label></div>
+                    <div class="insurance-item"><input type="checkbox" id="woonlasten" value="Woonlastenverzekering" data-type="inkomen"><label for="woonlasten">Woonlastenverzekering</label></div>
+                    <div class="insurance-item"><input type="checkbox" id="ongevallen-inkomen" value="Ongevallenverzekering inkomen" data-type="inkomen"><label for="ongevallen-inkomen">Ongevallenverzekering</label></div>
+                  </div>
+                </div>
+
+                <div class="tab-content" id="inkomen-pensioen">
+                  <div class="insurance-grid">
+                    <div class="insurance-item"><input type="checkbox" id="pensioen-aanvullen" value="Pensioen aanvullen" data-type="inkomen"><label for="pensioen-aanvullen">Pensioen aanvullen</label></div>
+                    <div class="insurance-item"><input type="checkbox" id="oudedagsvoorziening" value="Oudedagsvoorziening voor ondernemers" data-type="inkomen"><label for="oudedagsvoorziening">Oudedagsvoorziening voor ondernemers</label></div>
+                  </div>
+                </div>
+
+                <div class="tab-content" id="inkomen-nabestaanden">
+                  <div class="insurance-grid">
+                    <div class="insurance-item"><input type="checkbox" id="overlijdensrisico" value="Overlijdensrisicoverzekering" data-type="inkomen"><label for="overlijdensrisico">Overlijdensrisicoverzekering</label></div>
+                    <div class="insurance-item"><input type="checkbox" id="nabestaandenplan" value="Nabestaandenvoorziening" data-type="inkomen"><label for="nabestaandenplan">Nabestaandenvoorziening</label></div>
+                  </div>
                 </div>
               </div>
 
-              <div class="tab-content" id="inkomen-pensioen">
-                <div class="insurance-grid">
-                  <div class="insurance-item"><input type="checkbox" id="pensioen-aanvullen" value="Pensioen aanvullen" data-type="inkomen"><label for="pensioen-aanvullen">Pensioen aanvullen</label></div>
-                  <div class="insurance-item"><input type="checkbox" id="oudedagsvoorziening" value="Oudedagsvoorziening voor ondernemers" data-type="inkomen"><label for="oudedagsvoorziening">Oudedagsvoorziening voor ondernemers</label></div>
-                </div>
+              <div class="selected-summary" id="summary-inkomen"></div>
+
+              <div class="choice-actions">
+                <button class="btn btn-primary" type="button" data-offer-type="inkomen">Inkomensofferte</button>
               </div>
 
-              <div class="tab-content" id="inkomen-nabestaanden">
-                <div class="insurance-grid">
-                  <div class="insurance-item"><input type="checkbox" id="overlijdensrisico" value="Overlijdensrisicoverzekering" data-type="inkomen"><label for="overlijdensrisico">Overlijdensrisicoverzekering</label></div>
-                  <div class="insurance-item"><input type="checkbox" id="nabestaandenplan" value="Nabestaandenvoorziening" data-type="inkomen"><label for="nabestaandenplan">Nabestaandenvoorziening</label></div>
-                </div>
-              </div>
+              <p class="choice-note">Ook hier kunt u meerdere verzekeringen combineren.</p>
             </div>
-
-            <div class="selected-summary" id="summary-inkomen"></div>
-
-            <div class="choice-actions">
-              <button class="btn btn-primary" type="button" data-offer-type="inkomen">Inkomensofferte</button>
-            </div>
-
-            <p class="choice-note">Ook hier kunt u meerdere verzekeringen combineren.</p>
           </article>
         </div>
 
@@ -731,6 +865,8 @@
     document.addEventListener("DOMContentLoaded", () => {
       const STORAGE_KEY = "klaasvis_offer_data";
       const tabButtons = document.querySelectorAll(".tab-button");
+      const cards = document.querySelectorAll(".choice-card");
+      const allCheckboxes = document.querySelectorAll('.insurance-item input[type="checkbox"]');
 
       tabButtons.forEach((button) => {
         button.addEventListener("click", () => {
@@ -751,15 +887,45 @@
         });
       });
 
-      const allCheckboxes = document.querySelectorAll('.insurance-item input[type="checkbox"]');
+      function openCard(groupName) {
+        cards.forEach((card) => {
+          const isTarget = card.dataset.group === groupName;
+          card.classList.toggle("active", isTarget);
+
+          const toggle = card.querySelector(".choice-card-toggle");
+          if (toggle) {
+            toggle.setAttribute("aria-expanded", isTarget ? "true" : "false");
+          }
+        });
+      }
+
+      document.querySelectorAll("[data-card-toggle]").forEach((toggle) => {
+        toggle.addEventListener("click", () => {
+          const groupName = toggle.dataset.cardToggle;
+          const card = document.querySelector(`.choice-card[data-group="${groupName}"]`);
+          const isOpen = card.classList.contains("active");
+
+          if (isOpen) {
+            card.classList.remove("active");
+            toggle.setAttribute("aria-expanded", "false");
+            return;
+          }
+
+          openCard(groupName);
+        });
+      });
 
       function updateSummary(groupName) {
         const summary = document.getElementById(`summary-${groupName}`);
-        if (!summary) return;
+        const countEl = document.getElementById(`count-${groupName}`);
+        if (!summary || !countEl) return;
 
         const selected = Array.from(
           document.querySelectorAll(`input[data-type="${groupName}"]:checked`)
         ).map((input) => input.value);
+
+        countEl.textContent = selected.length;
+        countEl.classList.toggle("empty", selected.length === 0);
 
         if (selected.length === 0) {
           summary.classList.remove("active");
@@ -775,8 +941,11 @@
         checkbox.addEventListener("change", () => {
           const groupName = checkbox.dataset.type;
           updateSummary(groupName);
+          openCard(groupName);
         });
       });
+
+      ["particulier", "zakelijk", "inkomen"].forEach(updateSummary);
 
       document.querySelectorAll("[data-offer-type]").forEach((button) => {
         button.addEventListener("click", () => {
