@@ -774,23 +774,57 @@
         }
       ],
 
-      "Ongevallenverzekering": [
-        {
-          type: "number",
-          name: "aantal_personen",
-          label: "Aantal te verzekeren personen",
-          required: true
-        }
-      ],
+"Ongevallenverzekering": [
+  {
+    type: "select",
+    name: "gezinssituatie",
+    label: "Gezinssituatie",
+    required: true,
+    options: ["Gezin", "1 Volwassene", "1 Kind"]
+  },
+  {
+    type: "date",
+    name: "geboortedatum",
+    label: "Geboortedatum",
+    required: true
+  },
+  {
+    type: "select",
+    name: "dekkingscombinatie",
+    label: "Dekkingscombinatie",
+    required: true,
+    options: [
+      "€ 5.000 Overlijden / € 20.000 blijvende invaliditeit",
+      "€ 10.000 Overlijden / € 30.000 blijvende invaliditeit",
+      "€ 15.000 Overlijden / € 40.000 blijvende invaliditeit",
+      "€ 20.000 Overlijden / € 50.000 blijvende invaliditeit"
+    ]
+  },
+  {
+    type: "select",
+    name: "ongevallen_in_opzittenden_niet_gezinsleden",
+    label: "Ongevallen in/opzittenden voor niet gezinsleden",
+    required: true,
+    options: ["Ja", "Nee"]
+  },
+  {
+    type: "select",
+    name: "voertuigsoort",
+    label: "Voertuigsoort",
+    required: true,
+    options: ["Personenauto", "Motor", "Personenauto en motor"]
+  }
+],
 
-      "Verkeersdeelnemersverzekering": [
-        {
-          type: "number",
-          name: "huishouden_personen",
-          label: "Aantal personen in huishouden",
-          required: true
-        }
-      ],
+"Verkeersdeelnemersverzekering": [
+  {
+    type: "select",
+    name: "verzekerd_bedrag",
+    label: "Verzekerd bedrag",
+    required: true,
+    options: ["€ 1.000.000"]
+  }
+],
 
       "Personenautoverzekering": [
         {
