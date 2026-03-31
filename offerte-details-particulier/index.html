@@ -1586,22 +1586,79 @@ options: ["WA", "WA Beperkt-casco", "WA Casco-Compleet (Allrisk)"]
   }
 ],
 
-      "Aansprakelijkheidsverzekering": [
-        {
-          type: "text",
-          name: "huishoudsamenstelling",
-          label: "Huishoudsamenstelling",
-          required: true
-        }
-      ],
+"Aansprakelijkheidsverzekering": [
+  {
+    type: "select",
+    name: "gezinssamenstelling",
+    label: "Gezinssamenstelling",
+    required: true,
+    options: ["Gezin", "Alleenstaand"]
+  },
+  {
+    type: "select",
+    name: "extra_eigen_risico",
+    label: "Extra eigen risico",
+    required: true,
+    options: ["Geen", "€ 90"]
+  },
+  {
+    type: "select",
+    name: "jagersrisico",
+    label: "Jagersrisico",
+    required: true,
+    options: ["Ja", "Nee"]
+  }
+],
 
-      "Rechtsbijstandsverzekering": [
-        {
-          type: "text",
-          name: "gezinssituatie",
-          label: "Gezinssituatie",
-          required: true
-        }
+ "Rechtsbijstandsverzekering": [
+  {
+    type: "select",
+    name: "voor_alleenstaande",
+    label: "Voor alleenstaande",
+    required: true,
+    options: ["Ja", "Nee"]
+  },
+  {
+    type: "select",
+    name: "uitvoerder",
+    label: "Uitvoerder",
+    required: true,
+    options: ["ARAG", "DAS"]
+  },
+  {
+    type: "multiselect",
+    name: "modules",
+    label: "Dekking modules",
+    required: true,
+    options: [
+      "Basis",
+      "Consument en Wonen",
+      "Werk",
+      "Belasting, Vermogen en Scheidingsmediation"
+    ]
+  },
+  {
+    type: "select",
+    name: "verhuur_particuliere_woning",
+    label: "Verhuur particuliere woning(en)",
+    required: true,
+    options: ["Nee", "1", "2"]
+  },
+  {
+    type: "select",
+    name: "bedrijfsautos",
+    label: "Bedrijfsauto('s)",
+    required: true,
+    options: ["Nee", "1", "2"]
+  },
+  {
+    type: "select",
+    name: "hobbymatige_activiteiten",
+    label: "Hobbymatige activiteiten",
+    required: true,
+    options: ["Ja", "Nee"]
+  }
+],
       ]
     };
 
