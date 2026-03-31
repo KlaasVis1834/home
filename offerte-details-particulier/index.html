@@ -1332,37 +1332,265 @@ options: ["WA", "WA Beperkt-casco", "WA Casco-Compleet (Allrisk)"]
         }
       ],
 
-      "Inboedelverzekering": [
-        {
-          type: "postcode_lookup",
-          name: "inboedel_adres",
-          label: "Adres van de woning",
-          required: true,
-          full: true
-        },
-        {
-          type: "text",
-          name: "globale_inboedelwaarde",
-          label: "Globale inboedelwaarde",
-          required: true
-        }
-      ],
+"Inboedelverzekering": [
+  {
+    type: "postcode_lookup",
+    name: "inboedel_adres",
+    label: "Woongegevens",
+    required: true,
+    full: true
+  },
+  {
+    type: "select",
+    name: "leeftijd_hoofdkostwinner",
+    label: "Leeftijd hoofdkostwinner",
+    required: true,
+    options: [
+      "35 jaar en jonger",
+      "36 t/m 50 jaar",
+      "51 t/m 70 jaar",
+      "71 jaar en ouder"
+    ]
+  },
+  {
+    type: "select",
+    name: "gezinssituatie",
+    label: "Gezinssituatie",
+    required: true,
+    options: ["Alleenstaand", "Gezin"]
+  },
+  {
+    type: "select",
+    name: "netto_maandinkomen_hoofdkostwinner",
+    label: "Netto maandinkomen hoofdkostwinner",
+    required: true,
+    options: [
+      "T/m € 1.000",
+      "T/m € 2.000",
+      "T/m € 3.000",
+      "T/m € 4.850",
+      "T/m € 5.850",
+      "T/m € 7.000"
+    ]
+  },
+  {
+    type: "select",
+    name: "oppervlakte_woning_inclusief_bijgebouw",
+    label: "Oppervlakte woning inclusief bijgebouw(en) meer dan 300 m²",
+    required: true,
+    options: ["Ja", "Nee"]
+  },
+  {
+    type: "select",
+    name: "aantal_kamers",
+    label: "Aantal kamers in de woning en bijgebouw(en)",
+    required: true,
+    options: [
+      "1 of 2 kamers",
+      "3 t/m 5 kamers",
+      "6 t/m 8 kamers",
+      "9 t/m 10 kamers"
+    ]
+  },
+  {
+    type: "select",
+    name: "soort_woning",
+    label: "Soort woning",
+    required: true,
+    options: ["Huurwoning", "Koopwoning", "Koopappartement"]
+  },
+  {
+  type: "select",
+  name: "uitbreiding_audiovisuele_en_computerapparatuur",
+  label: "Uitbreiding audiovisuele en computerapparatuur",
+  required: true,
+  options: [
+    "Nee",
+    "€ 2.000",
+    "€ 4.000",
+    "€ 6.000",
+    "€ 8.000",
+    "€ 10.000",
+    "€ 12.000",
+    "€ 14.000",
+    "€ 16.000",
+    "€ 20.000",
+    "€ 25.000",
+    "€ 30.000",
+    "€ 40.000"
+  ]
+},
+{
+  type: "select",
+  name: "uitbreiding_sieraden_binnenshuis",
+  label: "Uitbreiding sieraden binnenshuis",
+  required: true,
+  options: [
+    "Nee",
+    "€ 2.000",
+    "€ 4.000",
+    "€ 6.000",
+    "€ 8.000",
+    "€ 10.000",
+    "€ 12.000",
+    "€ 14.000",
+    "€ 16.000",
+    "€ 20.000",
+    "€ 25.000",
+    "€ 30.000",
+    "€ 40.000"
+  ]
+},
+{
+  type: "select",
+  name: "uitbreiding_bijzondere_bezittingen",
+  label: "Uitbreiding bijzondere bezittingen",
+  required: true,
+  options: [
+    "Nee",
+    "€ 2.000",
+    "€ 4.000",
+    "€ 6.000",
+    "€ 8.000",
+    "€ 10.000",
+    "€ 12.000",
+    "€ 14.000",
+    "€ 16.000",
+    "€ 20.000",
+    "€ 25.000",
+    "€ 30.000",
+    "€ 40.000"
+  ]
+},
+  {
+    type: "select",
+    name: "bouwaard",
+    label: "Bouwaard",
+    required: true,
+    options: [
+      "Steen / Hard",
+      "Steen / Riet met schroefdak",
+      "Hout / Hard"
+    ]
+  },
+  {
+    type: "select",
+    name: "verhuur",
+    label: "Verhuur",
+    required: true,
+    options: ["Ja", "Nee"]
+  },
+  {
+    type: "text",
+    name: "dekking",
+    label: "Dekking",
+    required: true
+  },
+  {
+    type: "select",
+    name: "glas",
+    label: "Glas",
+    required: true,
+    options: ["Ja", "Nee"]
+  },
+  {
+    type: "select",
+    name: "kostbaarheden_buitenshuis",
+    label: "Kostbaarheden buitenshuis",
+    required: true,
+    options: ["Ja", "Nee"]
+  },
+  {
+    type: "select",
+    name: "uitbreiding_tuininrichting",
+    label: "Uitbreiding tuininrichting",
+    required: true,
+    options: ["Ja", "Nee"]
+  },
+  {
+    type: "select",
+    name: "elektronica_buitenshuis",
+    label: "Elektronica buitenshuis",
+    required: true,
+    options: ["Ja", "Nee"]
+  },
+  {
+    type: "select",
+    name: "zakelijke_inventaris",
+    label: "Zakelijke inventaris",
+    required: true,
+    options: ["Ja", "Nee"]
+  }
+],
 
       "Woonhuisverzekering": [
-        {
-          type: "postcode_lookup",
-          name: "woonhuis_adres",
-          label: "Adres van de woning",
-          required: true,
-          full: true
-        },
-        {
-          type: "number",
-          name: "bouwjaar_woning",
-          label: "Bouwjaar woning",
-          required: true
-        }
-      ],
+  {
+    type: "select",
+    name: "soort_object",
+    label: "Soort object",
+    required: true,
+    options: ["Woonhuis", "Bijgebouw op ander adres"]
+  },
+  {
+    type: "postcode_lookup",
+    name: "woonhuis_adres",
+    label: "Woongegevens",
+    required: true,
+    full: true
+  },
+  {
+    type: "select",
+    name: "bouwaard",
+    label: "Bouwaard",
+    required: true,
+    options: [
+      "Steen / Hard",
+      "Steen / Riet met schroefdak",
+      "Hout / Hard"
+    ]
+  },
+  {
+    type: "select",
+    name: "verhuur",
+    label: "Verhuur",
+    required: true,
+    options: ["Ja", "Nee"]
+  },
+  {
+    type: "text",
+    name: "herbouwwaarde",
+    label: "Herbouwwaarde",
+    required: true
+  },
+  {
+    type: "select",
+    name: "overal_eigen_risico_van_1_procent",
+    label: "Overal eigen risico van 1‰",
+    required: true,
+    options: ["Ja", "Nee"]
+  },
+  {
+    type: "select",
+    name: "afkoop_eigen_risico_stormschade",
+    label: "Afkoop eigen risico stormschade",
+    required: true,
+    options: ["Ja", "Nee"]
+  },
+  {
+    type: "select",
+    name: "aanvullende_duurzaamheidsdekking_10_procent",
+    label: "10% aanvullende (duurzaamheids) dekking",
+    required: true,
+    options: ["Ja", "Nee"]
+  },
+  {
+    type: "select",
+    name: "splitsing_in_appartementsrechten",
+    label: "Splitsing in appartementsrechten",
+    required: true,
+    options: ["Ja", "Nee"]
+  }
+],
 
       "Aansprakelijkheidsverzekering": [
         {
