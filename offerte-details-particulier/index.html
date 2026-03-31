@@ -681,9 +681,16 @@
         {
           type: "select",
           name: "gekentekend",
-          label: "Gekentekend",
+          label: "Is de aanhangwagen voorzien van kenteken?",
           required: true,
           options: ["Ja", "Nee"]
+        },
+        {
+          type: "kenteken_lookup",
+          name: "hobbytractor_kenteken_lookup",
+          label: "Kenteken en voertuiggegevens",
+          required: false,
+          full: true
         },
         {
           type: "text",
