@@ -238,59 +238,419 @@
           full: true
         }
       ],
-      "Zakelijke Personenautoverzekering": [
-        {
-          type: "textarea",
-          name: "aanvullende_gegevens",
-          label: "Aanvullende gegevens",
-          required: true,
-          full: true
-        }
-      ],
-      "Zakelijke Bestelautoverzekering": [
-        {
-          type: "textarea",
-          name: "aanvullende_gegevens",
-          label: "Aanvullende gegevens",
-          required: true,
-          full: true
-        }
-      ],
-      "Vrachtautoverzekering": [
-        {
-          type: "textarea",
-          name: "aanvullende_gegevens",
-          label: "Aanvullende gegevens",
-          required: true,
-          full: true
-        }
-      ],
-      "Zakelijke Motorverzekering": [
-        {
-          type: "textarea",
-          name: "aanvullende_gegevens",
-          label: "Aanvullende gegevens",
-          required: true,
-          full: true
-        }
-      ],
-      "Zakelijke Bromfietsverzekering": [
-        {
-          type: "textarea",
-          name: "aanvullende_gegevens",
-          label: "Aanvullende gegevens",
-          required: true,
-          full: true
-        }
-      ],
-      "Zakelijke Oldtimerverzekering": [
-        {
-          type: "textarea",
-          name: "aanvullende_gegevens",
-          label: "Aanvullende gegevens",
-          required: true,
-          full: true
-        }
+     "Zakelijke Personenautoverzekering": [
+  {
+    type: "kenteken_lookup",
+    name: "auto_kenteken_lookup",
+    label: "Kenteken en voertuiggegevens",
+    required: true,
+    full: true
+  },
+  {
+    type: "text",
+    name: "meldcode",
+    label: "Meldcode",
+    required: true
+  },
+  {
+    type: "select",
+    name: "jaarkilometrage",
+    label: "Jaarkilometrage",
+    required: true,
+    options: ["Tot 12.000 km", "Tot 30.000 km", "Onbeperkt"]
+  },
+  {
+    type: "number",
+    name: "schadevrije_jaren",
+    label: "Schadevrije jaren",
+    required: true
+  },
+  {
+    type: "select",
+    name: "gewenste_dekking",
+    label: "Gewenste dekking",
+    required: true,
+    options: ["WA", "WA-Beperkt Casco", "WA-Casco Compleet (Allrisk)"]
+  },
+  {
+    type: "select",
+    name: "extra_accessoires",
+    label: "Extra accessoires",
+    required: true,
+    options: ["Ja", "Nee"]
+  },
+  {
+    type: "select",
+    name: "ongevallen_inzittenden",
+    label: "Ongevallen inzittenden",
+    required: true,
+    options: ["Ja", "Nee"]
+  },
+  {
+    type: "select",
+    name: "schadeverzekering_inzittenden",
+    label: "Schadeverzekering inzittenden",
+    required: true,
+    options: ["Ja", "Nee"]
+  },
+  {
+    type: "select",
+    name: "motorrijtuigenrechtsbijstand",
+    label: "Motorrijtuigenrechtsbijstand",
+    required: true,
+    options: ["Ja", "Nee"]
+  },
+  {
+    type: "select",
+    name: "verhaalsrechtsbijstand",
+    label: "Verhaalsrechtsbijstand",
+    required: true,
+    options: ["Ja", "Nee"]
+  },
+  {
+    type: "select",
+    name: "pechhulp",
+    label: "Pechhulp",
+    required: true,
+    options: ["Ja", "Nee"]
+  }
+],
+
+"Zakelijke Bestelautoverzekering": [
+  {
+    type: "kenteken_lookup",
+    name: "bestelauto_kenteken_lookup",
+    label: "Kenteken en voertuiggegevens",
+    required: true,
+    full: true
+  },
+  {
+    type: "text",
+    name: "meldcode",
+    label: "Meldcode",
+    required: true
+  },
+  {
+    type: "select",
+    name: "jaarkilometrage",
+    label: "Jaarkilometrage",
+    required: true,
+    options: ["Tot 20.000 km", "Onbeperkt"]
+  },
+  {
+    type: "number",
+    name: "schadevrije_jaren",
+    label: "Schadevrije jaren",
+    required: true
+  },
+  {
+    type: "select",
+    name: "gewenste_dekking",
+    label: "Gewenste dekking",
+    required: true,
+    options: ["WA", "WA-Beperkt Casco", "WA-Casco Compleet (Allrisk)"]
+  },
+  {
+    type: "select",
+    name: "ongevallen_inzittenden",
+    label: "Ongevallen inzittenden",
+    required: true,
+    options: ["Ja", "Nee"]
+  },
+  {
+    type: "select",
+    name: "schadeverzekering_inzittenden",
+    label: "Schadeverzekering inzittenden",
+    required: true,
+    options: ["Ja", "Nee"]
+  },
+  {
+    type: "select",
+    name: "motorrijtuigenrechtsbijstand",
+    label: "Motorrijtuigenrechtsbijstand",
+    required: true,
+    options: ["Ja", "Nee"]
+  },
+  {
+    type: "select",
+    name: "verhaalsrechtsbijstand",
+    label: "Verhaalsrechtsbijstand",
+    required: true,
+    options: ["Ja", "Nee"]
+  },
+  {
+    type: "select",
+    name: "pechhulp",
+    label: "Pechhulp",
+    required: true,
+    options: ["Ja", "Nee"]
+  },
+  {
+    type: "text",
+    name: "gebruik_voertuig",
+    label: "Gebruik van het voertuig",
+    required: true
+  }
+],
+
+"Vrachtautoverzekering": [
+  {
+    type: "kenteken_lookup",
+    name: "vrachtauto_kenteken_lookup",
+    label: "Kenteken en voertuiggegevens",
+    required: true,
+    full: true
+  },
+  {
+    type: "text",
+    name: "meldcode",
+    label: "Meldcode",
+    required: true
+  },
+  {
+    type: "select",
+    name: "jaarkilometrage",
+    label: "Jaarkilometrage",
+    required: true,
+    options: ["Tot 20.000 km", "Onbeperkt"]
+  },
+  {
+    type: "number",
+    name: "schadevrije_jaren",
+    label: "Schadevrije jaren",
+    required: true
+  },
+  {
+    type: "select",
+    name: "gewenste_dekking",
+    label: "Gewenste dekking",
+    required: true,
+    options: ["WA", "WA-Beperkt Casco", "WA-Casco Compleet (Allrisk)"]
+  },
+  {
+    type: "select",
+    name: "ongevallen_inzittenden",
+    label: "Ongevallen inzittenden",
+    required: true,
+    options: ["Ja", "Nee"]
+  },
+  {
+    type: "select",
+    name: "schadeverzekering_inzittenden",
+    label: "Schadeverzekering inzittenden",
+    required: true,
+    options: ["Ja", "Nee"]
+  },
+  {
+    type: "select",
+    name: "motorrijtuigenrechtsbijstand",
+    label: "Motorrijtuigenrechtsbijstand",
+    required: true,
+    options: ["Ja", "Nee"]
+  },
+  {
+    type: "select",
+    name: "verhaalsrechtsbijstand",
+    label: "Verhaalsrechtsbijstand",
+    required: true,
+    options: ["Ja", "Nee"]
+  },
+  {
+    type: "select",
+    name: "pechhulp",
+    label: "Pechhulp",
+    required: true,
+    options: ["Ja", "Nee"]
+  }
+],
+
+"Zakelijke Motorverzekering": [
+  {
+    type: "kenteken_lookup",
+    name: "motor_kenteken_lookup",
+    label: "Kenteken en voertuiggegevens",
+    required: true,
+    full: true
+  },
+  {
+    type: "text",
+    name: "meldcode",
+    label: "Meldcode",
+    required: true
+  },
+  {
+    type: "select",
+    name: "jaarkilometrage",
+    label: "Jaarkilometrage",
+    required: true,
+    options: ["Tot 12.000 km", "Onbeperkt"]
+  },
+  {
+    type: "number",
+    name: "schadevrije_jaren",
+    label: "Schadevrije jaren",
+    required: true
+  },
+  {
+    type: "select",
+    name: "gewenste_dekking",
+    label: "Gewenste dekking",
+    required: true,
+    options: ["WA", "WA-Beperkt Casco", "WA-Casco Compleet (Allrisk)"]
+  },
+  {
+    type: "select",
+    name: "ongevallen_opzittenden",
+    label: "Ongevallen opzittenden",
+    required: true,
+    options: [
+      "Nee",
+      "€ 5.000 Overlijden / € 10.000 Blijvende invaliditeit",
+      "€ 7.500 Overlijden / € 15.000 Blijvende invaliditeit",
+      "€ 12.500 Overlijden / € 25.000 Blijvende invaliditeit"
+    ]
+  },
+  {
+    type: "select",
+    name: "motorrijtuigenrechtsbijstand",
+    label: "Motorrijtuigenrechtsbijstand",
+    required: true,
+    options: ["Ja", "Nee"]
+  },
+  {
+    type: "select",
+    name: "verhaalsrechtsbijstand",
+    label: "Verhaalsrechtsbijstand",
+    required: true,
+    options: ["Ja", "Nee"]
+  },
+  {
+    type: "select",
+    name: "pechhulp",
+    label: "Pechhulp",
+    required: true,
+    options: ["Ja", "Nee"]
+  }
+],
+
+"Zakelijke Bromfietsverzekering": [
+  {
+    type: "kenteken_lookup",
+    name: "bromfiets_kenteken_lookup",
+    label: "Kenteken en voertuiggegevens",
+    required: true,
+    full: true
+  },
+  {
+    type: "text",
+    name: "meldcode",
+    label: "Meldcode",
+    required: true
+  },
+  {
+    type: "number",
+    name: "schadevrije_jaren",
+    label: "Schadevrije jaren",
+    required: true
+  },
+  {
+    type: "select",
+    name: "gewenste_dekking",
+    label: "Gewenste dekking",
+    required: true,
+    options: ["WA", "WA-Beperkt Casco", "WA-Casco Compleet (Allrisk)"]
+  },
+  {
+    type: "select",
+    name: "ongevallen_opzittenden",
+    label: "Ongevallen opzittenden",
+    required: true,
+    options: ["Ja", "Nee"]
+  },
+  {
+    type: "select",
+    name: "motorrijtuigenrechtsbijstand",
+    label: "Motorrijtuigenrechtsbijstand",
+    required: true,
+    options: ["Ja", "Nee"]
+  },
+  {
+    type: "select",
+    name: "pechhulp",
+    label: "Pechhulp",
+    required: true,
+    options: ["Ja", "Nee"]
+  }
+],
+
+"Zakelijke Oldtimerverzekering": [
+  {
+    type: "kenteken_lookup",
+    name: "oldtimer_kenteken_lookup",
+    label: "Kenteken en voertuiggegevens",
+    required: false,
+    full: true
+  },
+  {
+    type: "text",
+    name: "oldtimer_merk_model",
+    label: "Merk / model",
+    required: true
+  },
+  {
+    type: "number",
+    name: "bouwjaar",
+    label: "Bouwjaar",
+    required: true
+  },
+  {
+    type: "text",
+    name: "meldcode",
+    label: "Meldcode",
+    required: true
+  },
+  {
+    type: "select",
+    name: "jaarkilometrage",
+    label: "Jaarkilometrage",
+    required: true,
+    options: ["Tot 5.000 km", "Tot 7.500 km"]
+  },
+  {
+    type: "select",
+    name: "gewenste_dekking",
+    label: "Gewenste dekking",
+    required: true,
+    options: ["WA", "WA-Beperkt Casco", "WA-Casco Compleet (Allrisk)"]
+  },
+  {
+    type: "select",
+    name: "ongevallen_inzittenden",
+    label: "Ongevallen inzittenden",
+    required: true,
+    options: ["Ja", "Nee"]
+  },
+  {
+    type: "select",
+    name: "schadeverzekering_inzittenden",
+    label: "Schadeverzekering inzittenden",
+    required: true,
+    options: ["Ja", "Nee"]
+  },
+  {
+    type: "select",
+    name: "motorrijtuigenrechtsbijstand",
+    label: "Motorrijtuigenrechtsbijstand",
+    required: true,
+    options: ["Ja", "Nee"]
+  },
+  {
+    type: "select",
+    name: "verhaalsrechtsbijstand",
+    label: "Verhaalsrechtsbijstand",
+    required: true,
+    options: ["Ja", "Nee"]
+  }
       ],
       "Bouw en Montageverzekering": [
         {
