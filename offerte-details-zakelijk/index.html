@@ -115,20 +115,23 @@
       margin-bottom: 6px;
     }
 
-    .multiselect-group {
+    .multiselect-group,
+    .radio-group {
       display: grid;
       gap: 8px;
       margin-top: 6px;
     }
 
-    .multiselect-option {
+    .multiselect-option,
+    .radio-option {
       display: flex;
       align-items: center;
       gap: 8px;
       color: var(--text);
     }
 
-    .multiselect-option input[type="checkbox"] {
+    .multiselect-option input[type="checkbox"],
+    .radio-option input[type="radio"] {
       accent-color: var(--primary);
     }
 
@@ -213,551 +216,1142 @@
     const ZAKELIJK_FIELDS = {
       "Arbeidsongeschiktheidsverzekering (AOV)": [
         {
+          type: "text",
+          name: "beroep_functie",
+          label: "Beroep / functie",
+          required: true
+        },
+        {
+          type: "number",
+          name: "leeftijd_ondernemer",
+          label: "Leeftijd ondernemer",
+          required: true
+        },
+        {
+          type: "text",
+          name: "startdatum_onderneming",
+          label: "Startdatum onderneming",
+          required: true
+        },
+        {
+          type: "currency",
+          name: "bruto_jaarinkomen",
+          label: "Bruto jaarinkomen",
+          required: true
+        },
+        {
+          type: "currency",
+          name: "gewenst_verzekerd_jaarinkomen",
+          label: "Gewenst verzekerd jaarinkomen",
+          required: true
+        },
+        {
+          type: "select",
+          name: "eigen_risicotermijn",
+          label: "Gewenste eigen risicotermijn",
+          required: true,
+          options: ["14 dagen", "30 dagen", "60 dagen", "90 dagen", "180 dagen", "365 dagen"]
+        },
+        {
+          type: "select",
+          name: "uitkeringsduur",
+          label: "Gewenste uitkeringsduur",
+          required: true,
+          options: ["5 jaar", "10 jaar", "Tot eindleeftijd 67 jaar", "Tot eindleeftijd 68 jaar"]
+        },
+        {
+          type: "radio",
+          name: "arbeidsongeschiktheidscriterium",
+          label: "Gewenst criterium",
+          required: true,
+          options: ["Beroepsarbeidsongeschiktheid", "Passende arbeid", "Gangbare arbeid"]
+        },
+        {
+          type: "radio",
+          name: "zwangerschapsdekking",
+          label: "Zwangerschapsdekking gewenst",
+          required: true,
+          options: ["Ja", "Nee"]
+        },
+        {
+          type: "radio",
+          name: "fysiek_zwaar_werk",
+          label: "Is er sprake van fysiek zwaar werk?",
+          required: true,
+          options: ["Ja", "Nee"]
+        },
+        {
           type: "textarea",
-          name: "aanvullende_gegevens",
-          label: "Aanvullende gegevens",
+          name: "omschrijving_werkzaamheden",
+          label: "Omschrijf de werkzaamheden zo concreet mogelijk",
           required: true,
           full: true
         }
       ],
+
       "Ongevallenverzekering": [
         {
+          type: "number",
+          name: "aantal_verzekerden",
+          label: "Aantal te verzekeren personen",
+          required: true
+        },
+        {
+          type: "select",
+          name: "verzekerde_doelgroep",
+          label: "Wie wilt u verzekeren?",
+          required: true,
+          options: ["Alleen eigenaar", "Directie", "Personeel", "Eigenaar en personeel"]
+        },
+        {
+          type: "currency",
+          name: "verzekerd_bedrag_overlijden",
+          label: "Verzekerd bedrag bij overlijden",
+          required: true
+        },
+        {
+          type: "currency",
+          name: "verzekerd_bedrag_blijvende_invaliditeit",
+          label: "Verzekerd bedrag bij blijvende invaliditeit",
+          required: true
+        },
+        {
+          type: "radio",
+          name: "24u_dekking",
+          label: "24-uurs dekking gewenst",
+          required: true,
+          options: ["Ja", "Nee"]
+        },
+        {
           type: "textarea",
-          name: "aanvullende_gegevens",
-          label: "Aanvullende gegevens",
+          name: "bijzondere_risicos",
+          label: "Zijn er bijzondere risico’s of gevaarlijke werkzaamheden?",
           required: true,
           full: true
         }
       ],
+
       "Inkomen Collectief": [
         {
+          type: "number",
+          name: "aantal_werknemers",
+          label: "Aantal werknemers",
+          required: true
+        },
+        {
+          type: "select",
+          name: "type_regeling",
+          label: "Type inkomensregeling",
+          required: true,
+          options: ["Verzuimverzekering", "WGA-eigenrisicoverzekering", "WIA-aanvulling", "Combinatie"]
+        },
+        {
+          type: "currency",
+          name: "totale_loonsom",
+          label: "Totale jaarlijkse loonsom",
+          required: true
+        },
+        {
+          type: "select",
+          name: "eigen_risicoperiode",
+          label: "Eigen risicoperiode",
+          required: true,
+          options: ["10 werkdagen", "30 dagen", "65 dagen", "130 dagen"]
+        },
+        {
+          type: "radio",
+          name: "arbodienst_aanwezig",
+          label: "Is er al een arbodienst of verzuimbegeleider actief?",
+          required: true,
+          options: ["Ja", "Nee"]
+        },
+        {
+          type: "radio",
+          name: "lopend_verzuim",
+          label: "Is er op dit moment sprake van lopend verzuim?",
+          required: true,
+          options: ["Ja", "Nee"]
+        },
+        {
           type: "textarea",
-          name: "aanvullende_gegevens",
-          label: "Aanvullende gegevens",
+          name: "toelichting_personeel_en_verzuim",
+          label: "Toelichting op personeelsopbouw, verzuim en gewenste regeling",
           required: true,
           full: true
         }
       ],
-     "Zakelijke Personenautoverzekering": [
-  {
-    type: "kenteken_lookup",
-    name: "auto_kenteken_lookup",
-    label: "Kenteken en voertuiggegevens",
-    required: true,
-    full: true
-  },
-  {
-    type: "text",
-    name: "meldcode",
-    label: "Meldcode",
-    required: true
-  },
-  {
-    type: "select",
-    name: "jaarkilometrage",
-    label: "Jaarkilometrage",
-    required: true,
-    options: ["Tot 12.000 km", "Tot 30.000 km", "Onbeperkt"]
-  },
-  {
-    type: "number",
-    name: "schadevrije_jaren",
-    label: "Schadevrije jaren",
-    required: true
-  },
-  {
-    type: "select",
-    name: "gewenste_dekking",
-    label: "Gewenste dekking",
-    required: true,
-    options: ["WA", "WA-Beperkt Casco", "WA-Casco Compleet (Allrisk)"]
-  },
-  {
-    type: "select",
-    name: "extra_accessoires",
-    label: "Extra accessoires",
-    required: true,
-    options: ["Ja", "Nee"]
-  },
-  {
-    type: "select",
-    name: "ongevallen_inzittenden",
-    label: "Ongevallen inzittenden",
-    required: true,
-    options: ["Ja", "Nee"]
-  },
-  {
-    type: "select",
-    name: "schadeverzekering_inzittenden",
-    label: "Schadeverzekering inzittenden",
-    required: true,
-    options: ["Ja", "Nee"]
-  },
-  {
-    type: "select",
-    name: "motorrijtuigenrechtsbijstand",
-    label: "Motorrijtuigenrechtsbijstand",
-    required: true,
-    options: ["Ja", "Nee"]
-  },
-  {
-    type: "select",
-    name: "verhaalsrechtsbijstand",
-    label: "Verhaalsrechtsbijstand",
-    required: true,
-    options: ["Ja", "Nee"]
-  },
-  {
-    type: "select",
-    name: "pechhulp",
-    label: "Pechhulp",
-    required: true,
-    options: ["Ja", "Nee"]
-  }
-],
 
-"Zakelijke Bestelautoverzekering": [
-  {
-    type: "kenteken_lookup",
-    name: "bestelauto_kenteken_lookup",
-    label: "Kenteken en voertuiggegevens",
-    required: true,
-    full: true
-  },
-  {
-    type: "text",
-    name: "meldcode",
-    label: "Meldcode",
-    required: true
-  },
-  {
-    type: "select",
-    name: "jaarkilometrage",
-    label: "Jaarkilometrage",
-    required: true,
-    options: ["Tot 20.000 km", "Onbeperkt"]
-  },
-  {
-    type: "number",
-    name: "schadevrije_jaren",
-    label: "Schadevrije jaren",
-    required: true
-  },
-  {
-    type: "select",
-    name: "gewenste_dekking",
-    label: "Gewenste dekking",
-    required: true,
-    options: ["WA", "WA-Beperkt Casco", "WA-Casco Compleet (Allrisk)"]
-  },
-  {
-    type: "select",
-    name: "ongevallen_inzittenden",
-    label: "Ongevallen inzittenden",
-    required: true,
-    options: ["Ja", "Nee"]
-  },
-  {
-    type: "select",
-    name: "schadeverzekering_inzittenden",
-    label: "Schadeverzekering inzittenden",
-    required: true,
-    options: ["Ja", "Nee"]
-  },
-  {
-    type: "select",
-    name: "motorrijtuigenrechtsbijstand",
-    label: "Motorrijtuigenrechtsbijstand",
-    required: true,
-    options: ["Ja", "Nee"]
-  },
-  {
-    type: "select",
-    name: "verhaalsrechtsbijstand",
-    label: "Verhaalsrechtsbijstand",
-    required: true,
-    options: ["Ja", "Nee"]
-  },
-  {
-    type: "select",
-    name: "pechhulp",
-    label: "Pechhulp",
-    required: true,
-    options: ["Ja", "Nee"]
-  },
-  {
-    type: "text",
-    name: "gebruik_voertuig",
-    label: "Gebruik van het voertuig",
-    required: true
-  }
-],
-
-"Vrachtautoverzekering": [
-  {
-    type: "kenteken_lookup",
-    name: "vrachtauto_kenteken_lookup",
-    label: "Kenteken en voertuiggegevens",
-    required: true,
-    full: true
-  },
-  {
-    type: "text",
-    name: "meldcode",
-    label: "Meldcode",
-    required: true
-  },
-  {
-    type: "select",
-    name: "jaarkilometrage",
-    label: "Jaarkilometrage",
-    required: true,
-    options: ["Tot 20.000 km", "Onbeperkt"]
-  },
-  {
-    type: "number",
-    name: "schadevrije_jaren",
-    label: "Schadevrije jaren",
-    required: true
-  },
-  {
-    type: "select",
-    name: "gewenste_dekking",
-    label: "Gewenste dekking",
-    required: true,
-    options: ["WA", "WA-Beperkt Casco", "WA-Casco Compleet (Allrisk)"]
-  },
-  {
-    type: "select",
-    name: "ongevallen_inzittenden",
-    label: "Ongevallen inzittenden",
-    required: true,
-    options: ["Ja", "Nee"]
-  },
-  {
-    type: "select",
-    name: "schadeverzekering_inzittenden",
-    label: "Schadeverzekering inzittenden",
-    required: true,
-    options: ["Ja", "Nee"]
-  },
-  {
-    type: "select",
-    name: "motorrijtuigenrechtsbijstand",
-    label: "Motorrijtuigenrechtsbijstand",
-    required: true,
-    options: ["Ja", "Nee"]
-  },
-  {
-    type: "select",
-    name: "verhaalsrechtsbijstand",
-    label: "Verhaalsrechtsbijstand",
-    required: true,
-    options: ["Ja", "Nee"]
-  },
-  {
-    type: "select",
-    name: "pechhulp",
-    label: "Pechhulp",
-    required: true,
-    options: ["Ja", "Nee"]
-  }
-],
-
-"Zakelijke Motorverzekering": [
-  {
-    type: "kenteken_lookup",
-    name: "motor_kenteken_lookup",
-    label: "Kenteken en voertuiggegevens",
-    required: true,
-    full: true
-  },
-  {
-    type: "text",
-    name: "meldcode",
-    label: "Meldcode",
-    required: true
-  },
-  {
-    type: "select",
-    name: "jaarkilometrage",
-    label: "Jaarkilometrage",
-    required: true,
-    options: ["Tot 12.000 km", "Onbeperkt"]
-  },
-  {
-    type: "number",
-    name: "schadevrije_jaren",
-    label: "Schadevrije jaren",
-    required: true
-  },
-  {
-    type: "select",
-    name: "gewenste_dekking",
-    label: "Gewenste dekking",
-    required: true,
-    options: ["WA", "WA-Beperkt Casco", "WA-Casco Compleet (Allrisk)"]
-  },
-  {
-    type: "select",
-    name: "ongevallen_opzittenden",
-    label: "Ongevallen opzittenden",
-    required: true,
-    options: [
-      "Nee",
-      "€ 5.000 Overlijden / € 10.000 Blijvende invaliditeit",
-      "€ 7.500 Overlijden / € 15.000 Blijvende invaliditeit",
-      "€ 12.500 Overlijden / € 25.000 Blijvende invaliditeit"
-    ]
-  },
-  {
-    type: "select",
-    name: "motorrijtuigenrechtsbijstand",
-    label: "Motorrijtuigenrechtsbijstand",
-    required: true,
-    options: ["Ja", "Nee"]
-  },
-  {
-    type: "select",
-    name: "verhaalsrechtsbijstand",
-    label: "Verhaalsrechtsbijstand",
-    required: true,
-    options: ["Ja", "Nee"]
-  },
-  {
-    type: "select",
-    name: "pechhulp",
-    label: "Pechhulp",
-    required: true,
-    options: ["Ja", "Nee"]
-  }
-],
-
-"Zakelijke Bromfietsverzekering": [
-  {
-    type: "kenteken_lookup",
-    name: "bromfiets_kenteken_lookup",
-    label: "Kenteken en voertuiggegevens",
-    required: true,
-    full: true
-  },
-  {
-    type: "text",
-    name: "meldcode",
-    label: "Meldcode",
-    required: true
-  },
-  {
-    type: "number",
-    name: "schadevrije_jaren",
-    label: "Schadevrije jaren",
-    required: true
-  },
-  {
-    type: "select",
-    name: "gewenste_dekking",
-    label: "Gewenste dekking",
-    required: true,
-    options: ["WA", "WA-Beperkt Casco", "WA-Casco Compleet (Allrisk)"]
-  },
-  {
-    type: "select",
-    name: "ongevallen_opzittenden",
-    label: "Ongevallen opzittenden",
-    required: true,
-    options: ["Ja", "Nee"]
-  },
-  {
-    type: "select",
-    name: "motorrijtuigenrechtsbijstand",
-    label: "Motorrijtuigenrechtsbijstand",
-    required: true,
-    options: ["Ja", "Nee"]
-  },
-  {
-    type: "select",
-    name: "pechhulp",
-    label: "Pechhulp",
-    required: true,
-    options: ["Ja", "Nee"]
-  }
-],
-
-"Zakelijke Oldtimerverzekering": [
-  {
-    type: "kenteken_lookup",
-    name: "oldtimer_kenteken_lookup",
-    label: "Kenteken en voertuiggegevens",
-    required: false,
-    full: true
-  },
-  {
-    type: "text",
-    name: "oldtimer_merk_model",
-    label: "Merk / model",
-    required: true
-  },
-  {
-    type: "number",
-    name: "bouwjaar",
-    label: "Bouwjaar",
-    required: true
-  },
-  {
-    type: "text",
-    name: "meldcode",
-    label: "Meldcode",
-    required: true
-  },
-  {
-    type: "select",
-    name: "jaarkilometrage",
-    label: "Jaarkilometrage",
-    required: true,
-    options: ["Tot 5.000 km", "Tot 7.500 km"]
-  },
-  {
-    type: "select",
-    name: "gewenste_dekking",
-    label: "Gewenste dekking",
-    required: true,
-    options: ["WA", "WA-Beperkt Casco", "WA-Casco Compleet (Allrisk)"]
-  },
-  {
-    type: "select",
-    name: "ongevallen_inzittenden",
-    label: "Ongevallen inzittenden",
-    required: true,
-    options: ["Ja", "Nee"]
-  },
-  {
-    type: "select",
-    name: "schadeverzekering_inzittenden",
-    label: "Schadeverzekering inzittenden",
-    required: true,
-    options: ["Ja", "Nee"]
-  },
-  {
-    type: "select",
-    name: "motorrijtuigenrechtsbijstand",
-    label: "Motorrijtuigenrechtsbijstand",
-    required: true,
-    options: ["Ja", "Nee"]
-  },
-  {
-    type: "select",
-    name: "verhaalsrechtsbijstand",
-    label: "Verhaalsrechtsbijstand",
-    required: true,
-    options: ["Ja", "Nee"]
-  }
+      "Zakelijke Personenautoverzekering": [
+        {
+          type: "text",
+          name: "kenteken",
+          label: "Kenteken",
+          required: true
+        },
+        {
+          type: "text",
+          name: "meldcode",
+          label: "Meldcode",
+          required: true
+        },
+        {
+          type: "select",
+          name: "jaarkilometrage",
+          label: "Jaarkilometrage",
+          required: true,
+          options: ["Tot 12.000 km", "Tot 30.000 km", "Onbeperkt"]
+        },
+        {
+          type: "number",
+          name: "schadevrije_jaren",
+          label: "Schadevrije jaren",
+          required: true
+        },
+        {
+          type: "select",
+          name: "gewenste_dekking",
+          label: "Gewenste dekking",
+          required: true,
+          options: ["WA", "WA-Beperkt Casco", "WA-Casco Compleet (Allrisk)"]
+        },
+        {
+          type: "select",
+          name: "extra_accessoires",
+          label: "Extra accessoires",
+          required: true,
+          options: ["Ja", "Nee"]
+        },
+        {
+          type: "select",
+          name: "ongevallen_inzittenden",
+          label: "Ongevallen inzittenden",
+          required: true,
+          options: ["Ja", "Nee"]
+        },
+        {
+          type: "select",
+          name: "schadeverzekering_inzittenden",
+          label: "Schadeverzekering inzittenden",
+          required: true,
+          options: ["Ja", "Nee"]
+        },
+        {
+          type: "select",
+          name: "motorrijtuigenrechtsbijstand",
+          label: "Motorrijtuigenrechtsbijstand",
+          required: true,
+          options: ["Ja", "Nee"]
+        },
+        {
+          type: "select",
+          name: "verhaalsrechtsbijstand",
+          label: "Verhaalsrechtsbijstand",
+          required: true,
+          options: ["Ja", "Nee"]
+        },
+        {
+          type: "select",
+          name: "pechhulp",
+          label: "Pechhulp",
+          required: true,
+          options: ["Ja", "Nee"]
+        }
       ],
+
+      "Zakelijke Bestelautoverzekering": [
+        {
+          type: "text",
+          name: "kenteken",
+          label: "Kenteken",
+          required: true
+        },
+        {
+          type: "text",
+          name: "meldcode",
+          label: "Meldcode",
+          required: true
+        },
+        {
+          type: "select",
+          name: "jaarkilometrage",
+          label: "Jaarkilometrage",
+          required: true,
+          options: ["Tot 20.000 km", "Onbeperkt"]
+        },
+        {
+          type: "number",
+          name: "schadevrije_jaren",
+          label: "Schadevrije jaren",
+          required: true
+        },
+        {
+          type: "select",
+          name: "gewenste_dekking",
+          label: "Gewenste dekking",
+          required: true,
+          options: ["WA", "WA-Beperkt Casco", "WA-Casco Compleet (Allrisk)"]
+        },
+        {
+          type: "select",
+          name: "ongevallen_inzittenden",
+          label: "Ongevallen inzittenden",
+          required: true,
+          options: ["Ja", "Nee"]
+        },
+        {
+          type: "select",
+          name: "schadeverzekering_inzittenden",
+          label: "Schadeverzekering inzittenden",
+          required: true,
+          options: ["Ja", "Nee"]
+        },
+        {
+          type: "select",
+          name: "motorrijtuigenrechtsbijstand",
+          label: "Motorrijtuigenrechtsbijstand",
+          required: true,
+          options: ["Ja", "Nee"]
+        },
+        {
+          type: "select",
+          name: "verhaalsrechtsbijstand",
+          label: "Verhaalsrechtsbijstand",
+          required: true,
+          options: ["Ja", "Nee"]
+        },
+        {
+          type: "select",
+          name: "pechhulp",
+          label: "Pechhulp",
+          required: true,
+          options: ["Ja", "Nee"]
+        },
+        {
+          type: "text",
+          name: "gebruik_voertuig",
+          label: "Gebruik van het voertuig",
+          required: true
+        }
+      ],
+
+      "Vrachtautoverzekering": [
+        {
+          type: "text",
+          name: "kenteken",
+          label: "Kenteken",
+          required: true
+        },
+        {
+          type: "text",
+          name: "meldcode",
+          label: "Meldcode",
+          required: true
+        },
+        {
+          type: "select",
+          name: "jaarkilometrage",
+          label: "Jaarkilometrage",
+          required: true,
+          options: ["Tot 20.000 km", "Onbeperkt"]
+        },
+        {
+          type: "number",
+          name: "schadevrije_jaren",
+          label: "Schadevrije jaren",
+          required: true
+        },
+        {
+          type: "select",
+          name: "gewenste_dekking",
+          label: "Gewenste dekking",
+          required: true,
+          options: ["WA", "WA-Beperkt Casco", "WA-Casco Compleet (Allrisk)"]
+        },
+        {
+          type: "select",
+          name: "ongevallen_inzittenden",
+          label: "Ongevallen inzittenden",
+          required: true,
+          options: ["Ja", "Nee"]
+        },
+        {
+          type: "select",
+          name: "schadeverzekering_inzittenden",
+          label: "Schadeverzekering inzittenden",
+          required: true,
+          options: ["Ja", "Nee"]
+        },
+        {
+          type: "select",
+          name: "motorrijtuigenrechtsbijstand",
+          label: "Motorrijtuigenrechtsbijstand",
+          required: true,
+          options: ["Ja", "Nee"]
+        },
+        {
+          type: "select",
+          name: "verhaalsrechtsbijstand",
+          label: "Verhaalsrechtsbijstand",
+          required: true,
+          options: ["Ja", "Nee"]
+        },
+        {
+          type: "select",
+          name: "pechhulp",
+          label: "Pechhulp",
+          required: true,
+          options: ["Ja", "Nee"]
+        }
+      ],
+
+      "Zakelijke Motorverzekering": [
+        {
+          type: "text",
+          name: "kenteken",
+          label: "Kenteken",
+          required: true
+        },
+        {
+          type: "text",
+          name: "meldcode",
+          label: "Meldcode",
+          required: true
+        },
+        {
+          type: "select",
+          name: "jaarkilometrage",
+          label: "Jaarkilometrage",
+          required: true,
+          options: ["Tot 12.000 km", "Onbeperkt"]
+        },
+        {
+          type: "number",
+          name: "schadevrije_jaren",
+          label: "Schadevrije jaren",
+          required: true
+        },
+        {
+          type: "select",
+          name: "gewenste_dekking",
+          label: "Gewenste dekking",
+          required: true,
+          options: ["WA", "WA-Beperkt Casco", "WA-Casco Compleet (Allrisk)"]
+        },
+        {
+          type: "select",
+          name: "ongevallen_opzittenden",
+          label: "Ongevallen opzittenden",
+          required: true,
+          options: [
+            "Nee",
+            "€ 5.000 Overlijden / € 10.000 Blijvende invaliditeit",
+            "€ 7.500 Overlijden / € 15.000 Blijvende invaliditeit",
+            "€ 12.500 Overlijden / € 25.000 Blijvende invaliditeit"
+          ]
+        },
+        {
+          type: "select",
+          name: "motorrijtuigenrechtsbijstand",
+          label: "Motorrijtuigenrechtsbijstand",
+          required: true,
+          options: ["Ja", "Nee"]
+        },
+        {
+          type: "select",
+          name: "verhaalsrechtsbijstand",
+          label: "Verhaalsrechtsbijstand",
+          required: true,
+          options: ["Ja", "Nee"]
+        },
+        {
+          type: "select",
+          name: "pechhulp",
+          label: "Pechhulp",
+          required: true,
+          options: ["Ja", "Nee"]
+        }
+      ],
+
+      "Zakelijke Bromfietsverzekering": [
+        {
+          type: "text",
+          name: "kenteken",
+          label: "Kenteken",
+          required: true
+        },
+        {
+          type: "text",
+          name: "meldcode",
+          label: "Meldcode",
+          required: true
+        },
+        {
+          type: "number",
+          name: "schadevrije_jaren",
+          label: "Schadevrije jaren",
+          required: true
+        },
+        {
+          type: "select",
+          name: "gewenste_dekking",
+          label: "Gewenste dekking",
+          required: true,
+          options: ["WA", "WA-Beperkt Casco", "WA-Casco Compleet (Allrisk)"]
+        },
+        {
+          type: "select",
+          name: "ongevallen_opzittenden",
+          label: "Ongevallen opzittenden",
+          required: true,
+          options: ["Ja", "Nee"]
+        },
+        {
+          type: "select",
+          name: "motorrijtuigenrechtsbijstand",
+          label: "Motorrijtuigenrechtsbijstand",
+          required: true,
+          options: ["Ja", "Nee"]
+        },
+        {
+          type: "select",
+          name: "pechhulp",
+          label: "Pechhulp",
+          required: true,
+          options: ["Ja", "Nee"]
+        }
+      ],
+
+      "Zakelijke Oldtimerverzekering": [
+        {
+          type: "text",
+          name: "kenteken",
+          label: "Kenteken",
+          required: false
+        },
+        {
+          type: "text",
+          name: "oldtimer_merk_model",
+          label: "Merk / model",
+          required: true
+        },
+        {
+          type: "number",
+          name: "bouwjaar",
+          label: "Bouwjaar",
+          required: true
+        },
+        {
+          type: "text",
+          name: "meldcode",
+          label: "Meldcode",
+          required: true
+        },
+        {
+          type: "select",
+          name: "jaarkilometrage",
+          label: "Jaarkilometrage",
+          required: true,
+          options: ["Tot 5.000 km", "Tot 7.500 km"]
+        },
+        {
+          type: "select",
+          name: "gewenste_dekking",
+          label: "Gewenste dekking",
+          required: true,
+          options: ["WA", "WA-Beperkt Casco", "WA-Casco Compleet (Allrisk)"]
+        },
+        {
+          type: "select",
+          name: "ongevallen_inzittenden",
+          label: "Ongevallen inzittenden",
+          required: true,
+          options: ["Ja", "Nee"]
+        },
+        {
+          type: "select",
+          name: "schadeverzekering_inzittenden",
+          label: "Schadeverzekering inzittenden",
+          required: true,
+          options: ["Ja", "Nee"]
+        },
+        {
+          type: "select",
+          name: "motorrijtuigenrechtsbijstand",
+          label: "Motorrijtuigenrechtsbijstand",
+          required: true,
+          options: ["Ja", "Nee"]
+        },
+        {
+          type: "select",
+          name: "verhaalsrechtsbijstand",
+          label: "Verhaalsrechtsbijstand",
+          required: true,
+          options: ["Ja", "Nee"]
+        }
+      ],
+
       "Bouw en Montageverzekering": [
         {
+          type: "text",
+          name: "soort_project",
+          label: "Soort project",
+          required: true
+        },
+        {
+          type: "currency",
+          name: "aanneemsom",
+          label: "Aanneemsom / projectwaarde",
+          required: true
+        },
+        {
+          type: "text",
+          name: "looptijd_project",
+          label: "Looptijd van het project",
+          required: true
+        },
+        {
+          type: "text",
+          name: "projectlocatie",
+          label: "Projectlocatie",
+          required: true
+        },
+        {
           type: "textarea",
-          name: "aanvullende_gegevens",
-          label: "Aanvullende gegevens",
+          name: "omschrijving_project",
+          label: "Omschrijf het project en de werkzaamheden",
           required: true,
           full: true
         }
       ],
+
       "Verkeersschadeverzekering voor Werknemers": [
         {
+          type: "number",
+          name: "aantal_werknemers",
+          label: "Aantal werknemers",
+          required: true
+        },
+        {
+          type: "number",
+          name: "aantal_voertuigen_categorie_be",
+          label: "Aantal motorrijtuigen rijbewijscategorie B(E)",
+          required: true
+        },
+        {
+          type: "number",
+          name: "aantal_voertuigen_overig",
+          label: "Aantal motorrijtuigen rijbewijscategorie A, AM, C(E) en D(E)",
+          required: true
+        },
+        {
+          type: "radio",
+          name: "externe_krachten",
+          label: "Maakt u gebruik van externe krachten?",
+          required: true,
+          options: ["Ja", "Nee"]
+        },
+        {
+          type: "radio",
+          name: "schade_inzittenden_meeverzekeren",
+          label: "Schade inzittenden meeverzekeren?",
+          required: true,
+          options: ["Ja", "Nee"]
+        },
+        {
           type: "textarea",
-          name: "aanvullende_gegevens",
-          label: "Aanvullende gegevens",
+          name: "toelichting_gebruik",
+          label: "Toelichting op gebruik van voertuigen en werkzaamheden",
           required: true,
           full: true
         }
       ],
+
       "Aansprakelijkheid voor Bedrijven": [
         {
+          type: "radio",
+          name: "financiele_holding",
+          label: "Financiële holding",
+          required: true,
+          options: ["Ja", "Nee"]
+        },
+        {
+          type: "currency",
+          name: "omzet",
+          label: "Omzet",
+          required: true
+        },
+        {
+          type: "radio",
+          name: "holding_samenwerkingsverband",
+          label: "Onderdeel van holding of samenwerkingsverband",
+          required: true,
+          options: ["Ja", "Nee"]
+        },
+        {
+          type: "select",
+          name: "verzekerd_bedrag_per_aanspraak",
+          label: "Verzekerd bedrag per aanspraak",
+          required: true,
+          options: ["€ 2.500.000", "Meer dan € 2.500.000"]
+        },
+        {
           type: "textarea",
-          name: "aanvullende_gegevens",
-          label: "Aanvullende gegevens",
+          name: "omschrijving_werkzaamheden",
+          label: "Waaruit bestaan de werkzaamheden?",
           required: true,
           full: true
         }
       ],
+
       "Rechtsbijstand voor Bedrijven en Beroepen": [
         {
+          type: "text",
+          name: "branche",
+          label: "Branche / bedrijfsactiviteit",
+          required: true
+        },
+        {
+          type: "number",
+          name: "aantal_werknemers",
+          label: "Aantal werknemers",
+          required: true
+        },
+        {
+          type: "radio",
+          name: "internationaal_actief",
+          label: "Ook internationaal actief",
+          required: true,
+          options: ["Ja", "Nee"]
+        },
+        {
           type: "textarea",
-          name: "aanvullende_gegevens",
-          label: "Aanvullende gegevens",
+          name: "toelichting_juridische_risicos",
+          label: "Toelichting op de bedrijfsactiviteiten en juridische risico’s",
           required: true,
           full: true
         }
       ],
+
       "Bedrijfsschadeverzekering": [
         {
-          type: "textarea",
-          name: "aanvullende_gegevens",
-          label: "Aanvullende gegevens",
+          type: "radio",
+          name: "lopend_bij_asr",
+          label: "Zijn bedrijfsgebouw en/of inventaris en goederen bij a.s.r. verzekerd?",
           required: true,
-          full: true
+          options: ["Ja, reeds lopend", "Ja, in zelfde verzoek", "Nee"]
+        },
+        {
+          type: "text",
+          name: "postcode",
+          label: "Postcode",
+          required: true
+        },
+        {
+          type: "text",
+          name: "huisnummer",
+          label: "Huisnummer",
+          required: true
+        },
+        {
+          type: "text",
+          name: "huisnummer_toevoeging",
+          label: "Huisnummer toevoeging",
+          required: false
+        },
+        {
+          type: "currency",
+          name: "brutowinst",
+          label: "Brutowinst",
+          required: true
+        },
+        {
+          type: "select",
+          name: "uitkeringstermijn",
+          label: "Gewenste uitkeringstermijn",
+          required: true,
+          options: ["1 jaar", "2 jaar", "3 jaar"]
+        },
+        {
+          type: "currency",
+          name: "verzekerd_bedrag_extra_kosten",
+          label: "Verzekerd bedrag extra kosten",
+          required: true
+        },
+        {
+          type: "radio",
+          name: "reconstructiekosten_meer_dan_5000",
+          label: "Meer dan €5.000 meeverzekeren voor reconstructiekosten?",
+          required: true,
+          options: ["Ja", "Nee"]
+        },
+        {
+          type: "select",
+          name: "bouwaard_gebouw",
+          label: "Bouwaard van het gebouw",
+          required: true,
+          options: ["Steen", "Hout", "Kunststof", "Overig"]
+        },
+        {
+          type: "select",
+          name: "dakbedekking_gebouw",
+          label: "Dakbedekking van het gebouw",
+          required: true,
+          options: ["Harde bedekking", "Riet", "Sedum", "Asbest", "Kunstriet", "Overig"]
         }
       ],
+
       "Eigen Vervoerverzekering": [
         {
+          type: "number",
+          name: "aantal_vervoermiddelen_1",
+          label: "Aantal vervoermiddelen",
+          required: true
+        },
+        {
+          type: "select",
+          name: "verzekerd_bedrag_1",
+          label: "Verzekerd bedrag",
+          required: true,
+          options: ["€ 10.000", "€ 20.000", "€ 30.000", "€ 50.000"]
+        },
+        {
+          type: "radio",
+          name: "vervoermiddelen_beveiligd_1",
+          label: "Vervoermiddelen beveiligd",
+          required: true,
+          options: ["Ja", "Nee"]
+        },
+        {
+          type: "text",
+          name: "omschrijving_goederen",
+          label: "Omschrijving goederen",
+          required: true
+        },
+        {
           type: "textarea",
-          name: "aanvullende_gegevens",
-          label: "Aanvullende gegevens",
+          name: "toelichting_eigen_vervoer",
+          label: "Toelichting op het eigen vervoer en de goederen",
           required: true,
           full: true
         }
       ],
+
       "Landmateriaalverzekering": [
         {
-          type: "textarea",
-          name: "aanvullende_gegevens",
-          label: "Aanvullende gegevens",
+          type: "radio",
+          name: "soort_landmateriaal",
+          label: "Wat voor landmateriaal wilt u verzekeren?",
           required: true,
-          full: true
+          options: ["Enkel object", "Container(s) / Oplegger(s) van anderen"]
+        },
+        {
+          type: "text",
+          name: "soort_object",
+          label: "Om welk soort object gaat het?",
+          required: true
+        },
+        {
+          type: "text",
+          name: "merk",
+          label: "Merk",
+          required: true
+        },
+        {
+          type: "text",
+          name: "type_object",
+          label: "Type",
+          required: true
+        },
+        {
+          type: "number",
+          name: "bouwjaar",
+          label: "Bouwjaar",
+          required: true
+        },
+        {
+          type: "radio",
+          name: "heeft_kenteken",
+          label: "Heeft het object een kenteken?",
+          required: true,
+          options: ["Ja", "Nee"]
+        },
+        {
+          type: "text",
+          name: "kenteken",
+          label: "Kenteken",
+          required: false
+        },
+        {
+          type: "radio",
+          name: "financier",
+          label: "Is er sprake van een financier?",
+          required: true,
+          options: ["Ja", "Nee"]
+        },
+        {
+          type: "radio",
+          name: "casco",
+          label: "Casco",
+          required: true,
+          options: ["Geen", "Brand", "Brand en Diefstal", "Casco Standaard"]
+        },
+        {
+          type: "currency",
+          name: "cataloguswaarde",
+          label: "Cataloguswaarde",
+          required: true
         }
       ],
+
       "Vervoerdersaansprakelijkheidsverzekering": [
         {
+          type: "radio",
+          name: "vervoer",
+          label: "Vervoer",
+          required: true,
+          options: ["Ja", "Nee"]
+        },
+        {
+          type: "radio",
+          name: "uitbesteed_vervoer",
+          label: "Uitbesteed vervoer",
+          required: true,
+          options: ["Ja", "Nee"]
+        },
+        {
+          type: "radio",
+          name: "expeditie",
+          label: "Expeditie",
+          required: true,
+          options: ["Ja", "Nee"]
+        },
+        {
+          type: "radio",
+          name: "opslag",
+          label: "Opslag",
+          required: true,
+          options: ["Ja", "Nee"]
+        },
+        {
+          type: "number",
+          name: "aantal_vervoermiddelen",
+          label: "Aantal vervoermiddelen",
+          required: true
+        },
+        {
+          type: "radio",
+          name: "werkgebied",
+          label: "Wat is uw werkgebied?",
+          required: true,
+          options: ["Binnenlands vervoer", "Grensoverschrijdend vervoer", "Beiden"]
+        },
+        {
           type: "textarea",
-          name: "aanvullende_gegevens",
-          label: "Aanvullende gegevens",
+          name: "toelichting_transportactiviteiten",
+          label: "Toelichting op vervoer-, expeditie- en opslagactiviteiten",
           required: true,
           full: true
         }
       ],
+
       "Goederentransportverzekering": [
         {
+          type: "radio",
+          name: "wat_verzekeren",
+          label: "Wat wilt u verzekeren?",
+          required: true,
+          options: ["Vervoerde goederen", "Lastaansprakelijkheid"]
+        },
+        {
+          type: "radio",
+          name: "wie_vraagt_aan",
+          label: "Wie vraagt de verzekering aan?",
+          required: true,
+          options: ["Belanghebbende", "Vervoerder", "Expediteur"]
+        },
+        {
+          type: "radio",
+          name: "wie_verzorgt_transport",
+          label: "Wie verzorgt het transport?",
+          required: true,
+          options: ["Belanghebbende zelf", "Derden", "Belanghebbende en derden"]
+        },
+        {
+          type: "text",
+          name: "soort_goederen",
+          label: "Soort goederen",
+          required: true
+        },
+        {
           type: "textarea",
-          name: "aanvullende_gegevens",
-          label: "Aanvullende gegevens",
+          name: "omschrijving_transport",
+          label: "Omschrijf de goederen en het transport",
           required: true,
           full: true
         }
       ],
+
       "Gebouwenverzekering": [
         {
-          type: "textarea",
-          name: "aanvullende_gegevens",
-          label: "Aanvullende gegevens",
+          type: "radio",
+          name: "meerdere_huisnummers",
+          label: "Heeft uw gebouw meerdere huisnummers?",
           required: true,
-          full: true
+          options: ["Ja", "Nee"]
+        },
+        {
+          type: "text",
+          name: "postcode",
+          label: "Postcode",
+          required: true
+        },
+        {
+          type: "text",
+          name: "huisnummer",
+          label: "Huisnummer",
+          required: true
+        },
+        {
+          type: "text",
+          name: "huisnummer_toevoeging",
+          label: "Huisnummer toevoeging",
+          required: false
+        },
+        {
+          type: "radio",
+          name: "eigenaar_van_gebouw",
+          label: "Bent u de eigenaar van het gebouw?",
+          required: true,
+          options: ["Ja", "Nee"]
+        },
+        {
+          type: "select",
+          name: "soort_gebouw",
+          label: "Soort gebouw",
+          required: true,
+          options: ["Gebouw", "Bedrijfspand", "Kantoor", "Overig"]
+        },
+        {
+          type: "radio",
+          name: "verhuur_status",
+          label: "Wordt het gebouw gedeeltelijk of volledig verhuurd?",
+          required: true,
+          options: ["Geen verhuur", "Gedeeltelijke verhuur", "Volledige verhuur"]
+        },
+        {
+          type: "select",
+          name: "hoofdbestemming",
+          label: "Hoofdbestemming",
+          required: true,
+          options: ["Kantoor", "Opslag", "Werkplaats", "Winkel", "Overig"]
+        },
+        {
+          type: "currency",
+          name: "verzekerd_bedrag_gebouw",
+          label: "Verzekerd bedrag",
+          required: true
+        },
+        {
+          type: "select",
+          name: "bouwaard_gebouw",
+          label: "Bouwaard van het gebouw",
+          required: true,
+          options: ["Steen", "Hout", "Kunststof", "Overig"]
+        },
+        {
+          type: "select",
+          name: "dakbedekking_gebouw",
+          label: "Dakbedekking van het gebouw",
+          required: true,
+          options: ["Harde bedekking", "Riet", "Sedum", "Asbest", "Kunstriet", "Overig"]
         }
       ],
+
       "Inventaris en Goederen": [
         {
-          type: "textarea",
-          name: "aanvullende_gegevens",
-          label: "Aanvullende gegevens",
+          type: "currency",
+          name: "verzekerd_bedrag_inventaris",
+          label: "Verzekerd bedrag inventaris",
+          required: true
+        },
+        {
+          type: "currency",
+          name: "verzekerd_bedrag_goederen",
+          label: "Verzekerd bedrag goederen",
+          required: true
+        },
+        {
+          type: "radio",
+          name: "bedragen_btw",
+          label: "Bedragen inclusief of exclusief BTW?",
           required: true,
-          full: true
+          options: ["Inclusief", "Exclusief"]
+        },
+        {
+          type: "radio",
+          name: "geldig_taxatierapport",
+          label: "Heeft u een geldig taxatierapport?",
+          required: true,
+          options: ["Ja", "Nee"]
+        },
+        {
+          type: "multiselect",
+          name: "extra_onderdelen",
+          label: "Welke onderdelen wilt u meeverzekeren?",
+          required: false,
+          options: ["Huurdersbelang", "Electronica en Instrumenten", "Geld", "Zonnepanelen", "Lichtreclame"]
         }
       ],
+
       "Milieuschadeverzekering": [
         {
-          type: "textarea",
-          name: "aanvullende_gegevens",
-          label: "Aanvullende gegevens",
+          type: "radio",
+          name: "bodem_of_waterverontreiniging_bekend",
+          label: "Zijn omstandigheden bekend waaronder bodem- en/of waterverontreiniging kan zijn ontstaan?",
           required: true,
-          full: true
+          options: ["Ja", "Nee"]
+        },
+        {
+          type: "radio",
+          name: "rapport_bodemonderzoek",
+          label: "Bent u in het bezit van een rapport bodemonderzoek dat niet ouder is dan 36 maanden?",
+          required: true,
+          options: ["Ja", "Nee"]
+        },
+        {
+          type: "radio",
+          name: "eigenaar_gebouw_bijgebouwen",
+          label: "Bent u eigenaar van het gebouw en/of bijgebouwen?",
+          required: true,
+          options: ["Ja", "Nee"]
+        },
+        {
+          type: "radio",
+          name: "bovengrondse_tanks_gevaarlijke_stoffen",
+          label: "Zijn er bovengrondse tanks met gevaarlijke stoffen aanwezig?",
+          required: true,
+          options: ["Ja", "Nee"]
+        },
+        {
+          type: "radio",
+          name: "ondergrondse_tanks_gevaarlijke_stoffen",
+          label: "Zijn er ondergrondse tanks met gevaarlijke stoffen aanwezig?",
+          required: true,
+          options: ["Ja", "Nee"]
+        },
+        {
+          type: "radio",
+          name: "asbesthoudende_dakbedekking",
+          label: "Is er asbesthoudende dakbedekking en/of gevelbeplating aanwezig?",
+          required: true,
+          options: ["Ja", "Nee"]
+        },
+        {
+          type: "radio",
+          name: "werkzaamheden_bij_derden",
+          label: "Verricht u werkzaamheden op locatie bij derden?",
+          required: true,
+          options: ["Ja", "Nee"]
         }
       ]
     };
@@ -823,6 +1417,31 @@
         `;
       }
 
+      if (field.type === "radio") {
+        return `
+          <div class="${wrapperClass}">
+            <label>${field.label}</label>
+            <div class="radio-group">
+              ${(field.options || []).map(option => {
+                const optionId = `${fieldId}__${makeOptionKey(option)}`;
+                return `
+                  <label class="radio-option" for="${optionId}">
+                    <input
+                      type="radio"
+                      id="${optionId}"
+                      name="${fieldId}"
+                      value="${escapeHtml(option)}"
+                      ${field.required ? "required" : ""}
+                    />
+                    <span>${escapeHtml(option)}</span>
+                  </label>
+                `;
+              }).join("")}
+            </div>
+          </div>
+        `;
+      }
+
       if (field.type === "textarea") {
         return `
           <div class="${wrapperClass}">
@@ -832,10 +1451,13 @@
         `;
       }
 
+      const inputType = field.type === "currency" ? "text" : (field.type || "text");
+      const inputMode = field.type === "number" ? 'inputmode="numeric"' : (field.type === "currency" ? 'inputmode="decimal"' : "");
+
       return `
         <div class="${wrapperClass}">
           <label for="${fieldId}">${field.label}</label>
-          <input type="${field.type || "text"}" id="${fieldId}" name="${fieldId}" ${field.required ? "required" : ""} />
+          <input type="${inputType}" id="${fieldId}" name="${fieldId}" ${inputMode} ${field.required ? "required" : ""} />
         </div>
       `;
     }
@@ -889,6 +1511,12 @@
             return;
           }
 
+          const radio = document.querySelector(`input[type="radio"][name="${insuranceKey}__${fieldName}"][value="${CSS.escape(value)}"]`);
+          if (radio) {
+            radio.checked = true;
+            return;
+          }
+
           const input = document.getElementById(`${insuranceKey}__${fieldName}`);
           if (input) {
             input.value = value;
@@ -917,6 +1545,16 @@
           if (el.checked) {
             values[fieldName].push(el.value);
           }
+          return;
+        }
+
+        if (el.type === "radio") {
+          const name = el.name || "";
+          if (!name.startsWith(prefix)) return;
+          if (!el.checked) return;
+
+          const fieldName = name.replace(prefix, "");
+          values[fieldName] = el.value;
           return;
         }
 
@@ -950,6 +1588,17 @@
             alert(`Selecteer minimaal één optie bij "${field.label}" voor ${insuranceName}.`);
             const firstCheckbox = document.querySelector(`input[type="checkbox"][name="${insuranceKey}__${field.name}"]`);
             firstCheckbox?.focus();
+            return false;
+          }
+          continue;
+        }
+
+        if (field.type === "radio") {
+          const checkedRadio = document.querySelector(`input[type="radio"][name="${insuranceKey}__${field.name}"]:checked`);
+          if (field.required && !checkedRadio) {
+            alert(`Kies een optie bij "${field.label}" voor ${insuranceName}.`);
+            const firstRadio = document.querySelector(`input[type="radio"][name="${insuranceKey}__${field.name}"]`);
+            firstRadio?.focus();
             return false;
           }
           continue;
