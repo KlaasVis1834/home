@@ -137,6 +137,10 @@
       pointer-events: none;
     }
 
+    .readonly-field {
+      background: #f8fafc !important;
+    }
+
     @media (max-width: 768px) {
       .detail-grid {
         grid-template-columns: 1fr;
@@ -317,16 +321,27 @@
               <input type="text" id="toevoeging" name="toevoeging" />
             </div>
 
-            <div class="form-group">
-              <label for="plaats">Plaats</label>
-              <input type="text" id="plaats" name="plaats" required />
+            <div class="form-group field-full" style="display:flex;align-items:end;">
+              <button type="button" id="lookup-adres-btn" class="btn btn-secondary">Zoek adres</button>
             </div>
 
             <div class="form-group field-full">
               <label for="straat">Straat</label>
               <input type="text" id="straat" name="straat" required />
             </div>
+
+            <div class="form-group">
+              <label for="plaats">Plaats</label>
+              <input type="text" id="plaats" name="plaats" required />
+            </div>
+
+            <div class="form-group field-full">
+              <label for="volledig_adres">Volledig adres</label>
+              <input type="text" id="volledig_adres" name="volledig_adres" class="readonly-field" readonly />
+            </div>
           </div>
+
+          <div id="adres-status" class="status-message"></div>
 
           <div class="helper-box">
             <strong>Na verzending</strong>
@@ -358,7 +373,7 @@
     const EMAILJS_SERVICE_ID = "service_13oq5zv";
     const EMAILJS_TEMPLATE_KLANT = "template_72i1fek";
     const EMAILJS_TEMPLATE_ADVISEUR = "template_c7z7ivj";
-    const ADVISEUR_EMAIL = "ADVISEUR_EMAIL_HIER";
+    const ADVISEUR_EMAIL = "rbuijs@klaasvis.nl";
 
     function getOfferData() {
       const raw = sessionStorage.getItem(STORAGE_KEY);
@@ -437,6 +452,20 @@
           el.value = value;
         }
       });
+
+      const straat = document.getElementById("straat");
+      const huisnummer = document.getElementById("huisnummer");
+      const toevoeging = document.getElementById("toevoeging");
+      const postcode = document.getElementById("postcode");
+      const plaats = document.getElementById("plaats");
+      const volledigAdres = document.getElementById("volledig_adres");
+
+      if (straat && huisnummer && postcode && plaats && volledigAdres && !volledigAdres.value.trim()) {
+        volledigAdres.value = [
+          [straat.value, [huisnummer.value, toevoeging?.value || ""].filter(Boolean).join(" ")].filter(Boolean).join(" "),
+          [postcode.value, plaats.value].filter(Boolean).join(" ")
+        ].filter(Boolean).join(", ");
+      }
     }
 
     function collectPersonalData(type) {
@@ -447,7 +476,8 @@
         huisnummer: document.getElementById("huisnummer").value.trim(),
         toevoeging: document.getElementById("toevoeging").value.trim(),
         plaats: document.getElementById("plaats").value.trim(),
-        straat: document.getElementById("straat").value.trim()
+        straat: document.getElementById("straat").value.trim(),
+        volledig_adres: document.getElementById("volledig_adres").value.trim()
       };
 
       if (type === "particulier") {
@@ -523,6 +553,119 @@
       }
 
       return true;
+    }
+
+    async function lookupAddress({ postcode, huisnummer, toevoeging }) {
+      const normalizedPostcode = normalizePostcode(postcode);
+      const normalizedToevoeging = String(toevoeging || "").trim().toUpperCase();
+      const query = `${normalizedPostcode} ${huisnummer}${normalizedToevoeging ? " " + normalizedToevoeging : ""}`;
+      const url = `https://api.pdok.nl/bzk/locatieserver/search/v3_1/free?q=${encodeURIComponent(query)}&rows=1`;
+
+      const response = await fetch(url);
+
+      if (!response.ok) {
+        throw new Error("PDOK request mislukt");
+      }
+
+      const data = await response.json();
+
+      if (!data?.response?.numFound || !data.response.docs?.length) {
+        return {
+          straat: "",
+          plaats: "",
+          volledigAdres: ""
+        };
+      }
+
+      const adres = data.response.docs[0];
+      const straat = adres.straatnaam || "";
+      const plaats = adres.woonplaatsnaam || "";
+      const gevondenPostcode = normalizePostcode(adres.postcode || normalizedPostcode);
+      const gevondenHuisnummer = adres.huisnummer || huisnummer || "";
+      const huisletter = adres.huisletter || "";
+      const huisnummertoevoeging = adres.huisnummertoevoeging || normalizedToevoeging || "";
+      const nummerDeel = `${gevondenHuisnummer}${huisletter}${huisnummertoevoeging ? " " + huisnummertoevoeging : ""}`.trim();
+      const volledigAdres = [straat && nummerDeel ? `${straat} ${nummerDeel}` : straat, gevondenPostcode, plaats]
+        .filter(Boolean)
+        .join(", ");
+
+      return {
+        straat,
+        plaats,
+        volledigAdres
+      };
+    }
+
+    async function runAddressLookup() {
+      const postcodeInput = document.getElementById("postcode");
+      const huisnummerInput = document.getElementById("huisnummer");
+      const toevoegingInput = document.getElementById("toevoeging");
+      const straatInput = document.getElementById("straat");
+      const plaatsInput = document.getElementById("plaats");
+      const volledigAdresInput = document.getElementById("volledig_adres");
+      const status = document.getElementById("adres-status");
+
+      const postcode = normalizePostcode(postcodeInput.value);
+      const huisnummer = huisnummerInput.value.trim();
+      const toevoeging = toevoegingInput.value.trim();
+
+      postcodeInput.value = postcode;
+
+      if (!postcode || postcode.length !== 6 || !huisnummer) {
+        status.textContent = "Vul eerst een geldige postcode en huisnummer in.";
+        return;
+      }
+
+      status.textContent = "Adres wordt opgezocht...";
+
+      try {
+        const result = await lookupAddress({ postcode, huisnummer, toevoeging });
+
+        straatInput.value = result.straat || "";
+        plaatsInput.value = result.plaats || "";
+        volledigAdresInput.value = result.volledigAdres || "";
+
+        status.textContent = result.volledigAdres
+          ? "Adres succesvol opgehaald."
+          : "Adres niet gevonden.";
+      } catch (error) {
+        console.error("Fout bij ophalen adres:", error);
+        straatInput.value = "";
+        plaatsInput.value = "";
+        volledigAdresInput.value = "";
+        status.textContent = "Adres kon niet worden opgehaald.";
+      }
+    }
+
+    function bindAddressLookup() {
+      const postcodeInput = document.getElementById("postcode");
+      const huisnummerInput = document.getElementById("huisnummer");
+      const toevoegingInput = document.getElementById("toevoeging");
+      const lookupBtn = document.getElementById("lookup-adres-btn");
+
+      if (!postcodeInput || !huisnummerInput || !toevoegingInput || !lookupBtn) return;
+
+      let lookupTimeout;
+
+      const triggerLookup = () => {
+        clearTimeout(lookupTimeout);
+        lookupTimeout = setTimeout(() => {
+          const postcode = normalizePostcode(postcodeInput.value);
+          const huisnummer = huisnummerInput.value.trim();
+
+          if (postcode.length === 6 && huisnummer) {
+            runAddressLookup();
+          }
+        }, 350);
+      };
+
+      lookupBtn.addEventListener("click", runAddressLookup);
+      postcodeInput.addEventListener("input", triggerLookup);
+      huisnummerInput.addEventListener("input", triggerLookup);
+      toevoegingInput.addEventListener("input", triggerLookup);
+      postcodeInput.addEventListener("blur", triggerLookup);
+      huisnummerInput.addEventListener("blur", triggerLookup);
+      toevoegingInput.addEventListener("blur", triggerLookup);
     }
 
     async function sendEmails(offerData, personalData) {
@@ -604,6 +747,7 @@
       }
 
       restorePersonalData(offerData);
+      bindAddressLookup();
 
       form.addEventListener("submit", async (e) => {
         e.preventDefault();
