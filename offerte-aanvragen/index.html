@@ -355,6 +355,20 @@
       .choice-card-toggle {
         flex-direction: column;
         align-items: flex-start;
+        padding: 20px 18px 16px;
+        gap: 14px;
+      }
+
+      .choice-card-body {
+        padding: 0 18px 18px;
+      }
+
+      .choice-card h3 {
+        font-size: 1.15rem;
+      }
+
+      .choice-card-subtext {
+        font-size: 0.95rem;
       }
 
       .choice-card-meta {
@@ -364,12 +378,113 @@
         align-items: center;
       }
 
+      .insurance-tabs {
+        padding: 14px;
+        margin: 14px 0 18px;
+        border-radius: 18px;
+      }
+
+      .tab-buttons {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 8px;
+        overflow: visible;
+        padding-bottom: 0;
+      }
+
+      .tab-button {
+        width: 100%;
+        white-space: normal;
+        text-align: left;
+        border-radius: 14px;
+        padding: 0.9rem 1rem;
+        line-height: 1.35;
+      }
+
+      .insurance-item {
+        padding: 12px 13px;
+        min-height: auto;
+        border-radius: 14px;
+      }
+
+      .insurance-item label {
+        font-size: 0.94rem;
+      }
+
+      .selected-summary {
+        font-size: 0.92rem;
+        padding: 13px 14px;
+      }
+
       .choice-actions {
         flex-direction: column;
+        align-items: stretch;
       }
 
       .choice-actions .btn {
         width: 100%;
+      }
+
+      .choice-helper {
+        padding: 16px;
+        margin-bottom: 20px;
+        border-radius: 16px;
+        text-align: left;
+      }
+
+      .contact-grid,
+      .about-grid,
+      .form-row,
+      .grid.grid-2.about-points {
+        grid-template-columns: 1fr !important;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .choices-section {
+        padding-top: 34px;
+      }
+
+      .choice-cards {
+        gap: 14px;
+      }
+
+      .choice-card {
+        border-radius: 20px;
+      }
+
+      .choice-pill {
+        min-width: 30px;
+        height: 30px;
+        padding: 0 10px;
+        font-size: 0.78rem;
+      }
+
+      .selected-count {
+        min-width: 34px;
+        height: 34px;
+        font-size: 0.84rem;
+      }
+
+      .toggle-arrow {
+        font-size: 1rem;
+      }
+
+      .insurance-tabs {
+        padding: 12px;
+      }
+
+      .tab-button {
+        font-size: 0.88rem;
+        padding: 0.82rem 0.9rem;
+      }
+
+      .insurance-item input[type="checkbox"] {
+        transform: scale(1.05);
+      }
+
+      .process-card {
+        padding: 18px;
       }
     }
   </style>
