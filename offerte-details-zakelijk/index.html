@@ -115,23 +115,20 @@
       margin-bottom: 6px;
     }
 
-    .multiselect-group,
-    .radio-group {
+    .multiselect-group {
       display: grid;
       gap: 8px;
       margin-top: 6px;
     }
 
-    .multiselect-option,
-    .radio-option {
+    .multiselect-option {
       display: flex;
       align-items: center;
       gap: 8px;
       color: var(--text);
     }
 
-    .multiselect-option input[type="checkbox"],
-    .radio-option input[type="radio"] {
+    .multiselect-option input[type="checkbox"] {
       accent-color: var(--primary);
     }
 
@@ -1386,7 +1383,7 @@
       const fieldId = `${insuranceKey}__${field.name}`;
       const wrapperClass = field.full ? "form-group field-full" : "form-group";
 
-      if (field.type === "select") {
+      if (field.type === "select" || field.type === "radio") {
         return `
           <div class="${wrapperClass}">
             <label for="${fieldId}">${field.label}</label>
@@ -1408,31 +1405,6 @@
                 return `
                   <label class="multiselect-option" for="${optionId}">
                     <input type="checkbox" id="${optionId}" name="${fieldId}" value="${escapeHtml(option)}" />
-                    <span>${escapeHtml(option)}</span>
-                  </label>
-                `;
-              }).join("")}
-            </div>
-          </div>
-        `;
-      }
-
-      if (field.type === "radio") {
-        return `
-          <div class="${wrapperClass}">
-            <label>${field.label}</label>
-            <div class="radio-group">
-              ${(field.options || []).map(option => {
-                const optionId = `${fieldId}__${makeOptionKey(option)}`;
-                return `
-                  <label class="radio-option" for="${optionId}">
-                    <input
-                      type="radio"
-                      id="${optionId}"
-                      name="${fieldId}"
-                      value="${escapeHtml(option)}"
-                      ${field.required ? "required" : ""}
-                    />
                     <span>${escapeHtml(option)}</span>
                   </label>
                 `;
@@ -1511,12 +1483,6 @@
             return;
           }
 
-          const radio = document.querySelector(`input[type="radio"][name="${insuranceKey}__${fieldName}"][value="${CSS.escape(value)}"]`);
-          if (radio) {
-            radio.checked = true;
-            return;
-          }
-
           const input = document.getElementById(`${insuranceKey}__${fieldName}`);
           if (input) {
             input.value = value;
@@ -1548,20 +1514,10 @@
           return;
         }
 
-        if (el.type === "radio") {
-          const name = el.name || "";
-          if (!name.startsWith(prefix)) return;
-          if (!el.checked) return;
+        const identifier = (el.id || el.name || "");
+        if (!identifier.startsWith(prefix)) return;
 
-          const fieldName = name.replace(prefix, "");
-          values[fieldName] = el.value;
-          return;
-        }
-
-        const fullId = el.id || "";
-        if (!fullId.startsWith(prefix)) return;
-
-        const fieldName = fullId.replace(prefix, "");
+        const fieldName = identifier.replace(prefix, "");
         values[fieldName] = el.value.trim();
       });
 
@@ -1588,17 +1544,6 @@
             alert(`Selecteer minimaal één optie bij "${field.label}" voor ${insuranceName}.`);
             const firstCheckbox = document.querySelector(`input[type="checkbox"][name="${insuranceKey}__${field.name}"]`);
             firstCheckbox?.focus();
-            return false;
-          }
-          continue;
-        }
-
-        if (field.type === "radio") {
-          const checkedRadio = document.querySelector(`input[type="radio"][name="${insuranceKey}__${field.name}"]:checked`);
-          if (field.required && !checkedRadio) {
-            alert(`Kies een optie bij "${field.label}" voor ${insuranceName}.`);
-            const firstRadio = document.querySelector(`input[type="radio"][name="${insuranceKey}__${field.name}"]`);
-            firstRadio?.focus();
             return false;
           }
           continue;
