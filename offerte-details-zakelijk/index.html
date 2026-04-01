@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Zakelijke offerte details | Klaas Vis</title>
+  <meta
+    name="description"
+    content="Vul de aanvullende gegevens in voor uw zakelijke verzekeringen."
+  />
+
+  <link rel="icon" type="image/png" href="/logo.png" />
+  <link rel="stylesheet" href="/styles.css?v=2" />
+  <script id="Cookiebot" src="https://consent.cookiebot.com/uc.js" data-cbid="9273cf7a-daab-4567-a9d7-3429830702b0" data-blockingmode="auto" type="text/javascript"></script>
+  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+
+  <style>
+    .details-hero {
+      padding: 42px 0 24px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .details-wrap {
+      display: grid;
+      gap: 24px;
+    }
+
+    .summary-card,
+    .details-card,
+    .insurance-block {
+      background: rgba(255,255,255,0.9);
+      border: 1px solid rgba(20,25,40,0.08);
+      box-shadow: var(--shadow-sm);
+      border-radius: var(--radius);
+    }
+
+    .summary-card,
+    .details-card {
+      padding: 24px;
+    }
+
+    .summary-card h3,
+    .details-card h3 {
+      font-size: 1.15rem;
+      font-weight: 800;
+      margin-bottom: 12px;
+    }
+
+    .summary-list {
+      padding-left: 18px;
+      color: var(--text-muted);
+    }
+
+    .insurance-block {
+      padding: 22px;
+      margin-bottom: 18px;
+    }
+
+    .insurance-block:last-child {
+      margin-bottom: 0;
+    }
+
+    .insurance-block-head {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .insurance-block-head .feature-icon {
+      margin-bottom: 0;
+      flex-shrink: 0;
+    }
+
+    .insurance-block h4 {
+      font-size: 1.08rem;
+      font-weight: 800;
+      margin: 0;
+    }
+
+    .insurance-block p {
+      color: var(--text-muted);
+      margin: 4px 0 0;
+    }
+
+    .detail-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-top: 10px;
+    }
+
+    .detail-grid .field-full {
+      grid-column: 1 / -1;
+    }
+
+    .step-actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 22px;
+    }
+
+    .helper-box {
+      margin-top: 20px;
+      padding: 16px 18px;
+      border-radius: 16px;
+      background: rgba(79,70,229,0.04);
+      border: 1px solid rgba(79,70,229,0.08);
+    }
+
+    .helper-box strong {
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    .multiselect-group {
+      display: grid;
+      gap: 8px;
+      margin-top: 6px;
+    }
+
+    .multiselect-option {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--text);
+    }
+
+    .multiselect-option input[type="checkbox"] {
+      accent-color: var(--primary);
+    }
+
+    @media (max-width: 768px) {
+      .detail-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .step-actions {
+        flex-direction: column;
+      }
+
+      .step-actions .btn {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-blur bg-blur-1"></div>
+  <div class="bg-blur bg-blur-2"></div>
+
+  <nav>
+    <div class="nav-container">
+      <a href="/" class="logo">
+        <img src="/logo.png" alt="Klaas Vis Logo" class="logo-img" />
+        <span>Klaas Vis</span>
+      </a>
+
+      <button class="hamburger" type="button" aria-label="Menu openen" aria-expanded="false">☰</button>
+
+      <ul class="nav-list">
+        <li><a href="/schademelden/">Schade melden</a></li>
+        <li><a href="/wijziging-doorgeven/">Wijziging doorgeven</a></li>
+        <li><a href="/dekkerautoverzekering/">Dekkerautoverzekering</a></li>
+        <li><a href="/offerte-aanvragen/">Offerte aanvragen</a></li>
+        <li><a href="/downloads/">Downloads</a></li>
+        <li><a href="/contact/">Contact</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main>
+    <section class="details-hero">
+      <div class="container">
+        <div class="section-head center">
+          <div class="eyebrow">Stap 2 • Zakelijk</div>
+          <h2>Aanvullende gegevens voor uw aanvraag.</h2>
+          <p>
+            Vul hieronder de aanvullende gegevens in voor de geselecteerde zakelijke verzekeringen.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section soft" style="padding-top: 24px;">
+      <div class="container details-wrap">
+        <div class="summary-card">
+          <h3>Geselecteerde verzekeringen</h3>
+          <ul id="selected-insurance-list" class="summary-list"></ul>
+        </div>
+
+        <form id="zakelijk-details-form" class="details-card">
+          <h3>Verzekeringsdetails</h3>
+          <div id="insurance-fields-container"></div>
+
+          <div class="step-actions">
+            <a href="/offerte-aanvragen/" class="btn btn-secondary">Terug</a>
+            <button type="submit" class="btn btn-primary">Verder naar persoonsgegevens</button>
+          </div>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <script src="/script.js?v=2"></script>
+
+  <script>
+    const STORAGE_KEY = "klaasvis_offer_data";
+
+    const ZAKELIJK_FIELDS = {
+      "Arbeidsongeschiktheidsverzekering (AOV)": [
+        {
+          type: "textarea",
+          name: "aanvullende_gegevens",
+          label: "Aanvullende gegevens",
+          required: true,
+          full: true
+        }
+      ],
+      "Ongevallenverzekering": [
+        {
+          type: "textarea",
+          name: "aanvullende_gegevens",
+          label: "Aanvullende gegevens",
+          required: true,
+          full: true
+        }
+      ],
+      "Inkomen Collectief": [
+        {
+          type: "textarea",
+          name: "aanvullende_gegevens",
+          label: "Aanvullende gegevens",
+          required: true,
+          full: true
+        }
+      ],
+      "Zakelijke Personenautoverzekering": [
+        {
+          type: "textarea",
+          name: "aanvullende_gegevens",
+          label: "Aanvullende gegevens",
+          required: true,
+          full: true
+        }
+      ],
+      "Zakelijke Bestelautoverzekering": [
+        {
+          type: "textarea",
+          name: "aanvullende_gegevens",
+          label: "Aanvullende gegevens",
+          required: true,
+          full: true
+        }
+      ],
+      "Vrachtautoverzekering": [
+        {
+          type: "textarea",
+          name: "aanvullende_gegevens",
+          label: "Aanvullende gegevens",
+          required: true,
+          full: true
+        }
+      ],
+      "Zakelijke Motorverzekering": [
+        {
+          type: "textarea",
+          name: "aanvullende_gegevens",
+          label: "Aanvullende gegevens",
+          required: true,
+          full: true
+        }
+      ],
+      "Zakelijke Bromfietsverzekering": [
+        {
+          type: "textarea",
+          name: "aanvullende_gegevens",
+          label: "Aanvullende gegevens",
+          required: true,
+          full: true
+        }
+      ],
+      "Zakelijke Oldtimerverzekering": [
+        {
+          type: "textarea",
+          name: "aanvullende_gegevens",
+          label: "Aanvullende gegevens",
+          required: true,
+          full: true
+        }
+      ],
+      "Bouw en Montageverzekering": [
+        {
+          type: "textarea",
+          name: "aanvullende_gegevens",
+          label: "Aanvullende gegevens",
+          required: true,
+          full: true
+        }
+      ],
+      "Verkeersschadeverzekering voor Werknemers": [
+        {
+          type: "textarea",
+          name: "aanvullende_gegevens",
+          label: "Aanvullende gegevens",
+          required: true,
+          full: true
+        }
+      ],
+      "Aansprakelijkheid voor Bedrijven": [
+        {
+          type: "textarea",
+          name: "aanvullende_gegevens",
+          label: "Aanvullende gegevens",
+          required: true,
+          full: true
+        }
+      ],
+      "Rechtsbijstand voor Bedrijven en Beroepen": [
+        {
+          type: "textarea",
+          name: "aanvullende_gegevens",
+          label: "Aanvullende gegevens",
+          required: true,
+          full: true
+        }
+      ],
+      "Bedrijfsschadeverzekering": [
+        {
+          type: "textarea",
+          name: "aanvullende_gegevens",
+          label: "Aanvullende gegevens",
+          required: true,
+          full: true
+        }
+      ],
+      "Eigen Vervoerverzekering": [
+        {
+          type: "textarea",
+          name: "aanvullende_gegevens",
+          label: "Aanvullende gegevens",
+          required: true,
+          full: true
+        }
+      ],
+      "Landmateriaalverzekering": [
+        {
+          type: "textarea",
+          name: "aanvullende_gegevens",
+          label: "Aanvullende gegevens",
+          required: true,
+          full: true
+        }
+      ],
+      "Vervoerdersaansprakelijkheidsverzekering": [
+        {
+          type: "textarea",
+          name: "aanvullende_gegevens",
+          label: "Aanvullende gegevens",
+          required: true,
+          full: true
+        }
+      ],
+      "Goederentransportverzekering": [
+        {
+          type: "textarea",
+          name: "aanvullende_gegevens",
+          label: "Aanvullende gegevens",
+          required: true,
+          full: true
+        }
+      ],
+      "Gebouwenverzekering": [
+        {
+          type: "textarea",
+          name: "aanvullende_gegevens",
+          label: "Aanvullende gegevens",
+          required: true,
+          full: true
+        }
+      ],
+      "Inventaris en Goederen": [
+        {
+          type: "textarea",
+          name: "aanvullende_gegevens",
+          label: "Aanvullende gegevens",
+          required: true,
+          full: true
+        }
+      ],
+      "Milieuschadeverzekering": [
+        {
+          type: "textarea",
+          name: "aanvullende_gegevens",
+          label: "Aanvullende gegevens",
+          required: true,
+          full: true
+        }
+      ]
+    };
+
+    function safeKey(value) {
+      return String(value).replace(/[^a-zA-Z0-9_-]/g, "_");
+    }
+
+    function escapeHtml(value) {
+      return String(value)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+
+    function makeOptionKey(value) {
+      return String(value).replace(/[^a-zA-Z0-9_-]/g, "_");
+    }
+
+    function getOfferData() {
+      const raw = sessionStorage.getItem(STORAGE_KEY);
+      return raw ? JSON.parse(raw) : null;
+    }
+
+    function saveOfferData(data) {
+      sessionStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+    }
+
+    function createStandardField(insuranceKey, field) {
+      const fieldId = `${insuranceKey}__${field.name}`;
+      const wrapperClass = field.full ? "form-group field-full" : "form-group";
+
+      if (field.type === "select") {
+        return `
+          <div class="${wrapperClass}">
+            <label for="${fieldId}">${field.label}</label>
+            <select id="${fieldId}" name="${fieldId}" ${field.required ? "required" : ""}>
+              <option value="">Kies een optie</option>
+              ${(field.options || []).map(option => `<option value="${escapeHtml(option)}">${escapeHtml(option)}</option>`).join("")}
+            </select>
+          </div>
+        `;
+      }
+
+      if (field.type === "multiselect") {
+        return `
+          <div class="${wrapperClass}">
+            <label>${field.label}</label>
+            <div class="multiselect-group">
+              ${(field.options || []).map(option => {
+                const optionId = `${fieldId}__${makeOptionKey(option)}`;
+                return `
+                  <label class="multiselect-option" for="${optionId}">
+                    <input type="checkbox" id="${optionId}" name="${fieldId}" value="${escapeHtml(option)}" />
+                    <span>${escapeHtml(option)}</span>
+                  </label>
+                `;
+              }).join("")}
+            </div>
+          </div>
+        `;
+      }
+
+      if (field.type === "textarea") {
+        return `
+          <div class="${wrapperClass}">
+            <label for="${fieldId}">${field.label}</label>
+            <textarea id="${fieldId}" name="${fieldId}" ${field.required ? "required" : ""}></textarea>
+          </div>
+        `;
+      }
+
+      return `
+        <div class="${wrapperClass}">
+          <label for="${fieldId}">${field.label}</label>
+          <input type="${field.type || "text"}" id="${fieldId}" name="${fieldId}" ${field.required ? "required" : ""} />
+        </div>
+      `;
+    }
+
+    function createFieldHtml(insuranceName, field) {
+      const insuranceKey = safeKey(insuranceName);
+      return createStandardField(insuranceKey, field);
+    }
+
+    function createInsuranceBlockHtml(insuranceName) {
+      const fields = ZAKELIJK_FIELDS[insuranceName] || [
+        {
+          type: "textarea",
+          name: "aanvullende_gegevens",
+          label: "Aanvullende gegevens",
+          required: true,
+          full: true
+        }
+      ];
+
+      return `
+        <div class="insurance-block" data-insurance-name="${escapeHtml(insuranceName)}">
+          <div class="insurance-block-head">
+            <div class="feature-icon">➤</div>
+            <div>
+              <h4>${escapeHtml(insuranceName)}</h4>
+              <p>Vul hieronder de aanvullende gegevens in.</p>
+            </div>
+          </div>
+
+          <div class="detail-grid">
+            ${fields.map(field => createFieldHtml(insuranceName, field)).join("")}
+          </div>
+        </div>
+      `;
+    }
+
+    function restorePreviousValues(offerData) {
+      const detailData = offerData.insuranceDetails?.zakelijk || {};
+
+      Object.entries(detailData).forEach(([insuranceName, values]) => {
+        const insuranceKey = safeKey(insuranceName);
+
+        Object.entries(values || {}).forEach(([fieldName, value]) => {
+          if (Array.isArray(value)) {
+            value.forEach((item) => {
+              const selector = `input[type="checkbox"][name="${insuranceKey}__${fieldName}"][value="${CSS.escape(item)}"]`;
+              const checkbox = document.querySelector(selector);
+              if (checkbox) checkbox.checked = true;
+            });
+            return;
+          }
+
+          const input = document.getElementById(`${insuranceKey}__${fieldName}`);
+          if (input) {
+            input.value = value;
+          }
+        });
+      });
+    }
+
+    function collectInsuranceValues(insuranceName) {
+      const insuranceKey = safeKey(insuranceName);
+      const block = document.querySelector(`[data-insurance-name="${CSS.escape(insuranceName)}"]`);
+      const values = {};
+
+      if (!block) return values;
+
+      block.querySelectorAll("input, select, textarea").forEach((el) => {
+        const prefix = `${insuranceKey}__`;
+
+        if (el.type === "checkbox") {
+          const name = el.name || "";
+          if (!name.startsWith(prefix)) return;
+
+          const fieldName = name.replace(prefix, "");
+          if (!values[fieldName]) values[fieldName] = [];
+
+          if (el.checked) {
+            values[fieldName].push(el.value);
+          }
+          return;
+        }
+
+        const fullId = el.id || "";
+        if (!fullId.startsWith(prefix)) return;
+
+        const fieldName = fullId.replace(prefix, "");
+        values[fieldName] = el.value.trim();
+      });
+
+      return values;
+    }
+
+    function validateInsuranceBlock(insuranceName) {
+      const fields = ZAKELIJK_FIELDS[insuranceName] || [
+        {
+          type: "textarea",
+          name: "aanvullende_gegevens",
+          label: "Aanvullende gegevens",
+          required: true,
+          full: true
+        }
+      ];
+
+      const insuranceKey = safeKey(insuranceName);
+
+      for (const field of fields) {
+        if (field.type === "multiselect") {
+          const checked = document.querySelectorAll(`input[type="checkbox"][name="${insuranceKey}__${field.name}"]:checked`);
+          if (field.required && checked.length === 0) {
+            alert(`Selecteer minimaal één optie bij "${field.label}" voor ${insuranceName}.`);
+            const firstCheckbox = document.querySelector(`input[type="checkbox"][name="${insuranceKey}__${field.name}"]`);
+            firstCheckbox?.focus();
+            return false;
+          }
+          continue;
+        }
+
+        const el = document.getElementById(`${insuranceKey}__${field.name}`);
+        if (field.required && el && !el.value.trim()) {
+          alert(`Vul het veld "${field.label}" in bij ${insuranceName}.`);
+          el.focus();
+          return false;
+        }
+      }
+
+      return true;
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      const offerData = getOfferData();
+
+      if (!offerData) {
+        window.location.href = "/offerte-aanvragen/";
+        return;
+      }
+
+      const type = offerData.type;
+      const selected = offerData.selectedInsurances || [];
+
+      if (type !== "zakelijk" || !selected.length) {
+        window.location.href = "/offerte-aanvragen/";
+        return;
+      }
+
+      const listEl = document.getElementById("selected-insurance-list");
+      const fieldsContainer = document.getElementById("insurance-fields-container");
+
+      listEl.innerHTML = selected.map(item => `<li>${escapeHtml(item)}</li>`).join("");
+      fieldsContainer.innerHTML = selected.map(createInsuranceBlockHtml).join("");
+
+      restorePreviousValues(offerData);
+
+      document.getElementById("zakelijk-details-form").addEventListener("submit", (e) => {
+        e.preventDefault();
+
+        for (const insuranceName of selected) {
+          if (!validateInsuranceBlock(insuranceName)) {
+            return;
+          }
+        }
+
+        const collected = {};
+        selected.forEach((insuranceName) => {
+          collected[insuranceName] = collectInsuranceValues(insuranceName);
+        });
+
+        if (!offerData.insuranceDetails) {
+          offerData.insuranceDetails = {};
+        }
+
+        offerData.insuranceDetails.zakelijk = collected;
+        saveOfferData(offerData);
+
+        window.location.href = "/offerte-persoonsgegevens/";
+      });
+    });
+  </script>
+
+  <script>
+    (function(){if(!window.chatbase||window.chatbase("getState")!=="initialized"){window.chatbase=(...arguments)=>{if(!window.chatbase.q){window.chatbase.q=[]}window.chatbase.q.push(arguments)};window.chatbase=new Proxy(window.chatbase,{get(target,prop){if(prop==="q"){return target.q}return(...args)=>target(prop,...args)}})}const onLoad=function(){const script=document.createElement("script");script.src="https://www.chatbase.co/embed.min.js";script.id="C60jEJW_QuVD7X3vE5rzE";script.domain="www.chatbase.co";document.body.appendChild(script)};if(document.readyState==="complete"){onLoad()}else{window.addEventListener("load",onLoad)}})();
+  </script>
+</body>
+</html>
