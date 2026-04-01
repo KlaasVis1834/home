@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Persoonsgegevens | Klaas Vis</title>
+  <meta
+    name="description"
+    content="Vul uw persoons-, bedrijfs- en contactgegevens in voor uw offerteaanvraag."
+  />
+
+  <link rel="icon" type="image/png" href="/logo.png" />
+  <link rel="stylesheet" href="/styles.css?v=2" />
+
+  <script src="https://unpkg.com/@emailjs/browser@4/dist/email.min.js"></script>
+  <script>
+    (function () {
+      emailjs.init("YOUR_PUBLIC_KEY_HERE");
+    })();
+  </script>
+
+  <script id="Cookiebot" src="https://consent.cookiebot.com/uc.js" data-cbid="9273cf7a-daab-4567-a9d7-3429830702b0" data-blockingmode="auto" type="text/javascript"></script>
+  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+
+  <style>
+    .details-hero {
+      padding: 42px 0 24px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .details-wrap {
+      display: grid;
+      gap: 24px;
+    }
+
+    .summary-card,
+    .details-card,
+    .success-card {
+      background: rgba(255,255,255,0.9);
+      border: 1px solid rgba(20,25,40,0.08);
+      box-shadow: var(--shadow-sm);
+      border-radius: var(--radius);
+      padding: 24px;
+    }
+
+    .summary-card h3,
+    .details-card h3,
+    .success-card h3 {
+      font-size: 1.15rem;
+      font-weight: 800;
+      margin-bottom: 12px;
+    }
+
+    .summary-list {
+      padding-left: 18px;
+      color: var(--text-muted);
+    }
+
+    .detail-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-top: 10px;
+    }
+
+    .field-full {
+      grid-column: 1 / -1;
+    }
+
+    .section-divider {
+      margin-top: 22px;
+      margin-bottom: 4px;
+      padding-top: 18px;
+      border-top: 1px solid rgba(20,25,40,0.08);
+    }
+
+    .section-divider h4 {
+      font-size: 1rem;
+      font-weight: 800;
+      margin: 0 0 4px;
+    }
+
+    .section-divider p {
+      color: var(--text-muted);
+      margin: 0 0 10px;
+      font-size: 0.95rem;
+    }
+
+    .step-actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 24px;
+      align-items: center;
+    }
+
+    .helper-box {
+      margin-top: 18px;
+      padding: 16px 18px;
+      border-radius: 16px;
+      background: rgba(79,70,229,0.04);
+      border: 1px solid rgba(79,70,229,0.08);
+    }
+
+    .helper-box strong {
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    .status-message {
+      margin-top: 14px;
+      font-size: 0.95rem;
+      color: var(--text-muted);
+    }
+
+    .success-card {
+      display: none;
+      text-align: center;
+    }
+
+    .success-card.active {
+      display: block;
+    }
+
+    .success-card p {
+      color: var(--text-muted);
+      margin-bottom: 10px;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    .loading-btn {
+      opacity: 0.7;
+      pointer-events: none;
+    }
+
+    @media (max-width: 768px) {
+      .detail-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .step-actions {
+        flex-direction: column;
+      }
+
+      .step-actions .btn {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-blur bg-blur-1"></div>
+  <div class="bg-blur bg-blur-2"></div>
+
+  <nav>
+    <div class="nav-container">
+      <a href="/" class="logo">
+        <img src="/logo.png" alt="Klaas Vis Logo" class="logo-img" />
+        <span>Klaas Vis</span>
+      </a>
+
+      <button class="hamburger" type="button" aria-label="Menu openen" aria-expanded="false">☰</button>
+
+      <ul class="nav-list">
+        <li><a href="/schademelden/">Schade melden</a></li>
+        <li><a href="/wijziging-doorgeven/">Wijziging doorgeven</a></li>
+        <li><a href="/dekkerautoverzekering/">Dekkerautoverzekering</a></li>
+        <li><a href="/offerte-aanvragen/">Offerte aanvragen</a></li>
+        <li><a href="/downloads/">Downloads</a></li>
+        <li><a href="/contact/">Contact</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main>
+    <section class="details-hero">
+      <div class="container">
+        <div class="section-head center">
+          <div class="eyebrow">Stap 3</div>
+          <h2>Persoons- en contactgegevens.</h2>
+          <p>
+            Vul hieronder uw gegevens in. Na verzending ontvangt u direct een bevestiging per e-mail.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section soft" style="padding-top: 24px;">
+      <div class="container details-wrap">
+        <div class="summary-card">
+          <h3>Samenvatting aanvraag</h3>
+          <div id="summary-type" class="status-message"></div>
+          <ul id="selected-insurance-list" class="summary-list"></ul>
+        </div>
+
+        <form id="gegevens-form" class="details-card">
+          <h3>Uw gegevens</h3>
+
+          <div id="particulier-fields" class="hidden">
+            <div class="section-divider" style="margin-top:0;padding-top:0;border-top:0;">
+              <h4>Persoonsgegevens</h4>
+              <p>Vul uw persoonlijke gegevens in.</p>
+            </div>
+
+            <div class="detail-grid">
+              <div class="form-group">
+                <label for="particulier_voornaam">Voornaam</label>
+                <input type="text" id="particulier_voornaam" name="particulier_voornaam" />
+              </div>
+
+              <div class="form-group">
+                <label for="particulier_achternaam">Achternaam</label>
+                <input type="text" id="particulier_achternaam" name="particulier_achternaam" />
+              </div>
+
+              <div class="form-group">
+                <label for="particulier_geboortedatum">Geboortedatum</label>
+                <input type="date" id="particulier_geboortedatum" name="particulier_geboortedatum" />
+              </div>
+
+              <div class="form-group">
+                <label for="particulier_burgelijke_staat">Burgerlijke staat</label>
+                <select id="particulier_burgelijke_staat" name="particulier_burgelijke_staat">
+                  <option value="">Kies een optie</option>
+                  <option value="Ongehuwd">Ongehuwd</option>
+                  <option value="Gehuwd">Gehuwd</option>
+                  <option value="Samenwonend">Samenwonend</option>
+                  <option value="Gescheiden">Gescheiden</option>
+                  <option value="Weduwe / weduwnaar">Weduwe / weduwnaar</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div id="zakelijk-fields" class="hidden">
+            <div class="section-divider" style="margin-top:0;padding-top:0;border-top:0;">
+              <h4>Bedrijfsgegevens</h4>
+              <p>Vul hieronder uw bedrijfs- en contactgegevens in.</p>
+            </div>
+
+            <div class="detail-grid">
+              <div class="form-group field-full">
+                <label for="zakelijk_bedrijfsnaam">Bedrijfsnaam</label>
+                <input type="text" id="zakelijk_bedrijfsnaam" name="zakelijk_bedrijfsnaam" />
+              </div>
+
+              <div class="form-group">
+                <label for="zakelijk_kvk">KvK-nummer</label>
+                <input type="text" id="zakelijk_kvk" name="zakelijk_kvk" />
+              </div>
+
+              <div class="form-group">
+                <label for="zakelijk_rechtsvorm">Rechtsvorm</label>
+                <select id="zakelijk_rechtsvorm" name="zakelijk_rechtsvorm">
+                  <option value="">Kies een optie</option>
+                  <option value="Eenmanszaak">Eenmanszaak</option>
+                  <option value="VOF">VOF</option>
+                  <option value="BV">BV</option>
+                  <option value="NV">NV</option>
+                  <option value="Stichting">Stichting</option>
+                  <option value="Vereniging">Vereniging</option>
+                  <option value="Anders">Anders</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="zakelijk_contactpersoon">Contactpersoon</label>
+                <input type="text" id="zakelijk_contactpersoon" name="zakelijk_contactpersoon" />
+              </div>
+
+              <div class="form-group">
+                <label for="zakelijk_functie">Functie contactpersoon</label>
+                <input type="text" id="zakelijk_functie" name="zakelijk_functie" />
+              </div>
+            </div>
+          </div>
+
+          <div class="section-divider">
+            <h4>Contactgegevens</h4>
+            <p>Hier sturen wij de bevestiging en nemen wij contact met u op.</p>
+          </div>
+
+          <div class="detail-grid">
+            <div class="form-group">
+              <label for="email">E-mailadres</label>
+              <input type="email" id="email" name="email" required />
+            </div>
+
+            <div class="form-group">
+              <label for="telefoon">Telefoonnummer</label>
+              <input type="tel" id="telefoon" name="telefoon" required />
+            </div>
+          </div>
+
+          <div class="section-divider">
+            <h4>Adresgegevens</h4>
+            <p>Vul uw adresgegevens in.</p>
+          </div>
+
+          <div class="detail-grid">
+            <div class="form-group">
+              <label for="postcode">Postcode</label>
+              <input type="text" id="postcode" name="postcode" required />
+            </div>
+
+            <div class="form-group">
+              <label for="huisnummer">Huisnummer</label>
+              <input type="text" id="huisnummer" name="huisnummer" required />
+            </div>
+
+            <div class="form-group">
+              <label for="toevoeging">Toevoeging</label>
+              <input type="text" id="toevoeging" name="toevoeging" />
+            </div>
+
+            <div class="form-group">
+              <label for="plaats">Plaats</label>
+              <input type="text" id="plaats" name="plaats" required />
+            </div>
+
+            <div class="form-group field-full">
+              <label for="straat">Straat</label>
+              <input type="text" id="straat" name="straat" required />
+            </div>
+          </div>
+
+          <div class="helper-box">
+            <strong>Na verzending</strong>
+            U ontvangt direct een bevestiging per e-mail. Daarna ontvangt u binnen 2 werkdagen een passend verzekeringsvoorstel.
+          </div>
+
+          <div class="step-actions">
+            <a id="back-link" href="/offerte-aanvragen/" class="btn btn-secondary">Terug</a>
+            <button type="submit" id="submit-btn" class="btn btn-primary">Offerteverzoek verzenden</button>
+          </div>
+
+          <div id="form-status" class="status-message"></div>
+        </form>
+
+        <div id="success-card" class="success-card">
+          <h3>Uw offerteverzoek is verzonden.</h3>
+          <p id="success-email-text"></p>
+          <p>U ontvangt binnen 2 werkdagen een passend verzekeringsvoorstel.</p>
+          <a href="/" class="btn btn-primary">Terug naar home</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="/script.js?v=2"></script>
+
+  <script>
+    const STORAGE_KEY = "klaasvis_offer_data";
+    const EMAILJS_SERVICE_ID = "service_13oq5zv";
+    const EMAILJS_TEMPLATE_KLANT = "template_72i1fek";
+    const EMAILJS_TEMPLATE_ADVISEUR = "template_c7z7ivj";
+    const ADVISEUR_EMAIL = "ADVISEUR_EMAIL_HIER";
+
+    function getOfferData() {
+      const raw = sessionStorage.getItem(STORAGE_KEY);
+      return raw ? JSON.parse(raw) : null;
+    }
+
+    function saveOfferData(data) {
+      sessionStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+    }
+
+    function escapeHtml(value) {
+      return String(value)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+
+    function normalizePostcode(postcode) {
+      return String(postcode || "").replace(/\s+/g, "").toUpperCase();
+    }
+
+    function formatAddress(data) {
+      const parts = [
+        [data.straat, [data.huisnummer, data.toevoeging].filter(Boolean).join(" ")].filter(Boolean).join(" "),
+        [data.postcode, data.plaats].filter(Boolean).join(" ")
+      ].filter(Boolean);
+      return parts.join(", ");
+    }
+
+    function formatRequestSummary(offerData, personalData) {
+      const lines = [];
+
+      lines.push(`Type aanvraag: ${offerData.type || ""}`);
+      lines.push(`Verzekeringen: ${(offerData.selectedInsurances || []).join(", ")}`);
+      lines.push("");
+
+      if (offerData.type === "particulier") {
+        lines.push("Persoonsgegevens:");
+        lines.push(`Voornaam: ${personalData.voornaam || ""}`);
+        lines.push(`Achternaam: ${personalData.achternaam || ""}`);
+        lines.push(`Geboortedatum: ${personalData.geboortedatum || ""}`);
+        lines.push(`Burgerlijke staat: ${personalData.burgelijke_staat || ""}`);
+        lines.push("");
+      }
+
+      if (offerData.type === "zakelijk") {
+        lines.push("Bedrijfsgegevens:");
+        lines.push(`Bedrijfsnaam: ${personalData.bedrijfsnaam || ""}`);
+        lines.push(`KvK-nummer: ${personalData.kvk || ""}`);
+        lines.push(`Rechtsvorm: ${personalData.rechtsvorm || ""}`);
+        lines.push(`Contactpersoon: ${personalData.contactpersoon || ""}`);
+        lines.push(`Functie: ${personalData.functie || ""}`);
+        lines.push("");
+      }
+
+      lines.push("Contactgegevens:");
+      lines.push(`E-mail: ${personalData.email || ""}`);
+      lines.push(`Telefoon: ${personalData.telefoon || ""}`);
+      lines.push(`Adres: ${formatAddress(personalData)}`);
+      lines.push("");
+
+      lines.push("Aanvullende verzekeringsgegevens:");
+      lines.push(JSON.stringify(offerData.insuranceDetails || {}, null, 2));
+
+      return lines.join("\n");
+    }
+
+    function restorePersonalData(offerData) {
+      const data = offerData.personalData || {};
+
+      Object.entries(data).forEach(([key, value]) => {
+        const el = document.getElementById(key);
+        if (el) {
+          el.value = value;
+        }
+      });
+    }
+
+    function collectPersonalData(type) {
+      const common = {
+        email: document.getElementById("email").value.trim(),
+        telefoon: document.getElementById("telefoon").value.trim(),
+        postcode: normalizePostcode(document.getElementById("postcode").value),
+        huisnummer: document.getElementById("huisnummer").value.trim(),
+        toevoeging: document.getElementById("toevoeging").value.trim(),
+        plaats: document.getElementById("plaats").value.trim(),
+        straat: document.getElementById("straat").value.trim()
+      };
+
+      if (type === "particulier") {
+        return {
+          ...common,
+          voornaam: document.getElementById("particulier_voornaam").value.trim(),
+          achternaam: document.getElementById("particulier_achternaam").value.trim(),
+          geboortedatum: document.getElementById("particulier_geboortedatum").value.trim(),
+          burgelijke_staat: document.getElementById("particulier_burgelijke_staat").value.trim()
+        };
+      }
+
+      if (type === "zakelijk") {
+        return {
+          ...common,
+          bedrijfsnaam: document.getElementById("zakelijk_bedrijfsnaam").value.trim(),
+          kvk: document.getElementById("zakelijk_kvk").value.trim(),
+          rechtsvorm: document.getElementById("zakelijk_rechtsvorm").value.trim(),
+          contactpersoon: document.getElementById("zakelijk_contactpersoon").value.trim(),
+          functie: document.getElementById("zakelijk_functie").value.trim()
+        };
+      }
+
+      return common;
+    }
+
+    function validateForm(type) {
+      const requiredIdsCommon = ["email", "telefoon", "postcode", "huisnummer", "plaats", "straat"];
+
+      for (const id of requiredIdsCommon) {
+        const el = document.getElementById(id);
+        if (!el.value.trim()) {
+          alert(`Vul het veld "${el.previousElementSibling?.textContent || id}" in.`);
+          el.focus();
+          return false;
+        }
+      }
+
+      if (type === "particulier") {
+        const requiredIds = [
+          "particulier_voornaam",
+          "particulier_achternaam",
+          "particulier_geboortedatum",
+          "particulier_burgelijke_staat"
+        ];
+
+        for (const id of requiredIds) {
+          const el = document.getElementById(id);
+          if (!el.value.trim()) {
+            alert(`Vul het veld "${el.previousElementSibling?.textContent || id}" in.`);
+            el.focus();
+            return false;
+          }
+        }
+      }
+
+      if (type === "zakelijk") {
+        const requiredIds = [
+          "zakelijk_bedrijfsnaam",
+          "zakelijk_kvk",
+          "zakelijk_rechtsvorm",
+          "zakelijk_contactpersoon"
+        ];
+
+        for (const id of requiredIds) {
+          const el = document.getElementById(id);
+          if (!el.value.trim()) {
+            alert(`Vul het veld "${el.previousElementSibling?.textContent || id}" in.`);
+            el.focus();
+            return false;
+          }
+        }
+      }
+
+      return true;
+    }
+
+    async function sendEmails(offerData, personalData) {
+      const verzekeringen = (offerData.selectedInsurances || []).join(", ");
+      const aanvraagtype = offerData.type || "";
+      const naamKlant = offerData.type === "zakelijk"
+        ? (personalData.contactpersoon || personalData.bedrijfsnaam || "")
+        : `${personalData.voornaam || ""} ${personalData.achternaam || ""}`.trim();
+
+      const summaryText = formatRequestSummary(offerData, personalData);
+
+      const klantParams = {
+        to_email: personalData.email,
+        email: personalData.email,
+        naam: naamKlant,
+        name: naamKlant,
+        aanvraagtype: aanvraagtype,
+        verzekeringen: verzekeringen,
+        bericht: `Bedankt voor uw offerteaanvraag. Wij hebben uw aanvraag goed ontvangen. U ontvangt binnen 2 werkdagen een passend verzekeringsvoorstel.`
+      };
+
+      const adviseurParams = {
+        to_email: ADVISEUR_EMAIL,
+        email: ADVISEUR_EMAIL,
+        naam: "Adviseur",
+        name: "Adviseur",
+        aanvraagtype: aanvraagtype,
+        verzekeringen: verzekeringen,
+        klantnaam: naamKlant,
+        klantemail: personalData.email,
+        klanttelefoon: personalData.telefoon,
+        bericht: summaryText
+      };
+
+      await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_KLANT, klantParams);
+      await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ADVISEUR, adviseurParams);
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      const offerData = getOfferData();
+
+      if (!offerData) {
+        window.location.href = "/offerte-aanvragen/";
+        return;
+      }
+
+      const type = offerData.type;
+      const selected = offerData.selectedInsurances || [];
+
+      if (!type || !selected.length) {
+        window.location.href = "/offerte-aanvragen/";
+        return;
+      }
+
+      const particulierFields = document.getElementById("particulier-fields");
+      const zakelijkFields = document.getElementById("zakelijk-fields");
+      const listEl = document.getElementById("selected-insurance-list");
+      const summaryTypeEl = document.getElementById("summary-type");
+      const backLink = document.getElementById("back-link");
+      const form = document.getElementById("gegevens-form");
+      const successCard = document.getElementById("success-card");
+      const successEmailText = document.getElementById("success-email-text");
+      const submitBtn = document.getElementById("submit-btn");
+      const formStatus = document.getElementById("form-status");
+
+      listEl.innerHTML = selected.map(item => `<li>${escapeHtml(item)}</li>`).join("");
+
+      if (type === "particulier") {
+        particulierFields.classList.remove("hidden");
+        summaryTypeEl.textContent = "Type aanvraag: Particuliere offerte";
+        backLink.href = "/offerte-details-particulier/";
+      } else if (type === "zakelijk") {
+        zakelijkFields.classList.remove("hidden");
+        summaryTypeEl.textContent = "Type aanvraag: Zakelijke offerte";
+        backLink.href = "/offerte-details-zakelijk/";
+      } else if (type === "inkomen") {
+        summaryTypeEl.textContent = "Type aanvraag: Inkomensofferte";
+        backLink.href = "/offerte-details-inkomen/";
+      }
+
+      restorePersonalData(offerData);
+
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        if (!validateForm(type)) {
+          return;
+        }
+
+        const personalData = collectPersonalData(type);
+        offerData.personalData = personalData;
+        saveOfferData(offerData);
+
+        formStatus.textContent = "Uw aanvraag wordt verzonden...";
+        submitBtn.classList.add("loading-btn");
+        submitBtn.disabled = true;
+
+        try {
+          await sendEmails(offerData, personalData);
+
+          form.classList.add("hidden");
+          successCard.classList.add("active");
+          successEmailText.textContent = `De offertebevestiging is verstuurd naar ${personalData.email}.`;
+          formStatus.textContent = "";
+        } catch (error) {
+          console.error(error);
+          formStatus.textContent = "Er ging iets mis bij het verzenden. Controleer uw instellingen en probeer het opnieuw.";
+          submitBtn.classList.remove("loading-btn");
+          submitBtn.disabled = false;
+        }
+      });
+    });
+  </script>
+
+  <script>
+    (function(){if(!window.chatbase||window.chatbase("getState")!=="initialized"){window.chatbase=(...arguments)=>{if(!window.chatbase.q){window.chatbase.q=[]}window.chatbase.q.push(arguments)};window.chatbase=new Proxy(window.chatbase,{get(target,prop){if(prop==="q"){return target.q}return(...args)=>target(prop,...args)}})}const onLoad=function(){const script=document.createElement("script");script.src="https://www.chatbase.co/embed.min.js";script.id="C60jEJW_QuVD7X3vE5rzE";script.domain="www.chatbase.co";document.body.appendChild(script)};if(document.readyState==="complete"){onLoad()}else{window.addEventListener("load",onLoad)}})();
+  </script>
+</body>
+</html>
