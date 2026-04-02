@@ -196,6 +196,42 @@
       .address-action-row .btn {
         width: 100%;
       }
+    .popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  opacity: 0;
+  pointer-events: none;
+  transition: 0.25s ease;
+}
+
+.popup-overlay.active {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.popup-box {
+  background: white;
+  padding: 28px;
+  border-radius: 18px;
+  text-align: center;
+  max-width: 420px;
+  width: 90%;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+  transform: translateY(20px);
+  transition: 0.25s ease;
+}
+
+.popup-overlay.active .popup-box {
+  transform: translateY(0);
+}
     }
   </style>
 </head>
@@ -410,7 +446,14 @@
       </div>
     </section>
   </main>
-
+<div id="popup-overlay" class="popup-overlay">
+  <div class="popup-box">
+    <h3>Offerteverzoek verzonden</h3>
+    <p id="popup-text"></p>
+    <p>U ontvangt binnen 2 werkdagen een passend voorstel.</p>
+    <button id="popup-close" class="btn btn-primary">Sluiten</button>
+  </div>
+</div>
   <script src="/script.js?v=2"></script>
 
   <script>
@@ -865,15 +908,26 @@
           await sendEmails(offerData, personalData);
 
           form.classList.add("hidden");
-          successCard.classList.add("active");
-          successEmailText.textContent = `De offertebevestiging is verstuurd naar ${personalData.email}.`;
-          formStatus.textContent = "";
+successCard.classList.add("active");
+successEmailText.textContent = `De offertebevestiging is verstuurd naar ${personalData.email}.`;
+formStatus.textContent = "";
+
+// 🔥 POPUP TONEN
+const popup = document.getElementById("popup-overlay");
+const popupText = document.getElementById("popup-text");
+
+popupText.textContent = `De offertebevestiging is verstuurd naar ${personalData.email}.`;
+popup.classList.add("active");
         } catch (error) {
           console.error(error);
           formStatus.textContent = "Er ging iets mis bij het verzenden. Controleer uw EmailJS-template en probeer het opnieuw.";
           submitBtn.classList.remove("loading-btn");
           submitBtn.disabled = false;
+          
         }
+document.getElementById("popup-close")?.addEventListener("click", () => {
+  document.getElementById("popup-overlay").classList.remove("active");
+});
       });
     });
   </script>
