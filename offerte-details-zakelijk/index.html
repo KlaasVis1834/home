@@ -132,6 +132,17 @@
       accent-color: var(--primary);
     }
 
+    .lookup-status {
+      margin-top: 6px;
+      font-size: 0.92rem;
+      color: var(--text-muted);
+    }
+
+    input[readonly] {
+      background: rgba(15, 23, 42, 0.04);
+      cursor: default;
+    }
+
     @media (max-width: 768px) {
       .detail-grid {
         grid-template-columns: 1fr;
@@ -209,6 +220,16 @@
 
   <script>
     const STORAGE_KEY = "klaasvis_offer_data";
+    const RDW_API_URL = "https://opendata.rdw.nl/resource/m9d7-ebf2.json";
+
+    const MOTORVOERTUIG_VERZEKERINGEN = [
+      "Zakelijke Personenautoverzekering",
+      "Zakelijke Bestelautoverzekering",
+      "Vrachtautoverzekering",
+      "Zakelijke Motorverzekering",
+      "Zakelijke Bromfietsverzekering",
+      "Zakelijke Oldtimerverzekering"
+    ];
 
     const ZAKELIJK_FIELDS = {
       "Arbeidsongeschiktheidsverzekering (AOV)": [
@@ -387,6 +408,20 @@
         },
         {
           type: "text",
+          name: "merk",
+          label: "Merk",
+          required: false,
+          readonly: true
+        },
+        {
+          type: "text",
+          name: "model",
+          label: "Model",
+          required: false,
+          readonly: true
+        },
+        {
+          type: "text",
           name: "meldcode",
           label: "Meldcode",
           required: true
@@ -461,6 +496,20 @@
           name: "kenteken",
           label: "Kenteken",
           required: true
+        },
+        {
+          type: "text",
+          name: "merk",
+          label: "Merk",
+          required: false,
+          readonly: true
+        },
+        {
+          type: "text",
+          name: "model",
+          label: "Model",
+          required: false,
+          readonly: true
         },
         {
           type: "text",
@@ -540,6 +589,20 @@
         },
         {
           type: "text",
+          name: "merk",
+          label: "Merk",
+          required: false,
+          readonly: true
+        },
+        {
+          type: "text",
+          name: "model",
+          label: "Model",
+          required: false,
+          readonly: true
+        },
+        {
+          type: "text",
           name: "meldcode",
           label: "Meldcode",
           required: true
@@ -607,6 +670,20 @@
           name: "kenteken",
           label: "Kenteken",
           required: true
+        },
+        {
+          type: "text",
+          name: "merk",
+          label: "Merk",
+          required: false,
+          readonly: true
+        },
+        {
+          type: "text",
+          name: "model",
+          label: "Model",
+          required: false,
+          readonly: true
         },
         {
           type: "text",
@@ -678,6 +755,20 @@
         },
         {
           type: "text",
+          name: "merk",
+          label: "Merk",
+          required: false,
+          readonly: true
+        },
+        {
+          type: "text",
+          name: "model",
+          label: "Model",
+          required: false,
+          readonly: true
+        },
+        {
+          type: "text",
           name: "meldcode",
           label: "Meldcode",
           required: true
@@ -724,6 +815,20 @@
           name: "kenteken",
           label: "Kenteken",
           required: false
+        },
+        {
+          type: "text",
+          name: "merk",
+          label: "Merk",
+          required: false,
+          readonly: true
+        },
+        {
+          type: "text",
+          name: "model",
+          label: "Model",
+          required: false,
+          readonly: true
         },
         {
           type: "text",
@@ -1379,9 +1484,18 @@
       sessionStorage.setItem(STORAGE_KEY, JSON.stringify(data));
     }
 
-    function createStandardField(insuranceKey, field) {
+    function normalizeKenteken(value) {
+      return String(value || "").toUpperCase().replace(/[^A-Z0-9]/g, "");
+    }
+
+    function isMotorVoertuigInsurance(insuranceName) {
+      return MOTORVOERTUIG_VERZEKERINGEN.includes(insuranceName);
+    }
+
+    function createStandardField(insuranceKey, field, insuranceName) {
       const fieldId = `${insuranceKey}__${field.name}`;
       const wrapperClass = field.full ? "form-group field-full" : "form-group";
+      const readonlyAttr = field.readonly ? "readonly" : "";
 
       if (field.type === "select" || field.type === "radio") {
         return `
@@ -1425,18 +1539,22 @@
 
       const inputType = field.type === "currency" ? "text" : (field.type || "text");
       const inputMode = field.type === "number" ? 'inputmode="numeric"' : (field.type === "currency" ? 'inputmode="decimal"' : "");
+      const kentekenStatus = isMotorVoertuigInsurance(insuranceName) && field.name === "kenteken"
+        ? `<div class="lookup-status" id="${fieldId}__status"></div>`
+        : "";
 
       return `
         <div class="${wrapperClass}">
           <label for="${fieldId}">${field.label}</label>
-          <input type="${inputType}" id="${fieldId}" name="${fieldId}" ${inputMode} ${field.required ? "required" : ""} />
+          <input type="${inputType}" id="${fieldId}" name="${fieldId}" ${inputMode} ${readonlyAttr} ${field.required ? "required" : ""} />
+          ${kentekenStatus}
         </div>
       `;
     }
 
     function createFieldHtml(insuranceName, field) {
       const insuranceKey = safeKey(insuranceName);
-      return createStandardField(insuranceKey, field);
+      return createStandardField(insuranceKey, field, insuranceName);
     }
 
     function createInsuranceBlockHtml(insuranceName) {
@@ -1560,6 +1678,104 @@
       return true;
     }
 
+    function setLookupStatus(insuranceKey, message) {
+      const statusEl = document.getElementById(`${insuranceKey}__kenteken__status`);
+      if (statusEl) {
+        statusEl.textContent = message || "";
+      }
+    }
+
+    function setVehicleFields(insuranceKey, data = {}) {
+      const merkEl = document.getElementById(`${insuranceKey}__merk`);
+      const modelEl = document.getElementById(`${insuranceKey}__model`);
+      const oldtimerMerkModelEl = document.getElementById(`${insuranceKey}__oldtimer_merk_model`);
+
+      const merk = data.merk || "";
+      const model = data.model || "";
+
+      if (merkEl) merkEl.value = merk;
+      if (modelEl) modelEl.value = model;
+
+      if (oldtimerMerkModelEl && !oldtimerMerkModelEl.value.trim()) {
+        oldtimerMerkModelEl.value = [merk, model].filter(Boolean).join(" ").trim();
+      }
+    }
+
+    async function lookupKentekenForInsurance(insuranceName) {
+      const insuranceKey = safeKey(insuranceName);
+      const kentekenEl = document.getElementById(`${insuranceKey}__kenteken`);
+      const merkEl = document.getElementById(`${insuranceKey}__merk`);
+      const modelEl = document.getElementById(`${insuranceKey}__model`);
+
+      if (!kentekenEl || !merkEl || !modelEl) return;
+
+      const normalizedKenteken = normalizeKenteken(kentekenEl.value);
+
+      if (!normalizedKenteken) {
+        setLookupStatus(insuranceKey, "");
+        setVehicleFields(insuranceKey, { merk: "", model: "" });
+        return;
+      }
+
+      if (normalizedKenteken.length < 6) {
+        setLookupStatus(insuranceKey, "Voer een geldig kenteken in.");
+        setVehicleFields(insuranceKey, { merk: "", model: "" });
+        return;
+      }
+
+      setLookupStatus(insuranceKey, "Kenteken wordt opgehaald...");
+
+      try {
+        const url = `${RDW_API_URL}?kenteken=${encodeURIComponent(normalizedKenteken)}`;
+        const response = await fetch(url, { headers: { Accept: "application/json" } });
+
+        if (!response.ok) {
+          throw new Error("RDW lookup mislukt");
+        }
+
+        const results = await response.json();
+        const vehicle = Array.isArray(results) ? results[0] : null;
+
+        if (!vehicle) {
+          setLookupStatus(insuranceKey, "Geen voertuiggegevens gevonden voor dit kenteken.");
+          setVehicleFields(insuranceKey, { merk: "", model: "" });
+          return;
+        }
+
+        const merk = vehicle.merk || "";
+        const model = vehicle.handelsbenaming || vehicle.inrichting || "";
+
+        setVehicleFields(insuranceKey, { merk, model });
+        setLookupStatus(insuranceKey, merk || model ? "Voertuiggegevens gevonden." : "Kenteken gevonden, maar merk/model ontbreken.");
+      } catch (error) {
+        setLookupStatus(insuranceKey, "Ophalen van voertuiggegevens is niet gelukt.");
+        setVehicleFields(insuranceKey, { merk: "", model: "" });
+      }
+    }
+
+    function bindKentekenLookups(selected) {
+      selected.forEach((insuranceName) => {
+        if (!isMotorVoertuigInsurance(insuranceName)) return;
+
+        const insuranceKey = safeKey(insuranceName);
+        const kentekenEl = document.getElementById(`${insuranceKey}__kenteken`);
+
+        if (!kentekenEl) return;
+
+        kentekenEl.addEventListener("blur", () => {
+          lookupKentekenForInsurance(insuranceName);
+        });
+
+        kentekenEl.addEventListener("change", () => {
+          lookupKentekenForInsurance(insuranceName);
+        });
+
+        if (kentekenEl.value.trim()) {
+          lookupKentekenForInsurance(insuranceName);
+        }
+      });
+    }
+
     document.addEventListener("DOMContentLoaded", () => {
       const offerData = getOfferData();
 
@@ -1583,6 +1799,7 @@
       fieldsContainer.innerHTML = selected.map(createInsuranceBlockHtml).join("");
 
       restorePreviousValues(offerData);
+      bindKentekenLookups(selected);
 
       document.getElementById("zakelijk-details-form").addEventListener("submit", (e) => {
         e.preventDefault();
