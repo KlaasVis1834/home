@@ -87,6 +87,40 @@
       font-size: 0.95rem;
     }
 
+    .section-card {
+      margin-top: 18px;
+      padding: 18px;
+      border-radius: 18px;
+      background: rgba(248,250,252,0.85);
+      border: 1px solid rgba(20,25,40,0.06);
+    }
+
+    .section-card:first-of-type {
+      margin-top: 12px;
+    }
+
+    .section-card h4 {
+      font-size: 1rem;
+      font-weight: 800;
+      margin: 0 0 4px;
+    }
+
+    .section-card p {
+      color: var(--text-muted);
+      margin: 0 0 12px;
+      font-size: 0.95rem;
+    }
+
+    .address-action-row {
+      display: flex;
+      align-items: end;
+      gap: 12px;
+    }
+
+    .address-action-row .form-group {
+      margin-bottom: 0;
+    }
+
     .step-actions {
       display: flex;
       gap: 12px;
@@ -153,6 +187,15 @@
       .step-actions .btn {
         width: 100%;
       }
+
+      .address-action-row {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .address-action-row .btn {
+        width: 100%;
+      }
     }
   </style>
 </head>
@@ -170,7 +213,7 @@
       <button class="hamburger" type="button" aria-label="Menu openen" aria-expanded="false">☰</button>
 
       <ul class="nav-list">
-        <li><a href="www.klaasvis.online">Home</a></li>
+        <li><a href="https://www.klaasvis.online">Home</a></li>
         <li><a href="/schademelden/">Schade melden</a></li>
         <li><a href="/wijziging-doorgeven/">Wijziging doorgeven</a></li>
         <li><a href="/dekkerautoverzekering/">Dekkerautoverzekering</a></li>
@@ -206,129 +249,144 @@
           <h3>Uw gegevens</h3>
 
           <div id="particulier-fields" class="hidden">
-            <div class="section-divider" style="margin-top:0;padding-top:0;border-top:0;">
+            <div class="section-card">
               <h4>Persoonsgegevens</h4>
               <p>Vul uw persoonlijke gegevens in.</p>
+
+              <div class="detail-grid">
+                <div class="form-group">
+                  <label for="particulier_voornaam">Voornaam</label>
+                  <input type="text" id="particulier_voornaam" name="particulier_voornaam" />
+                </div>
+
+                <div class="form-group">
+                  <label for="particulier_achternaam">Achternaam</label>
+                  <input type="text" id="particulier_achternaam" name="particulier_achternaam" />
+                </div>
+
+                <div class="form-group">
+                  <label for="particulier_geboortedatum">Geboortedatum</label>
+                  <input type="date" id="particulier_geboortedatum" name="particulier_geboortedatum" />
+                </div>
+
+                <div class="form-group">
+                  <label for="particulier_burgelijke_staat">Burgerlijke staat</label>
+                  <select id="particulier_burgelijke_staat" name="particulier_burgelijke_staat">
+                    <option value="">Kies een optie</option>
+                    <option value="Ongehuwd">Ongehuwd</option>
+                    <option value="Gehuwd">Gehuwd</option>
+                    <option value="Samenwonend">Samenwonend</option>
+                    <option value="Gescheiden">Gescheiden</option>
+                    <option value="Weduwe/Weduwnaar">Weduwe/Weduwnaar</option>
+                  </select>
+                </div>
+              </div>
             </div>
-
-            <div class="detail-grid">
-              <div class="form-group">
-                <label for="particulier_voornaam">Voornaam</label>
-                <input type="text" id="particulier_voornaam" name="particulier_voornaam" />
-              </div>
-
-              <div class="form-group">
-                <label for="particulier_achternaam">Achternaam</label>
-                <input type="text" id="particulier_achternaam" name="particulier_achternaam" />
-              </div>
-
-              <div class="form-group">
-                <label for="particulier_geboortedatum">Geboortedatum</label>
-                <input type="date" id="particulier_geboortedatum" name="particulier_geboortedatum" />
-              </div>
+          </div>
 
           <div id="zakelijk-fields" class="hidden">
-            <div class="section-divider" style="margin-top:0;padding-top:0;border-top:0;">
+            <div class="section-card">
               <h4>Bedrijfsgegevens</h4>
               <p>Vul hieronder uw bedrijfs- en contactgegevens in.</p>
+
+              <div class="detail-grid">
+                <div class="form-group field-full">
+                  <label for="zakelijk_bedrijfsnaam">Bedrijfsnaam</label>
+                  <input type="text" id="zakelijk_bedrijfsnaam" name="zakelijk_bedrijfsnaam" />
+                </div>
+
+                <div class="form-group">
+                  <label for="zakelijk_kvk">KvK-nummer</label>
+                  <input type="text" id="zakelijk_kvk" name="zakelijk_kvk" />
+                </div>
+
+                <div class="form-group">
+                  <label for="zakelijk_rechtsvorm">Rechtsvorm</label>
+                  <select id="zakelijk_rechtsvorm" name="zakelijk_rechtsvorm">
+                    <option value="">Kies een optie</option>
+                    <option value="Eenmanszaak">Eenmanszaak</option>
+                    <option value="VOF">VOF</option>
+                    <option value="BV">BV</option>
+                    <option value="NV">NV</option>
+                    <option value="Stichting">Stichting</option>
+                    <option value="Vereniging">Vereniging</option>
+                    <option value="Anders">Anders</option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label for="zakelijk_contactpersoon">Contactpersoon</label>
+                  <input type="text" id="zakelijk_contactpersoon" name="zakelijk_contactpersoon" />
+                </div>
+
+                <div class="form-group">
+                  <label for="zakelijk_functie">Functie contactpersoon</label>
+                  <input type="text" id="zakelijk_functie" name="zakelijk_functie" />
+                </div>
+              </div>
             </div>
+          </div>
+
+          <div class="section-card">
+            <h4>Contactgegevens</h4>
+            <p>Hier sturen wij de bevestiging naartoe en nemen wij contact met u op.</p>
 
             <div class="detail-grid">
-              <div class="form-group field-full">
-                <label for="zakelijk_bedrijfsnaam">Bedrijfsnaam</label>
-                <input type="text" id="zakelijk_bedrijfsnaam" name="zakelijk_bedrijfsnaam" />
+              <div class="form-group">
+                <label for="email">E-mailadres</label>
+                <input type="email" id="email" name="email" required />
               </div>
 
               <div class="form-group">
-                <label for="zakelijk_kvk">KvK-nummer</label>
-                <input type="text" id="zakelijk_kvk" name="zakelijk_kvk" />
-              </div>
-
-              <div class="form-group">
-                <label for="zakelijk_rechtsvorm">Rechtsvorm</label>
-                <select id="zakelijk_rechtsvorm" name="zakelijk_rechtsvorm">
-                  <option value="">Kies een optie</option>
-                  <option value="Eenmanszaak">Eenmanszaak</option>
-                  <option value="VOF">VOF</option>
-                  <option value="BV">BV</option>
-                  <option value="NV">NV</option>
-                  <option value="Stichting">Stichting</option>
-                  <option value="Vereniging">Vereniging</option>
-                  <option value="Anders">Anders</option>
-                </select>
-              </div>
-
-              <div class="form-group">
-                <label for="zakelijk_contactpersoon">Contactpersoon</label>
-                <input type="text" id="zakelijk_contactpersoon" name="zakelijk_contactpersoon" />
-              </div>
-
-              <div class="form-group">
-                <label for="zakelijk_functie">Functie contactpersoon</label>
-                <input type="text" id="zakelijk_functie" name="zakelijk_functie" />
+                <label for="telefoon">Telefoonnummer</label>
+                <input type="tel" id="telefoon" name="telefoon" required />
               </div>
             </div>
           </div>
 
-          <div class="section-divider">
-            <h4>Contactgegevens</h4>
-            <p>Hier sturen wij de bevestiging en nemen wij contact met u op.</p>
-          </div>
-
-          <div class="detail-grid">
-            <div class="form-group">
-              <label for="email">E-mailadres</label>
-              <input type="email" id="email" name="email" required />
-            </div>
-
-            <div class="form-group">
-              <label for="telefoon">Telefoonnummer</label>
-              <input type="tel" id="telefoon" name="telefoon" required />
-            </div>
-          </div>
-
-          <div class="section-divider">
+          <div class="section-card">
             <h4>Adresgegevens</h4>
-            <p>Vul uw adresgegevens in.</p>
+            <p>Vul uw adresgegevens in of laat het adres automatisch ophalen.</p>
+
+            <div class="detail-grid">
+              <div class="form-group">
+                <label for="postcode">Postcode</label>
+                <input type="text" id="postcode" name="postcode" required />
+              </div>
+
+              <div class="form-group">
+                <label for="huisnummer">Huisnummer</label>
+                <input type="text" id="huisnummer" name="huisnummer" required />
+              </div>
+
+              <div class="form-group">
+                <label for="toevoeging">Toevoeging</label>
+                <input type="text" id="toevoeging" name="toevoeging" />
+              </div>
+
+              <div class="form-group">
+                <label>&nbsp;</label>
+                <button type="button" id="lookup-adres-btn" class="btn btn-secondary">Zoek adres</button>
+              </div>
+
+              <div class="form-group field-full">
+                <label for="straat">Straat</label>
+                <input type="text" id="straat" name="straat" required />
+              </div>
+
+              <div class="form-group">
+                <label for="plaats">Plaats</label>
+                <input type="text" id="plaats" name="plaats" required />
+              </div>
+
+              <div class="form-group field-full">
+                <label for="volledig_adres">Volledig adres</label>
+                <input type="text" id="volledig_adres" name="volledig_adres" class="readonly-field" readonly />
+              </div>
+            </div>
+
+            <div id="adres-status" class="status-message"></div>
           </div>
-
-          <div class="detail-grid">
-            <div class="form-group">
-              <label for="postcode">Postcode</label>
-              <input type="text" id="postcode" name="postcode" required />
-            </div>
-
-            <div class="form-group">
-              <label for="huisnummer">Huisnummer</label>
-              <input type="text" id="huisnummer" name="huisnummer" required />
-            </div>
-
-            <div class="form-group">
-              <label for="toevoeging">Toevoeging</label>
-              <input type="text" id="toevoeging" name="toevoeging" />
-            </div>
-
-            <div class="form-group field-full" style="display:flex;align-items:end;">
-              <button type="button" id="lookup-adres-btn" class="btn btn-secondary">Zoek adres</button>
-            </div>
-
-            <div class="form-group field-full">
-              <label for="straat">Straat</label>
-              <input type="text" id="straat" name="straat" required />
-            </div>
-
-            <div class="form-group">
-              <label for="plaats">Plaats</label>
-              <input type="text" id="plaats" name="plaats" required />
-            </div>
-
-            <div class="form-group field-full">
-              <label for="volledig_adres">Volledig adres</label>
-              <input type="text" id="volledig_adres" name="volledig_adres" class="readonly-field" readonly />
-            </div>
-          </div>
-
-          <div id="adres-status" class="status-message"></div>
 
           <div class="helper-box">
             <strong>Na verzending</strong>
@@ -359,7 +417,8 @@
     const STORAGE_KEY = "klaasvis_offer_data";
     const EMAILJS_SERVICE_ID = "service_13oq5zv";
     const EMAILJS_TEMPLATE_KLANT = "template_72i1fek";
-    const EMAILJS_TEMPLATE_ADVISEUR = "template_c7z7ivj";
+    const EMAILJS_TEMPLATE_ADVISEUR = "template_vgynlyb";
+    const EMAILJS_PUBLIC_KEY = "VoaGY-q7f-rbDIzGM";
     const ADVISEUR_EMAIL = "rbuijs@klaasvis.nl";
 
     function getOfferData() {
@@ -392,6 +451,28 @@
       return parts.join(", ");
     }
 
+    function formatInsuranceDetails(offerData) {
+      const details = offerData.insuranceDetails || {};
+      const lines = [];
+
+      Object.entries(details).forEach(([groupName, groupData]) => {
+        lines.push(`${groupName.toUpperCase()}:`);
+
+        Object.entries(groupData || {}).forEach(([insuranceName, values]) => {
+          lines.push(`- ${insuranceName}`);
+
+          Object.entries(values || {}).forEach(([key, value]) => {
+            const outputValue = Array.isArray(value) ? value.join(", ") : value;
+            lines.push(`  • ${key}: ${outputValue}`);
+          });
+        });
+
+        lines.push("");
+      });
+
+      return lines.join("\n").trim();
+    }
+
     function formatRequestSummary(offerData, personalData) {
       const lines = [];
 
@@ -421,11 +502,19 @@
       lines.push("Contactgegevens:");
       lines.push(`E-mail: ${personalData.email || ""}`);
       lines.push(`Telefoon: ${personalData.telefoon || ""}`);
-      lines.push(`Adres: ${formatAddress(personalData)}`);
+      lines.push("");
+
+      lines.push("Adresgegevens:");
+      lines.push(`Straat: ${personalData.straat || ""}`);
+      lines.push(`Huisnummer: ${personalData.huisnummer || ""}`);
+      lines.push(`Toevoeging: ${personalData.toevoeging || ""}`);
+      lines.push(`Postcode: ${personalData.postcode || ""}`);
+      lines.push(`Plaats: ${personalData.plaats || ""}`);
+      lines.push(`Volledig adres: ${formatAddress(personalData)}`);
       lines.push("");
 
       lines.push("Aanvullende verzekeringsgegevens:");
-      lines.push(JSON.stringify(offerData.insuranceDetails || {}, null, 2));
+      lines.push(formatInsuranceDetails(offerData) || "Geen aanvullende gegevens beschikbaar.");
 
       return lines.join("\n");
     }
@@ -440,19 +529,23 @@
         }
       });
 
-      const straat = document.getElementById("straat");
-      const huisnummer = document.getElementById("huisnummer");
-      const toevoeging = document.getElementById("toevoeging");
-      const postcode = document.getElementById("postcode");
-      const plaats = document.getElementById("plaats");
+      updateVolledigAdres();
+    }
+
+    function updateVolledigAdres() {
+      const straat = document.getElementById("straat")?.value.trim() || "";
+      const huisnummer = document.getElementById("huisnummer")?.value.trim() || "";
+      const toevoeging = document.getElementById("toevoeging")?.value.trim() || "";
+      const postcode = normalizePostcode(document.getElementById("postcode")?.value || "");
+      const plaats = document.getElementById("plaats")?.value.trim() || "";
       const volledigAdres = document.getElementById("volledig_adres");
 
-      if (straat && huisnummer && postcode && plaats && volledigAdres && !volledigAdres.value.trim()) {
-        volledigAdres.value = [
-          [straat.value, [huisnummer.value, toevoeging?.value || ""].filter(Boolean).join(" ")].filter(Boolean).join(" "),
-          [postcode.value, plaats.value].filter(Boolean).join(" ")
-        ].filter(Boolean).join(", ");
-      }
+      if (!volledigAdres) return;
+
+      volledigAdres.value = [
+        [straat, [huisnummer, toevoeging].filter(Boolean).join(" ")].filter(Boolean).join(" "),
+        [postcode, plaats].filter(Boolean).join(" ")
+      ].filter(Boolean).join(", ");
     }
 
     function collectPersonalData(type) {
@@ -622,12 +715,16 @@
         volledigAdresInput.value = "";
         status.textContent = "Adres kon niet worden opgehaald.";
       }
+
+      updateVolledigAdres();
     }
 
     function bindAddressLookup() {
       const postcodeInput = document.getElementById("postcode");
       const huisnummerInput = document.getElementById("huisnummer");
       const toevoegingInput = document.getElementById("toevoeging");
+      const straatInput = document.getElementById("straat");
+      const plaatsInput = document.getElementById("plaats");
       const lookupBtn = document.getElementById("lookup-adres-btn");
 
       if (!postcodeInput || !huisnummerInput || !toevoegingInput || !lookupBtn) return;
@@ -642,6 +739,8 @@
 
           if (postcode.length === 6 && huisnummer) {
             runAddressLookup();
+          } else {
+            updateVolledigAdres();
           }
         }, 350);
       };
@@ -650,6 +749,8 @@
       postcodeInput.addEventListener("input", triggerLookup);
       huisnummerInput.addEventListener("input", triggerLookup);
       toevoegingInput.addEventListener("input", triggerLookup);
+      straatInput.addEventListener("input", updateVolledigAdres);
+      plaatsInput.addEventListener("input", updateVolledigAdres);
       postcodeInput.addEventListener("blur", triggerLookup);
       huisnummerInput.addEventListener("blur", triggerLookup);
       toevoegingInput.addEventListener("blur", triggerLookup);
@@ -669,9 +770,12 @@
         email: personalData.email,
         naam: naamKlant,
         name: naamKlant,
+        voornaam: personalData.voornaam || personalData.contactpersoon || naamKlant,
         aanvraagtype: aanvraagtype,
         verzekeringen: verzekeringen,
-        bericht: `Bedankt voor uw offerteaanvraag. Wij hebben uw aanvraag goed ontvangen. U ontvangt binnen 2 werkdagen een passend verzekeringsvoorstel.`
+        telefoon: personalData.telefoon || "",
+        adres: formatAddress(personalData),
+        bericht: "Bedankt voor uw offerteaanvraag. Wij hebben uw aanvraag goed ontvangen. U ontvangt binnen 2 werkdagen een passend verzekeringsvoorstel."
       };
 
       const adviseurParams = {
@@ -684,11 +788,17 @@
         klantnaam: naamKlant,
         klantemail: personalData.email,
         klanttelefoon: personalData.telefoon,
-        bericht: summaryText
+        klantadres: formatAddress(personalData),
+        bedrijfsnaam: personalData.bedrijfsnaam || "",
+        kvk: personalData.kvk || "",
+        contactpersoon: personalData.contactpersoon || "",
+        functie: personalData.functie || "",
+        bericht: summaryText,
+        samenvatting: summaryText
       };
 
-      await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_KLANT, klantParams);
-      await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ADVISEUR, adviseurParams);
+      await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_KLANT, klantParams, EMAILJS_PUBLIC_KEY);
+      await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ADVISEUR, adviseurParams, EMAILJS_PUBLIC_KEY);
     }
 
     document.addEventListener("DOMContentLoaded", () => {
@@ -760,7 +870,7 @@
           formStatus.textContent = "";
         } catch (error) {
           console.error(error);
-          formStatus.textContent = "Er ging iets mis bij het verzenden. Controleer uw instellingen en probeer het opnieuw.";
+          formStatus.textContent = "Er ging iets mis bij het verzenden. Controleer uw EmailJS-template en probeer het opnieuw.";
           submitBtn.classList.remove("loading-btn");
           submitBtn.disabled = false;
         }
