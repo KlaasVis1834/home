@@ -295,6 +295,11 @@
                 </div>
 
                 <div class="form-group">
+                  <label for="particulier_tussenvoegsel">Tussenvoegsel</label>
+                  <input type="text" id="particulier_tussenvoegsel" name="particulier_tussenvoegsel" />
+                </div>
+
+                <div class="form-group">
                   <label for="particulier_achternaam">Achternaam</label>
                   <input type="text" id="particulier_achternaam" name="particulier_achternaam" />
                 </div>
@@ -305,14 +310,11 @@
                 </div>
 
                 <div class="form-group">
-                  <label for="particulier_burgelijke_staat">Burgerlijke staat</label>
-                  <select id="particulier_burgelijke_staat" name="particulier_burgelijke_staat">
+                  <label for="particulier_geslacht">Geslacht</label>
+                  <select id="particulier_geslacht" name="particulier_geslacht">
                     <option value="">Kies een optie</option>
-                    <option value="Ongehuwd">Ongehuwd</option>
-                    <option value="Gehuwd">Gehuwd</option>
-                    <option value="Samenwonend">Samenwonend</option>
-                    <option value="Gescheiden">Gescheiden</option>
-                    <option value="Weduwe/Weduwnaar">Weduwe/Weduwnaar</option>
+                    <option value="Man">Man</option>
+                    <option value="Vrouw">Vrouw</option>
                   </select>
                 </div>
               </div>
@@ -527,9 +529,10 @@
       if (offerData.type === "particulier") {
         lines.push("Persoonsgegevens:");
         lines.push(`Voornaam: ${personalData.voornaam || ""}`);
+        lines.push(`Tussenvoegsel: ${personalData.tussenvoegsel || ""}`);
         lines.push(`Achternaam: ${personalData.achternaam || ""}`);
         lines.push(`Geboortedatum: ${personalData.geboortedatum || ""}`);
-        lines.push(`Burgerlijke staat: ${personalData.burgelijke_staat || ""}`);
+        lines.push(`Geslacht: ${personalData.geslacht || ""}`);
         lines.push("");
       }
 
@@ -561,6 +564,21 @@
       lines.push(formatInsuranceDetails(offerData) || "Geen aanvullende gegevens beschikbaar.");
 
       return lines.join("\n");
+    }
+
+    function buildCustomerSalutation(type, personalData) {
+      if (type !== "particulier") {
+        return "Geachte heer/mevrouw";
+      }
+
+      const geslacht = String(personalData.geslacht || "").trim().toLowerCase();
+      const tussenvoegsel = String(personalData.tussenvoegsel || "").trim();
+      const achternaam = String(personalData.achternaam || "").trim();
+
+      const titel = geslacht === "vrouw" ? "mevrouw" : "heer";
+      const naamDeel = [tussenvoegsel, achternaam].filter(Boolean).join(" ").trim();
+
+      return naamDeel ? `Geachte ${titel} ${naamDeel}` : `Geachte ${titel}`;
     }
 
     function restorePersonalData(offerData) {
@@ -608,9 +626,10 @@
         return {
           ...common,
           voornaam: document.getElementById("particulier_voornaam").value.trim(),
+          tussenvoegsel: document.getElementById("particulier_tussenvoegsel").value.trim(),
           achternaam: document.getElementById("particulier_achternaam").value.trim(),
           geboortedatum: document.getElementById("particulier_geboortedatum").value.trim(),
-          burgelijke_staat: document.getElementById("particulier_burgelijke_staat").value.trim()
+          geslacht: document.getElementById("particulier_geslacht").value.trim()
         };
       }
 
@@ -645,7 +664,7 @@
           "particulier_voornaam",
           "particulier_achternaam",
           "particulier_geboortedatum",
-          "particulier_burgelijke_staat"
+          "particulier_geslacht"
         ];
 
         for (const id of requiredIds) {
@@ -801,13 +820,16 @@
     }
 
     async function sendEmails(offerData, personalData) {
-      const verzekeringen = (offerData.selectedInsurances || []).join(", ");
+      const verzekeringenArray = offerData.selectedInsurances || [];
+      const verzekeringen = verzekeringenArray.join(", ");
+      const verzekeringenLijst = verzekeringenArray.join("\n");
       const aanvraagtype = offerData.type || "";
       const naamKlant = offerData.type === "zakelijk"
         ? (personalData.contactpersoon || personalData.bedrijfsnaam || "")
-        : `${personalData.voornaam || ""} ${personalData.achternaam || ""}`.trim();
+        : `${personalData.voornaam || ""} ${personalData.tussenvoegsel || ""} ${personalData.achternaam || ""}`.replace(/\s+/g, " ").trim();
 
       const summaryText = formatRequestSummary(offerData, personalData);
+      const klantAanhef = buildCustomerSalutation(offerData.type, personalData);
 
       const klantParams = {
         to_email: personalData.email,
@@ -815,8 +837,13 @@
         naam: naamKlant,
         name: naamKlant,
         voornaam: personalData.voornaam || personalData.contactpersoon || naamKlant,
+        aanhef: klantAanhef,
+        klant_aanhef: klantAanhef,
         aanvraagtype: aanvraagtype,
         verzekeringen: verzekeringen,
+        verzekeringen_lijst: verzekeringenLijst,
+        selected_insurances: verzekeringen,
+        selected_insurances_list: verzekeringenLijst,
         telefoon: personalData.telefoon || "",
         adres: formatAddress(personalData),
         bericht: "Bedankt voor uw offerteaanvraag. Wij hebben uw aanvraag goed ontvangen. U ontvangt binnen 2 werkdagen een passend verzekeringsvoorstel."
@@ -829,6 +856,7 @@
         name: "Adviseur",
         aanvraagtype: aanvraagtype,
         verzekeringen: verzekeringen,
+        verzekeringen_lijst: verzekeringenLijst,
         klantnaam: naamKlant,
         klantemail: personalData.email,
         klanttelefoon: personalData.telefoon,
