@@ -430,6 +430,10 @@
             U ontvangt direct een bevestiging per e-mail. Daarna ontvangt u binnen 2 werkdagen een passend verzekeringsvoorstel.
           </div>
 
+          <div class="form-group" style="margin-top: 18px;">
+            <div class="g-recaptcha" data-sitekey="6LdwpegrAAAAAKjnbA7VZJoNpYlFJ6iFeMQp0Dov"></div>
+          </div>
+
           <div class="step-actions">
             <a id="back-link" href="/offerte-aanvragen/" class="btn btn-secondary">Terug</a>
             <button type="submit" id="submit-btn" class="btn btn-primary">Offerteverzoek verzenden</button>
@@ -934,6 +938,12 @@
       form.addEventListener("submit", async (e) => {
         e.preventDefault();
 
+        const recaptchaResponse = typeof grecaptcha !== "undefined" ? grecaptcha.getResponse() : "";
+        if (!recaptchaResponse) {
+          alert("Bevestig eerst dat u geen robot bent (klik op de reCAPTCHA).");
+          return;
+        }
+
         if (!validateForm(type)) {
           return;
         }
@@ -956,11 +966,20 @@
 
           popupText.textContent = `De offertebevestiging is verstuurd naar ${personalData.email}.`;
           popup.classList.add("active");
+
+          form.reset();
+          if (typeof grecaptcha !== "undefined") {
+            grecaptcha.reset();
+          }
         } catch (error) {
           console.error(error);
           formStatus.textContent = "Er ging iets mis bij het verzenden. Controleer uw EmailJS-template en probeer het opnieuw.";
           submitBtn.classList.remove("loading-btn");
           submitBtn.disabled = false;
+
+          if (typeof grecaptcha !== "undefined") {
+            grecaptcha.reset();
+          }
         }
       });
     });
