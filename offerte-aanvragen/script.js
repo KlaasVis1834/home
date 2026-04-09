@@ -106,10 +106,10 @@
 
         try {
           await emailjs.send(
-            "service_zfo7hza",
-            "template_28mlibw",
+            "service_3y6zonl",
+            "template_nsya06k",
             templateParams,
-            "7s23tMHc0wTVQEW3f"
+            "5p454fGBEld6aidYK"
           );
 
           clearTimeout(timeout);
