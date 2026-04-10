@@ -1,4 +1,120 @@
 // ===========================
+// TOON/VERBERG VELDEN OP BASIS VAN VERZOEK-TYPE
+// ===========================
+function toggleFields() {
+    const verzoekType = document.getElementById('verzoek-type')?.value;
+
+    const fieldGroups = {
+        'adreswijziging': [
+            'adreswijziging-fields-postcode',
+            'adreswijziging-fields-huisnummer',
+            'adreswijziging-fields-adres',
+            'adreswijziging-fields-datum'
+        ],
+        'motorvoertuigwijziging': [
+            'motorvoertuigwijziging-fields-datum',
+            'motorvoertuigwijziging-fields-polisnummer',
+            'motorvoertuigwijziging-fields-huidig-kenteken',
+            'motorvoertuigwijziging-fields-huidig-merk',
+            'motorvoertuigwijziging-fields-huidig-model',
+            'motorvoertuigwijziging-fields-nieuw-kenteken',
+            'motorvoertuigwijziging-fields-nieuw-merk',
+            'motorvoertuigwijziging-fields-nieuw-model'
+        ],
+        'verzekering-beëindigen': [
+            'verzekering-beëindigen-fields-datum',
+            'verzekering-beëindigen-fields-reden'
+        ],
+        'belverzoek': [
+            'belverzoek-fields-telefoon',
+            'belverzoek-fields-datum-tijd'
+        ],
+        'emailwijziging': [
+            'emailwijziging-fields-huidig',
+            'emailwijziging-fields-nieuw'
+        ],
+        'anders': [
+            'anders-fields'
+        ]
+    };
+
+    Object.values(fieldGroups).flat().forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.classList.add('hidden');
+    });
+
+    if (verzoekType && fieldGroups[verzoekType]) {
+        fieldGroups[verzoekType].forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.classList.remove('hidden');
+        });
+    }
+}
+
+// ===========================
+// POSTCODE API
+// ===========================
+async function fetchPostcodeData() {
+    const postcodeField = document.getElementById('nieuwe-postcode');
+    const huisnummerField = document.getElementById('nieuwe-huisnummer');
+    const adresField = document.getElementById('nieuw-adres');
+
+    if (!postcodeField || !huisnummerField || !adresField) return;
+
+    const postcode = postcodeField.value.replace(/\s/g, '');
+    const huisnummer = huisnummerField.value;
+
+    if (!postcode || !huisnummer) return;
+
+    const url = `https://api.pdok.nl/bzk/locatieserver/search/v3_1/free?q=${postcode} ${huisnummer}&rows=1`;
+
+    try {
+        const response = await fetch(url);
+        const data = await response.json();
+        const adres = data?.response?.docs?.[0];
+
+        if (adres) {
+            adresField.value = `${adres.straatnaam} ${huisnummer}, ${adres.woonplaatsnaam}`;
+        } else {
+            adresField.value = '';
+        }
+    } catch {
+        adresField.value = '';
+    }
+}
+
+// ===========================
+// RDW API
+// ===========================
+async function fetchRDWData(kentekenField, merkField, modelField) {
+    const kentekenInput = document.getElementById(kentekenField);
+    const merkInput = document.getElementById(merkField);
+    const modelInput = document.getElementById(modelField);
+
+    if (!kentekenInput || !merkInput || !modelInput) return;
+
+    const kenteken = kentekenInput.value.toUpperCase().replace(/[^A-Z0-9]/g, '');
+    if (!kenteken) return;
+
+    try {
+        const response = await fetch(`https://opendata.rdw.nl/resource/m9d7-ebf2.json?kenteken=${kenteken}`);
+        const data = await response.json();
+
+        if (data.length > 0) {
+            const auto = data[0];
+            merkInput.value = auto.merk || '';
+            modelInput.value = auto.handelsbenaming || '';
+        } else {
+            merkInput.value = '';
+            modelInput.value = '';
+            alert('Geen voertuig gevonden met dit kenteken.');
+        }
+    } catch (error) {
+        alert('Fout bij ophalen RDW-gegevens: ' + error.message);
+    }
+}
+
+// ===========================
 // CHATBASE CHATBOT INTEGRATIE
 // ===========================
 (function () {
@@ -44,31 +160,61 @@ function getFieldValue(formData, key) {
     return (formData.get(key) || '').toString().trim();
 }
 
-function getLabelText(form, key) {
-    const field = form.querySelector(`[name="${key}"]`);
-    if (!field) return key;
-
-    const id = field.id;
-    if (!id) return key;
-
-    const label = form.querySelector(`label[for="${id}"]`);
-    return label ? label.textContent.trim() : key;
+function formatVerzoekType(verzoekType) {
+    const map = {
+        'adreswijziging': 'Adreswijziging',
+        'motorvoertuigwijziging': 'Motorvoertuigwijziging',
+        'verzekering-beëindigen': 'Verzekering beëindigen',
+        'belverzoek': 'Terugbelverzoek',
+        'emailwijziging': 'E-mailwijziging',
+        'anders': 'Anders'
+    };
+    return map[verzoekType] || verzoekType || 'Contactverzoek';
 }
 
-function buildSummaryRows(form, formData) {
+function buildSummaryRows(formData) {
+    const fieldMap = [
+        { key: 'verzoek-type', label: 'Soort verzoek', formatted: true },
+        { key: 'voornaam', label: 'Voorletter(s)' },
+        { key: 'achternaam', label: 'Achternaam' },
+        { key: 'email', label: 'E-mailadres' },
+        { key: 'nieuwe-postcode', label: 'Nieuwe postcode' },
+        { key: 'nieuwe-huisnummer', label: 'Nieuw huisnummer' },
+        { key: 'nieuw-adres', label: 'Nieuw volledig adres' },
+        { key: 'verhuisdatum', label: 'Datum van verhuizing' },
+        { key: 'wijzigingsdatum', label: 'Wijzigingsdatum' },
+        { key: 'polisnummer-motor', label: 'Polisnummer' },
+        { key: 'huidig-kenteken', label: 'Kenteken huidig voertuig' },
+        { key: 'huidig-merk', label: 'Merk huidig voertuig' },
+        { key: 'huidig-model', label: 'Model huidig voertuig' },
+        { key: 'nieuw-kenteken', label: 'Kenteken nieuw voertuig' },
+        { key: 'nieuw-merk', label: 'Merk nieuw voertuig' },
+        { key: 'nieuw-model', label: 'Model nieuw voertuig' },
+        { key: 'opzegdatum', label: 'Opzegdatum' },
+        { key: 'reden-beëindiging', label: 'Reden van beëindiging' },
+        { key: 'telefoon', label: 'Telefoonnummer' },
+        { key: 'voorkeur-datum-tijd', label: 'Gewenste datum en tijdstip' },
+        { key: 'huidig-email', label: 'Huidig e-mailadres' },
+        { key: 'nieuw-email', label: 'Nieuw e-mailadres' },
+        { key: 'anders-reden', label: 'Reden van contact' }
+    ];
+
     const rows = [];
 
-    for (const [key, value] of formData.entries()) {
-        if (key === 'g-recaptcha-response') continue;
+    fieldMap.forEach(field => {
+        let value = getFieldValue(formData, field.key);
 
-        const cleanValue = String(value || '').trim();
-        if (!cleanValue) continue;
+        if (field.key === 'verzoek-type' && value) {
+            value = formatVerzoekType(value);
+        }
 
-        rows.push({
-            label: getLabelText(form, key),
-            value: cleanValue
-        });
-    }
+        if (value) {
+            rows.push({
+                label: field.label,
+                value
+            });
+        }
+    });
 
     return rows;
 }
@@ -164,15 +310,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const voornaam = getFieldValue(formData, 'voornaam');
             const achternaam = getFieldValue(formData, 'achternaam');
-            const naam = getFieldValue(formData, 'naam');
-            const fullName = naam || `${voornaam} ${achternaam}`.trim() || 'Onbekende afzender';
-
+            const fullName = `${voornaam} ${achternaam}`.trim() || 'Onbekende afzender';
             const email = getFieldValue(formData, 'email');
-            const telefoon = getFieldValue(formData, 'telefoon');
-            const onderwerp = getFieldValue(formData, 'onderwerp') || 'Contactverzoek';
-            const bericht = getFieldValue(formData, 'bericht') || getFieldValue(formData, 'message') || 'Geen bericht opgegeven.';
+            const verzoekType = getFieldValue(formData, 'verzoek-type');
+            const verzoekLabel = formatVerzoekType(verzoekType);
 
-            const summaryRows = buildSummaryRows(form, formData);
+            const summaryRows = buildSummaryRows(formData);
             const summaryHtmlRows = buildSummaryHtml(summaryRows);
             const summaryText = buildSummaryText(summaryRows);
 
@@ -186,14 +329,36 @@ document.addEventListener('DOMContentLoaded', () => {
                 first_name: voornaam,
                 last_name: achternaam,
                 from_email: email,
-                phone: telefoon,
-                subject: onderwerp,
-                verzoek_type: 'Contactverzoek',
-                message: bericht,
+                phone: getFieldValue(formData, 'telefoon'),
+                subject: verzoekLabel,
+                verzoek_type: verzoekLabel,
+                message:
+                    getFieldValue(formData, 'anders-reden') ||
+                    getFieldValue(formData, 'reden-beëindiging') ||
+                    'Geen extra toelichting opgegeven.',
                 reply_to: email || 'info@klaasvis.nl',
                 to_email: email,
                 summary_html: summaryHtmlRows,
-                summary_text: summaryText
+                summary_text: summaryText,
+
+                nieuwe_postcode: getFieldValue(formData, 'nieuwe-postcode'),
+                nieuwe_huisnummer: getFieldValue(formData, 'nieuwe-huisnummer'),
+                nieuw_adres: getFieldValue(formData, 'nieuw-adres'),
+                verhuisdatum: getFieldValue(formData, 'verhuisdatum'),
+                wijzigingsdatum: getFieldValue(formData, 'wijzigingsdatum'),
+                polisnummer_motor: getFieldValue(formData, 'polisnummer-motor'),
+                huidig_kenteken: getFieldValue(formData, 'huidig-kenteken'),
+                huidig_merk: getFieldValue(formData, 'huidig-merk'),
+                huidig_model: getFieldValue(formData, 'huidig-model'),
+                nieuw_kenteken: getFieldValue(formData, 'nieuw-kenteken'),
+                nieuw_merk: getFieldValue(formData, 'nieuw-merk'),
+                nieuw_model: getFieldValue(formData, 'nieuw-model'),
+                opzegdatum: getFieldValue(formData, 'opzegdatum'),
+                reden_beeindiging: getFieldValue(formData, 'reden-beëindiging'),
+                voorkeur_datum_tijd: getFieldValue(formData, 'voorkeur-datum-tijd'),
+                huidig_email: getFieldValue(formData, 'huidig-email'),
+                nieuw_email: getFieldValue(formData, 'nieuw-email'),
+                anders_reden: getFieldValue(formData, 'anders-reden')
             };
 
             emailjs.send("service_hcds2qk", "template_xk3jqlc", baseParams)
@@ -209,6 +374,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         }
 
                         form.reset();
+                        toggleFields();
 
                         if (typeof grecaptcha !== 'undefined') {
                             grecaptcha.reset();
@@ -228,5 +394,34 @@ document.addEventListener('DOMContentLoaded', () => {
                     alert(`Er is een fout opgetreden: ${error.text || error}. Probeer het later opnieuw.`);
                 });
         });
+    }
+
+    // ===========================
+    // EVENT LISTENERS VELDEN
+    // ===========================
+    const selectElement = document.getElementById('verzoek-type');
+    if (selectElement) {
+        selectElement.addEventListener('change', toggleFields);
+        toggleFields();
+    }
+
+    const postcode = document.getElementById('nieuwe-postcode');
+    const huisnummer = document.getElementById('nieuwe-huisnummer');
+    const huidigKenteken = document.getElementById('huidig-kenteken');
+    const nieuwKenteken = document.getElementById('nieuw-kenteken');
+
+    if (postcode) postcode.addEventListener('blur', fetchPostcodeData);
+    if (huisnummer) huisnummer.addEventListener('blur', fetchPostcodeData);
+
+    if (huidigKenteken) {
+        huidigKenteken.addEventListener('blur', () =>
+            fetchRDWData('huidig-kenteken', 'huidig-merk', 'huidig-model')
+        );
+    }
+
+    if (nieuwKenteken) {
+        nieuwKenteken.addEventListener('blur', () =>
+            fetchRDWData('nieuw-kenteken', 'nieuw-merk', 'nieuw-model')
+        );
     }
 });
