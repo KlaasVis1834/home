@@ -1,120 +1,4 @@
 // ===========================
-// TOON/VERBERG VELDEN OP BASIS VAN VERZOEK-TYPE
-// ===========================
-function toggleFields() {
-    const verzoekType = document.getElementById('verzoek-type')?.value;
-
-    const fieldGroups = {
-        'adreswijziging': [
-            'adreswijziging-fields-postcode',
-            'adreswijziging-fields-huisnummer',
-            'adreswijziging-fields-adres',
-            'adreswijziging-fields-datum'
-        ],
-        'motorvoertuigwijziging': [
-            'motorvoertuigwijziging-fields-datum',
-            'motorvoertuigwijziging-fields-polisnummer',
-            'motorvoertuigwijziging-fields-huidig-kenteken',
-            'motorvoertuigwijziging-fields-huidig-merk',
-            'motorvoertuigwijziging-fields-huidig-model',
-            'motorvoertuigwijziging-fields-nieuw-kenteken',
-            'motorvoertuigwijziging-fields-nieuw-merk',
-            'motorvoertuigwijziging-fields-nieuw-model'
-        ],
-        'verzekering-beëindigen': [
-            'verzekering-beëindigen-fields-datum',
-            'verzekering-beëindigen-fields-reden'
-        ],
-        'belverzoek': [
-            'belverzoek-fields-telefoon',
-            'belverzoek-fields-datum-tijd'
-        ],
-        'emailwijziging': [
-            'emailwijziging-fields-huidig',
-            'emailwijziging-fields-nieuw'
-        ],
-        'anders': [
-            'anders-fields'
-        ]
-    };
-
-    Object.values(fieldGroups).flat().forEach(id => {
-        const el = document.getElementById(id);
-        if (el) el.classList.add('hidden');
-    });
-
-    if (verzoekType && fieldGroups[verzoekType]) {
-        fieldGroups[verzoekType].forEach(id => {
-            const el = document.getElementById(id);
-            if (el) el.classList.remove('hidden');
-        });
-    }
-}
-
-// ===========================
-// POSTCODE API
-// ===========================
-async function fetchPostcodeData() {
-    const postcodeField = document.getElementById('nieuwe-postcode');
-    const huisnummerField = document.getElementById('nieuwe-huisnummer');
-    const adresField = document.getElementById('nieuw-adres');
-
-    if (!postcodeField || !huisnummerField || !adresField) return;
-
-    const postcode = postcodeField.value.replace(/\s/g, '');
-    const huisnummer = huisnummerField.value;
-
-    if (!postcode || !huisnummer) return;
-
-    const url = `https://api.pdok.nl/bzk/locatieserver/search/v3_1/free?q=${postcode} ${huisnummer}&rows=1`;
-
-    try {
-        const response = await fetch(url);
-        const data = await response.json();
-        const adres = data?.response?.docs?.[0];
-
-        if (adres) {
-            adresField.value = `${adres.straatnaam} ${huisnummer}, ${adres.woonplaatsnaam}`;
-        } else {
-            adresField.value = '';
-        }
-    } catch {
-        adresField.value = '';
-    }
-}
-
-// ===========================
-// RDW API
-// ===========================
-async function fetchRDWData(kentekenField, merkField, modelField) {
-    const kentekenInput = document.getElementById(kentekenField);
-    const merkInput = document.getElementById(merkField);
-    const modelInput = document.getElementById(modelField);
-
-    if (!kentekenInput || !merkInput || !modelInput) return;
-
-    const kenteken = kentekenInput.value.toUpperCase().replace(/[^A-Z0-9]/g, '');
-    if (!kenteken) return;
-
-    try {
-        const response = await fetch(`https://opendata.rdw.nl/resource/m9d7-ebf2.json?kenteken=${kenteken}`);
-        const data = await response.json();
-
-        if (data.length > 0) {
-            const auto = data[0];
-            merkInput.value = auto.merk || '';
-            modelInput.value = auto.handelsbenaming || '';
-        } else {
-            merkInput.value = '';
-            modelInput.value = '';
-            alert('Geen voertuig gevonden met dit kenteken.');
-        }
-    } catch (error) {
-        alert('Fout bij ophalen RDW-gegevens: ' + error.message);
-    }
-}
-
-// ===========================
 // CHATBASE CHATBOT INTEGRATIE
 // ===========================
 (function () {
@@ -143,6 +27,64 @@ async function fetchRDWData(kentekenField, merkField, modelField) {
     if (document.readyState === 'complete') onLoad();
     else window.addEventListener('load', onLoad);
 })();
+
+// ===========================
+// HULPFUNCTIES EMAILJS
+// ===========================
+function escapeHtml(value) {
+    return String(value || '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+}
+
+function getFieldValue(formData, key) {
+    return (formData.get(key) || '').toString().trim();
+}
+
+function getLabelText(form, key) {
+    const field = form.querySelector(`[name="${key}"]`);
+    if (!field) return key;
+
+    const id = field.id;
+    if (!id) return key;
+
+    const label = form.querySelector(`label[for="${id}"]`);
+    return label ? label.textContent.trim() : key;
+}
+
+function buildSummaryRows(form, formData) {
+    const rows = [];
+
+    for (const [key, value] of formData.entries()) {
+        if (key === 'g-recaptcha-response') continue;
+
+        const cleanValue = String(value || '').trim();
+        if (!cleanValue) continue;
+
+        rows.push({
+            label: getLabelText(form, key),
+            value: cleanValue
+        });
+    }
+
+    return rows;
+}
+
+function buildSummaryHtml(rows) {
+    return rows.map(row => `
+        <tr>
+            <td style="padding:10px 12px; border:1px solid #e5e7eb; background:#f9fafb; font-weight:600; width:40%;">${escapeHtml(row.label)}</td>
+            <td style="padding:10px 12px; border:1px solid #e5e7eb;">${escapeHtml(row.value)}</td>
+        </tr>
+    `).join('');
+}
+
+function buildSummaryText(rows) {
+    return rows.map(row => `${row.label}: ${row.value}`).join('\n');
+}
 
 // ===========================
 // ALLES BIJ LADEN
@@ -219,79 +161,72 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             const formData = new FormData(form);
-            const email = formData.get('email') || 'rbuijs@klaasvis.nl';
-            let emailBody = "Contactverzoek Klaas Vis Assurantiekantoor\n\n";
 
-            for (const [key, value] of formData.entries()) {
-                if (key === 'g-recaptcha-response') continue;
-                if (value && value.toString().trim() !== '') {
-                    emailBody += `${key}: ${value}\n`;
-                }
-            }
+            const voornaam = getFieldValue(formData, 'voornaam');
+            const achternaam = getFieldValue(formData, 'achternaam');
+            const naam = getFieldValue(formData, 'naam');
+            const fullName = naam || `${voornaam} ${achternaam}`.trim() || 'Onbekende afzender';
+
+            const email = getFieldValue(formData, 'email');
+            const telefoon = getFieldValue(formData, 'telefoon');
+            const onderwerp = getFieldValue(formData, 'onderwerp') || 'Contactverzoek';
+            const bericht = getFieldValue(formData, 'bericht') || getFieldValue(formData, 'message') || 'Geen bericht opgegeven.';
+
+            const summaryRows = buildSummaryRows(form, formData);
+            const summaryHtmlRows = buildSummaryHtml(summaryRows);
+            const summaryText = buildSummaryText(summaryRows);
 
             const loadingScreen = document.getElementById('loadingScreen');
             if (loadingScreen) {
                 loadingScreen.style.display = 'flex';
             }
 
-            emailjs.send("service_hcds2qk", "template_xk3jqlc", {
-                message: emailBody,
-                reply_to: email
-            })
-            .then(() => {
-                return emailjs.send("service_hcds2qk", "template_gco2wsm", {
-                    to_email: email,
-                    message: "Bedankt voor uw verzoek!\n\nHieronder uw ingevulde gegevens:\n" + emailBody
-                });
-            })
-            .then(() => {
-                setTimeout(() => {
+            const baseParams = {
+                from_name: fullName,
+                first_name: voornaam,
+                last_name: achternaam,
+                from_email: email,
+                phone: telefoon,
+                subject: onderwerp,
+                verzoek_type: 'Contactverzoek',
+                message: bericht,
+                reply_to: email || 'info@klaasvis.nl',
+                to_email: email,
+                summary_html: summaryHtmlRows,
+                summary_text: summaryText
+            };
+
+            emailjs.send("service_hcds2qk", "template_xk3jqlc", baseParams)
+                .then(() => {
+                    if (email) {
+                        return emailjs.send("service_hcds2qk", "template_gco2wsm", baseParams);
+                    }
+                })
+                .then(() => {
+                    setTimeout(() => {
+                        if (loadingScreen) {
+                            loadingScreen.style.display = 'none';
+                        }
+
+                        form.reset();
+
+                        if (typeof grecaptcha !== 'undefined') {
+                            grecaptcha.reset();
+                        }
+
+                        alert('Uw bericht is succesvol verzonden. Wij nemen uw verzoek binnen 2 werkdagen in behandeling.');
+                        window.location.href = "https://www.klaasvis.nl";
+                    }, 1200);
+                })
+                .catch((error) => {
+                    console.error("Fout bij verzenden:", error);
+
                     if (loadingScreen) {
                         loadingScreen.style.display = 'none';
                     }
-                    form.reset();
-                    if (typeof grecaptcha !== 'undefined') {
-                        grecaptcha.reset();
-                    }
-                    window.location.href = "https://www.klaasvis.nl";
-                }, 2000);
-            })
-            .catch((error) => {
-                console.error("Fout bij verzenden:", error);
-                if (loadingScreen) {
-                    loadingScreen.style.display = 'none';
-                }
-                alert(`Er is een fout opgetreden: ${error.text || error}. Probeer het later opnieuw.`);
-            });
+
+                    alert(`Er is een fout opgetreden: ${error.text || error}. Probeer het later opnieuw.`);
+                });
         });
-    }
-
-    // ===========================
-    // EVENT LISTENERS VELDEN
-    // ===========================
-    const selectElement = document.getElementById('verzoek-type');
-    if (selectElement) {
-        selectElement.addEventListener('change', toggleFields);
-        toggleFields();
-    }
-
-    const postcode = document.getElementById('nieuwe-postcode');
-    const huisnummer = document.getElementById('nieuwe-huisnummer');
-    const huidigKenteken = document.getElementById('huidig-kenteken');
-    const nieuwKenteken = document.getElementById('nieuw-kenteken');
-
-    if (postcode) postcode.addEventListener('blur', fetchPostcodeData);
-    if (huisnummer) huisnummer.addEventListener('blur', fetchPostcodeData);
-
-    if (huidigKenteken) {
-        huidigKenteken.addEventListener('blur', () =>
-            fetchRDWData('huidig-kenteken', 'huidig-merk', 'huidig-model')
-        );
-    }
-
-    if (nieuwKenteken) {
-        nieuwKenteken.addEventListener('blur', () =>
-            fetchRDWData('nieuw-kenteken', 'nieuw-merk', 'nieuw-model')
-        );
     }
 });
