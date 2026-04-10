@@ -457,6 +457,46 @@ button {
     font-size: 16px;
 }
 
+.modal-buttons-top {
+    position: sticky;
+    top: 0;
+    bottom: auto;
+    z-index: 5;
+    background: #fefefe;
+    padding: 0 0 14px 0;
+    margin-top: 16px;
+    margin-bottom: 18px;
+    border-top: none;
+    border-bottom: 1px solid rgba(0,0,0,0.08);
+    text-align: center;
+}
+
+.modal-buttons-top button {
+    padding: 10px 20px;
+    margin: 0 10px;
+    font-size: 16px;
+    border: none;
+    border-radius: 6px;
+    color: #fff;
+    cursor: pointer;
+}
+
+.modal-buttons-top .confirm-btn {
+    background-color: #006400;
+}
+
+.modal-buttons-top .confirm-btn:hover {
+    background-color: #004d00;
+}
+
+.modal-buttons-top .edit-btn {
+    background-color: #6c757d;
+}
+
+.modal-buttons-top .edit-btn:hover {
+    background-color: #5a6268;
+}
+
 .form-confirm {
     font-family: Tahoma, sans-serif;
     font-size: 14px;
@@ -878,6 +918,11 @@ footer {
         width: 90%;
         max-width: 400px;
         padding: 15px;
+    }
+
+    .modal-buttons-top button {
+        width: 100%;
+        margin: 0 0 10px 0;
     }
 
     .loading-screen {
