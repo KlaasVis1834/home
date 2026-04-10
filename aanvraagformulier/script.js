@@ -5,6 +5,239 @@ showStep(currentStep);
 let signaturePad = null;
 
 // ============================================================
+// ✅ Helpers EmailJS / samenvatting
+// ============================================================
+function escapeHtml(value) {
+    return String(value || '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+}
+
+function getFieldValue(formData, key) {
+    return (formData.get(key) || '').toString().trim();
+}
+
+function getSelectedRadioValue(name) {
+    const selected = document.querySelector(`input[name="${name}"]:checked`);
+    return selected ? selected.value : '';
+}
+
+function humanizeValue(key, value) {
+    if (value === 'yes') return 'Ja';
+    if (value === 'no') return 'Nee';
+
+    const maps = {
+        'betalingstermijn': {
+            maandelijks: 'Maandelijks',
+            kwartaal: 'Kwartaal',
+            jaarlijks: 'Jaarlijks'
+        },
+        'aanschaf': {
+            particulier: 'Particulier',
+            zakelijk: 'Zakelijk'
+        },
+        'dekking': {
+            voorstel: 'Dekking en premie conform het verzekeringsvoorstel',
+            anders: 'Afwijkende gewenste dekking'
+        },
+        'main_coverage': {
+            wa: 'WA',
+            'casco-beperkt': 'Casco Beperkt',
+            'casco-compleet': 'Casco Compleet'
+        },
+        'rechtsvorm': {
+            bv: 'Besloten Vennootschap (BV)',
+            zzp: 'Eenmanszaak (ZZP)',
+            nv: 'Naamloze Vennootschap (NV)',
+            stichting: 'Stichting/Vereniging',
+            anders: 'Anders'
+        },
+        'rechtsvorm-omschrijving': {
+            'ubo-eenmanszaak': 'Betreft een eenmanszaak, vul uw gegevens hieronder in (UBO)',
+            'ubo-belang': 'Uiteindelijk belanghebbende(n) met een belang van 25% of meer',
+            'geen-ubo': 'Geen belanghebbende(n) van 25% of meer',
+            'zeggenschap': 'Personen die feitelijk zeggenschap uitoefenen over de organisatie'
+        }
+    };
+
+    if (maps[key] && maps[key][value]) {
+        return maps[key][value];
+    }
+
+    return value;
+}
+
+function getFieldLabel(fieldName) {
+    const specialLabels = {
+        offertenummer: 'Offertenummer',
+        Geboortedatum: 'Geboortedatum verzekeringnemer',
+        'regelmatige-bestuurder': 'Bent u de regelmatige bestuurder',
+        voorletters: 'Voorletters regelmatige bestuurder',
+        achternaam: 'Achternaam regelmatige bestuurder',
+        Postcode_en_huisnummer: 'Postcode en huisnummer regelmatige bestuurder',
+        geboortedatum: 'Geboortedatum regelmatige bestuurder',
+        relatie: 'Relatie tot verzekeringnemer',
+        betalingstermijn: 'Betalingstermijn',
+        iban: 'IBAN-rekeningnummer',
+        ingangsdatum: 'Ingangsdatum verzekering',
+        verklaring: 'Ingangsdatum is nog niet bekend / akkoordverklaring',
+        dekking: 'Gewenste dekking',
+        main_coverage: 'Hoofddekking',
+        extra_schadeverzekering: 'Extra optie',
+        extra_rechtsbijstand: 'Extra optie',
+        'schade-ervaring': 'Schade gehad in afgelopen 5 jaar',
+        'schade-datum': 'Schadedatum',
+        'schade-bedrag': 'Schadebedrag(en)',
+        'soort-schade': 'Soort schade(s)',
+        'schadevrije-jaren': 'Schadevrije jaren opgebouwd',
+        'aantal-schadevrije-jaren': 'Aantal schadevrije jaren',
+        opzegservice: 'Gebruik maken van opzegservice',
+        verzekeringsmaatschappij: 'Verzekeringsmaatschappij',
+        name: 'Voorletter(s) en achternaam verzekeringnemer',
+        polisnummer: 'Huidige polisnummer',
+        kenteken: 'Kenteken motorvoertuig',
+        'reden-opzegging': 'Reden van opzegging',
+        'datum-opzegging': 'Datum opzegging',
+        aanschaf: 'Auto aangeschaft als',
+        rechtsvorm: 'Rechtsvorm',
+        'rechtsvorm-omschrijving': 'Omschrijving rechtsvorm / UBO-situatie',
+        'ubo1-naam': 'Belanghebbende 1 naam',
+        'ubo1-adres': 'Belanghebbende 1 adres',
+        'ubo1-postcode': 'Belanghebbende 1 postcode en woonplaats',
+        'ubo1-geboortedatum': 'Belanghebbende 1 geboortedatum',
+        'ubo2-naam': 'Belanghebbende 2 naam',
+        'ubo2-adres': 'Belanghebbende 2 adres',
+        'ubo2-postcode': 'Belanghebbende 2 postcode en woonplaats',
+        'ubo2-geboortedatum': 'Belanghebbende 2 geboortedatum',
+        'ubo3-naam': 'Belanghebbende 3 naam',
+        'ubo3-adres': 'Belanghebbende 3 adres',
+        'ubo3-postcode': 'Belanghebbende 3 postcode en woonplaats',
+        'ubo3-geboortedatum': 'Belanghebbende 3 geboortedatum',
+        'aantal-belanghebbenden': 'Aantal extra belanghebbenden',
+        onverzekerd: 'Auto langer dan 10 dagen onverzekerd',
+        'onverzekerd-text': 'Toelichting onverzekerd',
+        verzekeraar: 'Weigering of opzegging door verzekeraar',
+        'verzekeraar-text': 'Toelichting verzekeraar',
+        failliet: 'Faillissement / schuldsanering / surseance',
+        'failliet-text': 'Toelichting faillissement',
+        beslag: 'Beslag gelegd',
+        'beslag-text': 'Toelichting beslag',
+        rijontzegging: 'Rijverbod of rijontzegging gehad',
+        'rijontzegging-text': 'Toelichting rijontzegging',
+        conflict: 'Conflict met juridische hulp',
+        'conflict-text': 'Toelichting conflict',
+        'meer-informatie': 'Overige relevante informatie',
+        'meer-informatie-text': 'Toelichting overige informatie',
+        ondertekenaar: 'Voorletter(s) en achternaam ondertekenaar',
+        email: 'E-mailadres',
+        'datum-aanvraag': 'Datum aanvraag',
+        signature_url: 'Handtekening'
+    };
+
+    return specialLabels[fieldName] || fieldName;
+}
+
+function getDekkingText(formData) {
+    const dekking = getFieldValue(formData, 'dekking');
+
+    if (dekking !== 'anders') {
+        return 'Conform verzekeringsvoorstel';
+    }
+
+    const mainCoverage = humanizeValue('main_coverage', getFieldValue(formData, 'main_coverage') || 'wa');
+    const extraOptions = [];
+
+    if (formData.get('extra_schadeverzekering')) {
+        extraOptions.push('Schadeverzekering voor Inzittenden');
+    }
+    if (formData.get('extra_rechtsbijstand')) {
+        extraOptions.push('Rechtsbijstand Verkeer');
+    }
+
+    let text = `Hoofddekking: ${mainCoverage}`;
+    if (extraOptions.length) {
+        text += `, Extra opties: ${extraOptions.join(', ')}`;
+    }
+
+    return text;
+}
+
+function buildSummaryRows(formData) {
+    const rows = [];
+    const aanschaf = getFieldValue(formData, 'aanschaf');
+
+    for (const [key, rawValue] of formData.entries()) {
+        if (key === 'g-recaptcha-response') continue;
+        if (key === 'main_coverage') continue;
+        if (key === 'extra_schadeverzekering') continue;
+        if (key === 'extra_rechtsbijstand') continue;
+        if (key === 'signature_url') continue;
+
+        if ((key === 'rechtsvorm' || key === 'rechtsvorm-omschrijving' || key.startsWith('ubo')) && aanschaf !== 'zakelijk') {
+            continue;
+        }
+
+        const value = String(rawValue || '').trim();
+        if (!value || value === 'on') continue;
+
+        if (key === 'dekking') {
+            rows.push({
+                label: 'Gewenste dekking',
+                value: getDekkingText(formData)
+            });
+            continue;
+        }
+
+        if (key === 'verklaring') {
+            continue;
+        }
+
+        rows.push({
+            label: getFieldLabel(key),
+            value: humanizeValue(key, value)
+        });
+    }
+
+    if (signaturePad && !signaturePad.isEmpty()) {
+        rows.push({
+            label: 'Handtekening',
+            value: 'Aanwezig'
+        });
+    } else {
+        rows.push({
+            label: 'Handtekening',
+            value: 'Niet aanwezig'
+        });
+    }
+
+    return rows;
+}
+
+function buildSummaryHtml(rows) {
+    return rows.map(row => `
+        <tr>
+            <td style="padding:10px 12px; border:1px solid #e5e7eb; background:#f9fafb; font-weight:600; width:40%;">${escapeHtml(row.label)}</td>
+            <td style="padding:10px 12px; border:1px solid #e5e7eb;">${escapeHtml(row.value)}</td>
+        </tr>
+    `).join('');
+}
+
+function buildSummaryText(rows) {
+    return rows.map(row => `${row.label}: ${row.value}`).join('\n');
+}
+
+function buildCustomerMessage() {
+    return `Wij nemen uw aanvraag in behandeling en u ontvangt binnen ca. 10 werkdagen de polisstukken. Indien de gegevens volledig zijn ingevuld en de ingangsdatum is bekend, dan is het betreffende motorvoertuig per gewenste ingangsdatum in voorlopige dekking genomen en zodoende dus ook verzekerd.
+
+Indien het aanvraagformulier onjuist of onvolledig is ingevuld, dan zullen wij zo spoedig mogelijk contact met u opnemen.
+
+Wij vertrouwen erop u hiermede naar behoren te hebben geïnformeerd en zien uw eventuele vragen met belangstelling tegemoet.`;
+}
+
+// ============================================================
 // ✅ Hamburger menu (mobiel)
 // ============================================================
 function initHamburgerMenu() {
@@ -186,49 +419,14 @@ function showModal() {
     if (!form) return;
 
     const formData = new FormData(form);
-    let summaryHtml = "<strong>Ingevulde gegevens:</strong><ul>";
-    const aanschaf = formData.get('aanschaf');
+    const rows = buildSummaryRows(formData);
 
-    let dekkingText = '';
-    const dekkingAnders = formData.get('dekking') === 'anders';
-
-    if (dekkingAnders) {
-        const mainCoverage = formData.get('main_coverage');
-        dekkingText += `Hoofddekking: ${mainCoverage || 'WA'}`;
-
-        const extraOptions = [];
-        if (formData.get('extra_schadeverzekering')) extraOptions.push('Schadeverzekering voor Inzittenden');
-        if (formData.get('extra_rechtsbijstand')) extraOptions.push('Rechtsbijstand Verkeer');
-
-        if (extraOptions.length > 0) {
-            dekkingText += `, Extra opties: ${extraOptions.join(', ')}`;
-        }
-    } else {
-        dekkingText = 'Conform verzekeringsvoorstel';
-    }
-
-    for (let [key, value] of formData.entries()) {
-        if (key === 'g-recaptcha-response') continue;
-
-        if (value && value !== 'on') {
-            if ((key === 'rechtsvorm' || key === 'rechtsvorm-omschrijving' || key.startsWith('ubo')) && aanschaf !== 'zakelijk') continue;
-            if (key === 'main_coverage' || key === 'extra_schadeverzekering' || key === 'extra_rechtsbijstand') continue;
-
-            if (key === 'dekking') {
-                summaryHtml += `<li>Gewenste dekking: ${dekkingText}</li>`;
-            } else {
-                summaryHtml += `<li>${key}: ${value}</li>`;
-            }
-        }
-    }
-
-    summaryHtml += "</ul>";
-
-    if (signaturePad && !signaturePad.isEmpty()) {
-        summaryHtml += "<p><strong>Handtekening:</strong> Aanwezig</p>";
-    } else {
-        summaryHtml += "<p><strong>Handtekening:</strong> Niet aanwezig</p>";
-    }
+    let summaryHtml = "<strong>Ingevulde gegevens:</strong>";
+    summaryHtml += `<div style="margin-top:12px; overflow-x:auto;">
+        <table style="width:100%; border-collapse:collapse; font-size:14px;">
+            ${buildSummaryHtml(rows)}
+        </table>
+    </div>`;
 
     const summary = document.getElementById('summary');
     if (summary) summary.innerHTML = summaryHtml;
@@ -268,9 +466,8 @@ async function handleSubmit(isConfirmed) {
     const form = document.getElementById('insurance-form');
     const formData = new FormData(form);
 
-    let emailBody = "Aanvraagformulier Dekkerautoverzekering\n\n";
-    const email = formData.get('email');
-    const aanschaf = formData.get('aanschaf');
+    const email = getFieldValue(formData, 'email');
+    const ondertekenaar = getFieldValue(formData, 'ondertekenaar');
 
     if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
         loadingScreen.classList.add('hidden');
@@ -286,65 +483,57 @@ async function handleSubmit(isConfirmed) {
         return;
     }
 
-    let dekkingText = '';
-    const dekkingAnders = formData.get('dekking') === 'anders';
-
-    if (dekkingAnders) {
-        const mainCoverage = formData.get('main_coverage');
-        dekkingText += `Hoofddekking: ${mainCoverage || 'WA'}`;
-
-        const extraOptions = [];
-        if (formData.get('extra_schadeverzekering')) extraOptions.push('Schadeverzekering voor Inzittenden');
-        if (formData.get('extra_rechtsbijstand')) extraOptions.push('Rechtsbijstand Verkeer');
-
-        if (extraOptions.length > 0) {
-            dekkingText += `, Extra opties: ${extraOptions.join(', ')}`;
-        }
-    } else {
-        dekkingText = 'Conform verzekeringsvoorstel';
-    }
-
-    for (let [key, value] of formData.entries()) {
-        if (key === 'g-recaptcha-response') continue;
-
-        if (value && value !== 'on') {
-            if ((key === 'rechtsvorm' || key === 'rechtsvorm-omschrijving' || key.startsWith('ubo')) && aanschaf === 'particulier') continue;
-            if (key === 'main_coverage' || key === 'extra_schadeverzekering' || key === 'extra_rechtsbijstand') continue;
-
-            if (key === 'dekking') {
-                emailBody += `Gewenste dekking: ${dekkingText}\n`;
-            } else {
-                emailBody += `${key}: ${value}\n`;
-            }
-        }
-    }
-
     try {
         let signatureUrl = '';
 
         if (signaturePad && !signaturePad.isEmpty()) {
             const signatureBase64 = signaturePad.toDataURL('image/png');
             signatureUrl = await uploadSignature(signatureBase64);
-            emailBody += `\nHandtekening: Bekijk de handtekening via deze link: ${signatureUrl}\n`;
 
             const sigField = document.getElementById('signature_url');
             if (sigField) sigField.value = signatureUrl;
-        } else {
-            emailBody += `\nHandtekening: Niet aanwezig\n`;
         }
 
-        const emailParams = {
-            message: emailBody,
+        const freshFormData = new FormData(form);
+        const rows = buildSummaryRows(freshFormData);
+
+        if (signatureUrl) {
+            rows.push({
+                label: 'Link naar handtekening',
+                value: signatureUrl
+            });
+        }
+
+        const summaryHtml = buildSummaryHtml(rows);
+        const summaryText = buildSummaryText(rows);
+
+        const baseParams = {
+            to_email: email,
+            from_name: ondertekenaar || 'Aanvrager',
+            from_email: email,
             reply_to: email,
-            signature_url: signatureUrl || ''
+            subject: 'Bevestiging aanvraag Dekkerautoverzekering',
+            verzoek_type: 'Aanvraag Dekkerautoverzekering',
+            message: buildCustomerMessage(),
+            summary_html: summaryHtml,
+            summary_text: summaryText,
+            signature_url: signatureUrl || '',
+            offertenummer: getFieldValue(freshFormData, 'offertenummer'),
+            datum_aanvraag: getFieldValue(freshFormData, 'datum-aanvraag'),
+            ingangsdatum: getFieldValue(freshFormData, 'ingangsdatum'),
+            ondertekenaar: ondertekenaar
         };
 
-        await emailjs.send("service_37glay9", "template_igkvytp", emailParams);
+        // 1. Mail naar klant
+        await emailjs.send("service_37glay9", "template_vjmqckj", baseParams);
 
+        // Kleine pauze ivm EmailJS rate limit
+        await new Promise(resolve => setTimeout(resolve, 1200));
+
+        // 2. Exact dezelfde mail naar adviseur
         await emailjs.send("service_37glay9", "template_vjmqckj", {
-            to_email: email,
-            email: email,
-            message: "Bedankt voor uw aanvraag!\n\nHieronder uw ingevulde gegevens:\n" + emailBody
+            ...baseParams,
+            to_email: "rbuijs@klaasvis.nl"
         });
 
         loadingScreen.classList.add('hidden');
@@ -463,8 +652,15 @@ document.addEventListener('DOMContentLoaded', function () {
             const info = document.getElementById("regelmatige-bestuurder-info");
             if (!info) return;
 
-            if (value === "no") info.classList.add("active");
-            else info.classList.remove("active");
+            if (value === "no") {
+                info.classList.add("active");
+                info.classList.remove("hidden");
+                info.style.display = 'block';
+            } else {
+                info.classList.remove("active");
+                info.classList.add("hidden");
+                info.style.display = 'none';
+            }
         });
     });
 
@@ -611,16 +807,16 @@ function updateBelanghebbendenInfo() {
 
         wrap.innerHTML = `
             <label>Belanghebbende ${i} Voor- en achternaam:</label>
-            <input type="text" name="ubo${i}-naam" id="belanghebbende-${i}-naam">
+            <input type="text" name="ubo-extra-${i}-naam" id="belanghebbende-${i}-naam">
 
             <label>Belanghebbende ${i} Adres:</label>
-            <input type="text" name="ubo${i}-adres" id="belanghebbende-${i}-adres">
+            <input type="text" name="ubo-extra-${i}-adres" id="belanghebbende-${i}-adres">
 
             <label>Belanghebbende ${i} Postcode en Woonplaats:</label>
-            <input type="text" name="ubo${i}-postcode" id="belanghebbende-${i}-postcode">
+            <input type="text" name="ubo-extra-${i}-postcode" id="belanghebbende-${i}-postcode">
 
             <label>Belanghebbende ${i} Geboortedatum:</label>
-            <input type="date" name="ubo${i}-geboortedatum" id="belanghebbende-${i}-geboortedatum">
+            <input type="date" name="ubo-extra-${i}-geboortedatum" id="belanghebbende-${i}-geboortedatum">
         `;
 
         belanghebbendenInfo.appendChild(wrap);
