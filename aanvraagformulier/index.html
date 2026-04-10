@@ -525,11 +525,13 @@
                         <div class="modal-content">
                             <h3>Controleer uw gegevens</h3>
                             <p>Hieronder een samenvatting van uw ingevulde gegevens. Kloppen deze?</p>
-                            <div id="summary" class="form-confirm"></div>
-                            <div class="modal-buttons">
-                                <button type="button" onclick="handleSubmit(true)">Ja, verzenden</button>
-                                <button type="button" onclick="handleSubmit(false)">Nee, aanpassen</button>
+
+                            <div class="modal-buttons modal-buttons-top">
+                                <button type="button" class="confirm-btn" onclick="handleSubmit(true)">Ja, verzenden</button>
+                                <button type="button" class="edit-btn" onclick="handleSubmit(false)">Nee, aanpassen</button>
                             </div>
+
+                            <div id="summary" class="form-confirm"></div>
                         </div>
                     </div>
 
