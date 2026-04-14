@@ -1085,7 +1085,27 @@ footer {
   display: flex;
   gap: 18px;
 }
+.hero-stats .stat {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
 
+.hero-stats .stat:hover {
+  transform: translateY(-2px);
+  color: var(--primary);
+}
+
+.hero-stats .icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--primary);
+}
 /* RESPONSIVE */
 @media (max-width: 1200px) {
   .hero-grid,
