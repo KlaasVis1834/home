@@ -820,6 +820,57 @@ nav {
   line-height: 1.55;
 }
 
+/* WAAROM KLAAS VIS */
+.why-klaasvis-section .about-grid {
+  grid-template-columns: 1.05fr 0.95fr;
+  align-items: stretch;
+  gap: 28px;
+}
+
+.why-klaasvis-section .visual-card {
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid rgba(20, 25, 40, 0.08);
+  box-shadow: var(--shadow-md);
+  border-radius: 24px;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  height: 100%;
+  transition: transform 0.28s ease, box-shadow 0.28s ease, border-color 0.28s ease;
+}
+
+.why-klaasvis-section .visual-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+  border-color: rgba(79, 70, 229, 0.16);
+}
+
+.why-klaasvis-section .visual-card p {
+  color: var(--text-muted);
+}
+
+.why-klaasvis-section .visual-card h3 {
+  font-size: 1.22rem;
+  font-weight: 850;
+  margin-bottom: 16px;
+  letter-spacing: -0.02em;
+}
+
+.why-klaasvis-section .visual-card ul li {
+  color: var(--text);
+  font-weight: 600;
+  line-height: 1.6;
+}
+
+.why-klaasvis-section .btn {
+  min-width: 220px;
+}
+
+.why-klaasvis-section > .container > p {
+  max-width: 780px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 /* NEWS */
 .news-card {
   overflow: hidden;
@@ -1285,6 +1336,11 @@ footer {
   .about-stack {
     grid-template-rows: auto auto;
   }
+
+  .why-klaasvis-section .about-grid {
+    grid-template-columns: 1fr;
+    gap: 22px;
+  }
 }
 
 @media (max-width: 768px) {
@@ -1380,6 +1436,14 @@ footer {
 
   .insurer-logo-movir img {
     max-height: 40px;
+  }
+
+  .why-klaasvis-section .visual-card {
+    padding: 22px !important;
+  }
+
+  .why-klaasvis-section .btn {
+    width: 100%;
   }
 }
 
