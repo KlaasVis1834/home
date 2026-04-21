@@ -1,390 +1,229 @@
-<!DOCTYPE html>
-<html lang="nl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Herbouwwaardemeter</title>
-    <link rel="icon" type="image/png" href="Logo.png">
-    <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.1.5/dist/signature_pad.umd.min.js"></script>
-    <link rel="stylesheet" href="styles.css">
-    <script src="https://t.contentsquare.net/uxa/f79e7087dc853.js"></script>
-    <script id="Cookiebot" src="https://consent.cookiebot.com/uc.js" data-cbid="9273cf7a-daab-4567-a9d7-3429830702b0" data-blockingmode="auto" type="text/javascript"></script>
-    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-F56T6ZLXBS"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
+// EmailJS initialiseren
+emailjs.init("noRYJWEETvdqfI2sL");
 
-      gtag('config', 'G-F56T6ZLXBS', {
-        'anonymize_ip': true
-      });
-    </script>
-    <script type="text/javascript">
-    (function(c,l,a,r,i,t,y){
-        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-    })(window, document, "clarity", "script", "wbjdbeumt8");
-    </script>
-</head>
-<body>
-    <div id="loadingScreen" class="loading-screen">
-        <div class="loader"></div>
-        <p>Formulier wordt verzonden...</p>
-    </div>
+document.addEventListener("DOMContentLoaded", () => {
+    // Mobiele navigatie
+    const hamburger = document.querySelector(".hamburger");
+    const navList = document.querySelector(".nav-list");
 
-    <nav>
-        <div class="nav-container">
-            <a href="https://www.klaasvis.nl" class="logo">
-                <img src="Logo.png" alt="Klaas Vis Logo" class="logo-img">
-                <span>Klaas Vis</span>
-            </a>
+    if (hamburger && navList) {
+        hamburger.addEventListener("click", () => {
+            navList.classList.toggle("active");
+            hamburger.setAttribute(
+                "aria-expanded",
+                navList.classList.contains("active") ? "true" : "false"
+            );
+        });
 
-            <button class="hamburger" aria-label="Menu openen" aria-expanded="false">☰</button>
-
-            <ul class="nav-list">
-                <li><a href="https://www.klaasvis.nl/">Home</a></li>
-                <li><a href="/schademelden/">Schade melden</a></li>
-                <li><a href="/wijziging-doorgeven/">Doorgeven wijziging</a></li>
-                <li><a href="/dekkerautoverzekering/">Dekkerautoverzekering</a></li>
-                <li><a href="/offerte-aanvragen/">Offerte aanvragen</a></li>
-                <li><a href="/downloads/">Downloads</a></li>
-                <li><a href="/contact/">Contact</a></li>
-            </ul>
-        </div>
-    </nav>
-
-    <main>
-        <div class="form-wrapper">
-            <form id="rebuildForm">
-                <div class="accordion">
-                    <button type="button" class="accordion-toggle">Herbouwwaardemethode +/- (klik hier voor meer informatie) </button>
-                    <div class="accordion-content">
-                        <p>De verzekerde waarde (herbouwwaarde) van uw woonhuis stelt u op eenvoudige en objectieve wijze vast met deze herbouwwaardemeter. Als bij het aanvragen of wijzigen van een woonhuisverzekering de te verzekeren waarde is bepaald aan de hand van de herbouwwaardemeter, zal Nh1816 Verzekeringen in geval van schade 5 jaar lang geen onderverzekering toepassen.</p>
-                        <p>De herbouwwaardemethode is gebaseerd op de onderstaande driedeling:</p>
-                        <ol>
-                            <li><strong>Inhoud van de woning in m³</strong>
-                                <ul>
-                                    <li>a. volgens inhoudsberekening òf</li>
-                                    <li>b. overgenomen uit:
-                                        <ul>
-                                            <li>het taxatierapport, indien uw woning is getaxeerd;</li>
-                                            <li>de stukken die u ontvangt omdat u een energielabelrapport voor uw woning heeft aangevraagd.</li>
-                                        </ul>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li><strong>Het type woning</strong>
-                                <ul>
-                                    <li>Rijtjeshuis, 2 onder 1 kap woning, vrijstaande woning of individueel appartement t/m 4 bouwlagen of t/m 8 bouwlagen.</li>
-                                </ul>
-                            </li>
-                            <li><strong>De afwerking van de woning</strong>
-                                <ul>
-                                    <li>Standaard of luxe.</li>
-                                </ul>
-                            </li>
-                        </ol>
-                        <p>De standaard m³ prijs op basis van deze factoren is als volgt vastgesteld:</p>
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Afwerkingsniveau</th>
-                                    <th>A (Rijtjeshuis)</th>
-                                    <th>B (2 onder 1 kap)</th>
-                                    <th>C (Vrijstaande woning)</th>
-                                    <th>D (Individueel app. t/m 4 bouwlagen)</th>
-                                    <th>E (Individueel app. 5 t/m 8 bouwlagen)</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>Standaard</td>
-                                    <td>€810</td>
-                                    <td>€940</td>
-                                    <td>€1.075</td>
-                                    <td>€990</td>
-                                    <td>€905</td>
-                                </tr>
-                                <tr>
-                                    <td>Luxe</td>
-                                    <td>€899</td>
-                                    <td>€1.034</td>
-                                    <td>€1.161</td>
-                                    <td>€1.098</td>
-                                    <td>€1.004</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        <p><strong>Losse bijgebouwen:</strong> €472,- per m³</p>
-                        <ul>
-                            <li>Prijzen zijn inclusief fundering</li>
-                            <li>Mogelijkheid toeslag of korting bij afwijkende situaties</li>
-                            <li>Bij een uitkomst boven de €1.000.000,– wordt er geen automatische garantie afgegeven</li>
-                        </ul>
-                        <p><strong>De herbouwwaardemeter kan niet worden gebruikt bij:</strong></p>
-                        <ul>
-                            <li>Zeer luxe villa’s, landhuizen, grachtenpanden of bungalows</li>
-                            <li>Monumentale herenhuizen</li>
-                            <li>Woonhuizen:
-                                <ul>
-                                    <li>met een bijzondere, historische of monumentale bouwaard</li>
-                                    <li>die onder Monumentenzorg of een Beschermd Stadsgezicht vallen</li>
-                                    <li>die onder architectuur zijn gebouwd en/of waarvoor bij herbouw speciale vergunningen en/of voorzieningen gelden</li>
-                                </ul>
-                            </li>
-                            <li>Hoogbouw</li>
-                        </ul>
-                        <p>In deze gevallen adviseren wij een taxatie door Huygenhoek Taxaties.</p>
-                        <p><strong>Omschrijving afwerking:</strong></p>
-                        <ul>
-                            <li><strong>Standaard:</strong> meest eenvoudige afwerking van b.v. keuken, vloeren, badkamer en dergelijke.</li>
-                            <li><strong>Luxe:</strong> b.v. duurdere keuken (met inbouwapparatuur), speciale vloeren (b.v. tegelvloeren, parket e.d.) of luxe badkamer</li>
-                        </ul>
-                    </div>
-                </div>
-
-                <div class="form-container">
-                    <div class="form-part">
-                        <h2>Algemene Gegevens</h2>
-                        <div class="form-section narrow">
-                            <label for="polisnummer">Polisnummer *</label>
-                            <input type="text" id="polisnummer" name="polisnummer" required>
-                        </div>
-                        <div class="form-section narrow">
-                            <label for="email">E-mailadres (optioneel)</label>
-                            <input type="email" id="email" name="email">
-                        </div>
-                    </div>
-
-                    <div class="form-part">
-                        <h2>Inhoudsberekening</h2>
-                        <p>Lengte × Breedte × Gemiddelde hoogte = Inhoud<br><small>Soms staat in een WOZ-beschikking de m³ inhoud van de woning vermeld. Die inhoud kan gebruikt worden voor de opgave van de herbouwwaarde van de woning.</small></p>
-
-                        <h3>Begane grond</h3>
-                        <div class="form-section">
-                            <label for="bg_lengte">Lengte (m)</label>
-                            <input type="number" step="0.1" id="bg_lengte" name="bg_lengte">
-                        </div>
-                        <div class="form-section">
-                            <label for="bg_breedte">Breedte (m)</label>
-                            <input type="number" step="0.1" id="bg_breedte" name="bg_breedte">
-                        </div>
-                        <div class="form-section">
-                            <label for="bg_hoogte">Gemiddelde hoogte (m)</label>
-                            <input type="number" step="0.1" id="bg_hoogte" name="bg_hoogte">
-                        </div>
-                        <div class="form-section">
-                            <label for="bg_inhoud">Inhoud (m³)</label>
-                            <input type="number" step="0.1" id="bg_inhoud" name="bg_inhoud" readonly>
-                        </div>
-
-                        <h3>Verdieping</h3>
-                        <div class="form-section">
-                            <label for="v_lengte">Lengte (m)</label>
-                            <input type="number" step="0.1" id="v_lengte" name="v_lengte">
-                        </div>
-                        <div class="form-section">
-                            <label for="v_breedte">Breedte (m)</label>
-                            <input type="number" step="0.1" id="v_breedte" name="v_breedte">
-                        </div>
-                        <div class="form-section">
-                            <label for="v_hoogte">Gemiddelde hoogte (m)</label>
-                            <input type="number" step="0.1" id="v_hoogte" name="v_hoogte">
-                        </div>
-                        <div class="form-section">
-                            <label for="v_inhoud">Inhoud (m³)</label>
-                            <input type="number" step="0.1" id="v_inhoud" name="v_inhoud" readonly>
-                        </div>
-
-                        <h3>Zolder</h3>
-                        <div class="form-section">
-                            <label for="z_lengte">Lengte (m)</label>
-                            <input type="number" step="0.1" id="z_lengte" name="z_lengte">
-                        </div>
-                        <div class="form-section">
-                            <label for="z_breedte">Breedte (m)</label>
-                            <input type="number" step="0.1" id="z_breedte" name="z_breedte">
-                        </div>
-                        <div class="form-section">
-                            <label for="z_hoogte">Gemiddelde hoogte (m)</label>
-                            <input type="number" step="0.1" id="z_hoogte" name="z_hoogte">
-                        </div>
-                        <div class="form-section">
-                            <label for="z_inhoud">Inhoud (m³)</label>
-                            <input type="number" step="0.1" id="z_inhoud" name="z_inhoud" readonly>
-                        </div>
-
-                        <h3>Kelder/Souterrain</h3>
-                        <div class="form-section">
-                            <label for="k_lengte">Lengte (m)</label>
-                            <input type="number" step="0.1" id="k_lengte" name="k_lengte">
-                        </div>
-                        <div class="form-section">
-                            <label for="k_breedte">Breedte (m)</label>
-                            <input type="number" step="0.1" id="k_breedte" name="k_breedte">
-                        </div>
-                        <div class="form-section">
-                            <label for="k_hoogte">Gemiddelde hoogte (m)</label>
-                            <input type="number" step="0.1" id="k_hoogte" name="k_hoogte">
-                        </div>
-                        <div class="form-section">
-                            <label for="k_inhoud">Inhoud (m³)</label>
-                            <input type="number" step="0.1" id="k_inhoud" name="k_inhoud" readonly>
-                        </div>
-
-                        <div class="form-section">
-                            <label for="totale_inhoud">Totale inhoud (m³)</label>
-                            <input type="number" step="0.1" id="totale_inhoud" name="totale_inhoud" readonly>
-                        </div>
-                    </div>
-
-                    <div class="form-part">
-                        <h2>Herbouwwaardeberekening</h2>
-                        <div class="form-section">
-                            <label for="type_woning">Type woning *</label>
-                            <select id="type_woning" name="type_woning" required>
-                                <option value="">Kies een type</option>
-                                <option value="A">A (Rijtjeshuis)</option>
-                                <option value="B">B (2 onder 1 kap)</option>
-                                <option value="C">C (Vrijstaande woning)</option>
-                                <option value="D">D (Individueel app. t/m 4 bouwlagen)</option>
-                                <option value="E">E (Individueel app. 5 t/m 8 bouwlagen)</option>
-                            </select>
-                        </div>
-                        <div class="form-section">
-                            <label for="inhoud_eigen">Inhoud m³ conform eigen berekening</label>
-                            <input type="number" step="0.1" id="inhoud_eigen" name="inhoud_eigen">
-                        </div>
-                        <div class="form-section">
-                            <label for="inhoud_woz">Inhoud m³ conform WOZ-beschikking</label>
-                            <input type="number" step="0.1" id="inhoud_woz" name="inhoud_woz">
-                        </div>
-                        <div class="form-section">
-                            <label>Afwerkingsniveau *</label>
-                            <div class="switch">
-                                <input type="radio" id="afwerking_standaard" name="afwerkingsniveau" value="Standaard" required>
-                                <label class="switch-label" for="afwerking_standaard">Standaard</label>
-                                <input type="radio" id="afwerking_luxe" name="afwerkingsniveau" value="Luxe">
-                                <label class="switch-label" for="afwerking_luxe">Luxe</label>
-                            </div>
-                        </div>
-                        <div class="form-section">
-                            <label for="m3_prijs">m³ prijs (€) *</label>
-                            <input type="number" step="0.01" id="m3_prijs" name="m3_prijs" required>
-                        </div>
-                        <div class="form-section">
-                            <label>Heeft u recht op toeslag of korting? *</label>
-                            <div class="switch">
-                                <input type="radio" id="toeslag_ja" name="toeslag" value="Ja" required>
-                                <label class="switch-label" for="toeslag_ja">Ja</label>
-                                <input type="radio" id="toeslag_nee" name="toeslag" value="Nee">
-                                <label class="switch-label" for="toeslag_nee">Nee</label>
-                            </div>
-                            <div id="toeslag_verklaring" class="hidden">
-                                <label for="toeslag_uitleg">Zo ja, wilt u dit verklaren?</label>
-                                <textarea id="toeslag_uitleg" name="toeslag_uitleg" rows="3"></textarea>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="form-part">
-                        <h2>Inhoud (m³) Losse gebouwen</h2>
-                        <div class="form-section">
-                            <label for="losse_inhoud_eigen">Inhoud m³ conform eigen berekening</label>
-                            <input type="number" step="0.1" id="losse_inhoud_eigen" name="losse_inhoud_eigen">
-                        </div>
-                        <div class="form-section">
-                            <label for="losse_inhoud_woz">Inhoud m³ conform WOZ-beschikking</label>
-                            <input type="number" step="0.1" id="losse_inhoud_woz" name="losse_inhoud_woz">
-                        </div>
-                    </div>
-
-                    <div class="form-part">
-                        <h2>Handtekening</h2>
-                        <div class="form-section narrow">
-                            <label>Plaats uw digitale handtekening *</label>
-                            <canvas id="signaturePad" width="300" height="100"></canvas>
-                            <button type="button" id="clearSignature">Handtekening herstellen</button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="cf-turnstile"
-                     data-sitekey="0x4AAAAAADAZBUxnnK9hAbxu"
-                     data-size="flexible">
-                </div>
-
-                <button type="submit" class="submit-btn">Versturen</button>
-            </form>
-        </div>
-    </main>
-
-    <footer>
-        <div class="footer-content">
-            <div class="footer-brand">
-                <img src="Logo.png" alt="Klaas Vis Logo" class="footer-brand-img">
-                <h3>BV Assurantiekantoor Klaas Vis Ao. 1834</h3>
-                <p>Uw vertrouwde partner sinds 1834.</p>
-                <p style="margin-top: 1rem; font-size: 0.9rem; color: var(--text-muted);">
-                    AFM: 12005878<br>
-                    KvK: 35008554
-                </p>
-            </div>
-
-            <div class="footer-section">
-                <h4>Diensten</h4>
-                <ul class="footer-links">
-                    <li><a href="https://www.klaasvis.nl/">Home</a></li>
-                    <li><a href="/schademelden/">Schade melden</a></li>
-                    <li><a href="/wijziging-doorgeven/">Doorgeven wijziging</a></li>
-                    <li><a href="/dekkerautoverzekering/">Dekkerautoverzekering</a></li>
-                    <li><a href="/offerte-aanvragen/">Offerte aanvragen</a></li>
-                    <li><a href="/downloads/">Downloads</a></li>
-                    <li><a href="/contact/">Contact</a></li>
-                </ul>
-            </div>
-
-            <div class="footer-section">
-                <h4>Contact</h4>
-                <ul class="footer-links">
-                    <li><a href="tel:0756314261">075-6314261</a></li>
-                    <li><a href="mailto:info@klaasvis.nl">info@klaasvis.nl</a></li>
-                    <li><a href="https://www.klaasvis.nl">www.klaasvis.nl</a></li>
-                    <li><a href="/contact/">Zuiderweg 7, Wijdewormer</a></li>
-                </ul>
-            </div>
-        </div>
-
-        <div class="footer-bottom">
-            <p>&copy; 2026 BV Assurantiekantoor Klaas Vis Ao. 1834. Alle rechten voorbehouden.</p>
-        </div>
-    </footer>
-
-    <script>
-        (function(){if(!window.chatbase||window.chatbase("getState")!=="initialized"){window.chatbase=(...arguments)=>{if(!window.chatbase.q){window.chatbase.q=[]}window.chatbase.q.push(arguments)};window.chatbase=new Proxy(window.chatbase,{get(target,prop){if(prop==="q"){return target.q}return(...args)=>target(prop,...args)}})}const onLoad=function(){const script=document.createElement("script");script.src="https://www.chatbase.co/embed.min.js";script.id="C60jEJW_QuVD7X3vE5rzE";script.domain="www.chatbase.co";document.body.appendChild(script)};if(document.readyState==="complete"){onLoad()}else{window.addEventListener("load",onLoad)}})();
-    </script>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const form = document.getElementById('rebuildForm');
-            if (!form) return;
-
-            form.addEventListener('submit', function (event) {
-                const tokenField = form.querySelector('input[name="cf-turnstile-response"]');
-                const token = tokenField ? tokenField.value.trim() : '';
-
-                if (!token) {
-                    event.preventDefault();
-                    alert('Bevestig eerst de beveiligingscontrole.');
-                    return;
-                }
+        navList.querySelectorAll("a").forEach(link => {
+            link.addEventListener("click", () => {
+                navList.classList.remove("active");
+                hamburger.setAttribute("aria-expanded", "false");
             });
         });
-    </script>
 
-    <script src="script.js"></script>
-</body>
-</html>
+        document.addEventListener("click", (e) => {
+            const clickedInsideNav = navList.contains(e.target);
+            const clickedHamburger = hamburger.contains(e.target);
+
+            if (!clickedInsideNav && !clickedHamburger) {
+                navList.classList.remove("active");
+                hamburger.setAttribute("aria-expanded", "false");
+            }
+        });
+    }
+
+    // Signature Pad initialiseren
+    const canvas = document.getElementById("signaturePad");
+    let signaturePad = null;
+
+    if (canvas) {
+        signaturePad = new SignaturePad(canvas);
+    }
+
+    const clearBtn = document.getElementById("clearSignature");
+    if (clearBtn && signaturePad) {
+        clearBtn.addEventListener("click", () => signaturePad.clear());
+    }
+
+    // Accordion functionaliteit
+    const accordionToggle = document.querySelector(".accordion-toggle");
+    const accordionContent = document.querySelector(".accordion-content");
+
+    if (accordionToggle && accordionContent) {
+        accordionToggle.addEventListener("click", () => {
+            accordionContent.classList.toggle("active");
+        });
+    }
+
+    // Inhoudsberekening automatisch updaten
+    function calculateContent(prefix) {
+        const lengte = parseFloat(document.getElementById(`${prefix}_lengte`)?.value) || 0;
+        const breedte = parseFloat(document.getElementById(`${prefix}_breedte`)?.value) || 0;
+        const hoogte = parseFloat(document.getElementById(`${prefix}_hoogte`)?.value) || 0;
+        const inhoud = lengte * breedte * hoogte;
+
+        const inhoudField = document.getElementById(`${prefix}_inhoud`);
+        if (inhoudField) {
+            inhoudField.value = inhoud.toFixed(1);
+        }
+
+        updateTotalContent();
+    }
+
+    function updateTotalContent() {
+        const bg_inhoud = parseFloat(document.getElementById("bg_inhoud")?.value) || 0;
+        const v_inhoud = parseFloat(document.getElementById("v_inhoud")?.value) || 0;
+        const z_inhoud = parseFloat(document.getElementById("z_inhoud")?.value) || 0;
+        const k_inhoud = parseFloat(document.getElementById("k_inhoud")?.value) || 0;
+        const totale_inhoud = bg_inhoud + v_inhoud + z_inhoud + k_inhoud;
+
+        const totaalField = document.getElementById("totale_inhoud");
+        if (totaalField) {
+            totaalField.value = totale_inhoud.toFixed(1);
+        }
+    }
+
+    ["bg", "v", "z", "k"].forEach(prefix => {
+        ["lengte", "breedte", "hoogte"].forEach(dim => {
+            const field = document.getElementById(`${prefix}_${dim}`);
+            if (field) {
+                field.addEventListener("input", () => calculateContent(prefix));
+            }
+        });
+    });
+
+    // Dynamische weergave logica voor toeslag
+    document.querySelectorAll('.switch input[name="toeslag"]').forEach(input => {
+        input.addEventListener('change', (e) => {
+            const toeslagVerklaring = document.getElementById("toeslag_verklaring");
+            if (!toeslagVerklaring) return;
+
+            if (e.target.id === "toeslag_ja") {
+                toeslagVerklaring.classList.remove("hidden");
+            } else {
+                toeslagVerklaring.classList.add("hidden");
+            }
+        });
+    });
+
+    // Formulier verzenden
+    const rebuildForm = document.getElementById("rebuildForm");
+    if (rebuildForm) {
+        rebuildForm.addEventListener("submit", (e) => {
+            e.preventDefault();
+
+            const tokenField = rebuildForm.querySelector('input[name="cf-turnstile-response"]');
+            const turnstileToken = tokenField ? tokenField.value.trim() : "";
+
+            if (!turnstileToken) {
+                alert("Bevestig eerst de beveiligingscontrole.");
+                return;
+            }
+
+            const loadingScreen = document.getElementById("loadingScreen");
+            if (loadingScreen) {
+                loadingScreen.style.display = "flex";
+            }
+
+            const formData = new FormData(e.target);
+            const data = {
+                polisnummer: formData.get("polisnummer"),
+                email: formData.get("email") || "",
+                bg_lengte: formData.get("bg_lengte") || "N.v.t.",
+                bg_breedte: formData.get("bg_breedte") || "N.v.t.",
+                bg_hoogte: formData.get("bg_hoogte") || "N.v.t.",
+                bg_inhoud: formData.get("bg_inhoud") || "N.v.t.",
+                v_lengte: formData.get("v_lengte") || "N.v.t.",
+                v_breedte: formData.get("v_breedte") || "N.v.t.",
+                v_hoogte: formData.get("v_hoogte") || "N.v.t.",
+                v_inhoud: formData.get("v_inhoud") || "N.v.t.",
+                z_lengte: formData.get("z_lengte") || "N.v.t.",
+                z_breedte: formData.get("z_breedte") || "N.v.t.",
+                z_hoogte: formData.get("z_hoogte") || "N.v.t.",
+                z_inhoud: formData.get("z_inhoud") || "N.v.t.",
+                k_lengte: formData.get("k_lengte") || "N.v.t.",
+                k_breedte: formData.get("k_breedte") || "N.v.t.",
+                k_hoogte: formData.get("k_hoogte") || "N.v.t.",
+                k_inhoud: formData.get("k_inhoud") || "N.v.t.",
+                totale_inhoud: formData.get("totale_inhoud") || "N.v.t.",
+                type_woning: formData.get("type_woning"),
+                inhoud_eigen: formData.get("inhoud_eigen") || "N.v.t.",
+                inhoud_woz: formData.get("inhoud_woz") || "N.v.t.",
+                afwerkingsniveau: formData.get("afwerkingsniveau"),
+                m3_prijs: formData.get("m3_prijs"),
+                toeslag: formData.get("toeslag"),
+                toeslag_uitleg: formData.get("toeslag_uitleg") || "N.v.t.",
+                losse_inhoud_eigen: formData.get("losse_inhoud_eigen") || "N.v.t.",
+                losse_inhoud_woz: formData.get("losse_inhoud_woz") || "N.v.t.",
+                handtekening: signaturePad && !signaturePad.isEmpty() ? "Aanwezig" : "Niet aanwezig"
+            };
+
+            const message = `
+Polisnummer: ${data.polisnummer}
+E-mailadres: ${data.email || "Niet opgegeven"}
+
+Inhoudsberekening:
+- Begane grond: Lengte: ${data.bg_lengte} m, Breedte: ${data.bg_breedte} m, Hoogte: ${data.bg_hoogte} m, Inhoud: ${data.bg_inhoud} m³
+- Verdieping: Lengte: ${data.v_lengte} m, Breedte: ${data.v_breedte} m, Hoogte: ${data.v_hoogte} m, Inhoud: ${data.v_inhoud} m³
+- Zolder: Lengte: ${data.z_lengte} m, Breedte: ${data.z_breedte} m, Hoogte: ${data.z_hoogte} m, Inhoud: ${data.z_inhoud} m³
+- Kelder/Souterrain: Lengte: ${data.k_lengte} m, Breedte: ${data.k_breedte} m, Hoogte: ${data.k_hoogte} m, Inhoud: ${data.k_inhoud} m³
+- Totale inhoud: ${data.totale_inhoud} m³
+
+Herbouwwaardeberekening:
+- Type woning: ${data.type_woning}
+- Inhoud m³ conform eigen berekening: ${data.inhoud_eigen}
+- Inhoud m³ conform WOZ-beschikking: ${data.inhoud_woz}
+- Afwerkingsniveau: ${data.afwerkingsniveau}
+- m³ prijs: €${data.m3_prijs}
+- Recht op toeslag/korting: ${data.toeslag}
+- Toelichting toeslag/korting: ${data.toeslag_uitleg}
+
+Losse gebouwen:
+- Inhoud m³ conform eigen berekening: ${data.losse_inhoud_eigen}
+- Inhoud m³ conform WOZ-beschikking: ${data.losse_inhoud_woz}
+
+Handtekening: ${data.handtekening}
+            `;
+
+            const toEmail = data.email ? data.email : "rbuijs@klaasvis.nl";
+            const emailData = {
+                message: message,
+                to_email: toEmail
+            };
+
+            const sendToMe = emailjs.send("service_lpsiijc", "template_l7dk1hc", {
+                message: message,
+                turnstile_token: turnstileToken
+            });
+
+            const sendToClient = emailjs.send("service_lpsiijc", "template_ksj01md", {
+                ...emailData,
+                turnstile_token: turnstileToken
+            });
+
+            Promise.all([sendToMe, sendToClient])
+                .then(() => {
+                    setTimeout(() => {
+                        window.location.href = "https://www.klaasvis.nl";
+                    }, 2000);
+                })
+                .catch(err => {
+                    console.error("Fout bij verzenden:", err);
+
+                    if (loadingScreen) {
+                        loadingScreen.style.display = "none";
+                    }
+
+                    if (window.turnstile) {
+                        const widget = document.querySelector(".cf-turnstile");
+                        if (widget) {
+                            window.turnstile.reset(widget);
+                        }
+                    }
+
+                    alert("Er is een fout opgetreden bij het verzenden.");
+                });
+        });
+    }
+});
