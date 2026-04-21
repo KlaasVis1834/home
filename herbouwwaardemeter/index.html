@@ -8,26 +8,26 @@
     <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.1.5/dist/signature_pad.umd.min.js"></script>
     <link rel="stylesheet" href="styles.css">
-        <script src="https://t.contentsquare.net/uxa/f79e7087dc853.js"></script>
+    <script src="https://t.contentsquare.net/uxa/f79e7087dc853.js"></script>
     <script id="Cookiebot" src="https://consent.cookiebot.com/uc.js" data-cbid="9273cf7a-daab-4567-a9d7-3429830702b0" data-blockingmode="auto" type="text/javascript"></script>
-    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-F56T6ZLXBS"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
 
-  gtag('config', 'G-F56T6ZLXBS', {
-    'anonymize_ip': true
-  });
-</script>
+      gtag('config', 'G-F56T6ZLXBS', {
+        'anonymize_ip': true
+      });
+    </script>
     <script type="text/javascript">
     (function(c,l,a,r,i,t,y){
         c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
         t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
         y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
     })(window, document, "clarity", "script", "wbjdbeumt8");
-</script>
+    </script>
 </head>
 <body>
     <div id="loadingScreen" class="loading-screen">
@@ -312,7 +312,10 @@
                     </div>
                 </div>
 
-                <div class="g-recaptcha" data-sitekey="6Lfht7IsAAAAAB5Jvdl_ELm_ET53HOsoQvOUcwH_"></div>
+                <div class="cf-turnstile"
+                     data-sitekey="0x4AAAAAADAZBUxnnK9hAbxu"
+                     data-size="flexible">
+                </div>
 
                 <button type="submit" class="submit-btn">Versturen</button>
             </form>
@@ -332,17 +335,17 @@
             </div>
 
             <div class="footer-section">
-   <h4>Diensten</h4>
-        <ul class="footer-links">
-          <li><a href= "https://www.klaasvis.nl/">Home</a></li>  
-          <li><a href="/schademelden/">Schade melden</a></li>
-          <li><a href="/wijziging-doorgeven/">Doorgeven wijziging</a></li>
-          <li><a href="/dekkerautoverzekering/">Dekkerautoverzekering</a></li>
-          <li><a href="/offerte-aanvragen/">Offerte aanvragen</a></li>
-          <li><a href="/downloads/">Downloads</a></li>
-          <li><a href="/contact/">Contact</a></li>
-        </ul>
-      </div>
+                <h4>Diensten</h4>
+                <ul class="footer-links">
+                    <li><a href="https://www.klaasvis.nl/">Home</a></li>
+                    <li><a href="/schademelden/">Schade melden</a></li>
+                    <li><a href="/wijziging-doorgeven/">Doorgeven wijziging</a></li>
+                    <li><a href="/dekkerautoverzekering/">Dekkerautoverzekering</a></li>
+                    <li><a href="/offerte-aanvragen/">Offerte aanvragen</a></li>
+                    <li><a href="/downloads/">Downloads</a></li>
+                    <li><a href="/contact/">Contact</a></li>
+                </ul>
+            </div>
 
             <div class="footer-section">
                 <h4>Contact</h4>
@@ -362,6 +365,24 @@
 
     <script>
         (function(){if(!window.chatbase||window.chatbase("getState")!=="initialized"){window.chatbase=(...arguments)=>{if(!window.chatbase.q){window.chatbase.q=[]}window.chatbase.q.push(arguments)};window.chatbase=new Proxy(window.chatbase,{get(target,prop){if(prop==="q"){return target.q}return(...args)=>target(prop,...args)}})}const onLoad=function(){const script=document.createElement("script");script.src="https://www.chatbase.co/embed.min.js";script.id="C60jEJW_QuVD7X3vE5rzE";script.domain="www.chatbase.co";document.body.appendChild(script)};if(document.readyState==="complete"){onLoad()}else{window.addEventListener("load",onLoad)}})();
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const form = document.getElementById('rebuildForm');
+            if (!form) return;
+
+            form.addEventListener('submit', function (event) {
+                const tokenField = form.querySelector('input[name="cf-turnstile-response"]');
+                const token = tokenField ? tokenField.value.trim() : '';
+
+                if (!token) {
+                    event.preventDefault();
+                    alert('Bevestig eerst de beveiligingscontrole.');
+                    return;
+                }
+            });
+        });
     </script>
 
     <script src="script.js"></script>
