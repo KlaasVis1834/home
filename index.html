@@ -715,130 +715,96 @@
       }
     })();
   </script>
-<!-- ===========================
-     BEVRIJDINGSDAG POP-UP
-=========================== -->
+  <script src="script.js?v=2"></script>
+  <!-- BEVRIJDINGSDAG POP-UP - PLAATS DIRECT BOVEN </body> -->
 <style>
-  .holiday-popup {
+  #holidayPopup {
     position: fixed;
     inset: 0;
-    background: rgba(15, 23, 42, 0.48);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    z-index: 9999;
+    background: rgba(15, 23, 42, 0.55);
+    z-index: 999999;
     display: none;
     align-items: center;
     justify-content: center;
-    padding: 1.5rem;
+    padding: 20px;
   }
 
-  .holiday-popup.active {
-    display: flex;
+  #holidayPopup.show {
+    display: flex !important;
   }
 
   .holiday-popup-card {
-    position: relative;
     max-width: 540px;
     width: 100%;
-    background: rgba(255, 255, 255, 0.96);
-    border: 1px solid rgba(20, 25, 40, 0.08);
-    border-radius: 26px;
-    padding: 2rem;
-    box-shadow: 0 32px 90px rgba(15, 23, 42, 0.26);
+    background: #ffffff;
+    border-radius: 24px;
+    padding: 32px;
     text-align: center;
-    animation: holidayPopupIn 0.35s ease;
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  }
-
-  @keyframes holidayPopupIn {
-    from {
-      opacity: 0;
-      transform: translateY(18px) scale(0.96);
-    }
-
-    to {
-      opacity: 1;
-      transform: translateY(0) scale(1);
-    }
+    box-shadow: 0 30px 90px rgba(0,0,0,0.28);
+    font-family: Arial, sans-serif;
+    position: relative;
   }
 
   .holiday-popup-close {
     position: absolute;
+    right: 18px;
     top: 14px;
-    right: 16px;
     border: none;
     background: transparent;
-    font-size: 2rem;
-    line-height: 1;
+    font-size: 32px;
     cursor: pointer;
     color: #667085;
   }
 
-  .holiday-popup-icon {
-    font-size: 2.6rem;
-    margin-bottom: 0.8rem;
-  }
-
   .holiday-popup-card h2 {
-    font-size: 1.8rem;
-    line-height: 1.15;
-    margin-bottom: 1rem;
+    margin: 10px 0 16px;
     color: #172033;
+    font-size: 28px;
   }
 
   .holiday-popup-card p {
     color: #667085;
     line-height: 1.7;
-    margin-bottom: 1rem;
+    margin-bottom: 14px;
   }
 
   .holiday-popup-card a {
     color: #4f46e5;
-    font-weight: 800;
-    text-decoration: none;
+    font-weight: 700;
   }
 
   .holiday-popup-actions {
     display: flex;
-    gap: 1rem;
-    margin-top: 1.5rem;
+    gap: 12px;
+    margin-top: 24px;
   }
 
   .holiday-btn {
     flex: 1;
-    min-height: 48px;
-    padding: 0.9rem 1rem;
-    border-radius: 14px;
-    font-weight: 800;
-    cursor: pointer;
     border: none;
+    border-radius: 14px;
+    padding: 14px 18px;
+    font-weight: 700;
+    cursor: pointer;
     text-decoration: none;
     display: inline-flex;
-    align-items: center;
     justify-content: center;
-    transition: all 0.25s ease;
-    font-size: 1rem;
+    align-items: center;
   }
 
   .holiday-btn-primary {
-    background: linear-gradient(90deg, #4f46e5 0%, #4b66ff 45%, #13b7a7 100%);
+    background: linear-gradient(90deg, #4f46e5, #14b8a6);
     color: #ffffff !important;
-    box-shadow: 0 16px 35px rgba(79, 70, 229, 0.22);
   }
 
   .holiday-btn-secondary {
-    background: #ffffff;
+    background: #f1f5f9;
     color: #172033;
-    border: 1px solid rgba(20, 25, 40, 0.08);
-  }
-
-  .holiday-btn:hover {
-    transform: translateY(-2px);
   }
 
   @media (max-width: 600px) {
     .holiday-popup-card {
-      padding: 1.5rem;
+      padding: 26px 20px;
     }
 
     .holiday-popup-actions {
@@ -847,13 +813,13 @@
   }
 </style>
 
-<div id="holidayPopup" class="holiday-popup" aria-hidden="true">
-  <div class="holiday-popup-card" role="dialog" aria-modal="true" aria-labelledby="holidayPopupTitle">
-    <button class="holiday-popup-close" type="button" aria-label="Sluiten">&times;</button>
+<div id="holidayPopup">
+  <div class="holiday-popup-card">
+    <button class="holiday-popup-close" type="button" id="holidayPopupClose">&times;</button>
 
-    <div class="holiday-popup-icon">🇳🇱</div>
+    <div style="font-size: 42px;">🇳🇱</div>
 
-    <h2 id="holidayPopupTitle">Gesloten op Bevrijdingsdag</h2>
+    <h2>Gesloten op Bevrijdingsdag</h2>
 
     <p>
       In verband met <strong>Bevrijdingsdag op 5 mei a.s.</strong> zijn wij gesloten
@@ -870,8 +836,7 @@
       <a href="mailto:info@klaasvis.nl" class="holiday-btn holiday-btn-primary">
         E-mail sturen
       </a>
-
-      <button class="holiday-btn holiday-btn-secondary" type="button" id="holidayPopupOk">
+      <button type="button" class="holiday-btn holiday-btn-secondary" id="holidayPopupOk">
         Begrepen
       </button>
     </div>
@@ -879,49 +844,37 @@
 </div>
 
 <script>
-  document.addEventListener('DOMContentLoaded', function () {
-    const holidayPopup = document.getElementById('holidayPopup');
-    const holidayPopupClose = document.querySelector('.holiday-popup-close');
-    const holidayPopupOk = document.getElementById('holidayPopupOk');
+  window.addEventListener('load', function () {
+    const popup = document.getElementById('holidayPopup');
+    const closeBtn = document.getElementById('holidayPopupClose');
+    const okBtn = document.getElementById('holidayPopupOk');
 
-    if (!holidayPopup) return;
-
-    const popupKey = 'klaasvis_bevrijdingsdag_popup_2026';
-
-    if (!localStorage.getItem(popupKey)) {
-      setTimeout(function () {
-        holidayPopup.classList.add('active');
-        holidayPopup.setAttribute('aria-hidden', 'false');
-      }, 700);
+    if (!popup) {
+      console.error('holidayPopup niet gevonden');
+      return;
     }
 
-    function closeHolidayPopup() {
-      holidayPopup.classList.remove('active');
-      holidayPopup.setAttribute('aria-hidden', 'true');
-      localStorage.setItem(popupKey, 'closed');
+    popup.classList.add('show');
+
+    function closePopup() {
+      popup.classList.remove('show');
     }
 
-    if (holidayPopupClose) {
-      holidayPopupClose.addEventListener('click', closeHolidayPopup);
-    }
+    closeBtn.addEventListener('click', closePopup);
+    okBtn.addEventListener('click', closePopup);
 
-    if (holidayPopupOk) {
-      holidayPopupOk.addEventListener('click', closeHolidayPopup);
-    }
-
-    holidayPopup.addEventListener('click', function (e) {
-      if (e.target === holidayPopup) {
-        closeHolidayPopup();
+    popup.addEventListener('click', function (e) {
+      if (e.target === popup) {
+        closePopup();
       }
     });
 
     document.addEventListener('keydown', function (e) {
-      if (e.key === 'Escape' && holidayPopup.classList.contains('active')) {
-        closeHolidayPopup();
+      if (e.key === 'Escape') {
+        closePopup();
       }
     });
   });
 </script>
-  <script src="script.js?v=2"></script>
 </body>
 </html>
