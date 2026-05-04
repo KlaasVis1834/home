@@ -715,7 +715,213 @@
       }
     })();
   </script>
+<!-- ===========================
+     BEVRIJDINGSDAG POP-UP
+=========================== -->
+<style>
+  .holiday-popup {
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.48);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    z-index: 9999;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+  }
 
+  .holiday-popup.active {
+    display: flex;
+  }
+
+  .holiday-popup-card {
+    position: relative;
+    max-width: 540px;
+    width: 100%;
+    background: rgba(255, 255, 255, 0.96);
+    border: 1px solid rgba(20, 25, 40, 0.08);
+    border-radius: 26px;
+    padding: 2rem;
+    box-shadow: 0 32px 90px rgba(15, 23, 42, 0.26);
+    text-align: center;
+    animation: holidayPopupIn 0.35s ease;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  }
+
+  @keyframes holidayPopupIn {
+    from {
+      opacity: 0;
+      transform: translateY(18px) scale(0.96);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+
+  .holiday-popup-close {
+    position: absolute;
+    top: 14px;
+    right: 16px;
+    border: none;
+    background: transparent;
+    font-size: 2rem;
+    line-height: 1;
+    cursor: pointer;
+    color: #667085;
+  }
+
+  .holiday-popup-icon {
+    font-size: 2.6rem;
+    margin-bottom: 0.8rem;
+  }
+
+  .holiday-popup-card h2 {
+    font-size: 1.8rem;
+    line-height: 1.15;
+    margin-bottom: 1rem;
+    color: #172033;
+  }
+
+  .holiday-popup-card p {
+    color: #667085;
+    line-height: 1.7;
+    margin-bottom: 1rem;
+  }
+
+  .holiday-popup-card a {
+    color: #4f46e5;
+    font-weight: 800;
+    text-decoration: none;
+  }
+
+  .holiday-popup-actions {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1.5rem;
+  }
+
+  .holiday-btn {
+    flex: 1;
+    min-height: 48px;
+    padding: 0.9rem 1rem;
+    border-radius: 14px;
+    font-weight: 800;
+    cursor: pointer;
+    border: none;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.25s ease;
+    font-size: 1rem;
+  }
+
+  .holiday-btn-primary {
+    background: linear-gradient(90deg, #4f46e5 0%, #4b66ff 45%, #13b7a7 100%);
+    color: #ffffff !important;
+    box-shadow: 0 16px 35px rgba(79, 70, 229, 0.22);
+  }
+
+  .holiday-btn-secondary {
+    background: #ffffff;
+    color: #172033;
+    border: 1px solid rgba(20, 25, 40, 0.08);
+  }
+
+  .holiday-btn:hover {
+    transform: translateY(-2px);
+  }
+
+  @media (max-width: 600px) {
+    .holiday-popup-card {
+      padding: 1.5rem;
+    }
+
+    .holiday-popup-actions {
+      flex-direction: column;
+    }
+  }
+</style>
+
+<div id="holidayPopup" class="holiday-popup" aria-hidden="true">
+  <div class="holiday-popup-card" role="dialog" aria-modal="true" aria-labelledby="holidayPopupTitle">
+    <button class="holiday-popup-close" type="button" aria-label="Sluiten">&times;</button>
+
+    <div class="holiday-popup-icon">🇳🇱</div>
+
+    <h2 id="holidayPopupTitle">Gesloten op Bevrijdingsdag</h2>
+
+    <p>
+      In verband met <strong>Bevrijdingsdag op 5 mei a.s.</strong> zijn wij gesloten
+      en telefonisch niet bereikbaar.
+    </p>
+
+    <p>
+      Uiteraard kunt u ons wel bereiken via
+      <a href="mailto:info@klaasvis.nl">info@klaasvis.nl</a>
+      en kunt u gebruikmaken van de digitale diensten op onze website.
+    </p>
+
+    <div class="holiday-popup-actions">
+      <a href="mailto:info@klaasvis.nl" class="holiday-btn holiday-btn-primary">
+        E-mail sturen
+      </a>
+
+      <button class="holiday-btn holiday-btn-secondary" type="button" id="holidayPopupOk">
+        Begrepen
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const holidayPopup = document.getElementById('holidayPopup');
+    const holidayPopupClose = document.querySelector('.holiday-popup-close');
+    const holidayPopupOk = document.getElementById('holidayPopupOk');
+
+    if (!holidayPopup) return;
+
+    const popupKey = 'klaasvis_bevrijdingsdag_popup_2026';
+
+    if (!localStorage.getItem(popupKey)) {
+      setTimeout(function () {
+        holidayPopup.classList.add('active');
+        holidayPopup.setAttribute('aria-hidden', 'false');
+      }, 700);
+    }
+
+    function closeHolidayPopup() {
+      holidayPopup.classList.remove('active');
+      holidayPopup.setAttribute('aria-hidden', 'true');
+      localStorage.setItem(popupKey, 'closed');
+    }
+
+    if (holidayPopupClose) {
+      holidayPopupClose.addEventListener('click', closeHolidayPopup);
+    }
+
+    if (holidayPopupOk) {
+      holidayPopupOk.addEventListener('click', closeHolidayPopup);
+    }
+
+    holidayPopup.addEventListener('click', function (e) {
+      if (e.target === holidayPopup) {
+        closeHolidayPopup();
+      }
+    });
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && holidayPopup.classList.contains('active')) {
+        closeHolidayPopup();
+      }
+    });
+  });
+</script>
   <script src="script.js?v=2"></script>
 </body>
 </html>
