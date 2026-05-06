@@ -16,7 +16,7 @@
     </script>
     <script src="https://t.contentsquare.net/uxa/f79e7087dc853.js"></script>
 <script id="Cookiebot" src="https://consent.cookiebot.com/uc.js" data-cbid="9273cf7a-daab-4567-a9d7-3429830702b0" data-blockingmode="auto" type="text/javascript"></script>
-    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-F56T6ZLXBS"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
@@ -532,7 +532,12 @@
 
                         <div class="form-group">
                             <br>
-                            <div class="g-recaptcha" data-sitekey="6Lfht7IsAAAAAB5Jvdl_ELm_ET53HOsoQvOUcwH_"></div>
+                            <div style="display:flex; justify-content:center; margin:24px 0;">
+  <div id="turnstile-widget"
+       class="cf-turnstile"
+       data-sitekey="0x4AAAAAADAZBUxnnK9hAbxu">
+  </div>
+</div>
                         </div>
 
                         <button type="button" class="submit-button">Aanvraag indienen</button>
