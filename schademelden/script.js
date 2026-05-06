@@ -74,11 +74,11 @@
       const fileInput = document.getElementById('bijlagen');
       const submitButton = form.querySelector('button[type="submit"]');
 
-      const recaptchaResponse =
-        typeof grecaptcha !== 'undefined' ? grecaptcha.getResponse() : '';
+      const tokenField = form.querySelector('input[name="cf-turnstile-response"]');
+      const turnstileToken = tokenField ? tokenField.value.trim() : '';
 
-      if (!recaptchaResponse || recaptchaResponse.length === 0) {
-        messageDiv.textContent = '❗ Bevestig eerst dat u geen robot bent.';
+      if (!turnstileToken) {
+        messageDiv.textContent = '❗ Bevestig eerst de beveiligingscontrole.';
         messageDiv.style.color = '#dc3545';
         if (submitButton) submitButton.disabled = false;
         return;
@@ -98,7 +98,8 @@
         beschrijving: form.beschrijving.value.trim(),
         to_email: form.email.value.trim(),
         to_email_mij: 'rbuijs@klaasvis.nl',
-        bijlagen_data: []
+        bijlagen_data: [],
+        turnstile_token: turnstileToken
       };
 
       formData.message = `
@@ -176,13 +177,17 @@ Nieuwe schademelding ontvangen:
         messageDiv.style.color = '#28a745';
         form.reset();
 
-        if (typeof grecaptcha !== 'undefined') {
-          grecaptcha.reset();
+        if (window.turnstile) {
+          window.turnstile.reset();
         }
       } catch (error) {
         console.error('EmailJS fout:', error);
         messageDiv.textContent = '❌ Fout bij verzenden. Probeer het later opnieuw.';
         messageDiv.style.color = '#dc3545';
+
+        if (window.turnstile) {
+          window.turnstile.reset();
+        }
       } finally {
         if (submitButton) submitButton.disabled = false;
 
