@@ -430,11 +430,13 @@ function closeModal() {
 }
 
 function showMultiInsuranceModal() {
+    closeModalEl('resultMessage');
     openModal('multiInsuranceModal');
 }
 
 function closeMultiInsuranceModal() {
     closeModalEl('multiInsuranceModal');
+    window.location.href = 'https://www.klaasvis.nl';
 }
 
 // ============================================================
@@ -562,11 +564,10 @@ async function handleSubmit(isConfirmed) {
                 <strong>Uw aanvraag is verzonden!</strong><br><br>
                 Wij danken u voor het vertrouwen.<br>
                 Een bevestiging is gestuurd naar ${email}.<br>
-                Uw auto is in voorlopige dekking per ingangsdatum. Binnen 10 werkdagen ontvangt u de polisstukken.
+                Uw auto is in voorlopige dekking per ingangsdatum. Binnen 10 werkdagen ontvangt u de polisstukken.<br><br>
+                U kunt nu ook vrijblijvend een offerte aanvragen voor uw andere verzekeringen.
             `;
         }
-
-        openModal('resultMessage');
 
         const formEl = document.getElementById('insurance-form');
         if (formEl) formEl.style.display = 'none';
@@ -578,7 +579,7 @@ async function handleSubmit(isConfirmed) {
             window.turnstile.reset();
         }
 
-        setTimeout(showMultiInsuranceModal, 900);
+        showMultiInsuranceModal();
     } catch (error) {
         loadingScreen.style.display = 'none';
 
