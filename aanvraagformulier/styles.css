@@ -38,7 +38,7 @@ body {
 }
 
 /* ===================== */
-/* NAVBAR (zelfde stijl als andere pagina's) */
+/* NAVBAR */
 /* ===================== */
 
 nav {
@@ -567,7 +567,7 @@ button:hover {
     min-height: 150vh;
 }
 
-/* Nieuwe stijlen voor dekking-toggle-knoppen */
+/* Dekking-toggle-knoppen */
 .coverage-options {
     margin-top: 10px;
 }
@@ -656,8 +656,13 @@ button:hover {
 }
 
 @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+    0% { 
+        transform: rotate(0deg); 
+    }
+
+    100% { 
+        transform: rotate(360deg); 
+    }
 }
 
 #page-loading-screen.hidden,
@@ -671,7 +676,62 @@ button:hover {
 }
 
 /* ===================== */
-/* FOOTER (zelfde stijl als andere pagina’s) */
+/* POP-UP EXTRA OFFERTE */
+/* ===================== */
+
+.multi-insurance-content {
+    position: relative;
+    text-align: center;
+}
+
+.multi-insurance-content h3 {
+    margin-top: 0;
+    color: var(--text);
+}
+
+.multi-insurance-content p {
+    color: var(--text);
+}
+
+.multi-insurance-close {
+    position: absolute;
+    top: 10px;
+    right: 12px;
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    border: none;
+    background: transparent;
+    color: var(--text-muted);
+    font-size: 30px;
+    line-height: 1;
+    cursor: pointer;
+}
+
+.multi-insurance-close:hover {
+    background: transparent;
+    color: var(--text);
+}
+
+.multi-insurance-link {
+    display: inline-block;
+    padding: 10px 20px;
+    margin: 0 10px;
+    border-radius: 5px;
+    background-color: #006400;
+    color: #fff;
+    font-size: 16px;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.multi-insurance-link:hover {
+    background-color: #004d00;
+    color: #fff;
+}
+
+/* ===================== */
+/* FOOTER */
 /* ===================== */
 
 footer {
@@ -953,58 +1013,7 @@ footer {
         font-size: 18px;
         color: #333;
     }
-.multi-insurance-content {
-    position: relative;
-    text-align: center;
-}
 
-.multi-insurance-content h3 {
-    margin-top: 0;
-    color: var(--text);
-}
-
-.multi-insurance-content p {
-    color: var(--text);
-}
-
-.multi-insurance-close {
-    position: absolute;
-    top: 10px;
-    right: 12px;
-    width: 36px;
-    height: 36px;
-    padding: 0;
-    border: none;
-    background: transparent;
-    color: var(--text-muted);
-    font-size: 30px;
-    line-height: 1;
-    cursor: pointer;
-}
-
-.multi-insurance-close:hover {
-    background: transparent;
-    color: var(--text);
-}
-
-.multi-insurance-link {
-    display: inline-block;
-    padding: 10px 20px;
-    margin: 0 10px;
-    border-radius: 5px;
-    background-color: #006400;
-    color: #fff;
-    font-size: 16px;
-    text-decoration: none;
-    cursor: pointer;
-}
-
-.multi-insurance-link:hover {
-    background-color: #004d00;
-    color: #fff;
-}
-
-@media (max-width: 600px) {
     .multi-insurance-link,
     #multiInsuranceModal .modal-buttons button {
         width: 100%;
