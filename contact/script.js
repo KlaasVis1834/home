@@ -63,7 +63,6 @@ async function fetchPostcodeData() {
 
     const postcode = postcodeField.value.replace(/\s/g, '');
     const huisnummer = huisnummerField.value;
-
     if (!postcode || !huisnummer) return;
 
     const url = `https://api.pdok.nl/bzk/locatieserver/search/v3_1/free?q=${postcode} ${huisnummer}&rows=1`;
@@ -160,21 +159,9 @@ function getFieldValue(formData, key) {
     return (formData.get(key) || '').toString().trim();
 }
 
-function formatVerzoekType(verzoekType) {
-    const map = {
-        'adreswijziging': 'Adreswijziging',
-        'motorvoertuigwijziging': 'Motorvoertuigwijziging',
-        'verzekering-beëindigen': 'Verzekering beëindigen',
-        'belverzoek': 'Terugbelverzoek',
-        'emailwijziging': 'E-mailwijziging',
-        'anders': 'Anders'
-    };
-    return map[verzoekType] || verzoekType || 'Contactverzoek';
-}
-
 function buildSummaryRows(formData) {
     const fieldMap = [
-        { key: 'verzoek-type', label: 'Soort verzoek', formatted: true },
+        { key: 'verzoek-type', label: 'Soort verzoek' },
         { key: 'voornaam', label: 'Voorletter(s)' },
         { key: 'achternaam', label: 'Achternaam' },
         { key: 'email', label: 'E-mailadres' },
@@ -202,12 +189,7 @@ function buildSummaryRows(formData) {
     const rows = [];
 
     fieldMap.forEach(field => {
-        let value = getFieldValue(formData, field.key);
-
-        if (field.key === 'verzoek-type' && value) {
-            value = formatVerzoekType(value);
-        }
-
+        const value = getFieldValue(formData, field.key);
         if (value) {
             rows.push({
                 label: field.label,
@@ -230,6 +212,18 @@ function buildSummaryHtml(rows) {
 
 function buildSummaryText(rows) {
     return rows.map(row => `${row.label}: ${row.value}`).join('\n');
+}
+
+function formatVerzoekType(verzoekType) {
+    const map = {
+        'adreswijziging': 'Adreswijziging',
+        'motorvoertuigwijziging': 'Motorvoertuigwijziging',
+        'verzekering-beëindigen': 'Verzekering beëindigen',
+        'belverzoek': 'Terugbelverzoek',
+        'emailwijziging': 'E-mailwijziging',
+        'anders': 'Anders'
+    };
+    return map[verzoekType] || verzoekType || 'Algemeen verzoek';
 }
 
 // ===========================
@@ -300,9 +294,11 @@ document.addEventListener('DOMContentLoaded', () => {
         form.addEventListener('submit', function (event) {
             event.preventDefault();
 
-            const recaptchaResponse = typeof grecaptcha !== 'undefined' ? grecaptcha.getResponse() : '';
-            if (!recaptchaResponse) {
-                alert("Bevestig eerst dat u geen robot bent (klik op de reCAPTCHA).");
+            const tokenField = form.querySelector('input[name="cf-turnstile-response"]');
+            const turnstileToken = tokenField ? tokenField.value.trim() : '';
+
+            if (!turnstileToken) {
+                alert("Bevestig eerst de beveiligingscontrole.");
                 return;
             }
 
@@ -310,8 +306,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const voornaam = getFieldValue(formData, 'voornaam');
             const achternaam = getFieldValue(formData, 'achternaam');
-            const fullName = `${voornaam} ${achternaam}`.trim() || 'Onbekende afzender';
-            const email = getFieldValue(formData, 'email');
+            const fullName = `${voornaam} ${achternaam}`.trim();
+            const email = getFieldValue(formData, 'email') || 'info@klaasvis.nl';
             const verzoekType = getFieldValue(formData, 'verzoek-type');
             const verzoekLabel = formatVerzoekType(verzoekType);
 
@@ -325,19 +321,18 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             const baseParams = {
-                from_name: fullName,
+                from_name: fullName || 'Onbekende afzender',
                 first_name: voornaam,
                 last_name: achternaam,
-                from_email: email,
+                from_email: getFieldValue(formData, 'email'),
                 phone: getFieldValue(formData, 'telefoon'),
                 subject: verzoekLabel,
                 verzoek_type: verzoekLabel,
-                message:
-                    getFieldValue(formData, 'anders-reden') ||
-                    getFieldValue(formData, 'reden-beëindiging') ||
-                    'Geen extra toelichting opgegeven.',
-                reply_to: email || 'info@klaasvis.nl',
-                to_email: email,
+                message: getFieldValue(formData, 'anders-reden') ||
+                         getFieldValue(formData, 'reden-beëindiging') ||
+                         'Geen extra toelichting opgegeven.',
+                reply_to: getFieldValue(formData, 'email') || 'info@klaasvis.nl',
+                to_email: getFieldValue(formData, 'email'),
                 summary_html: summaryHtmlRows,
                 summary_text: summaryText,
 
@@ -358,12 +353,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 voorkeur_datum_tijd: getFieldValue(formData, 'voorkeur-datum-tijd'),
                 huidig_email: getFieldValue(formData, 'huidig-email'),
                 nieuw_email: getFieldValue(formData, 'nieuw-email'),
-                anders_reden: getFieldValue(formData, 'anders-reden')
+                anders_reden: getFieldValue(formData, 'anders-reden'),
+                turnstile_token: turnstileToken
             };
 
             emailjs.send("service_hcds2qk", "template_xk3jqlc", baseParams)
                 .then(() => {
-                    if (email) {
+                    if (getFieldValue(formData, 'email')) {
                         return emailjs.send("service_hcds2qk", "template_gco2wsm", baseParams);
                     }
                 })
@@ -372,23 +368,25 @@ document.addEventListener('DOMContentLoaded', () => {
                         if (loadingScreen) {
                             loadingScreen.style.display = 'none';
                         }
-
                         form.reset();
                         toggleFields();
 
-                        if (typeof grecaptcha !== 'undefined') {
-                            grecaptcha.reset();
+                        if (window.turnstile) {
+                            window.turnstile.reset();
                         }
 
-                        alert('Uw bericht is succesvol verzonden. Wij nemen uw verzoek binnen 2 werkdagen in behandeling.');
+                        alert('Uw wijziging is succesvol verzonden. Wij nemen uw verzoek binnen 2 werkdagen in behandeling.');
                         window.location.href = "https://www.klaasvis.nl";
                     }, 1200);
                 })
                 .catch((error) => {
                     console.error("Fout bij verzenden:", error);
-
                     if (loadingScreen) {
                         loadingScreen.style.display = 'none';
+                    }
+
+                    if (window.turnstile) {
+                        window.turnstile.reset();
                     }
 
                     alert(`Er is een fout opgetreden: ${error.text || error}. Probeer het later opnieuw.`);
