@@ -679,14 +679,22 @@ button:hover {
 /* POP-UP EXTRA OFFERTE */
 /* ===================== */
 
+#multiInsuranceModal {
+    z-index: 1200;
+}
+
 .multi-insurance-content {
     position: relative;
     text-align: center;
+    border-radius: 18px;
+    border: none;
+    box-shadow: 0 24px 70px rgba(15, 23, 42, 0.22);
 }
 
 .multi-insurance-content h3 {
     margin-top: 0;
     color: var(--text);
+    font-size: 1.35rem;
 }
 
 .multi-insurance-content p {
@@ -713,20 +721,33 @@ button:hover {
     color: var(--text);
 }
 
-.multi-insurance-link {
+.multi-insurance-link,
+.multi-insurance-home {
     display: inline-block;
     padding: 10px 20px;
     margin: 0 10px;
     border-radius: 5px;
-    background-color: #006400;
     color: #fff;
     font-size: 16px;
     text-decoration: none;
     cursor: pointer;
 }
 
+.multi-insurance-link {
+    background-color: #006400;
+}
+
 .multi-insurance-link:hover {
     background-color: #004d00;
+    color: #fff;
+}
+
+.multi-insurance-home {
+    background-color: #6c757d;
+}
+
+.multi-insurance-home:hover {
+    background-color: #5a6268;
     color: #fff;
 }
 
@@ -1015,6 +1036,7 @@ footer {
     }
 
     .multi-insurance-link,
+    .multi-insurance-home,
     #multiInsuranceModal .modal-buttons button {
         width: 100%;
         margin: 0 0 10px 0;
