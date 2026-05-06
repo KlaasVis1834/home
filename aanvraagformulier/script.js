@@ -569,9 +569,6 @@ async function handleSubmit(isConfirmed) {
             `;
         }
 
-        const formEl = document.getElementById('insurance-form');
-        if (formEl) formEl.style.display = 'none';
-
         const navBtns = document.querySelector('.navigation-buttons');
         if (navBtns) navBtns.style.display = 'none';
 
