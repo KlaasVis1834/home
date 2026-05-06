@@ -9,9 +9,9 @@
   <link rel="icon" href="Logo.png" type="image/png">
 
   <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
-      <script src="https://t.contentsquare.net/uxa/f79e7087dc853.js"></script>
-<script id="Cookiebot" src="https://consent.cookiebot.com/uc.js" data-cbid="9273cf7a-daab-4567-a9d7-3429830702b0" data-blockingmode="auto" type="text/javascript"></script>
+  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+  <script src="https://t.contentsquare.net/uxa/f79e7087dc853.js"></script>
+  <script id="Cookiebot" src="https://consent.cookiebot.com/uc.js" data-cbid="9273cf7a-daab-4567-a9d7-3429830702b0" data-blockingmode="auto" type="text/javascript"></script>
   <script>
     (function() {
       try {
@@ -112,7 +112,12 @@
         </div>
 
         <div class="form-group">
-          <div class="g-recaptcha" data-sitekey="6Lfht7IsAAAAAB5Jvdl_ELm_ET53HOsoQvOUcwH_"></div>
+          <div style="display:flex; justify-content:center; margin:24px 0;">
+            <div id="turnstile-widget"
+                 class="cf-turnstile"
+                 data-sitekey="0x4AAAAAADAZBUxnnK9hAbxu">
+            </div>
+          </div>
         </div>
 
         <button type="submit" class="btn primary">Schade Melden</button>
@@ -129,9 +134,11 @@
       const messageDiv = document.getElementById('form-message');
       const submitButton = form.querySelector('button[type="submit"]');
 
-      const recaptchaResponse = grecaptcha.getResponse();
-      if (!recaptchaResponse) {
-        messageDiv.textContent = '❗ Bevestig eerst dat u geen robot bent.';
+      const tokenField = form.querySelector('input[name="cf-turnstile-response"]');
+      const turnstileToken = tokenField ? tokenField.value.trim() : "";
+
+      if (!turnstileToken) {
+        messageDiv.textContent = '❗ Bevestig eerst de beveiligingscontrole.';
         messageDiv.style.color = '#dc3545';
         return;
       }
@@ -148,7 +155,8 @@
         polisnummer: form.polisnummer.value.trim(),
         datum: form.datum.value,
         beschrijving: form.beschrijving.value.trim(),
-        to_email: form.email.value
+        to_email: form.email.value,
+        turnstile_token: turnstileToken
       };
 
       const message = `
@@ -167,16 +175,24 @@ Nieuwe schademelding ontvangen:
         await emailjs.send('service_h6az3sj', 'template_naxxu2a', formData);
         await emailjs.send('service_h6az3sj', 'template_yqe7y7e', {
           to_email: 'mbuijs@klaasvis.nl',
-          message: message
+          message: message,
+          turnstile_token: turnstileToken
         });
         messageDiv.textContent = '✅ Schade succesvol gemeld! Wij nemen spoedig contact met u op.';
         messageDiv.style.color = '#28a745';
         form.reset();
-        grecaptcha.reset();
+
+        if (window.turnstile) {
+          window.turnstile.reset();
+        }
       } catch (error) {
         console.error('EmailJS fout:', error);
         messageDiv.textContent = '❌ Fout bij verzenden. Probeer het later opnieuw.';
         messageDiv.style.color = '#dc3545';
+
+        if (window.turnstile) {
+          window.turnstile.reset();
+        }
       } finally {
         submitButton.disabled = false;
       }
