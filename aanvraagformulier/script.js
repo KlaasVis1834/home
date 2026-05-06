@@ -415,6 +415,14 @@ function closeModal() {
     closeModalEl('resultMessage');
 }
 
+function showMultiInsuranceModal() {
+    openModal('multiInsuranceModal');
+}
+
+function closeMultiInsuranceModal() {
+    closeModalEl('multiInsuranceModal');
+}
+
 // ============================================================
 // ✅ Modal samenvatting
 // ============================================================
@@ -572,14 +580,7 @@ async function handleSubmit(isConfirmed) {
                 window.turnstile.reset();
             }
 
-            setTimeout(() => {
-                loadingScreen.style.display = 'flex';
-                loadingScreen.classList.remove('hidden');
-
-                setTimeout(() => {
-                    window.location.href = 'https://www.klaasvis.nl';
-                }, 3000);
-            }, 2000);
+            setTimeout(showMultiInsuranceModal, 900);
         }, 300);
     } catch (error) {
         loadingScreen.classList.add('hidden');
