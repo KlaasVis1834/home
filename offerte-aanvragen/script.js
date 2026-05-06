@@ -51,7 +51,7 @@
     }
 
     /* ===========================
-       CONTACTFORMULIER (EmailJS + reCAPTCHA)
+       CONTACTFORMULIER (EmailJS + Turnstile)
     =========================== */
     const contactForm = document.getElementById("contact-form");
     const submitBtn = document.querySelector(".submit-btn");
@@ -60,11 +60,11 @@
       contactForm.addEventListener("submit", async (e) => {
         e.preventDefault();
 
-        const recaptchaResponse =
-          typeof grecaptcha !== "undefined" ? grecaptcha.getResponse() : "";
+        const tokenField = contactForm.querySelector('input[name="cf-turnstile-response"]');
+        const turnstileToken = tokenField ? tokenField.value.trim() : "";
 
-        if (!recaptchaResponse) {
-          alert("Bevestig dat u geen robot bent (reCAPTCHA).");
+        if (!turnstileToken) {
+          alert("Bevestig eerst de beveiligingscontrole.");
           return;
         }
 
@@ -93,6 +93,7 @@
           subject: subject || "Geen onderwerp gekozen",
           message: message,
           privacy_accepted: "Ja",
+          turnstile_token: turnstileToken
         };
 
         submitBtn.disabled = true;
@@ -102,6 +103,10 @@
           submitBtn.disabled = false;
           submitBtn.textContent = "Verstuur bericht";
           alert("Verzenden duurt te lang. Probeer het later opnieuw.");
+
+          if (window.turnstile) {
+            window.turnstile.reset();
+          }
         }, 12000);
 
         try {
@@ -116,13 +121,17 @@
           alert("✅ Bericht succesvol verzonden!");
           contactForm.reset();
 
-          if (typeof grecaptcha !== "undefined") {
-            grecaptcha.reset();
+          if (window.turnstile) {
+            window.turnstile.reset();
           }
         } catch (error) {
           clearTimeout(timeout);
           console.error("EmailJS fout:", error);
           alert("Er is iets misgegaan bij het verzenden. Probeer het later opnieuw.");
+
+          if (window.turnstile) {
+            window.turnstile.reset();
+          }
         } finally {
           submitBtn.disabled = false;
           submitBtn.textContent = "Verstuur bericht";
