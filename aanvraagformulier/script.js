@@ -1,8 +1,23 @@
 let currentStep = 0;
-showStep(currentStep);
 
 // SignaturePad (later init)
 let signaturePad = null;
+
+// Noodfix: oude reCAPTCHA-aanroepen vangen we af via Turnstile
+window.checkRecaptcha = function () {
+    return checkTurnstile();
+};
+
+window.grecaptcha = {
+    getResponse: function () {
+        return getTurnstileToken();
+    },
+    reset: function () {
+        if (window.turnstile) {
+            window.turnstile.reset();
+        }
+    }
+};
 
 // ============================================================
 // ✅ Helpers EmailJS / samenvatting
@@ -30,25 +45,25 @@ function humanizeValue(key, value) {
     if (value === 'no') return 'Nee';
 
     const maps = {
-        'betalingstermijn': {
+        betalingstermijn: {
             maandelijks: 'Maandelijks',
             kwartaal: 'Kwartaal',
             jaarlijks: 'Jaarlijks'
         },
-        'aanschaf': {
+        aanschaf: {
             particulier: 'Particulier',
             zakelijk: 'Zakelijk'
         },
-        'dekking': {
+        dekking: {
             voorstel: 'Dekking en premie conform het verzekeringsvoorstel',
             anders: 'Afwijkende gewenste dekking'
         },
-        'main_coverage': {
+        main_coverage: {
             wa: 'WA',
             'casco-beperkt': 'Casco Beperkt',
             'casco-compleet': 'Casco Compleet'
         },
-        'rechtsvorm': {
+        rechtsvorm: {
             bv: 'Besloten Vennootschap (BV)',
             zzp: 'Eenmanszaak (ZZP)',
             nv: 'Naamloze Vennootschap (NV)',
@@ -59,7 +74,7 @@ function humanizeValue(key, value) {
             'ubo-eenmanszaak': 'Betreft een eenmanszaak, vul uw gegevens hieronder in (UBO)',
             'ubo-belang': 'Uiteindelijk belanghebbende(n) met een belang van 25% of meer',
             'geen-ubo': 'Geen belanghebbende(n) van 25% of meer',
-            'zeggenschap': 'Personen die feitelijk zeggenschap uitoefenen over de organisatie'
+            zeggenschap: 'Personen die feitelijk zeggenschap uitoefenen over de organisatie'
         }
     };
 
@@ -153,11 +168,13 @@ function getDekkingText(formData) {
     if (formData.get('extra_schadeverzekering')) {
         extraOptions.push('Schadeverzekering voor Inzittenden');
     }
+
     if (formData.get('extra_rechtsbijstand')) {
         extraOptions.push('Rechtsbijstand Verkeer');
     }
 
     let text = `Hoofddekking: ${mainCoverage}`;
+
     if (extraOptions.length) {
         text += `, Extra opties: ${extraOptions.join(', ')}`;
     }
@@ -171,6 +188,7 @@ function buildSummaryRows(formData) {
 
     for (const [key, rawValue] of formData.entries()) {
         if (key === 'cf-turnstile-response') continue;
+        if (key === 'g-recaptcha-response') continue;
         if (key === 'main_coverage') continue;
         if (key === 'extra_schadeverzekering') continue;
         if (key === 'extra_rechtsbijstand') continue;
@@ -201,17 +219,10 @@ function buildSummaryRows(formData) {
         });
     }
 
-    if (signaturePad && !signaturePad.isEmpty()) {
-        rows.push({
-            label: 'Handtekening',
-            value: 'Aanwezig'
-        });
-    } else {
-        rows.push({
-            label: 'Handtekening',
-            value: 'Niet aanwezig'
-        });
-    }
+    rows.push({
+        label: 'Handtekening',
+        value: signaturePad && !signaturePad.isEmpty() ? 'Aanwezig' : 'Niet aanwezig'
+    });
 
     return rows;
 }
@@ -238,7 +249,7 @@ Wij vertrouwen erop u hiermede naar behoren te hebben geïnformeerd en zien uw e
 }
 
 // ============================================================
-// ✅ Hamburger menu (mobiel)
+// ✅ Hamburger menu
 // ============================================================
 function initHamburgerMenu() {
     const btn = document.querySelector('.hamburger');
@@ -264,20 +275,16 @@ function initHamburgerMenu() {
         document.body.classList.remove('nav-open');
     };
 
-    const toggleMenu = (e) => {
-        if (e) {
-            e.preventDefault();
-            e.stopPropagation();
-        }
+    btn.addEventListener('click', function (e) {
+        e.preventDefault();
+        e.stopPropagation();
 
         if (menu.classList.contains('active')) {
             closeMenu();
         } else {
             openMenu();
         }
-    };
-
-    btn.addEventListener('click', toggleMenu);
+    });
 
     menu.addEventListener('click', (e) => {
         const a = e.target.closest('a');
@@ -304,25 +311,23 @@ function initHamburgerMenu() {
 }
 
 // ============================================================
-// ✅ Turnstile controle functie
+// ✅ Turnstile controle
 // ============================================================
-function checkTurnstile() {
+function getTurnstileToken() {
     const form = document.getElementById('insurance-form');
     const tokenField = form ? form.querySelector('input[name="cf-turnstile-response"]') : null;
-    const turnstileToken = tokenField ? tokenField.value.trim() : '';
+    return tokenField ? tokenField.value.trim() : '';
+}
 
-    if (!turnstileToken) {
+function checkTurnstile() {
+    const token = getTurnstileToken();
+
+    if (!token) {
         alert("Bevestig eerst de beveiligingscontrole.");
         return false;
     }
 
     return true;
-}
-
-function getTurnstileToken() {
-    const form = document.getElementById('insurance-form');
-    const tokenField = form ? form.querySelector('input[name="cf-turnstile-response"]') : null;
-    return tokenField ? tokenField.value.trim() : '';
 }
 
 // ============================================================
@@ -344,6 +349,7 @@ async function uploadSignature(signatureBase64) {
     const result = await response.json();
 
     if (result.secure_url) return result.secure_url;
+
     throw new Error(`Cloudinary upload mislukt: ${JSON.stringify(result.error || result)}`);
 }
 
@@ -351,7 +357,8 @@ async function uploadSignature(signatureBase64) {
 // ✅ Stappenformulier
 // ============================================================
 function showStep(n) {
-    let steps = document.getElementsByClassName("step-content");
+    const steps = document.getElementsByClassName("step-content");
+    if (!steps.length || !steps[n]) return;
 
     for (let i = 0; i < steps.length; i++) {
         steps[i].style.display = 'none';
@@ -359,38 +366,43 @@ function showStep(n) {
 
     steps[n].style.display = 'block';
 
-    if (n === 0) {
-        document.getElementById("prevBtn").style.display = 'none';
-    } else {
-        document.getElementById("prevBtn").style.display = 'inline';
+    const prevBtn = document.getElementById("prevBtn");
+    const nextBtn = document.getElementById("nextBtn");
+
+    if (prevBtn) {
+        prevBtn.style.display = n === 0 ? 'none' : 'inline';
     }
 
-    if (n === (steps.length - 1)) {
-        document.getElementById("nextBtn").style.display = 'none';
-    } else {
-        document.getElementById("nextBtn").style.display = 'inline';
+    if (nextBtn) {
+        nextBtn.style.display = n === (steps.length - 1) ? 'none' : 'inline';
     }
 
     updateStepIndicator(n);
 }
 
 function nextPrev(n) {
-    let steps = document.getElementsByClassName("step-content");
+    const steps = document.getElementsByClassName("step-content");
+    if (!steps.length || !steps[currentStep]) return false;
+
     steps[currentStep].style.display = 'none';
     currentStep = currentStep + n;
 
     if (currentStep >= steps.length) return false;
+    if (currentStep < 0) currentStep = 0;
+
     showStep(currentStep);
 }
 
 function updateStepIndicator(n) {
-    let indicators = document.getElementsByClassName("step");
+    const indicators = document.getElementsByClassName("step");
 
     for (let i = 0; i < indicators.length; i++) {
         indicators[i].classList.remove("active-step");
     }
 
-    indicators[n].classList.add("active-step");
+    if (indicators[n]) {
+        indicators[n].classList.add("active-step");
+    }
 }
 
 // ============================================================
@@ -399,6 +411,7 @@ function updateStepIndicator(n) {
 function openModal(id) {
     const el = document.getElementById(id);
     if (!el) return;
+
     el.classList.remove('hidden');
     el.style.display = 'block';
 }
@@ -406,6 +419,7 @@ function openModal(id) {
 function closeModalEl(id) {
     const el = document.getElementById(id);
     if (!el) return;
+
     el.style.display = 'none';
     el.classList.add('hidden');
 }
@@ -461,23 +475,16 @@ async function handleSubmit(isConfirmed) {
         if (resultTextElement) {
             resultTextElement.innerHTML = `U wordt teruggeleid naar het formulier om uw antwoorden te controleren.`;
         }
+
         openModal('resultMessage');
         return;
     }
 
     if (!checkTurnstile()) return;
-
     if (!loadingScreen) return;
 
-    requestAnimationFrame(() => {
-        loadingScreen.style.transition = 'none';
-        loadingScreen.style.display = 'flex';
-        loadingScreen.style.opacity = '1';
-
-        setTimeout(() => {
-            loadingScreen.style.transition = 'opacity 0.3s ease';
-        }, 0);
-    });
+    loadingScreen.style.display = 'flex';
+    loadingScreen.style.opacity = '1';
 
     const form = document.getElementById('insurance-form');
     const formData = new FormData(form);
@@ -487,16 +494,13 @@ async function handleSubmit(isConfirmed) {
     const ondertekenaar = getFieldValue(formData, 'ondertekenaar');
 
     if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-        loadingScreen.classList.add('hidden');
+        loadingScreen.style.display = 'none';
 
-        setTimeout(() => {
-            loadingScreen.style.display = 'none';
-            if (resultTextElement) {
-                resultTextElement.innerHTML = 'FOUT: Geen geldig e-mailadres opgegeven.';
-            }
-            openModal('resultMessage');
-        }, 300);
+        if (resultTextElement) {
+            resultTextElement.innerHTML = 'FOUT: Geen geldig e-mailadres opgegeven.';
+        }
 
+        openModal('resultMessage');
         return;
     }
 
@@ -542,65 +546,54 @@ async function handleSubmit(isConfirmed) {
             turnstile_token: turnstileToken
         };
 
-        // 1. Mail naar klant
         await emailjs.send("service_37glay9", "template_vjmqckj", baseParams);
 
-        // Kleine pauze ivm EmailJS rate limit
         await new Promise(resolve => setTimeout(resolve, 1200));
 
-        // 2. Exact dezelfde mail naar adviseur
         await emailjs.send("service_37glay9", "template_vjmqckj", {
             ...baseParams,
             to_email: "rbuijs@klaasvis.nl"
         });
 
-        loadingScreen.classList.add('hidden');
+        loadingScreen.style.display = 'none';
 
-        setTimeout(() => {
-            loadingScreen.style.display = 'none';
+        if (resultTextElement) {
+            resultTextElement.innerHTML = `
+                <strong>Uw aanvraag is verzonden!</strong><br><br>
+                Wij danken u voor het vertrouwen.<br>
+                Een bevestiging is gestuurd naar ${email}.<br>
+                Uw auto is in voorlopige dekking per ingangsdatum. Binnen 10 werkdagen ontvangt u de polisstukken.
+            `;
+        }
 
-            if (resultTextElement) {
-                resultTextElement.innerHTML = `
-                    <strong>Uw aanvraag is verzonden!</strong><br><br>
-                    Wij danken u voor het vertrouwen.<br>
-                    Een bevestiging is gestuurd naar ${email}.<br>
-                    Uw auto is in voorlopige dekking per ingangsdatum. Binnen 10 werkdagen ontvangt u de polisstukken.
-                `;
-            }
+        openModal('resultMessage');
 
-            openModal('resultMessage');
+        const formEl = document.getElementById('insurance-form');
+        if (formEl) formEl.style.display = 'none';
 
-            const formEl = document.getElementById('insurance-form');
-            if (formEl) formEl.style.display = 'none';
+        const navBtns = document.querySelector('.navigation-buttons');
+        if (navBtns) navBtns.style.display = 'none';
 
-            const navBtns = document.querySelector('.navigation-buttons');
-            if (navBtns) navBtns.style.display = 'none';
+        if (window.turnstile) {
+            window.turnstile.reset();
+        }
 
-            if (window.turnstile) {
-                window.turnstile.reset();
-            }
-
-            setTimeout(showMultiInsuranceModal, 900);
-        }, 300);
+        setTimeout(showMultiInsuranceModal, 900);
     } catch (error) {
-        loadingScreen.classList.add('hidden');
+        loadingScreen.style.display = 'none';
 
-        setTimeout(() => {
-            loadingScreen.style.display = 'none';
+        if (resultTextElement) {
+            resultTextElement.innerHTML = `
+                Er is een fout opgetreden: ${error.message || error}<br>
+                Controleer de console (F12) voor meer info.
+            `;
+        }
 
-            if (resultTextElement) {
-                resultTextElement.innerHTML = `
-                    Er is een fout opgetreden: ${error.message || error}<br>
-                    Controleer de console (F12) voor meer info.
-                `;
-            }
+        if (window.turnstile) {
+            window.turnstile.reset();
+        }
 
-            if (window.turnstile) {
-                window.turnstile.reset();
-            }
-
-            openModal('resultMessage');
-        }, 300);
+        openModal('resultMessage');
     }
 }
 
@@ -609,12 +602,15 @@ async function handleSubmit(isConfirmed) {
 // ============================================================
 document.addEventListener('DOMContentLoaded', function () {
     initHamburgerMenu();
+    showStep(currentStep);
 
     const canvas = document.getElementById('signature-pad');
+
     if (canvas && window.SignaturePad) {
         signaturePad = new SignaturePad(canvas);
 
         const clearButton = document.getElementById('clear-signature');
+
         if (clearButton) {
             clearButton.addEventListener('click', function () {
                 signaturePad.clear();
@@ -622,27 +618,28 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-    // Dekking logica
     const dekkingRadios = document.getElementsByName('dekking');
     const dekkingOmschrijving = document.getElementById('dekking-omschrijving');
 
     dekkingRadios.forEach(radio => {
         radio.addEventListener('change', function () {
             if (!dekkingOmschrijving) return;
-            dekkingOmschrijving.style.display = (this.value === 'anders') ? 'block' : 'none';
+            dekkingOmschrijving.style.display = this.value === 'anders' ? 'block' : 'none';
         });
     });
 
     const checkedDekking = document.querySelector('input[name="dekking"]:checked');
+
     if (dekkingOmschrijving) {
-        dekkingOmschrijving.style.display = (checkedDekking && checkedDekking.value === 'anders') ? 'block' : 'none';
+        dekkingOmschrijving.style.display = checkedDekking && checkedDekking.value === 'anders' ? 'block' : 'none';
     }
 
-    // Tooltips
     document.querySelectorAll('.info-icon').forEach(icon => {
         icon.addEventListener('click', function (e) {
             e.stopPropagation();
+
             const tooltip = this.nextElementSibling;
+
             if (tooltip && tooltip.classList.contains('tooltip-text')) {
                 tooltip.style.display = tooltip.style.display === 'block' ? 'none' : 'block';
             }
@@ -657,21 +654,19 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
-    // Datum aanvraag default
     const datumAanvraag = document.getElementById('datum-aanvraag');
+
     if (datumAanvraag) {
         const today = new Date();
         datumAanvraag.value = today.toISOString().split('T')[0];
     }
 
-    // Regelmatige bestuurder logica
     document.querySelectorAll('input[name="regelmatige-bestuurder"]').forEach((elem) => {
         elem.addEventListener("change", function (event) {
-            const value = event.target.value;
             const info = document.getElementById("regelmatige-bestuurder-info");
             if (!info) return;
 
-            if (value === "no") {
+            if (event.target.value === "no") {
                 info.classList.add("active");
                 info.classList.remove("hidden");
                 info.style.display = 'block';
@@ -683,66 +678,38 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
-    // Schade-ervaring en schadevrije jaren logica
-    const schadeErvaringRadios = document.getElementsByName('schade-ervaring');
-    const schadeErvaringInfo = document.getElementById('schade-ervaring-info');
-
-    schadeErvaringRadios.forEach(radio => {
-        radio.addEventListener('change', function () {
-            if (!schadeErvaringInfo) return;
-            schadeErvaringInfo.style.display = (this.value === 'yes') ? 'block' : 'none';
-        });
-    });
-
-    const schadeVrijeJarenRadios = document.getElementsByName('schadevrije-jaren');
-    const schadeVrijeJarenInfo = document.getElementById('schadevrije-jaren-info');
-
-    schadeVrijeJarenRadios.forEach(radio => {
-        radio.addEventListener('change', function () {
-            if (!schadeVrijeJarenInfo) return;
-            schadeVrijeJarenInfo.style.display = (this.value === 'yes') ? 'block' : 'none';
-        });
-    });
-
-    schadeErvaringRadios.forEach(radio => {
-        if (radio.checked && radio.value === 'yes' && schadeErvaringInfo) {
-            schadeErvaringInfo.style.display = 'block';
-        }
-    });
-
-    schadeVrijeJarenRadios.forEach(radio => {
-        if (radio.checked && radio.value === 'yes' && schadeVrijeJarenInfo) {
-            schadeVrijeJarenInfo.style.display = 'block';
-        }
-    });
-
-    // Extra info toggle logica
-    function toggleAdditionalInfo(radioGroupName, infoDivId) {
-        const radios = document.getElementsByName(radioGroupName);
-        const infoDiv = document.getElementById(infoDivId);
-        if (!infoDiv) return;
+    function bindConditionalRadio(groupName, infoId) {
+        const radios = document.getElementsByName(groupName);
+        const info = document.getElementById(infoId);
+        if (!info) return;
 
         radios.forEach(radio => {
             radio.addEventListener('change', function () {
-                infoDiv.style.display = (this.value === 'yes') ? 'block' : 'none';
+                info.style.display = this.value === 'yes' ? 'block' : 'none';
             });
+
+            if (radio.checked && radio.value === 'yes') {
+                info.style.display = 'block';
+            }
         });
     }
 
-    toggleAdditionalInfo('onverzekerd', 'onverzekerd-info');
-    toggleAdditionalInfo('verzekeraar', 'verzekeraar-info');
-    toggleAdditionalInfo('failliet', 'failliet-info');
-    toggleAdditionalInfo('rijontzegging', 'rijontzegging-info');
-    toggleAdditionalInfo('conflict', 'conflict-info');
-    toggleAdditionalInfo('beslag', 'beslag-info');
-    toggleAdditionalInfo('meer-informatie', 'meer-informatie-info');
+    bindConditionalRadio('schade-ervaring', 'schade-ervaring-info');
+    bindConditionalRadio('schadevrije-jaren', 'schadevrije-jaren-info');
+    bindConditionalRadio('onverzekerd', 'onverzekerd-info');
+    bindConditionalRadio('verzekeraar', 'verzekeraar-info');
+    bindConditionalRadio('failliet', 'failliet-info');
+    bindConditionalRadio('rijontzegging', 'rijontzegging-info');
+    bindConditionalRadio('conflict', 'conflict-info');
+    bindConditionalRadio('beslag', 'beslag-info');
+    bindConditionalRadio('meer-informatie', 'meer-informatie-info');
 
-    // Submit knop
     const submitBtn = document.querySelector('.submit-button');
+
     if (submitBtn) {
         submitBtn.addEventListener('click', function (event) {
             event.preventDefault();
-            if (checkTurnstile()) showModal();
+            showModal();
         });
     }
 });
@@ -764,7 +731,10 @@ function toggleOpzegservice() {
         opzegserviceContainer.style.display = 'block';
     } else {
         opzegserviceContainer.style.display = 'none';
-        if (opzegserviceDetails) opzegserviceDetails.style.display = 'none';
+
+        if (opzegserviceDetails) {
+            opzegserviceDetails.style.display = 'none';
+        }
     }
 }
 
@@ -804,8 +774,14 @@ function toggleZakelijkInfo() {
         zakelijkInfo.style.display = 'block';
     } else {
         zakelijkInfo.style.display = 'none';
-        if (rechtsvormOmschrijvingContainer) rechtsvormOmschrijvingContainer.style.display = 'none';
-        if (belanghebbendenInfo) belanghebbendenInfo.innerHTML = '';
+
+        if (rechtsvormOmschrijvingContainer) {
+            rechtsvormOmschrijvingContainer.style.display = 'none';
+        }
+
+        if (belanghebbendenInfo) {
+            belanghebbendenInfo.innerHTML = '';
+        }
     }
 }
 
@@ -858,6 +834,7 @@ toggleZakelijkInfo();
             if (!window.chatbase.q) {
                 window.chatbase.q = [];
             }
+
             window.chatbase.q.push(args);
         };
 
