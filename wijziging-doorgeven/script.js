@@ -294,9 +294,11 @@ document.addEventListener('DOMContentLoaded', () => {
         form.addEventListener('submit', function (event) {
             event.preventDefault();
 
-            const recaptchaResponse = typeof grecaptcha !== 'undefined' ? grecaptcha.getResponse() : '';
-            if (!recaptchaResponse) {
-                alert("Bevestig eerst dat u geen robot bent (klik op de reCAPTCHA).");
+            const tokenField = form.querySelector('input[name="cf-turnstile-response"]');
+            const turnstileToken = tokenField ? tokenField.value.trim() : '';
+
+            if (!turnstileToken) {
+                alert("Bevestig eerst de beveiligingscontrole.");
                 return;
             }
 
@@ -351,7 +353,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 voorkeur_datum_tijd: getFieldValue(formData, 'voorkeur-datum-tijd'),
                 huidig_email: getFieldValue(formData, 'huidig-email'),
                 nieuw_email: getFieldValue(formData, 'nieuw-email'),
-                anders_reden: getFieldValue(formData, 'anders-reden')
+                anders_reden: getFieldValue(formData, 'anders-reden'),
+                turnstile_token: turnstileToken
             };
 
             emailjs.send("service_hcds2qk", "template_xk3jqlc", baseParams)
@@ -368,8 +371,8 @@ document.addEventListener('DOMContentLoaded', () => {
                         form.reset();
                         toggleFields();
 
-                        if (typeof grecaptcha !== 'undefined') {
-                            grecaptcha.reset();
+                        if (window.turnstile) {
+                            window.turnstile.reset();
                         }
 
                         alert('Uw wijziging is succesvol verzonden. Wij nemen uw verzoek binnen 2 werkdagen in behandeling.');
@@ -381,6 +384,11 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (loadingScreen) {
                         loadingScreen.style.display = 'none';
                     }
+
+                    if (window.turnstile) {
+                        window.turnstile.reset();
+                    }
+
                     alert(`Er is een fout opgetreden: ${error.text || error}. Probeer het later opnieuw.`);
                 });
         });
