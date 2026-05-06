@@ -953,4 +953,62 @@ footer {
         font-size: 18px;
         color: #333;
     }
+.multi-insurance-content {
+    position: relative;
+    text-align: center;
+}
+
+.multi-insurance-content h3 {
+    margin-top: 0;
+    color: var(--text);
+}
+
+.multi-insurance-content p {
+    color: var(--text);
+}
+
+.multi-insurance-close {
+    position: absolute;
+    top: 10px;
+    right: 12px;
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    border: none;
+    background: transparent;
+    color: var(--text-muted);
+    font-size: 30px;
+    line-height: 1;
+    cursor: pointer;
+}
+
+.multi-insurance-close:hover {
+    background: transparent;
+    color: var(--text);
+}
+
+.multi-insurance-link {
+    display: inline-block;
+    padding: 10px 20px;
+    margin: 0 10px;
+    border-radius: 5px;
+    background-color: #006400;
+    color: #fff;
+    font-size: 16px;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.multi-insurance-link:hover {
+    background-color: #004d00;
+    color: #fff;
+}
+
+@media (max-width: 600px) {
+    .multi-insurance-link,
+    #multiInsuranceModal .modal-buttons button {
+        width: 100%;
+        margin: 0 0 10px 0;
+        text-align: center;
+    }
 }
