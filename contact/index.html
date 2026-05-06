@@ -16,7 +16,7 @@
     </script>
 <script id="Cookiebot" src="https://consent.cookiebot.com/uc.js" data-cbid="9273cf7a-daab-4567-a9d7-3429830702b0" data-blockingmode="auto" type="text/javascript"></script>
     <script src="https://t.contentsquare.net/uxa/f79e7087dc853.js"></script>
-    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-F56T6ZLXBS"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
@@ -193,7 +193,12 @@
                         </div>
 
                         <div class="form-group">
-                            <div class="g-recaptcha" data-sitekey="6Lfht7IsAAAAAB5Jvdl_ELm_ET53HOsoQvOUcwH_"></div>
+                            <div style="display:flex; justify-content:center; margin:24px 0;">
+                                <div id="turnstile-widget"
+                                     class="cf-turnstile"
+                                     data-sitekey="0x4AAAAAADAZBUxnnK9hAbxu">
+                                </div>
+                            </div>
                         </div>
 
                         <div class="button-group">
@@ -262,6 +267,6 @@
     (function(){if(!window.chatbase||window.chatbase("getState")!=="initialized"){window.chatbase=(...arguments)=>{if(!window.chatbase.q){window.chatbase.q=[]}window.chatbase.q.push(arguments)};window.chatbase=new Proxy(window.chatbase,{get(target,prop){if(prop==="q"){return target.q}return(...args)=>target(prop,...args)}})}const onLoad=function(){const script=document.createElement("script");script.src="https://www.chatbase.co/embed.min.js";script.id="C60jEJW_QuVD7X3vE5rzE";script.domain="www.chatbase.co";document.body.appendChild(script)};if(document.readyState==="complete"){onLoad()}else{window.addEventListener("load",onLoad)}})();
     </script>
 
-    <script src="script.js?v=1"></script>
+    <script src="script.js?v=2"></script>
 </body>
 </html>
