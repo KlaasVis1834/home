@@ -157,7 +157,7 @@ function shouldIncludeField(key, value) {
         'extra_rechtsbijstand',
         'ford-dekker',
         'waarheid',
-        'g-recaptcha-response'
+        'cf-turnstile-response'
     ];
 
     return value && value !== 'on' && !excludedFields.includes(key);
@@ -222,14 +222,15 @@ function updateStepIndicator(n) {
 }
 
 /* ===========================
-   RECAPTCHA CONTROLE
+   TURNSTILE CONTROLE
 =========================== */
-function checkRecaptcha() {
-    const recaptchaResponse =
-        typeof grecaptcha !== 'undefined' ? grecaptcha.getResponse() : '';
+function checkTurnstile() {
+    const form = document.getElementById('quote-form');
+    const tokenField = form ? form.querySelector('input[name="cf-turnstile-response"]') : null;
+    const turnstileToken = tokenField ? tokenField.value.trim() : '';
 
-    if (!recaptchaResponse) {
-        alert('Bevestig eerst dat u geen robot bent (klik op de reCAPTCHA).');
+    if (!turnstileToken) {
+        alert('Bevestig eerst de beveiligingscontrole.');
         return false;
     }
 
@@ -265,7 +266,7 @@ async function fetchVehicleData(kenteken) {
    MODAL SAMENVATTING
 =========================== */
 function showModal() {
-    if (!checkRecaptcha()) return;
+    if (!checkTurnstile()) return;
 
     const form = document.getElementById('quote-form');
     const formData = new FormData(form);
@@ -322,7 +323,7 @@ function handleSubmit(isConfirmed) {
         return;
     }
 
-    if (!checkRecaptcha()) return;
+    if (!checkTurnstile()) return;
 
     requestAnimationFrame(() => {
         loadingScreen.style.transition = 'none';
@@ -336,6 +337,9 @@ function handleSubmit(isConfirmed) {
 
     const form = document.getElementById('quote-form');
     const formData = new FormData(form);
+    const tokenField = form.querySelector('input[name="cf-turnstile-response"]');
+    const turnstileToken = tokenField ? tokenField.value.trim() : '';
+
     let emailBody = 'Offerteverzoek Dekkerautoverzekering\n\n';
     const email = formData.get('email');
 
@@ -379,14 +383,16 @@ function handleSubmit(isConfirmed) {
     emailjs
         .send('service_cjvbpt6', 'template_lglwx6m', {
             message: emailBody,
-            reply_to: email
+            reply_to: email,
+            turnstile_token: turnstileToken
         })
         .then(() => {
             console.log('Service e-mail succesvol verzonden');
             return emailjs.send('service_cjvbpt6', 'template_20jbe7c', {
                 to_email: email,
                 email: email,
-                message: 'Bedankt voor uw offerteverzoek!\n\nHieronder uw ingevulde gegevens:\n' + emailBody
+                message: 'Bedankt voor uw offerteverzoek!\n\nHieronder uw ingevulde gegevens:\n' + emailBody,
+                turnstile_token: turnstileToken
             });
         })
         .then(() => {
@@ -408,6 +414,10 @@ function handleSubmit(isConfirmed) {
                 const navigationButtons = document.querySelector('.navigation-buttons');
                 if (navigationButtons) {
                     navigationButtons.style.display = 'none';
+                }
+
+                if (window.turnstile) {
+                    window.turnstile.reset();
                 }
 
                 setTimeout(() => {
@@ -432,6 +442,10 @@ function handleSubmit(isConfirmed) {
                     Controleer de console (F12) voor meer info.
                 `;
                 document.getElementById('resultMessage').style.display = 'block';
+
+                if (window.turnstile) {
+                    window.turnstile.reset();
+                }
             }, 300);
         });
 }
