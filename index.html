@@ -40,7 +40,7 @@
     })();
   </script>
 
-  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 
   <!-- Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-F56T6ZLXBS"></script>
@@ -633,7 +633,12 @@
               </div>
 
               <div class="form-group">
-                <div class="g-recaptcha" data-sitekey="6Lfht7IsAAAAAB5Jvdl_ELm_ET53HOsoQvOUcwH_"></div>
+                <div style="display:flex; justify-content:center; margin:24px 0;">
+    <div id="turnstile-widget"
+         class="cf-turnstile"
+         data-sitekey="0x4AAAAAADAZBUxnnK9hAbxu">
+    </div>
+</div>
               </div>
 
               <button type="submit" class="btn btn-gradient submit-btn">Verstuur bericht</button>
