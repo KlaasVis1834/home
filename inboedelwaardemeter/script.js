@@ -136,6 +136,14 @@ document.addEventListener("DOMContentLoaded", () => {
     inventoryForm.addEventListener("submit", (e) => {
       e.preventDefault();
 
+      const tokenField = inventoryForm.querySelector('input[name="cf-turnstile-response"]');
+      const turnstileToken = tokenField ? tokenField.value.trim() : "";
+
+      if (!turnstileToken) {
+        alert("Bevestig eerst de beveiligingscontrole.");
+        return;
+      }
+
       const loadingScreen = document.getElementById("page-loading-screen");
       if (loadingScreen) {
         loadingScreen.style.display = "flex";
@@ -172,8 +180,15 @@ Handtekening: ${signaturePad && !signaturePad.isEmpty() ? "Aanwezig" : "Niet aan
         to_email: data.email || "rbuijs@klaasvis.nl"
       };
 
-      const sendToMe = emailjs.send("service_lpsiijc", "template_l7dk1hc", { message });
-      const sendToClient = emailjs.send("service_lpsiijc", "template_ksj01md", emailData);
+      const sendToMe = emailjs.send("service_lpsiijc", "template_l7dk1hc", {
+        message,
+        turnstile_token: turnstileToken
+      });
+
+      const sendToClient = emailjs.send("service_lpsiijc", "template_ksj01md", {
+        ...emailData,
+        turnstile_token: turnstileToken
+      });
 
       Promise.all([sendToMe, sendToClient])
         .then(() => {
@@ -183,9 +198,15 @@ Handtekening: ${signaturePad && !signaturePad.isEmpty() ? "Aanwezig" : "Niet aan
         })
         .catch((err) => {
           console.error("Fout bij verzenden:", err);
+
           if (loadingScreen) {
             loadingScreen.style.display = "none";
           }
+
+          if (window.turnstile) {
+            window.turnstile.reset();
+          }
+
           alert("Er is een fout opgetreden bij het verzenden.");
         });
     });
