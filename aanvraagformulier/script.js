@@ -170,7 +170,7 @@ function buildSummaryRows(formData) {
     const aanschaf = getFieldValue(formData, 'aanschaf');
 
     for (const [key, rawValue] of formData.entries()) {
-        if (key === 'g-recaptcha-response') continue;
+        if (key === 'cf-turnstile-response') continue;
         if (key === 'main_coverage') continue;
         if (key === 'extra_schadeverzekering') continue;
         if (key === 'extra_rechtsbijstand') continue;
@@ -304,21 +304,25 @@ function initHamburgerMenu() {
 }
 
 // ============================================================
-// ✅ reCAPTCHA controle functie
+// ✅ Turnstile controle functie
 // ============================================================
-function checkRecaptcha() {
-    if (!window.grecaptcha) {
-        alert("reCAPTCHA kon niet laden. Probeer opnieuw.");
-        return false;
-    }
+function checkTurnstile() {
+    const form = document.getElementById('insurance-form');
+    const tokenField = form ? form.querySelector('input[name="cf-turnstile-response"]') : null;
+    const turnstileToken = tokenField ? tokenField.value.trim() : '';
 
-    const recaptchaResponse = grecaptcha.getResponse();
-    if (!recaptchaResponse) {
-        alert("Bevestig eerst dat u geen robot bent (klik op de reCAPTCHA).");
+    if (!turnstileToken) {
+        alert("Bevestig eerst de beveiligingscontrole.");
         return false;
     }
 
     return true;
+}
+
+function getTurnstileToken() {
+    const form = document.getElementById('insurance-form');
+    const tokenField = form ? form.querySelector('input[name="cf-turnstile-response"]') : null;
+    return tokenField ? tokenField.value.trim() : '';
 }
 
 // ============================================================
@@ -418,6 +422,8 @@ function showModal() {
     const form = document.getElementById('insurance-form');
     if (!form) return;
 
+    if (!checkTurnstile()) return;
+
     const formData = new FormData(form);
     const rows = buildSummaryRows(formData);
 
@@ -451,6 +457,8 @@ async function handleSubmit(isConfirmed) {
         return;
     }
 
+    if (!checkTurnstile()) return;
+
     if (!loadingScreen) return;
 
     requestAnimationFrame(() => {
@@ -465,6 +473,7 @@ async function handleSubmit(isConfirmed) {
 
     const form = document.getElementById('insurance-form');
     const formData = new FormData(form);
+    const turnstileToken = getTurnstileToken();
 
     const email = getFieldValue(formData, 'email');
     const ondertekenaar = getFieldValue(formData, 'ondertekenaar');
@@ -521,7 +530,8 @@ async function handleSubmit(isConfirmed) {
             offertenummer: getFieldValue(freshFormData, 'offertenummer'),
             datum_aanvraag: getFieldValue(freshFormData, 'datum-aanvraag'),
             ingangsdatum: getFieldValue(freshFormData, 'ingangsdatum'),
-            ondertekenaar: ondertekenaar
+            ondertekenaar: ondertekenaar,
+            turnstile_token: turnstileToken
         };
 
         // 1. Mail naar klant
@@ -558,6 +568,10 @@ async function handleSubmit(isConfirmed) {
             const navBtns = document.querySelector('.navigation-buttons');
             if (navBtns) navBtns.style.display = 'none';
 
+            if (window.turnstile) {
+                window.turnstile.reset();
+            }
+
             setTimeout(() => {
                 loadingScreen.style.display = 'flex';
                 loadingScreen.classList.remove('hidden');
@@ -578,6 +592,10 @@ async function handleSubmit(isConfirmed) {
                     Er is een fout opgetreden: ${error.message || error}<br>
                     Controleer de console (F12) voor meer info.
                 `;
+            }
+
+            if (window.turnstile) {
+                window.turnstile.reset();
             }
 
             openModal('resultMessage');
@@ -723,7 +741,7 @@ document.addEventListener('DOMContentLoaded', function () {
     if (submitBtn) {
         submitBtn.addEventListener('click', function (event) {
             event.preventDefault();
-            if (checkRecaptcha()) showModal();
+            if (checkTurnstile()) showModal();
         });
     }
 });
