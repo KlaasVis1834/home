@@ -391,6 +391,11 @@ function nextPrev(n) {
     if (currentStep < 0) currentStep = 0;
 
     showStep(currentStep);
+
+    window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+    });
 }
 
 function updateStepIndicator(n) {
