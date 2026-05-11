@@ -721,5 +721,197 @@
     })();
   </script>
   <script src="script.js?v=3"></script>
+  <!-- MELDING HEMELVAART 2026 - PLAATS DIRECT BOVEN </body> -->
+<style>
+  #holidayPopup {
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.55);
+    z-index: 999999;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+
+  #holidayPopup.show {
+    display: flex !important;
+  }
+
+  .holiday-popup-card {
+    max-width: 540px;
+    width: 100%;
+    background: #ffffff;
+    border-radius: 24px;
+    padding: 32px;
+    text-align: center;
+    box-shadow: 0 30px 90px rgba(0, 0, 0, 0.28);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    position: relative;
+  }
+
+  .holiday-popup-close {
+    position: absolute;
+    right: 18px;
+    top: 14px;
+    border: none;
+    background: transparent;
+    font-size: 32px;
+    cursor: pointer;
+    color: #667085;
+  }
+
+  .holiday-popup-card h2 {
+    margin: 10px 0 16px;
+    color: #172033;
+    font-size: 28px;
+    line-height: 1.2;
+  }
+
+  .holiday-popup-card p {
+    color: #667085;
+    line-height: 1.7;
+    margin-bottom: 14px;
+  }
+
+  .holiday-popup-card a {
+    color: #4f46e5;
+    font-weight: 700;
+    text-decoration: none;
+  }
+
+  .holiday-popup-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 24px;
+  }
+
+  .holiday-btn {
+    flex: 1;
+    border: none;
+    border-radius: 14px;
+    padding: 14px 18px;
+    font-weight: 700;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.25s ease;
+  }
+
+  .holiday-btn-primary {
+    background: linear-gradient(90deg, #4f46e5, #14b8a6);
+    color: #ffffff !important;
+  }
+
+  .holiday-btn-secondary {
+    background: #f1f5f9;
+    color: #172033;
+  }
+
+  .holiday-btn:hover {
+    transform: translateY(-2px);
+  }
+
+  @media (max-width: 600px) {
+    .holiday-popup-card {
+      padding: 26px 20px;
+    }
+
+    .holiday-popup-actions {
+      flex-direction: column;
+    }
+  }
+</style>
+
+<div id="holidayPopup" aria-hidden="true">
+  <div class="holiday-popup-card" role="dialog" aria-modal="true" aria-labelledby="holidayPopupTitle">
+    <button
+      class="holiday-popup-close"
+      type="button"
+      id="holidayPopupClose"
+      aria-label="Sluiten"
+    >
+      &times;
+    </button>
+
+    <div style="font-size: 42px;">🌤️</div>
+
+    <h2 id="holidayPopupTitle">Gesloten in verband met Hemelvaart</h2>
+
+    <p>
+      In verband met <strong>Hemelvaart</strong> is ons kantoor
+      <strong>donderdag 14 mei en vrijdag 15 mei 2026</strong> gesloten.
+    </p>
+
+    <p>
+      Gedurende deze dagen zijn wij telefonisch niet bereikbaar.
+    </p>
+
+    <p>
+      Uiteraard kunt u ons wel bereiken via
+      <a href="mailto:info@klaasvis.nl">info@klaasvis.nl</a>
+      en kunt u gebruikmaken van de digitale diensten op onze website.
+    </p>
+
+    <div class="holiday-popup-actions">
+      <a
+        href="mailto:info@klaasvis.nl"
+        class="holiday-btn holiday-btn-primary"
+      >
+        E-mail sturen
+      </a>
+
+      <button
+        type="button"
+        class="holiday-btn holiday-btn-secondary"
+        id="holidayPopupOk"
+      >
+        Begrepen
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+  window.addEventListener('load', function () {
+    const popup = document.getElementById('holidayPopup');
+    const closeBtn = document.getElementById('holidayPopupClose');
+    const okBtn = document.getElementById('holidayPopupOk');
+
+    if (!popup) return;
+
+    // Toon de pop-up altijd tijdens deze periode.
+    // Wil je hem maar één keer tonen? Voeg localStorage toe.
+    popup.classList.add('show');
+    popup.setAttribute('aria-hidden', 'false');
+
+    function closePopup() {
+      popup.classList.remove('show');
+      popup.setAttribute('aria-hidden', 'true');
+    }
+
+    if (closeBtn) {
+      closeBtn.addEventListener('click', closePopup);
+    }
+
+    if (okBtn) {
+      okBtn.addEventListener('click', closePopup);
+    }
+
+    popup.addEventListener('click', function (e) {
+      if (e.target === popup) {
+        closePopup();
+      }
+    });
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') {
+        closePopup();
+      }
+    });
+  });
+</script>
 </body>
 </html>
