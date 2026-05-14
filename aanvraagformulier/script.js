@@ -40,6 +40,47 @@ function getSelectedRadioValue(name) {
     return selected ? selected.value : '';
 }
 
+function getOfferteNummer(formData) {
+    const urlParams = new URLSearchParams(window.location.search);
+
+    return (
+        urlParams.get('offerte') ||
+        getFieldValue(formData, 'offertenummer') ||
+        ''
+    ).trim();
+}
+
+async function sendAanvraagToPortaal(formData, summaryText, signatureUrl) {
+    const offerteNummer = getOfferteNummer(formData);
+
+    const response = await fetch("https://portaal.klaasvis.nl/api/aanvraag", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "X-Aanvraag-Secret": "Aanvraagdekkerautoverzekering2026"
+        },
+        body: JSON.stringify({
+            offerte_nummer: offerteNummer,
+            naam: getFieldValue(formData, 'name') || getFieldValue(formData, 'ondertekenaar'),
+            email: getFieldValue(formData, 'email'),
+            telefoon: getFieldValue(formData, 'telefoon') || '',
+            kenteken: getFieldValue(formData, 'kenteken') || '',
+            ingangsdatum: getFieldValue(formData, 'ingangsdatum') || '',
+            datum_aanvraag: getFieldValue(formData, 'datum-aanvraag') || '',
+            ondertekenaar: getFieldValue(formData, 'ondertekenaar') || '',
+            summary_text: summaryText,
+            signature_url: signatureUrl || ''
+        })
+    });
+
+    if (!response.ok) {
+        const text = await response.text();
+        throw new Error("Aanvraag kon niet in het portaal worden opgeslagen: " + text);
+    }
+
+    return response.json().catch(() => ({}));
+}
+
 function humanizeValue(key, value) {
     if (value === 'yes') return 'Ja';
     if (value === 'no') return 'Nee';
@@ -546,7 +587,7 @@ async function handleSubmit(isConfirmed) {
             summary_html: summaryHtml,
             summary_text: summaryText,
             signature_url: signatureUrl || '',
-            offertenummer: getFieldValue(freshFormData, 'offertenummer'),
+            offertenummer: getOfferteNummer(freshFormData),
             datum_aanvraag: getFieldValue(freshFormData, 'datum-aanvraag'),
             ingangsdatum: getFieldValue(freshFormData, 'ingangsdatum'),
             ondertekenaar: ondertekenaar,
@@ -561,6 +602,8 @@ async function handleSubmit(isConfirmed) {
             ...baseParams,
             to_email: "rbuijs@klaasvis.nl"
         });
+
+        await sendAanvraagToPortaal(freshFormData, summaryText, signatureUrl);
 
         loadingScreen.style.display = 'none';
 
