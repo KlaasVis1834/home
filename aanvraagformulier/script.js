@@ -49,7 +49,19 @@ function getOfferteNummer(formData) {
         ''
     ).trim();
 }
+function formatDateNL(dateString) {
+    if (!dateString) return "";
 
+    const maanden = [
+        "januari", "februari", "maart", "april",
+        "mei", "juni", "juli", "augustus",
+        "september", "oktober", "november", "december"
+    ];
+
+    const d = new Date(dateString);
+
+    return `${d.getDate()} ${maanden[d.getMonth()]} ${d.getFullYear()}`;
+}
 async function sendAanvraagToPortaal(formData, summaryText, signatureUrl) {
     const offerteNummer = getOfferteNummer(formData);
 
@@ -254,9 +266,22 @@ function buildSummaryRows(formData) {
             continue;
         }
 
+        let displayValue = humanizeValue(key, value);
+
+        // Datums netjes weergeven
+        if (
+            key === 'datum-aanvraag' ||
+            key === 'ingangsdatum' ||
+            key === 'geboortedatum' ||
+            key === 'Geboortedatum' ||
+            key.endsWith('geboortedatum')
+        ) {
+            displayValue = formatDateNL(value);
+        }
+
         rows.push({
             label: getFieldLabel(key),
-            value: humanizeValue(key, value)
+            value: displayValue
         });
     }
 
@@ -267,7 +292,6 @@ function buildSummaryRows(formData) {
 
     return rows;
 }
-
 function buildSummaryHtml(rows) {
     return rows.map(row => `
         <tr>
