@@ -721,5 +721,217 @@
     })();
   </script>
   <script src="script.js?v=3"></script>
+  <!-- ==========================================
+TELEFONISCHE STORING POP-UP
+Plaats vlak voor </body>
+========================================== -->
+
+<div id="phoneOutageModal" class="kv-modal-overlay">
+    <div class="kv-modal">
+
+        <button class="kv-close" onclick="closePhoneModal()">&times;</button>
+
+        <div class="kv-icon">📞</div>
+
+        <h2>Tijdelijke telefonische storing</h2>
+
+        <p>
+            Op dit moment ondervinden wij een storing met onze vaste telefonie.
+            Hierdoor zijn wij mogelijk tijdelijk niet bereikbaar via ons vaste telefoonnummer.
+        </p>
+
+        <div class="kv-alert">
+            <strong>Voor spoedgevallen zijn wij bereikbaar op:</strong>
+
+            <a href="tel:+31638061789">(06) 38 06 17 89</a>
+        </div>
+
+        <p class="kv-small">
+            Onze excuses voor het ongemak. Wij werken aan een snelle oplossing.
+        </p>
+
+        <button class="kv-button" onclick="closePhoneModal()">
+            Begrepen
+        </button>
+
+    </div>
+</div>
+
+<style>
+
+.kv-modal-overlay{
+    position:fixed;
+    inset:0;
+    background:rgba(15,23,42,.55);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    z-index:999999;
+    padding:20px;
+}
+
+.kv-modal{
+
+    position:relative;
+    max-width:520px;
+    width:100%;
+    background:#fff;
+    border-radius:20px;
+    padding:40px;
+    text-align:center;
+    box-shadow:0 25px 60px rgba(0,0,0,.25);
+    animation:popup .35s ease;
+}
+
+@keyframes popup{
+
+from{
+opacity:0;
+transform:translateY(30px) scale(.95);
+}
+
+to{
+opacity:1;
+transform:none;
+}
+
+}
+
+.kv-close{
+
+position:absolute;
+top:15px;
+right:18px;
+border:none;
+background:none;
+font-size:32px;
+cursor:pointer;
+color:#64748b;
+
+}
+
+.kv-close:hover{
+
+color:#1e293b;
+
+}
+
+.kv-icon{
+
+font-size:60px;
+margin-bottom:15px;
+
+}
+
+.kv-modal h2{
+
+margin-bottom:15px;
+color:#1e293b;
+
+}
+
+.kv-modal p{
+
+color:#64748b;
+line-height:1.7;
+
+}
+
+.kv-alert{
+
+margin:30px 0;
+padding:20px;
+background:#fff7ed;
+border:2px solid #f59e0b;
+border-radius:14px;
+
+}
+
+.kv-alert strong{
+
+display:block;
+margin-bottom:12px;
+color:#92400e;
+
+}
+
+.kv-alert a{
+
+font-size:32px;
+font-weight:800;
+color:#dc2626;
+text-decoration:none;
+
+}
+
+.kv-alert a:hover{
+
+text-decoration:underline;
+
+}
+
+.kv-button{
+
+margin-top:20px;
+padding:14px 30px;
+border:none;
+border-radius:12px;
+background:#4f46e5;
+color:white;
+font-size:16px;
+font-weight:700;
+cursor:pointer;
+
+}
+
+.kv-button:hover{
+
+background:#3730a3;
+
+}
+
+.kv-small{
+
+font-size:.9rem;
+
+}
+
+@media(max-width:600px){
+
+.kv-modal{
+
+padding:28px 22px;
+
+}
+
+.kv-alert a{
+
+font-size:26px;
+
+}
+
+}
+
+</style>
+
+<script>
+
+function closePhoneModal(){
+
+document.getElementById("phoneOutageModal").style.display="none";
+
+}
+
+window.addEventListener("load",function(){
+
+setTimeout(function(){
+
+document.getElementById("phoneOutageModal").style.display="flex";
+
+},600);
+
+});
+
+</script>
 </body>
 </html>
