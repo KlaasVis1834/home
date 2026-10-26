@@ -618,11 +618,11 @@ async function handleSubmit(isConfirmed) {
             turnstile_token: turnstileToken
         };
 
-        await emailjs.send("service_37glay9", "template_vjmqckj", baseParams);
+        await emailjs.send("service_wke8swi", "template_vjmqckj", baseParams);
 
         await new Promise(resolve => setTimeout(resolve, 1200));
 
-        await emailjs.send("service_37glay9", "template_vjmqckj", {
+        await emailjs.send("service_wke8swi", "template_vjmqckj", {
             ...baseParams,
             to_email: "rbuijs@klaasvis.nl"
         });
