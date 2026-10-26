@@ -62,37 +62,6 @@ function formatDateNL(dateString) {
 
     return `${d.getDate()} ${maanden[d.getMonth()]} ${d.getFullYear()}`;
 }
-async function sendAanvraagToPortaal(formData, summaryText, signatureUrl) {
-    const offerteNummer = getOfferteNummer(formData);
-
-    const response = await fetch("https://portaal.klaasvis.nl/api/aanvraag", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-            "X-Aanvraag-Secret": "Aanvraagdekkerautoverzekering2026"
-        },
-        body: JSON.stringify({
-            offerte_nummer: offerteNummer,
-            naam: getFieldValue(formData, 'name') || getFieldValue(formData, 'ondertekenaar'),
-            email: getFieldValue(formData, 'email'),
-            telefoon: getFieldValue(formData, 'telefoon') || '',
-            kenteken: getFieldValue(formData, 'kenteken') || '',
-            ingangsdatum: getFieldValue(formData, 'ingangsdatum') || '',
-            datum_aanvraag: getFieldValue(formData, 'datum-aanvraag') || '',
-            ondertekenaar: getFieldValue(formData, 'ondertekenaar') || '',
-            summary_text: summaryText,
-            signature_url: signatureUrl || ''
-        })
-    });
-
-    if (!response.ok) {
-        const text = await response.text();
-        throw new Error("Aanvraag kon niet in het portaal worden opgeslagen: " + text);
-    }
-
-    return response.json().catch(() => ({}));
-}
-
 function humanizeValue(key, value) {
     if (value === 'yes') return 'Ja';
     if (value === 'no') return 'Nee';
@@ -627,8 +596,6 @@ await emailjs.send(
 
 // Tijdelijk geen opslag in het portaal.
 // De bestaande Bcc verzorgt de kopie voor Klaas Vis.
-
-        await sendAanvraagToPortaal(freshFormData, summaryText, signatureUrl);
 
         loadingScreen.style.display = 'none';
 
