@@ -618,14 +618,15 @@ async function handleSubmit(isConfirmed) {
             turnstile_token: turnstileToken
         };
 
-        await emailjs.send("service_wke8swi", "template_vjmqckj", baseParams);
+       // Bevestigingsmail aan klant, met Bcc naar Klaas Vis
+await emailjs.send(
+    "service_wke8swi",
+    "template_vjmqckj",
+    baseParams
+);
 
-        await new Promise(resolve => setTimeout(resolve, 1200));
-
-        await emailjs.send("service_wke8swi", "template_vjmqckj", {
-            ...baseParams,
-            to_email: "rbuijs@klaasvis.nl"
-        });
+// Tijdelijk geen opslag in het portaal.
+// De bestaande Bcc verzorgt de kopie voor Klaas Vis.
 
         await sendAanvraagToPortaal(freshFormData, summaryText, signatureUrl);
 
