@@ -221,3 +221,80 @@ body #diensten .image-card-overlay h3{color:#fff!important}
 body #diensten .image-card-overlay p{color:#e2e9e9!important}
 @media(max-width:900px){body .nav-list.active{display:flex!important}body .nav-list{flex-direction:column!important;align-items:stretch!important;gap:0!important;position:absolute!important;top:100%!important;left:0!important;width:100%!important}body .nav-list li{width:100%}}
 @media(max-width:700px){body .hero-visual .visual-bottom{max-width:230px}body .hero-visual .visual-bottom .mini-card{padding:0!important}}
+
+/* GEREVISEERDE SECTIES — conform goedgekeurde V2-opmaak */
+body nav{position:sticky!important;top:0!important;margin:0!important}
+body .nav-container{min-height:59px!important;padding:6px 20px!important}
+body .logo-img{max-height:38px!important}
+body .logo{font-size:1.15rem!important}
+body main{margin-top:0!important}
+body .hero{margin-top:0!important;padding-top:0!important}
+body .hero-grid{min-height:500px!important}
+body .hero-copy{padding-top:47px!important;padding-bottom:40px!important}
+body .hero-visual .visual-top img{object-fit:cover!important;object-position:center!important}
+body .why-klaasvis-section{background:#fcfbf8!important}
+body .why-approved{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center}
+body .why-approved-image{border-radius:8px;overflow:hidden;box-shadow:0 14px 34px rgba(22,37,46,.08);background:#fff}
+body .why-approved-image img{width:100%;height:430px;object-fit:cover;display:block}
+body .why-approved-copy h2{font-size:clamp(32px,3.5vw,53px);line-height:1.2;color:#24394c;margin:0 0 27px}
+body .why-approved-copy h2 em{font-style:italic}
+body .why-approved-copy>p{color:#697680;line-height:1.85;font-size:15px;max-width:560px}
+body .why-approved-points{display:grid;grid-template-columns:1fr 1fr;gap:24px 20px;margin-top:29px}
+body .why-approved-points>div{padding-top:15px;border-top:1px solid #d8dddd}
+body .why-approved-points strong{display:block;margin-bottom:9px;color:#24394c;font-size:14px}
+body .why-approved-points p{margin:0;font-size:13px;line-height:1.7;color:#697680}
+body .why-approved-link{display:inline-block;margin-top:27px;font-weight:700;font-size:13px;color:#24394c;text-decoration:none;border-bottom:1px solid #9eaaa8;padding-bottom:4px}
+body .direct-approved{background:#fcfbf8!important}
+body .direct-approved .section-head{text-align:left}
+body .direct-approved .section-head h2{max-width:720px}
+body .direct-approved-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border:1px solid #dfe2dd;border-radius:8px;overflow:hidden;background:white}
+body .direct-approved-card{display:block;text-decoration:none;color:inherit;padding:31px 20px 27px;border-right:1px solid #dfe2dd;min-height:165px;transition:background .2s}
+body .direct-approved-card:hover{background:#f7f7f3}
+body .direct-approved-card:last-child{border-right:0}
+body .direct-approved-card h3{font-size:15px;color:#24394c;margin:17px 0 9px}
+body .direct-approved-card p{font-size:12px;line-height:1.7;color:#6d7981;margin:0}
+body .direct-approved-icon{font-size:22px;color:#7e938c}
+body .direct-approved-meta{margin-top:12px;font-size:12px;color:#7a817f}
+body .zorg-approved.kv-zorg{background:#eef3f1!important;padding:85px 0!important}
+body .zorg-approved .section-head{margin-bottom:35px}
+body .zorg-approved-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:19px}
+body .zorg-approved-card{background:white;border:1px solid #dfe3df;border-radius:8px;padding:31px 30px 28px}
+body .zorg-approved-card h3{color:#24394c;font-family:'Libre Baskerville',Georgia,serif;font-size:19px;margin:7px 0 19px}
+body .zorg-approved-card p,body .zorg-approved-card li{color:#697680;font-size:13px;line-height:1.8}
+body .zorg-approved-card ul{margin:18px 0 22px;padding-left:20px}
+body .zorg-approved-card li{margin-bottom:4px}
+body .zorg-approved-card .btn{display:inline-flex;width:auto}
+body .zorg-approved-note{font-size:11px;color:#7a8883;text-align:center;margin-top:18px}
+body .dekker-section .dekker-grid{grid-template-columns:1fr 1fr;align-items:stretch}
+body .dekker-visual{min-width:0;overflow:hidden;background:#e8edf1}
+body .dekker-visual .dekker-card{height:100%;background:#e8edf1!important;display:flex;align-items:center;justify-content:center}
+body .dekker-card img{width:100%!important;height:100%!important;min-height:0!important;max-height:730px!important;object-fit:contain!important;object-position:center!important;background:#e8edf1!important}
+body .kvb-personal-mark{display:none!important}
+body .kvb-personal{display:block!important}
+body .kvb-personal>div{width:100%}
+@media(max-width:900px){
+ body .why-approved{grid-template-columns:1fr;gap:30px}
+ body .why-approved-image img{height:340px}
+ body .direct-approved-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+ body .direct-approved-card:nth-child(2){border-right:0}
+ body .direct-approved-card:nth-child(-n+2){border-bottom:1px solid #dfe2dd}
+ body .zorg-approved-grid{grid-template-columns:1fr}
+ body .dekker-section .dekker-grid{grid-template-columns:1fr}
+ body .dekker-card img{max-height:470px!important;min-height:280px!important}
+}
+@media(max-width:640px){
+ body .nav-container{min-height:58px!important;padding:7px 15px!important}
+ body .hero-grid{min-height:0!important}
+ body .hero-copy{padding:38px 18px 30px!important}
+ body .why-approved-copy h2{font-size:clamp(30px,8vw,39px)}
+ body .why-approved-points{grid-template-columns:1fr;gap:16px}
+ body .why-approved-image img{height:275px}
+ body .direct-approved-grid{grid-template-columns:1fr}
+ body .direct-approved-card{border-right:0!important;border-bottom:1px solid #dfe2dd!important;min-height:0;padding:21px 20px}
+ body .direct-approved-card:last-child{border-bottom:0!important}
+ body .zorg-approved.kv-zorg{padding:60px 0!important}
+ body .zorg-approved-card{padding:24px 20px}
+ body .zorg-approved-card .btn{width:100%}
+ body .dekker-card img{min-height:220px!important;max-height:330px!important}
+ body .kvb-personal{padding:20px!important}
+}
