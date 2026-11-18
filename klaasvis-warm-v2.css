@@ -298,3 +298,93 @@ body .kvb-personal>div{width:100%}
  body .dekker-card img{min-height:220px!important;max-height:330px!important}
  body .kvb-personal{padding:20px!important}
 }
+
+
+/* Gerichte herstelronde — keurmerken, historisch logo, hero beeld en contacticonen */
+body .why-approved-logo{
+  display:flex;align-items:center;justify-content:center;
+  min-height:420px;padding:clamp(25px,5vw,65px);
+  background:#fff;border:1px solid #e6e7e3;
+  box-shadow:0 12px 32px rgba(22,37,46,.055);
+}
+body .why-approved-logo img{
+  display:block;width:min(74%,340px)!important;max-width:100%;
+  height:auto!important;max-height:300px;object-fit:contain!important;
+  filter:none;
+}
+/* De oorspronkelijke hero-afbeelding bevat meerdere tegels en tekst;
+   toon het volledige bronbeeld, in plaats van het uit te vergroten. */
+body .hero-visual .visual-top{
+  display:flex;align-items:center;justify-content:center;
+  background:#e8eceb!important;overflow:hidden;
+}
+body .hero-visual .visual-top img{
+  position:relative;width:100%!important;height:100%!important;
+  max-width:100%;max-height:100%;object-fit:contain!important;
+  object-position:center center!important;background:#e8eceb!important;
+}
+body .hero-visual .visual-top:after{display:none!important}
+/* Registratienummers: donkere tekst op lichte achtergrond. */
+body .contact-info-card .register-box{
+  background:#f2f3f2!important;border:1px solid #dce2e0!important;
+  color:#21394a!important;border-radius:8px!important;
+  box-shadow:none!important;padding:18px!important;
+}
+body .contact-info-card .register-box div{
+  display:flex;align-items:center;justify-content:space-between;
+  gap:12px;flex-wrap:wrap;
+}
+body .contact-info-card .register-box span{
+  color:#526778!important;font-weight:500;
+}
+body .contact-info-card .register-box strong{
+  color:#19364b!important;-webkit-text-fill-color:#19364b!important;
+  font-weight:800;
+}
+/* Keurmerken in aparte witte vlakken: ook donkere logo's leesbaar. */
+body .contact-info-card .trust-logos{
+  display:grid;grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:10px;margin-top:18px;align-items:stretch;
+}
+body .contact-info-card .trust-logos img{
+  display:block;box-sizing:border-box;width:100%;height:68px!important;
+  max-width:100%;max-height:none!important;object-fit:contain!important;
+  object-position:center;opacity:1!important;filter:none!important;
+  background:#fff!important;border:1px solid #e1e5e5;
+  border-radius:7px;padding:12px 10px;
+  transform:none!important;
+}
+/* Originele SVG's gebruiken nu een viewBox; zorg voor zichtbare afmetingen. */
+body .hero-stats .stat{
+  display:inline-flex;flex-direction:row!important;
+  align-items:center;gap:9px;max-width:100%;
+}
+body .hero-stats .stat .icon{
+  display:flex!important;align-items:center!important;justify-content:center!important;
+  flex:0 0 23px;width:23px!important;height:23px!important;
+  overflow:visible!important;margin:0!important;
+}
+body .hero-stats .stat svg{
+  display:block;width:20px!important;height:20px!important;
+  min-width:20px;min-height:20px;overflow:visible!important;
+  fill:none;stroke:#627e78;stroke-width:1.8;
+}
+body .hero-stats .stat span{font-size:12px;line-height:1.5}
+body .contact-row .feature-icon.small{
+  flex:0 0 42px;display:flex!important;align-items:center!important;
+  justify-content:center!important;overflow:visible!important;
+}
+body .contact-row .feature-icon.small svg{
+  display:block;width:22px!important;height:22px!important;
+  overflow:visible!important;fill:none;stroke:currentColor;stroke-width:1.8;
+}
+@media(max-width:800px){
+  body .why-approved-logo{min-height:290px;padding:30px}
+  body .why-approved-logo img{max-height:225px}
+}
+@media(max-width:480px){
+  body .contact-info-card .trust-logos{gap:7px}
+  body .contact-info-card .trust-logos img{height:57px!important;padding:8px 5px}
+  body .hero-stats .stat{width:100%}
+  body .hero-visual .visual-top img{object-fit:contain!important}
+}
