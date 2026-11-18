@@ -211,3 +211,13 @@ body .contact-form-card .btn{width:100%}
 body .insurers-label{font-size:10px}
 }
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}body *,body *:before,body *:after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+
+/* Detailcorrecties: de oorspronkelijke titel-gradient mag niet door de nieuwe huisstijl schijnen. */
+body .hero-copy h1 span{background:none!important;-webkit-background-clip:initial!important;background-clip:initial!important;-webkit-text-fill-color:#7e7769!important;color:#7e7769!important}
+body .logo span{background:none!important;-webkit-background-clip:initial!important;background-clip:initial!important;-webkit-text-fill-color:#19364b!important;color:#19364b!important}
+body .hero-visual .visual-bottom{display:flex!important;align-items:center;gap:12px}
+body .hero-visual .visual-bottom .mini-card{flex:1;min-width:0}
+body #diensten .image-card-overlay h3{color:#fff!important}
+body #diensten .image-card-overlay p{color:#e2e9e9!important}
+@media(max-width:900px){body .nav-list.active{display:flex!important}body .nav-list{flex-direction:column!important;align-items:stretch!important;gap:0!important;position:absolute!important;top:100%!important;left:0!important;width:100%!important}body .nav-list li{width:100%}}
+@media(max-width:700px){body .hero-visual .visual-bottom{max-width:230px}body .hero-visual .visual-bottom .mini-card{padding:0!important}}
