@@ -388,3 +388,40 @@ body .contact-row .feature-icon.small svg{
   body .hero-stats .stat{width:100%}
   body .hero-visual .visual-top img{object-fit:contain!important}
 }
+
+/* Waarom Klaas Vis — titel op de vroegere logopositie */
+body .why-approved-heading{
+  align-self:center;
+  min-width:0;
+  padding:22px 0;
+  background:transparent;
+  border:0;
+  box-shadow:none;
+}
+body .why-approved-heading .eyebrow{
+  margin-bottom:20px;
+}
+body .why-approved-heading h2{
+  font-family:'Libre Baskerville',Georgia,serif!important;
+  font-size:clamp(32px,3.6vw,57px);
+  line-height:1.17;
+  letter-spacing:-.04em;
+  color:#24394c;
+  margin:0;
+  overflow-wrap:normal;
+}
+body .why-approved-heading h2 em{font-style:italic}
+body .why-approved-copy{
+  align-self:center;
+}
+body .why-approved-copy>p:first-child{
+  margin-top:0;
+}
+@media(max-width:900px){
+  body .why-approved-heading{padding:0}
+  body .why-approved-heading h2{font-size:clamp(30px,6vw,46px)}
+}
+@media(max-width:480px){
+  body .why-approved{gap:25px}
+  body .why-approved-heading h2{font-size:clamp(29px,8vw,39px)}
+}
